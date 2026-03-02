@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Score Pro</title>
+    <title>Sea Diary Pro</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -219,8 +219,8 @@
             <defs><linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#38bdf8" stop-opacity="1"/><stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/></linearGradient></defs>
         </svg>
 
-        <h1 class="display-3 fw-bold mb-0">Sea Score</h1>
-        <p class="text-uppercase tracking-widest opacity-50 small mb-5">Version 202.0</p>
+        <h1 class="display-4 fw-bold mb-0 text-center">Sea Score Diary</h1>
+        <p class="text-uppercase tracking-widest opacity-50 small mb-5">Version 203.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto">
             <button id="btnInstallApp" class="btn btn-warning fw-bold py-3 shadow-lg" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -478,10 +478,7 @@
         let sessionStartTimeStr = ''; 
         let pendingRestoreData = null; 
         
-        // PWA Install Prompt Variable
         let deferredPrompt;
-
-        // V202: Global variable to hold a fish being edited
         let editingOriginalFish = null;
         
         const badgeStyle = "background: rgba(14, 165, 233, 0.1); color: #0ea5e9; border: 1px solid rgba(14, 165, 233, 0.3); padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; margin: 2px; display: inline-block;";
@@ -491,7 +488,6 @@
 
         if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('service-worker.js').then(function() {}, function() {}); }); }
 
-        // PWA INSTALL LOGIC
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -534,7 +530,6 @@
             });
         };
 
-        // NEW: AUTO LOCATE GPS
         window.autoLocateStation = function() {
             const btn = document.getElementById('btnAutoLocate');
             if (!navigator.geolocation) return window.showAppToast("GPS not supported on this device.", true);
