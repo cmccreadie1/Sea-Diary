@@ -1,5 +1,5 @@
-// VERSION 204 - STATS REMOVED & SPLASH BOUNCE FIXED
-const CACHE_NAME = 'sea-score-v204';
+// VERSION 205 - SPLASH SCREEN PHYSICAL LOCK
+const CACHE_NAME = 'sea-score-v205';
 
 const FILES_TO_CACHE = [
   './',
