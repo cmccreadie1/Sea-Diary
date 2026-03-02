@@ -138,12 +138,13 @@
         .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 15px 40px 15px; }
         .inner-card { background: var(--card-bg); border-radius: 16px; padding: 15px; box-shadow: var(--shadow-sm); margin-bottom: 15px; border: 1px solid var(--border-color); transition: background 0.3s ease; }
 
-        /* --- SPLASH SCREEN --- */
+        /* --- SPLASH SCREEN (HARD PHYSICAL LOCK) --- */
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; height: 100dvh; overflow: hidden; /* Lock height and prevent physical bounce */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; height: 100dvh;
             background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white;
-            text-align: center; padding: 80px 20px 20px 20px; position: relative; box-sizing: border-box;
+            text-align: center; padding: 20px; box-sizing: border-box; z-index: 9999;
+            overflow: hidden; touch-action: none; overscroll-behavior: none;
         }
         
         .theme-toggle-btn { 
@@ -158,10 +159,7 @@
         .logo-svg { width: 160px; height: 160px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); margin-bottom: 30px; }
         .sonar-sweep { transform-origin: 100px 100px; animation: spin 4s linear infinite; }
         .blinker { animation: blink 1s step-end infinite; }
-        
-        /* Removed the bounce animation from the target bracket */
         .target-bracket { transform-origin: 100px 100px; }
-        
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         @keyframes subtleSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -224,14 +222,14 @@
         </svg>
 
         <h1 class="display-4 fw-bold mb-0 text-center">Sea Score Diary</h1>
-        <p class="text-uppercase tracking-widest opacity-50 small mb-4">Version 204.0</p>
+        <p class="text-uppercase tracking-widest opacity-50 small mb-4">Version 205.0</p>
         
-        <div class="d-grid gap-3 col-10 col-md-6 mx-auto">
+        <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 400px;">
             <button id="btnInstallApp" class="btn btn-warning fw-bold py-3 shadow-lg" style="display:none; color: #0f172a;" onclick="window.installApp()">
                 <i class="bi bi-download me-2"></i>Install App to Phone
             </button>
 
-            <button class="btn btn-light btn-lg fw-bold py-3 shadow-lg" onclick="window.startFishing()">Start Session</button>
+            <button class="btn btn-light btn-lg fw-bold py-3 shadow-lg w-100" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-light w-100 py-3" onclick="window.loadSavedScorecards()" data-bs-toggle="modal" data-bs-target="#savedModal">History</button>
         </div>
         
