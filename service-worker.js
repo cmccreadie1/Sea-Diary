@@ -1,5 +1,5 @@
-// VERSION 202 - GPS LOCATE, EDIT CATCH & PWA INSTALL (ICON FIX)
-const CACHE_NAME = 'sea-score-v202';
+// VERSION 203 - DIARY BRANDING & STATIC ICON
+const CACHE_NAME = 'sea-score-v203';
 
 const FILES_TO_CACHE = [
   './',
