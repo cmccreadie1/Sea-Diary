@@ -60,6 +60,7 @@
         
         h1, h2, h3, h4, .btn, .modal-title { font-family: 'Poppins', sans-serif; }
 
+        /* STRICT DARK MODE INPUT OVERRIDES */
         .dark-mode .text-dark { color: #f8fafc !important; }
         .dark-mode .text-primary { color: var(--app-blue) !important; }
         .dark-mode .bg-light { background-color: #0f172a !important; }
@@ -140,12 +141,13 @@
         /* --- SPLASH SCREEN --- */
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            min-height: 100vh; background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white;
-            text-align: center; padding: 20px; position: relative;
+            height: 100vh; height: 100dvh; overflow: hidden; /* Lock height and prevent physical bounce */
+            background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white;
+            text-align: center; padding: 80px 20px 20px 20px; position: relative; box-sizing: border-box;
         }
         
         .theme-toggle-btn { 
-            position: absolute; top: 20px; right: 20px; 
+            position: absolute; top: 20px; right: 20px; z-index: 100;
             background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
             color: white; border-radius: 20px; padding: 6px 14px; 
             font-size: 0.8rem; font-weight: bold; cursor: pointer; backdrop-filter: blur(5px);
@@ -156,10 +158,12 @@
         .logo-svg { width: 160px; height: 160px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); margin-bottom: 30px; }
         .sonar-sweep { transform-origin: 100px 100px; animation: spin 4s linear infinite; }
         .blinker { animation: blink 1s step-end infinite; }
-        .target-bracket { animation: pulseBracket 2s infinite alternate; transform-origin: 100px 100px; }
+        
+        /* Removed the bounce animation from the target bracket */
+        .target-bracket { transform-origin: 100px 100px; }
+        
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes pulseBracket { 0% { opacity: 0.3; transform: scale(0.96); } 100% { opacity: 1; transform: scale(1.02); } }
         @keyframes subtleSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .icon-spin { animation: subtleSpin 1s linear infinite; }
 
@@ -220,7 +224,7 @@
         </svg>
 
         <h1 class="display-4 fw-bold mb-0 text-center">Sea Score Diary</h1>
-        <p class="text-uppercase tracking-widest opacity-50 small mb-5">Version 203.0</p>
+        <p class="text-uppercase tracking-widest opacity-50 small mb-4">Version 204.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto">
             <button id="btnInstallApp" class="btn btn-warning fw-bold py-3 shadow-lg" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -228,10 +232,7 @@
             </button>
 
             <button class="btn btn-light btn-lg fw-bold py-3 shadow-lg" onclick="window.startFishing()">Start Session</button>
-            <div class="row g-2">
-                <div class="col-6"><button class="btn btn-outline-light w-100 py-3" onclick="window.loadSavedScorecards()" data-bs-toggle="modal" data-bs-target="#savedModal">History</button></div>
-                <div class="col-6"><button class="btn btn-outline-light w-100 py-3" onclick="window.loadStatsDashboard()" data-bs-toggle="modal" data-bs-target="#statsModal">My Stats</button></div>
-            </div>
+            <button class="btn btn-outline-light w-100 py-3" onclick="window.loadSavedScorecards()" data-bs-toggle="modal" data-bs-target="#savedModal">History</button>
         </div>
         
         <button id="btnRefreshApp" class="btn btn-link text-white-50 text-decoration-none mt-4 small" onclick="window.forceAppUpdate()"><i id="refreshIcon" class="bi bi-arrow-clockwise me-1"></i> Check for Updates</button>
@@ -414,8 +415,6 @@
             <button class="btn btn-secondary btn-lg shadow-sm py-3" onclick="window.resetAppToHome()"><i class="bi bi-house-door me-2"></i>Return to Home</button>
         </div>
     </div>
-
-    <div class="modal fade" id="statsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content border-0"><div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold">My Stats & PBs</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div class="stat-grid"><div class="stat-card"><small>Total Sessions</small><strong id="stat_total_sessions" class="text-primary fs-3">0</strong></div><div class="stat-card"><small>Total Fish Caught</small><strong id="stat_total_fish" class="text-primary fs-3">0</strong></div></div><div class="inner-card p-3 mb-3 text-center"><small class="text-muted text-uppercase fw-bold block mb-1">Longest PB</small><h4 class="fw-bold text-dark m-0" id="stat_pb_length">--</h4></div><div class="inner-card p-3 mb-3 text-center"><small class="text-muted text-uppercase fw-bold block mb-1">Heaviest PB</small><h4 class="fw-bold text-dark m-0" id="stat_pb_weight">--</h4></div><div class="row g-2 mb-4"><div class="col-6"><div class="inner-card p-3 h-100 text-center"><small class="text-muted text-uppercase fw-bold block mb-1">Top Species</small><strong class="text-dark d-block mt-2" id="stat_top_species">--</strong></div></div><div class="col-6"><div class="inner-card p-3 h-100 text-center"><small class="text-muted text-uppercase fw-bold block mb-1">Top Venue</small><strong class="text-dark d-block mt-2" id="stat_top_venue">--</strong></div></div></div><button class="btn btn-secondary w-100 py-3" data-bs-dismiss="modal">Close</button></div></div></div></div>
 
     <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content border-0"><div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold">History</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light">
         <div id="savedScorecardsList"><button class="btn btn-success w-100 mb-4 shadow-sm fw-bold" onclick="window.exportToCSV()"><i class="bi bi-file-earmark-spreadsheet me-2"></i> Export to Spreadsheet (CSV)</button><h6 class="text-muted small text-uppercase fw-bold mb-3 ps-1">Recent Sessions</h6><div id="recentList"></div><div id="archiveSection" style="display:none;" class="mt-4 border-top pt-3"><button id="btnToggleArchive" class="btn btn-light w-100 fw-bold text-muted shadow-sm mb-3" onclick="document.getElementById('archiveList').style.display='block'; this.style.display='none';"><i class="bi bi-archive me-2"></i> View Archive (<span id="archiveCount">0</span>)</button><div id="archiveList" style="display:none;"></div></div></div>
@@ -944,29 +943,6 @@
             });
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); const url = URL.createObjectURL(blob);
             link.setAttribute("href", url); link.setAttribute("download", "SeaScore_Export.csv"); link.style.visibility = 'hidden'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
-        };
-
-        window.loadStatsDashboard = function() {
-            const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));
-            document.getElementById('stat_total_sessions').textContent = keys.length;
-            let totalFish = 0; let maxLength = 0; let maxLengthSpecies = ''; let maxWeight = 0; let maxWeightSpecies = ''; let maxWeightDisp = ''; let speciesCount = {}; let venueCount = {};
-            keys.forEach(k => {
-                const d = JSON.parse(StorageHelper.get(k));
-                if(d.venue) venueCount[d.venue] = (venueCount[d.venue] || 0) + 1;
-                if(d.fishData) {
-                    totalFish += d.fishData.length;
-                    d.fishData.forEach(f => {
-                        speciesCount[f.species] = (speciesCount[f.species] || 0) + 1;
-                        if((d.method === 'measure_points' || d.method === 'length_only') && f.length) { if(f.length > maxLength) { maxLength = f.length; maxLengthSpecies = f.species; } }
-                        if(d.method === 'weight' && f.raw) { if(f.raw > maxWeight) { maxWeight = f.raw; maxWeightSpecies = f.species; maxWeightDisp = f.display; } }
-                    });
-                }
-            });
-            document.getElementById('stat_total_fish').textContent = totalFish;
-            document.getElementById('stat_pb_length').innerHTML = maxLength > 0 ? `${maxLength}cm<br><small class="text-primary fs-6">${maxLengthSpecies}</small>` : '--';
-            document.getElementById('stat_pb_weight').innerHTML = maxWeight > 0 ? `${maxWeightDisp}<br><small class="text-primary fs-6">${maxWeightSpecies}</small>` : '--';
-            let topSp = '--', topSpCount = 0; for(let s in speciesCount) { if(speciesCount[s] > topSpCount) { topSpCount = speciesCount[s]; topSp = s; } } document.getElementById('stat_top_species').textContent = topSp;
-            let topVen = '--', topVenCount = 0; for(let v in venueCount) { if(venueCount[v] > topVenCount) { topVenCount = venueCount[v]; topVen = v; } } document.getElementById('stat_top_venue').textContent = topVen;
         };
 
         window.resetAppToHome = function() {
