@@ -1,5 +1,5 @@
-// VERSION 203 - DIARY BRANDING & STATIC ICON
-const CACHE_NAME = 'sea-score-v203';
+// VERSION 204 - STATS REMOVED & SPLASH BOUNCE FIXED
+const CACHE_NAME = 'sea-score-v204';
 
 const FILES_TO_CACHE = [
   './',
