@@ -213,7 +213,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 215.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 216.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -1131,7 +1131,7 @@
             if(weatherInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-2"></i>${weatherInfo}</span>`;
             if(windInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-wind me-2"></i>${windInfo}</span>`;
             if(waveInfo && waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-2"></i>${waveInfo} Wave</span>`;
-            if(swellInfo && swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-2"></i>${swellInfo} Swell</span>`;
+            if(swellInfo && swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-tsunami me-2"></i>${swellInfo} Swell</span>`;
             document.getElementById('session_live_conditions').innerHTML = condHTML;
 
             document.getElementById('session_total_points').textContent = window.calculatePoints(fishData, currentScoringMethod); document.getElementById('session_total_fish').textContent = fishData.length; document.getElementById('session_species_count').textContent = new Set(fishData.map(f=>f.species)).size;
@@ -1203,8 +1203,8 @@
             let condHTML = '';
             if(d.weatherInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-2"></i>${d.weatherInfo}</span>`;
             if(d.windInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-wind me-2"></i>${d.windInfo}</span>`;
-            if(d.waveInfo && d.waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-2"></i>${d.waveInfo}</span>`;
-            if(d.swellInfo && d.swellInfo !== 'Inland' && d.swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-2"></i>${d.swellInfo}</span>`;
+            if(d.waveInfo && d.waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-2"></i>${d.waveInfo} Wave</span>`;
+            if(d.swellInfo && d.swellInfo !== 'Inland' && d.swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-tsunami me-2"></i>${d.swellInfo} Swell</span>`;
             document.getElementById('saved_view_conditions').innerHTML = condHTML;
 
             document.getElementById('saved_view_points').textContent = window.calculatePoints(d.fishData, d.method, d.weightUnit);
