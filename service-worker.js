@@ -1,5 +1,5 @@
-// VERSION 212 - VISUAL IMPACT ANALYTICS
-const CACHE_NAME = 'sea-score-v212';
+// VERSION 213 - xC ALGORITHM & ANALYTICAL DEBRIEF
+const CACHE_NAME = 'sea-score-v213';
 
 const FILES_TO_CACHE = [
   './',
