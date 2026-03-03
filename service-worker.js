@@ -1,5 +1,5 @@
-// VERSION 215 - RESTORED UPDATE BUTTON
-const CACHE_NAME = 'sea-score-v215';
+// VERSION 216 - DISTINCT WAVE AND SWELL ICONS
+const CACHE_NAME = 'sea-score-v216';
 
 const FILES_TO_CACHE = [
   './',
