@@ -113,7 +113,6 @@
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
             background: var(--bg-main); color: var(--text-main);
             text-align: center; padding: 20px; box-sizing: border-box;
-            /* CRITICAL FIX: Z-index 1040 allows Modal (1055) to float above it! */
             z-index: 1040; 
             overflow: hidden; touch-action: none; overscroll-behavior: none;
         }
@@ -184,7 +183,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 208.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 209.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -299,7 +298,7 @@
                  </div>
             </div>
 
-            <div class="tide-chart-container mt-4" id="setupTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('setupTideCanvas').toDataURL())">
+            <div class="tide-chart-container mt-4" id="setupTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('setupTideCanvas').toDataURL(), true)">
                 <div class="text-center small fw-bold text-primary mb-3"><i class="bi bi-water me-2"></i>Tide Forecast (Tap to Enlarge)</div>
                 <canvas id="setupTideCanvas" class="w-100"></canvas>
             </div>
@@ -314,7 +313,7 @@
             <button class="btn btn-sm btn-outline-danger px-4 py-2 rounded-pill fw-bold bg-white" onclick="window.confirmQuit()">Quit</button>
         </div>
 
-        <div class="tide-chart-container mb-3" id="liveTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('liveTideCanvas').toDataURL())">
+        <div class="tide-chart-container mb-3" id="liveTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('liveTideCanvas').toDataURL(), true)">
             <div class="text-center small fw-bold text-primary mb-2"><i class="bi bi-activity me-2"></i>Catch Timeline (Tap to Enlarge)</div>
             <canvas id="liveTideCanvas" class="w-100"></canvas>
         </div>
@@ -369,7 +368,7 @@
         
         <div class="live-score-box"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="session_total_points" class="live-score-value">0</div></div>
 
-        <div class="tide-chart-container mb-4" id="tallyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('tallyTideCanvas').toDataURL())">
+        <div class="tide-chart-container mb-4" id="tallyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('tallyTideCanvas').toDataURL(), true)">
             <div class="text-center small fw-bold text-primary mb-3">Session Timeline (Tap to Enlarge)</div>
             <canvas id="tallyTideCanvas" class="w-100"></canvas>
         </div>
@@ -402,7 +401,7 @@
             
             <div class="live-score-box mb-4"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="saved_view_points" class="live-score-value">0</div></div>
 
-            <div class="tide-chart-container mb-4" id="historyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('historyTideCanvas').toDataURL())">
+            <div class="tide-chart-container mb-4" id="historyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('historyTideCanvas').toDataURL(), true)">
                 <div class="text-center small fw-bold text-primary mb-3">Session Timeline (Tap to Enlarge)</div>
                 <canvas id="historyTideCanvas" class="w-100"></canvas>
             </div>
@@ -458,7 +457,6 @@
         let deferredPrompt;
         let editingOriginalFish = null;
         
-        // Premium Badges Hardcoded Color Hex
         const badgeStyle = "background: rgba(6, 148, 148, 0.1); color: var(--app-main); border: 1px solid rgba(6, 148, 148, 0.3); padding: 8px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 800; margin: 3px; display: inline-block;";
 
         const PageManager={ show:function(id){ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
@@ -610,7 +608,6 @@
             }
         };
 
-        // Manual offline handlers
         window.setManualTide = function() {
             hwTime = document.getElementById('manHW').value;
             lwTime = document.getElementById('manLW').value;
@@ -622,7 +619,6 @@
             }
         };
 
-        // NEW: End Notes Manual Save Function
         window.saveEndNotes = function() {
             const notes = document.getElementById('sessionNotesInput').value;
             try { 
@@ -735,25 +731,38 @@
             } catch(e) {}
         };
 
-        window.viewImg = function(s) {
+        // NEW: SEPARATE VIEWING LOGIC (Chart vs Photo)
+        window.viewImg = function(s, isChart = false) {
             document.getElementById('nativeFullImage').src = s;
             document.getElementById('nativeImageViewer').style.display = 'block';
-            let vp = document.getElementById('appViewport'); if(vp) vp.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
-            let viewer = document.getElementById('nativeImageViewer');
-            try { if (viewer.requestFullscreen) { viewer.requestFullscreen().then(() => { try { screen.orientation.lock('landscape').catch(()=>{}); } catch(e){} }).catch(()=>{}); } else if (viewer.webkitRequestFullscreen) { viewer.webkitRequestFullscreen(); } } catch(e) {}
+            let vp = document.getElementById('appViewport'); 
+            if(vp) vp.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+            
+            // Only attempt hardware rotation/fullscreen if it's a Tide Chart
+            if (isChart) {
+                let viewer = document.getElementById('nativeImageViewer');
+                try { 
+                    if (viewer.requestFullscreen) { 
+                        viewer.requestFullscreen().then(() => { 
+                            try { screen.orientation.lock('landscape').catch(()=>{}); } catch(e){} 
+                        }).catch(()=>{}); 
+                    } else if (viewer.webkitRequestFullscreen) { 
+                        viewer.webkitRequestFullscreen(); 
+                    } 
+                } catch(e) {}
+            }
         };
 
         window.closeImgView = function() {
-            document.getElementById('nativeImageViewer').style.display = 'none'; document.getElementById('nativeFullImage').src = '';
-            let vp = document.getElementById('appViewport'); if(vp) vp.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
-            try { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); try { screen.orientation.unlock(); } catch(e){} } catch(e) {}
-        };
-
-        window.forceAppUpdate = function() {
-            const icon = document.getElementById('refreshIcon'); const btn = document.getElementById('btnRefreshApp');
-            if(icon) icon.classList.add('icon-spin'); if(btn) btn.innerHTML = '<i class="bi bi-arrow-clockwise icon-spin me-1"></i> Updating...';
-            if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function(registrations) { for (let registration of registrations) { registration.update(); } }); }
-            sessionStorage.setItem('showUpdateToast', 'true'); setTimeout(() => { window.location.reload(); }, 1200);
+            document.getElementById('nativeImageViewer').style.display = 'none'; 
+            document.getElementById('nativeFullImage').src = '';
+            let vp = document.getElementById('appViewport'); 
+            if(vp) vp.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+            try { 
+                if (document.exitFullscreen) document.exitFullscreen(); 
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); 
+                try { screen.orientation.unlock(); } catch(e){} 
+            } catch(e) {}
         };
 
         window.exportToCSV = function() {
@@ -925,14 +934,15 @@
         window.updateFishLog = function(){
             const log = document.getElementById('fishLog'); log.innerHTML=''; const labels = []; const counts = {};
             fishData.forEach(f => {
-                if(currentScoringMethod === 'species_hunt') { counts[f.species] = (counts[f.species] || 0) + 1; const a = counts[f.species]; if(a === 1) labels.push({ text: "1st: Bronze (+30)", cls: "badge bg-success" }); else if(a === 2) labels.push({ text: "2nd: Silver (+30)", cls: "badge bg-secondary" }); else if(a === 3) labels.push({ text: "3rd: Gold (+40)", cls: "badge text-dark" }); else labels.push({ text: `Extra (+1)`, cls: "badge bg-light text-dark border" }); } 
+                if(currentScoringMethod === 'species_hunt') { counts[f.species] = (counts[f.species] || 0) + 1; const a = counts[f.species]; if(a === 1) labels.push({ text: "1st: Bronze (+30)", cls: "badge bg-success text-white" }); else if(a === 2) labels.push({ text: "2nd: Silver (+30)", cls: "badge bg-secondary text-white" }); else if(a === 3) labels.push({ text: "3rd: Gold (+40)", cls: "badge text-dark" }); else labels.push({ text: `Extra (+1)`, cls: "badge bg-light text-dark border" }); } 
                 else { labels.push({ text: currentScoringMethod==='weight' ? f.display : `${f.length}cm`, cls: "text-primary fw-bold fs-5" }); }
             });
 
             [...fishData].reverse().forEach((f, index)=>{
                 const tr = document.createElement('tr'); const originalIndex = fishData.length - 1 - index; const lblInfo = labels[originalIndex];
                 const displayHTML = currentScoringMethod === 'species_hunt' ? `<span class="${lblInfo.cls} p-2 rounded-pill fs-6">${lblInfo.text}</span>` : `<div class="${lblInfo.cls}">${lblInfo.text}</div>`;
-                const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : '';
+                // PHOTO FLAG IS FALSE HERE
+                const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">` : '';
                 const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
                 tr.innerHTML = `<td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${timeBadge}</div>${displayHTML}</div>${ph}</div></td>
                 <td class="text-end align-middle" style="width: 80px; white-space: nowrap;">
@@ -969,7 +979,10 @@
             else {
                 let eTable = '<table class="table-custom"><tbody>';
                 fishData.forEach(f=>{
-                    const val = currentScoringMethod==='weight' ? f.display : `${f.length}cm`; const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : ''; const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
+                    const val = currentScoringMethod==='weight' ? f.display : `${f.length}cm`; 
+                    // PHOTO FLAG IS FALSE HERE
+                    const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">` : ''; 
+                    const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
                     eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${timeBadge}</div><div class="text-primary fw-bold fs-6">${val}</div></div>${ph}</div></td></tr>`;
                 }); eTable += '</tbody></table>'; area.innerHTML = eTable;
             }
@@ -983,7 +996,6 @@
             try { StorageHelper.save(currentSavedKey, JSON.stringify({ angler:currentAngler, venue:currentVenue, coastalTown:coastalTown, date:currentDate, isComp:isCompetitionMode, team:currentTeam, zone:currentZone, peg:currentPeg, weatherInfo, windInfo, waveInfo, swellInfo, hwTime, lwTime, sessionStart:sessionStartTimeStr, fishData, method:currentScoringMethod, weightUnit:selectedWeightUnit, notes: '' })); StorageHelper.remove('active_session'); } 
             catch(e) { window.showAppToast("Storage full. Delete old history.", true); }
             document.getElementById('sessionNotesInput').value = '';
-            // Save on input is replaced by the manual save button, but kept here for fallback
             document.getElementById('sessionNotesInput').oninput = function(e) { try { let savedSession = JSON.parse(StorageHelper.get(currentSavedKey)); if (savedSession) { savedSession.notes = e.target.value; StorageHelper.save(currentSavedKey, JSON.stringify(savedSession)); } } catch(err) {} };
         };
 
@@ -1021,7 +1033,10 @@
             else {
                 let eTable = '<table class="table-custom"><tbody>';
                 d.fishData.forEach(f=>{
-                    const val = d.method==='weight' ? f.display : `${f.length}cm`; const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : ''; const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
+                    const val = d.method==='weight' ? f.display : `${f.length}cm`; 
+                    // PHOTO FLAG IS FALSE HERE
+                    const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">` : ''; 
+                    const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
                     eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${timeBadge}</div><div class="text-primary fw-bold fs-6">${val}</div></div>${ph}</div></td></tr>`;
                 }); eTable += '</tbody></table>'; area.innerHTML = eTable;
             }
@@ -1034,7 +1049,6 @@
             const notesContent = d.notes || ''; const displayNotes = notesContent.trim() !== '' ? notesContent.replace(/\n/g, '<br>') : '<em>No notes added yet.</em>';
             const notesContainer = document.getElementById('saved_view_notes_container');
             
-            // Re-styled History Notes section to match the new Save button
             notesContainer.innerHTML = `
             <div class="inner-card mt-4 border-0 position-relative">
                 <div class="d-flex justify-content-between align-items-center mb-2">
