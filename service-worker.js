@@ -1,5 +1,5 @@
-// VERSION 214 - USER GUIDE OVERHAUL & SMART GRAPH LABELS
-const CACHE_NAME = 'sea-score-v214';
+// VERSION 215 - RESTORED UPDATE BUTTON
+const CACHE_NAME = 'sea-score-v215';
 
 const FILES_TO_CACHE = [
   './',
