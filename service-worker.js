@@ -1,5 +1,5 @@
-// VERSION 213 - xC ALGORITHM & ANALYTICAL DEBRIEF
-const CACHE_NAME = 'sea-score-v213';
+// VERSION 214 - USER GUIDE OVERHAUL & SMART GRAPH LABELS
+const CACHE_NAME = 'sea-score-v214';
 
 const FILES_TO_CACHE = [
   './',
