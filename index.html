@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -17,24 +17,28 @@
 
     <style>
         :root {
+            /* Premium Teal/Cyan Theme */
+            --app-main: #069494; 
+            --app-main-hover: #057a7a;
             --primary-dark: #0f172a; 
-            --app-blue: #0ea5e9; 
-            --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+            --bg-gradient: linear-gradient(135deg, #f4f8f8 0%, #dce8e8 100%);
             --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --border-color: rgba(255,255,255,0.8);
+            --border-color: rgba(6, 148, 148, 0.15);
             --input-bg: #ffffff;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.1);
             --picker-bg: #f8fafc;
             --modal-bg: #f8f9fa;
         }
 
         body.dark-mode {
+            /* Lighter glowing teal for dark mode readability */
+            --app-main: #08baba; 
+            --app-main-hover: #0be3e3;
             --primary-dark: #cbd5e1; 
-            --app-blue: #38bdf8; 
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             --card-bg: #1e293b;
             --text-main: #f8fafc;
@@ -43,6 +47,9 @@
             --input-bg: #0f172a;
             --picker-bg: #0f172a;
             --modal-bg: #0f172a;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.2);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.3);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.4);
         }
 
         html { overscroll-behavior: none; }
@@ -58,11 +65,29 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
         
-        h1, h2, h3, h4, .btn, .modal-title { font-family: 'Poppins', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .live-score-value, .picker-item, .btn { font-family: 'Outfit', sans-serif; }
 
-        /* STRICT DARK MODE INPUT OVERRIDES */
+        /* Bootstrap Overrides for Primary Color */
+        .text-primary { color: var(--app-main) !important; }
+        .bg-primary { background-color: var(--app-main) !important; }
+        .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important;}
+        .btn-primary:hover, .btn-primary:active { background-color: var(--app-main-hover) !important; border-color: var(--app-main-hover) !important; }
+        .btn-outline-primary { color: var(--app-main) !important; border-color: var(--app-main) !important; }
+        .btn-outline-primary:hover { background-color: var(--app-main) !important; color: #fff !important; }
+        .border-primary { border-color: var(--app-main) !important; }
+
+        .btn-info { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: white !important;}
+        .btn-outline-info { color: var(--app-main) !important; border-color: var(--app-main) !important; }
+        .btn-outline-info:hover { background-color: var(--app-main) !important; color: #fff !important; }
+        .text-info { color: var(--app-main) !important; }
+        .border-info { border-color: var(--app-main) !important; }
+
+        /* Clean Forms & Inputs */
+        .form-control, .form-select { border-radius: 12px; padding: 10px 14px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .form-control:focus, .form-select:focus { box-shadow: 0 0 0 3px rgba(6, 148, 148, 0.2); border-color: var(--app-main); }
+        
+        /* Dark Mode Form Strict Overrides */
         .dark-mode .text-dark { color: #f8fafc !important; }
-        .dark-mode .text-primary { color: var(--app-blue) !important; }
         .dark-mode .bg-light { background-color: #0f172a !important; }
         
         .dark-mode .form-control, .dark-mode .form-select, .dark-mode textarea, .dark-mode input {
@@ -73,7 +98,7 @@
         .dark-mode .form-control:focus, .dark-mode .form-select:focus, .dark-mode textarea:focus {
             background-color: var(--input-bg) !important;
             color: var(--text-main) !important;
-            border-color: var(--app-blue) !important;
+            border-color: var(--app-main) !important;
         }
         .dark-mode .form-control:disabled, .dark-mode .form-select:disabled, .dark-mode input:disabled {
             background-color: #1e293b !important;
@@ -81,118 +106,82 @@
             border-color: #334155 !important;
             opacity: 0.8;
         }
-        .dark-mode ::placeholder {
-            color: #64748b !important;
-            opacity: 1;
-        }
+        .dark-mode ::placeholder { color: #64748b !important; opacity: 1; }
 
         .dark-mode .modal-content { background-color: var(--modal-bg); border-color: var(--border-color); }
         .dark-mode .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
         .dark-mode .table-custom td { background-color: var(--card-bg); border-color: var(--border-color); color: var(--text-main); }
         
         /* --- SCROLL DRUM PICKER UI --- */
-        .picker-outer-wrapper {
-            background: var(--card-bg); padding: 15px; border-radius: 24px;
-            border: 2px solid var(--app-blue); margin-bottom: 15px;
-            box-shadow: var(--shadow-sm); transition: background 0.3s ease;
-        }
-        .picker-instruction {
-            text-align: center; font-size: 0.75rem; font-weight: 800; color: var(--app-blue);
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
-        }
-        .weight-picker-container {
-            display: flex; justify-content: center; align-items: center; background: var(--picker-bg);
-            border-radius: 16px; height: 160px; position: relative; overflow: hidden;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1); transition: background 0.3s ease;
-        }
-        .picker-column {
-            flex: 1; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory;
-            text-align: center; -ms-overflow-style: none; scrollbar-width: none;
-            z-index: 2; overscroll-behavior-y: contain; user-select: none; touch-action: pan-y;
-        }
+        .picker-outer-wrapper { background: var(--card-bg); padding: 15px; border-radius: 20px; border: 2px solid var(--app-main); margin-bottom: 15px; box-shadow: var(--shadow-md); transition: background 0.3s ease; }
+        .picker-instruction { text-align: center; font-size: 0.75rem; font-weight: 800; color: var(--app-main); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .weight-picker-container { display: flex; justify-content: center; align-items: center; background: var(--picker-bg); border-radius: 12px; height: 160px; position: relative; overflow: hidden; box-shadow: inset 0 2px 8px rgba(0,0,0,0.05); }
+        .picker-column { flex: 1; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; text-align: center; -ms-overflow-style: none; scrollbar-width: none; z-index: 2; overscroll-behavior-y: contain; user-select: none; touch-action: pan-y; }
         .picker-column::-webkit-scrollbar { display: none; }
-        .picker-item {
-            height: 50px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; font-weight: 600; color: #94a3b8; scroll-snap-align: center;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .picker-item.selected { color: var(--app-blue); font-size: 2.2rem; font-weight: 800; }
-        .dark-mode .picker-item.selected { color: var(--app-blue); }
-        .picker-highlight {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 95%; height: 54px; background: rgba(14, 165, 233, 0.08);
-            border-top: 2px solid var(--app-blue); border-bottom: 2px solid var(--app-blue);
-            pointer-events: none; z-index: 1; border-radius: 12px;
-        }
-        .picker-label-text {
-            font-size: 0.8rem; font-weight: 900; color: var(--app-blue);
-            position: absolute; bottom: 8px; text-transform: uppercase;
-        }
+        .picker-item { height: 50px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 600; color: #94a3b8; scroll-snap-align: center; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .picker-item.selected { color: var(--app-main); font-size: 2.2rem; font-weight: 800; }
+        .picker-highlight { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 95%; height: 54px; background: rgba(6, 148, 148, 0.08); border-top: 2px solid var(--app-main); border-bottom: 2px solid var(--app-main); pointer-events: none; z-index: 1; border-radius: 12px; }
+        .picker-label-text { font-size: 0.8rem; font-weight: 900; color: var(--app-main); position: absolute; bottom: 8px; text-transform: uppercase; }
 
-        .btn-record-action {
-            white-space: normal !important; line-height: 1.1 !important; font-size: 0.85rem !important;
-            min-height: 70px; display: flex; flex-direction: column; align-items: center;
-            justify-content: center; padding: 8px !important; border-radius: 16px;
-        }
+        .btn-record-action { white-space: normal !important; line-height: 1.1 !important; font-size: 0.9rem !important; font-weight: 600; min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px !important; border-radius: 16px; transition: transform 0.1s ease; }
+        .btn-record-action:active { transform: scale(0.96); }
 
-        .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 15px 40px 15px; }
-        .inner-card { background: var(--card-bg); border-radius: 16px; padding: 15px; box-shadow: var(--shadow-sm); margin-bottom: 15px; border: 1px solid var(--border-color); transition: background 0.3s ease; }
+        /* Page Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 15px 40px 15px; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .inner-card { background: var(--card-bg); border-radius: 20px; padding: 18px; box-shadow: var(--shadow-md); margin-bottom: 18px; border: 1px solid var(--border-color); transition: background 0.3s ease; }
 
-        /* --- SPLASH SCREEN (HARD PHYSICAL LOCK) --- */
+        /* --- SPLASH SCREEN (STATIC PHYSICAL LOCK) --- */
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; height: 100dvh;
-            background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white;
             text-align: center; padding: 20px; box-sizing: border-box; z-index: 9999;
             overflow: hidden; touch-action: none; overscroll-behavior: none;
         }
         
-        .theme-toggle-btn { 
-            position: absolute; top: 20px; right: 20px; z-index: 100;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
-            color: white; border-radius: 20px; padding: 6px 14px; 
-            font-size: 0.8rem; font-weight: bold; cursor: pointer; backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
+        .theme-toggle-btn { position: absolute; top: 20px; right: 20px; z-index: 100; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 20px; padding: 6px 14px; font-size: 0.8rem; font-weight: bold; cursor: pointer; backdrop-filter: blur(5px); transition: all 0.3s ease; }
         .theme-toggle-btn:hover { background: rgba(255,255,255,0.2); }
         
-        .logo-svg { width: 160px; height: 160px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); margin-bottom: 30px; }
+        .logo-svg { width: 160px; height: 160px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); margin-bottom: 25px; }
         .sonar-sweep { transform-origin: 100px 100px; animation: spin 4s linear infinite; }
         .blinker { animation: blink 1s step-end infinite; }
-        .target-bracket { transform-origin: 100px 100px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         @keyframes subtleSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .icon-spin { animation: subtleSpin 1s linear infinite; }
 
-        .live-score-box { border: 3px solid var(--app-blue); background-color: var(--card-bg); border-radius: 16px; padding: 10px 20px; text-align: center; margin-bottom: 15px; box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
-        .live-score-value { font-size: 3rem; font-weight: 800; color: var(--app-blue); line-height: 1; }
+        .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 20px; padding: 15px 20px; text-align: center; margin-bottom: 18px; box-shadow: var(--shadow-md); transition: background 0.3s ease; }
+        .live-score-value { font-size: 3.5rem; font-weight: 800; color: var(--app-main); line-height: 1; }
 
-        .fish-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 10px; flex-shrink: 0; cursor: pointer; border: 2px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
-        .table-custom { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-        .dark-mode .table-custom td { background-color: var(--card-bg); border-color: var(--border-color); color: var(--text-main); }
-        .table-custom td { background: var(--card-bg); padding: 12px 15px; border-radius: 12px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
+        .fish-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 12px; flex-shrink: 0; cursor: pointer; border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .table-custom { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+        .table-custom td { background: var(--card-bg); padding: 14px 18px; border-radius: 16px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
         
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .stat-card { background: var(--card-bg); padding: 10px 5px; border-radius: 12px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
-        .stat-card small { display: block; color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; }
-        .stat-card strong { font-size: 1.1rem; color: var(--text-main); font-weight: 800; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+        .stat-card { background: var(--card-bg); padding: 12px 5px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
+        .stat-card small { display: block; color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; letter-spacing: 0.5px; }
+        .stat-card strong { font-size: 1.2rem; color: var(--text-main); font-weight: 800; }
         
-        .species-quota-card { background: var(--card-bg); border-radius: 16px; padding: 12px; margin-bottom: 10px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
+        .species-quota-card { background: var(--card-bg); border-radius: 16px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
         .pip { width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; background: var(--input-bg); color: var(--text-muted); margin-right: 6px; border: 2px solid transparent; }
         .pip.bronze.active { background: #cd7f32; color: white; border-color: #a05a2c; }
         .pip.silver.active { background: #94a3b8; color: white; border-color: #64748b; }
         .pip.gold.active { background: #eab308; color: white; border-color: #ca8a04; }
         
-        @keyframes slideFlash { 0% { background-color: #dcfce7; transform: translateY(-10px); } 100% { background-color: var(--card-bg); } }
+        @keyframes slideFlash { 0% { background-color: rgba(6, 148, 148, 0.15); transform: translateY(-10px); } 100% { background-color: var(--card-bg); } }
         .new-catch-anim { animation: slideFlash 1.5s ease-out; }
 
-        .tide-chart-container { background: var(--card-bg); border-radius: 16px; padding: 12px 10px 8px 10px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); cursor: zoom-in; position: relative; }
+        .tide-chart-container { background: var(--card-bg); border-radius: 20px; padding: 15px 12px 10px 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); cursor: zoom-in; position: relative; }
+        
+        /* Clean Custom Input Addon */
+        .input-group-text-clean { background: transparent; border-color: var(--border-color); font-weight: 700; color: var(--text-muted); }
+        .dark-mode .input-group-text-clean { border-color: var(--border-color) !important; color: var(--text-muted) !important; }
     </style>
 </head>
 <body>
 
-    <div class="toast-container position-fixed top-0 end-0 p-3 mt-4" style="z-index: 2000;">
+    <div class="toast-container position-fixed top-0 end-0 p-3 mt-4" style="z-index: 20000;">
         <div id="appToast" class="toast border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex"><div class="toast-body fw-bold fs-6" id="toastMsg"></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>
         </div>
@@ -202,129 +191,141 @@
         <button class="theme-toggle-btn shadow" onclick="window.toggleDarkMode()" id="btnThemeToggle">Switch to Dark Mode</button>
 
         <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="95" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/>
-            <circle cx="100" cy="100" r="60" fill="none" stroke="#0ea5e9" stroke-width="1" opacity="0.3"/>
-            <circle cx="100" cy="100" r="30" fill="none" stroke="#0ea5e9" stroke-width="1" opacity="0.3"/>
-            <line x1="5" y1="100" x2="195" y2="100" stroke="#0ea5e9" stroke-width="1" opacity="0.3"/>
-            <line x1="100" y1="5" x2="100" y2="195" stroke="#0ea5e9" stroke-width="1" opacity="0.3"/>
-            <path d="M 30,135 L 30,150 L 170,150 L 170,135" fill="none" stroke="#38bdf8" stroke-width="3" opacity="0.9"/>
-            <line x1="65" y1="150" x2="65" y2="142" stroke="#38bdf8" stroke-width="2" opacity="0.9"/>
-            <line x1="100" y1="150" x2="100" y2="138" stroke="#38bdf8" stroke-width="2" opacity="0.9"/>
-            <line x1="135" y1="150" x2="135" y2="142" stroke="#38bdf8" stroke-width="2" opacity="0.9"/>
-            <path d="M 50,65 L 40,65 L 40,75" fill="none" stroke="#10b981" stroke-width="3" class="target-bracket"/>
-            <path d="M 150,65 L 160,65 L 160,75" fill="none" stroke="#10b981" stroke-width="3" class="target-bracket"/>
-            <path d="M 50,125 L 40,125 L 40,115" fill="none" stroke="#10b981" stroke-width="3" class="target-bracket"/>
-            <path d="M 150,125 L 160,125 L 160,115" fill="none" stroke="#10b981" stroke-width="3" class="target-bracket"/>
+            <circle cx="100" cy="100" r="95" fill="#0f172a" stroke="#069494" stroke-width="2"/>
+            <circle cx="100" cy="100" r="60" fill="none" stroke="#069494" stroke-width="1" opacity="0.3"/>
+            <circle cx="100" cy="100" r="30" fill="none" stroke="#069494" stroke-width="1" opacity="0.3"/>
+            <line x1="5" y1="100" x2="195" y2="100" stroke="#069494" stroke-width="1" opacity="0.3"/>
+            <line x1="100" y1="5" x2="100" y2="195" stroke="#069494" stroke-width="1" opacity="0.3"/>
+            <path d="M 30,135 L 30,150 L 170,150 L 170,135" fill="none" stroke="#08baba" stroke-width="3" opacity="0.9"/>
+            <line x1="65" y1="150" x2="65" y2="142" stroke="#08baba" stroke-width="2" opacity="0.9"/>
+            <line x1="100" y1="150" x2="100" y2="138" stroke="#08baba" stroke-width="2" opacity="0.9"/>
+            <line x1="135" y1="150" x2="135" y2="142" stroke="#08baba" stroke-width="2" opacity="0.9"/>
+            <path d="M 50,65 L 40,65 L 40,75" fill="none" stroke="#069494" stroke-width="3" class="target-bracket"/>
+            <path d="M 150,65 L 160,65 L 160,75" fill="none" stroke="#069494" stroke-width="3" class="target-bracket"/>
+            <path d="M 50,125 L 40,125 L 40,115" fill="none" stroke="#069494" stroke-width="3" class="target-bracket"/>
+            <path d="M 150,125 L 160,125 L 160,115" fill="none" stroke="#069494" stroke-width="3" class="target-bracket"/>
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
-            <g class="sonar-sweep"><path d="M 100,100 L 100,5 A 95 95 0 0 1 195,100 Z" fill="url(#radarGradient)" opacity="0.5"/><line x1="100" y1="100" x2="100" y2="5" stroke="#38bdf8" stroke-width="2"/></g>
+            <g class="sonar-sweep"><path d="M 100,100 L 100,5 A 95 95 0 0 1 195,100 Z" fill="url(#radarGradient)" opacity="0.5"/><line x1="100" y1="100" x2="100" y2="5" stroke="#08baba" stroke-width="2"/></g>
             <circle cx="100" cy="100" r="4" fill="#ef4444" class="blinker"/>
-            <defs><linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#38bdf8" stop-opacity="1"/><stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/></linearGradient></defs>
+            <defs><linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#08baba" stop-opacity="1"/><stop offset="100%" stop-color="#069494" stop-opacity="0"/></linearGradient></defs>
         </svg>
 
-        <h1 class="display-4 fw-bold mb-0 text-center">Sea Score Diary</h1>
-        <p class="text-uppercase tracking-widest opacity-50 small mb-4">Version 205.0</p>
+        <h1 class="display-4 fw-bold mb-0 text-center" style="letter-spacing: -1px;">Sea Diary Pro</h1>
+        <p class="text-uppercase opacity-50 small mb-5" style="letter-spacing: 2px;">Version 206.0</p>
         
-        <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 400px;">
+        <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning fw-bold py-3 shadow-lg" style="display:none; color: #0f172a;" onclick="window.installApp()">
                 <i class="bi bi-download me-2"></i>Install App to Phone
             </button>
 
-            <button class="btn btn-light btn-lg fw-bold py-3 shadow-lg w-100" onclick="window.startFishing()">Start Session</button>
-            <button class="btn btn-outline-light w-100 py-3" onclick="window.loadSavedScorecards()" data-bs-toggle="modal" data-bs-target="#savedModal">History</button>
+            <button class="btn btn-light btn-lg fw-bold py-3 shadow-lg w-100 text-dark" onclick="window.startFishing()">Start Session</button>
+            
+            <button class="btn btn-outline-light w-100 py-3 fw-bold" onclick="window.openHistory()">History</button>
         </div>
         
-        <button id="btnRefreshApp" class="btn btn-link text-white-50 text-decoration-none mt-4 small" onclick="window.forceAppUpdate()"><i id="refreshIcon" class="bi bi-arrow-clockwise me-1"></i> Check for Updates</button>
-        <div class="mt-4 pt-3 small fw-bold text-uppercase" style="color: #64748b; letter-spacing: 1px;">Created by C.O.T.H. Enterprises 2026</div>
+        <button id="btnRefreshApp" class="btn btn-link text-white-50 text-decoration-none mt-5 small fw-bold" onclick="window.forceAppUpdate()"><i id="refreshIcon" class="bi bi-arrow-clockwise me-1"></i> Check for Updates</button>
     </div>
 
     <div id="anglerRegistration" class="app-page">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="fw-bold m-0 text-primary">Session Setup</h3>
-            <button class="btn btn-sm btn-outline-secondary px-3 rounded-pill" onclick="window.resetAppToHome()"><i class="bi bi-arrow-left me-1"></i>Back</button>
+            <button class="btn btn-sm btn-outline-secondary px-3 rounded-pill fw-bold" onclick="window.resetAppToHome()"><i class="bi bi-arrow-left me-1"></i>Back</button>
         </div>
         
-        <div class="inner-card mb-3 border-primary">
-            <h6 class="fw-bold text-primary mb-3 border-bottom pb-2"><i class="bi bi-person-vcard me-2"></i>Match Details</h6>
+        <div class="inner-card mb-4 border-0">
+            <h6 class="fw-bold text-primary mb-3 border-bottom border-primary border-opacity-25 pb-2"><i class="bi bi-person-vcard me-2"></i>Match Details</h6>
             
-            <div class="mb-2">
-                <label class="form-label small mb-1">Angler Name</label>
-                <input type="text" id="anglerName" class="form-control" placeholder="Enter Name" oninput="window.saveActiveSession()">
+            <div class="mb-3">
+                <label class="form-label small mb-1 fw-bold text-muted">Angler Name</label>
+                <input type="text" id="anglerName" class="form-control" oninput="window.saveActiveSession()">
             </div>
             
-            <div class="row g-2 mb-2">
+            <div class="row g-2 mb-3">
                 <div class="col-5">
-                    <label class="form-label small mb-1">Date</label>
+                    <label class="form-label small mb-1 fw-bold text-muted">Date</label>
                     <input type="date" id="competitionDate" class="form-control" onchange="window.saveActiveSession()">
                 </div>
                 <div class="col-7">
-                    <label class="form-label small mb-1">Venue</label>
-                    <input type="text" id="venueInput" class="form-control" placeholder="e.g. Secret Spot 4" oninput="window.saveActiveSession()">
+                    <label class="form-label small mb-1 fw-bold text-muted">Venue</label>
+                    <input type="text" id="venueInput" class="form-control" oninput="window.saveActiveSession()">
                 </div>
             </div>
 
-            <div class="mb-2">
-                <label class="form-label small mb-1">Scoring Rules</label>
-                <select id="scoringMethod" class="form-select" onchange="window.handleMethodChange()">
+            <div class="mb-3">
+                <label class="form-label small mb-1 fw-bold text-muted">Scoring Rules</label>
+                <select id="scoringMethod" class="form-select fw-bold" onchange="window.handleMethodChange()">
                     <option value="" disabled selected>Select Scoring Method...</option>
                     <option value="measure_points">Length + 10 Pts</option>
                     <option value="length_only">Total Length Only</option>
                     <option value="species_hunt">Species Hunt (3=100pts)</option>
                     <option value="weight">Total Weight</option>
                 </select>
-                <div id="speciesHuntInfo" class="mt-2 small text-muted" style="display:none;">1st: 30 | 2nd: 30 | 3rd: 40 | 4th+: 1pt</div>
+                <div id="speciesHuntInfo" class="mt-2 small text-muted fw-bold" style="display:none;">1st: 30 | 2nd: 30 | 3rd: 40 | 4th+: 1pt</div>
                 <div id="weightInfoDisplay" class="mt-2 small fw-bold text-primary" style="display:none;"></div>
             </div>
             
-            <div class="form-check form-switch mb-2 mt-3">
+            <div class="form-check form-switch mb-3 mt-4">
                 <input class="form-check-input" type="checkbox" id="isCompetition" onchange="window.toggleCompetitionFields(); window.saveActiveSession();">
-                <label class="form-check-label fw-bold small text-dark" for="isCompetition">Competition Mode</label>
+                <label class="form-check-label fw-bold small text-primary ms-1" for="isCompetition">Competition Mode</label>
             </div>
             
             <div class="row g-2">
                 <div class="col-6"><select id="zoneInput" class="form-control form-select" disabled onchange="window.saveActiveSession()"><option selected value="">Zone</option><option>1</option><option>2</option><option>3</option><option>4</option><option>Red</option><option>Yellow</option><option>Green</option><option>Blue</option></select></div>
                 <div class="col-6"><select id="pegInput" class="form-control form-select" disabled onchange="window.saveActiveSession()"><option selected value="">Peg</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select></div>
-                <div class="col-12 mt-2"><input type="text" id="teamInput" class="form-control" placeholder="Team Name (Optional)" disabled oninput="window.saveActiveSession()"></div>
+                <div class="col-12 mt-2"><input type="text" id="teamInput" class="form-control" placeholder="Team Name" disabled oninput="window.saveActiveSession()"></div>
             </div>
         </div>
 
-        <div class="inner-card mb-2 border-info">
-            <h6 class="fw-bold text-info mb-2 border-bottom pb-2"><i class="bi bi-cloud-sun me-2"></i>Live Weather and Tide State</h6>
-            <div class="small text-danger mb-3 fw-bold" style="font-size: 0.7rem;"><i class="bi bi-wifi me-1"></i>Internet access is required to fetch this data.</div>
+        <div class="inner-card mb-3 border-0">
+            <h6 class="fw-bold text-primary mb-3 border-bottom border-primary border-opacity-25 pb-2"><i class="bi bi-cloud-sun me-2"></i>Live Weather and Tides</h6>
             
-            <div class="mb-3">
-                <label class="form-label small mb-1 fw-bold text-dark">Nearest UK Coastal Station</label>
-                <div class="input-group shadow-sm">
-                    <button class="btn btn-outline-info px-3" onclick="window.autoLocateStation()" id="btnAutoLocate" title="Find nearest station via GPS">
-                        <i class="bi bi-geo-alt-fill"></i>
-                    </button>
-                    <select id="tideStationSelect" class="form-select border-info" onchange="window.saveActiveSession()"></select>
-                    <button class="btn btn-info text-white fw-bold px-3" onclick="window.fetchEnvironmentData()" id="btnFetchEnv">
-                        <i class="bi bi-search me-1"></i> Fetch
-                    </button>
-                </div>
+            <label class="form-label small mb-1 fw-bold text-dark">1. Select Location</label>
+            <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-outline-primary shadow-sm" onclick="window.autoLocateStation()" id="btnAutoLocate" title="Auto-Locate via GPS">
+                    <i class="bi bi-geo-alt-fill"></i>
+                </button>
+                <select id="tideStationSelect" class="form-select border-primary shadow-sm fw-bold" onchange="window.saveActiveSession()"></select>
             </div>
+
+            <button class="btn btn-primary w-100 fw-bold shadow-sm mb-3 py-2" onclick="window.fetchEnvironmentData()" id="btnFetchEnv">
+                <i class="bi bi-cloud-download me-2"></i> 2. Fetch Live Data
+            </button>
             
-            <div class="row g-2 mb-3">
+            <div class="row g-2 mb-2">
                 <div class="col-6">
-                    <label class="form-label small mb-0 text-muted" style="font-size:0.65rem; text-transform: uppercase;">Weather</label>
+                    <label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:2px;">Weather</label>
                     <input type="text" id="weatherInput" class="form-control form-control-sm text-center fw-bold" placeholder="--" readonly>
                 </div>
                 <div class="col-6">
-                    <label class="form-label small mb-0 text-muted" style="font-size:0.65rem; text-transform: uppercase;">Wind</label>
+                    <label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:2px;">Wind</label>
                     <input type="text" id="windInput" class="form-control form-control-sm text-center fw-bold" placeholder="--" readonly>
                 </div>
                 <div class="col-6">
-                    <label class="form-label small mb-0 text-muted" style="font-size:0.65rem; text-transform: uppercase;">Wave Height</label>
-                    <input type="text" id="waveInput" class="form-control form-control-sm text-center fw-bold text-info" placeholder="--" readonly>
+                    <label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:2px;">Wave Height</label>
+                    <input type="text" id="waveInput" class="form-control form-control-sm text-center fw-bold text-primary" placeholder="--" readonly>
                 </div>
                 <div class="col-6">
-                    <label class="form-label small mb-0 text-muted" style="font-size:0.65rem; text-transform: uppercase;">Swell Height</label>
+                    <label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:2px;">Swell Height</label>
                     <input type="text" id="swellInput" class="form-control form-control-sm text-center fw-bold text-primary" placeholder="--" readonly>
                 </div>
             </div>
 
-            <div class="tide-chart-container mt-1" id="setupTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('setupTideCanvas').toDataURL())">
-                <div class="text-center small fw-bold text-primary mb-1">Tide Forecast (Tap to Enlarge)</div>
+            <div class="text-center mt-3 border-top border-primary border-opacity-10 pt-2">
+                <a href="#" class="small fw-bold text-muted text-decoration-none" onclick="document.getElementById('manualTideContainer').style.display='block'; this.style.display='none'; return false;">
+                    <i class="bi bi-pencil-square me-1"></i>Enter Tides Manually
+                </a>
+            </div>
+
+            <div id="manualTideContainer" class="mt-2 text-center" style="display:none;">
+                 <label class="small fw-bold text-primary mb-2">Manual Tide Times (Creates Graph)</label>
+                 <div class="row g-2">
+                     <div class="col-6"><label class="small text-muted fw-bold mb-1">High Water</label><input type="time" id="manHW" class="form-control text-center fw-bold" onchange="window.setManualTide()"></div>
+                     <div class="col-6"><label class="small text-muted fw-bold mb-1">Low Water</label><input type="time" id="manLW" class="form-control text-center fw-bold" onchange="window.setManualTide()"></div>
+                 </div>
+            </div>
+
+            <div class="tide-chart-container mt-3" id="setupTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('setupTideCanvas').toDataURL())">
+                <div class="text-center small fw-bold text-primary mb-2"><i class="bi bi-water me-1"></i>Tide Forecast (Tap to Enlarge)</div>
                 <canvas id="setupTideCanvas" class="w-100"></canvas>
             </div>
         </div>
@@ -333,54 +334,57 @@
     </div>
 
     <div id="anglerFishingPage" class="app-page">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="m-0 fw-bold text-primary">Live Catch</h4>
-            <button class="btn btn-sm btn-outline-danger px-3 rounded-pill" onclick="window.confirmQuit()">Quit</button>
+            <button class="btn btn-sm btn-outline-danger px-3 rounded-pill fw-bold shadow-sm" onclick="window.confirmQuit()">Quit</button>
         </div>
 
-        <div class="tide-chart-container mb-3" id="liveTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('liveTideCanvas').toDataURL())">
-            <div class="text-center small fw-bold text-primary mb-1">Catch Timeline (Tap to Enlarge)</div>
+        <div class="tide-chart-container mb-4" id="liveTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('liveTideCanvas').toDataURL())">
+            <div class="text-center small fw-bold text-primary mb-2"><i class="bi bi-activity me-1"></i>Catch Timeline (Tap to Enlarge)</div>
             <canvas id="liveTideCanvas" class="w-100"></canvas>
         </div>
         
-        <div class="inner-card mb-3">
+        <div class="inner-card mb-4 border-0">
             <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="window.handleCameraInput()">
             
-            <div class="mb-3">
+            <div class="mb-4">
                 <label class="form-label small fw-bold text-muted mb-1">Species</label>
-                <select id="speciesInput" class="form-select" onchange="window.toggleCustomSpeciesInput()"></select>
-                <input type="text" id="customSpeciesInput" class="form-control mt-2" placeholder="Species Name" style="display:none;">
+                <select id="speciesInput" class="form-select form-select-lg fw-bold shadow-sm" onchange="window.toggleCustomSpeciesInput()"></select>
+                <input type="text" id="customSpeciesInput" class="form-control mt-2" placeholder="Type Species Name" style="display:none;">
             </div>
 
-            <div id="lengthInputContainer" class="mb-3" style="display:none;">
-                <label class="form-label small fw-bold text-muted mb-1">Fish Length (cm)</label>
-                <input type="number" id="fishLengthInput" class="form-control form-control-lg text-center fw-bold text-primary" inputmode="decimal" placeholder="e.g. 45" style="font-size: 1.5rem;">
+            <div id="lengthInputContainer" class="mb-4" style="display:none;">
+                <label class="form-label small fw-bold text-muted mb-1">Fish Length</label>
+                <div class="input-group input-group-lg shadow-sm">
+                    <input type="number" id="fishLengthInput" class="form-control text-center fw-bold text-primary border-end-0" inputmode="decimal" style="font-size: 1.6rem;" placeholder="0">
+                    <span class="input-group-text input-group-text-clean fs-5">cm</span>
+                </div>
             </div>
 
-            <div id="weightPickerContainer" class="mb-3" style="display:none;">
+            <div id="weightPickerContainer" class="mb-4" style="display:none;">
                 <div class="picker-outer-wrapper mb-0">
-                    <div class="picker-instruction"><i class="bi bi-hand-index-thumb me-1"></i> Swipe Wheels to Set Weight</div>
+                    <div class="picker-instruction"><i class="bi bi-arrows-collapse me-1"></i> Swipe Wheels to Set Weight</div>
                     <div class="weight-picker-container"><div class="picker-highlight"></div><div id="pickerCol1" class="picker-column" onscroll="window.updatePickerDisplay('pickerCol1')"></div><div id="pickerCol2" class="picker-column" onscroll="window.updatePickerDisplay('pickerCol2')"></div><div class="picker-label-text" style="left: 20%;" id="label1">KG</div><div class="picker-label-text" style="right: 20%;" id="label2">G</div></div>
                 </div>
             </div>
 
-            <div class="row g-2 pt-1">
-                <div class="col-6"><button class="btn btn-primary btn-record-action w-100 shadow-sm" onclick="window.addFishTextOnly()"><i class="bi bi-check-circle fs-4 mb-1"></i>Record Fish</button></div>
-                <div class="col-6"><button class="btn btn-primary btn-record-action w-100 shadow-sm" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-4 mb-1"></i>With Photo</button></div>
+            <div class="row g-2 pt-2">
+                <div class="col-6"><button class="btn btn-primary btn-record-action w-100 shadow-sm" onclick="window.addFishTextOnly()"><i class="bi bi-check-circle fs-3 mb-1"></i>Record Catch</button></div>
+                <div class="col-6"><button class="btn btn-primary btn-record-action w-100 shadow-sm" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-3 mb-1"></i>With Photo</button></div>
             </div>
         </div>
 
-        <div class="live-score-box"><div class="small text-muted text-uppercase fw-bold mb-1">Session Total</div><div class="live-score-value" id="liveScoreVal">0</div></div>
+        <div class="live-score-box"><div class="small text-muted text-uppercase fw-bold mb-1 letter-spacing-1">Session Total</div><div class="live-score-value" id="liveScoreVal">0</div></div>
         <div class="table-responsive"><table class="table-custom"><tbody id="fishLog"></tbody></table></div>
-        <button class="btn btn-danger btn-lg w-100 mt-4 py-3 shadow" onclick="window.endSession()">Finish Session</button>
+        <button class="btn btn-danger btn-lg w-100 mt-4 py-3 shadow fw-bold" onclick="window.endSession()">Finish Session</button>
     </div>
 
     <div id="tallyVerificationPage" class="app-page">
-        <div class="inner-card text-center py-4">
+        <div class="inner-card text-center py-4 border-0">
             <h2 class="text-primary fw-bold">Match Complete</h2>
             <div id="session_angler" class="fw-bold fs-4"></div>
             <div class="text-muted"><span id="session_date"></span> • <span id="session_venue"></span></div>
-            <div id="session_live_conditions" class="mt-2 d-flex flex-wrap justify-content-center gap-1"></div>
+            <div id="session_live_conditions" class="mt-3 d-flex flex-wrap justify-content-center gap-1"></div>
             <div id="session_comp_details" class="mt-3 d-flex flex-wrap justify-content-center gap-2" style="display:none;">
                 <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25">Team: <span id="session_team"></span></span>
                 <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25">Zone: <span id="session_zone"></span></span>
@@ -396,29 +400,31 @@
         </div>
         
         <div class="stat-grid">
-            <div class="stat-card"><strong>Fish</strong><div id="session_total_fish">0</div></div>
-            <div class="stat-card"><strong>Species</strong><div id="session_species_count">0</div></div>
-            <div class="stat-card"><strong id="session_stat_label">Stat</strong><div id="session_total_stat">0</div></div>
+            <div class="stat-card"><strong>Fish</strong><div id="session_total_fish" class="text-primary fs-4">0</div></div>
+            <div class="stat-card"><strong>Species</strong><div id="session_species_count" class="text-primary fs-4">0</div></div>
+            <div class="stat-card"><strong id="session_stat_label">Stat</strong><div id="session_total_stat" class="text-primary fs-4">0</div></div>
         </div>
 
         <div id="session_breakdown_area"></div>
 
-        <div class="inner-card mt-3">
-            <label class="form-label small fw-bold text-muted"><i class="bi bi-journal-text me-1"></i>Session Notes</label>
-            <textarea id="sessionNotesInput" class="form-control" rows="2" placeholder="Add any details here..."></textarea>
+        <div class="inner-card mt-3 border-0">
+            <label class="form-label small fw-bold text-primary"><i class="bi bi-journal-text me-1"></i>Session Notes</label>
+            <textarea id="sessionNotesInput" class="form-control" rows="2" placeholder="Add specific rig details, baits used, etc..."></textarea>
         </div>
 
         <div class="d-grid gap-3 mt-4">
-            <button class="btn btn-whatsapp py-3 shadow-sm text-white" style="background:#25D366;" onclick="window.shareAsImage('live')"><i class="bi bi-share me-2"></i>Share Summary</button>
-            <button class="btn btn-secondary btn-lg shadow-sm py-3" onclick="window.resetAppToHome()"><i class="bi bi-house-door me-2"></i>Return to Home</button>
+            <button class="btn btn-whatsapp py-3 shadow-sm text-white fw-bold" style="background:#25D366;" onclick="window.shareAsImage('live')"><i class="bi bi-share me-2"></i>Share Summary</button>
+            <button class="btn btn-secondary btn-lg shadow-sm py-3 fw-bold" onclick="window.resetAppToHome()"><i class="bi bi-house-door me-2"></i>Return to Home</button>
         </div>
     </div>
 
-    <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content border-0"><div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold">History</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light">
-        <div id="savedScorecardsList"><button class="btn btn-success w-100 mb-4 shadow-sm fw-bold" onclick="window.exportToCSV()"><i class="bi bi-file-earmark-spreadsheet me-2"></i> Export to Spreadsheet (CSV)</button><h6 class="text-muted small text-uppercase fw-bold mb-3 ps-1">Recent Sessions</h6><div id="recentList"></div><div id="archiveSection" style="display:none;" class="mt-4 border-top pt-3"><button id="btnToggleArchive" class="btn btn-light w-100 fw-bold text-muted shadow-sm mb-3" onclick="document.getElementById('archiveList').style.display='block'; this.style.display='none';"><i class="bi bi-archive me-2"></i> View Archive (<span id="archiveCount">0</span>)</button><div id="archiveList" style="display:none;"></div></div></div>
+    <div class="modal fade" id="statsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0"><div class="modal-body text-center p-4"><h5>Stats temporarily disabled</h5><button class="btn btn-primary mt-3" data-bs-dismiss="modal">Close</button></div></div></div></div>
+
+    <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content border-0"><div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold text-primary">Diary History</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light">
+        <div id="savedScorecardsList"><button class="btn btn-success w-100 mb-4 shadow-sm fw-bold py-3" onclick="window.exportToCSV()"><i class="bi bi-file-earmark-spreadsheet me-2"></i> Export to Spreadsheet (CSV)</button><h6 class="text-muted small text-uppercase fw-bold mb-3 ps-1">Recent Sessions</h6><div id="recentList"></div><div id="archiveSection" style="display:none;" class="mt-4 border-top border-primary border-opacity-10 pt-3"><button id="btnToggleArchive" class="btn btn-light w-100 fw-bold text-primary shadow-sm mb-3 py-3" onclick="document.getElementById('archiveList').style.display='block'; this.style.display='none';"><i class="bi bi-archive me-2"></i> View Archive (<span id="archiveCount">0</span>)</button><div id="archiveList" style="display:none;"></div></div></div>
         
         <div id="fullScorecardView" style="display:none;">
-            <div class="inner-card p-3 mb-3 text-center"><h4 id="saved_view_angler" class="text-primary fw-bold m-0"></h4><div class="text-muted small"><span id="saved_view_date"></span> • <span id="saved_view_venue"></span></div><div id="saved_view_conditions" class="mt-2 d-flex flex-wrap justify-content-center gap-1"></div><div id="saved_view_comp_details" class="mt-3 d-flex flex-wrap justify-content-center gap-2" style="display:none;"><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25">Team: <span id="saved_view_team"></span></span><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25">Zone: <span id="saved_view_zone"></span></span><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25">Peg: <span id="saved_view_peg"></span></span></div></div>
+            <div class="inner-card p-3 mb-3 text-center border-0"><h4 id="saved_view_angler" class="text-primary fw-bold m-0"></h4><div class="text-muted small"><span id="saved_view_date"></span> • <span id="saved_view_venue"></span></div><div id="saved_view_conditions" class="mt-3 d-flex flex-wrap justify-content-center gap-1"></div><div id="saved_view_comp_details" class="mt-3 d-flex flex-wrap justify-content-center gap-2" style="display:none;"><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25">Team: <span id="saved_view_team"></span></span><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25">Zone: <span id="saved_view_zone"></span></span><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25">Peg: <span id="saved_view_peg"></span></span></div></div>
             
             <div class="live-score-box"><div class="small text-muted text-uppercase fw-bold mb-1">Final Score</div><div id="saved_view_points" class="live-score-value">0</div></div>
 
@@ -428,12 +434,12 @@
             </div>
 
             <div id="saved_view_breakdown"></div><div id="saved_view_notes_container"></div>
-            <div class="d-grid gap-2 mt-4"><button class="btn btn-whatsapp py-3 shadow-sm text-white" style="background:#25D366;" onclick="window.shareAsImage('saved')"><i class="bi bi-whatsapp me-2"></i>Share / Send Scorecard</button><button class="btn btn-danger py-3" onclick="window.deleteCurrentSaved()">Delete Record</button><button class="btn btn-secondary py-3" onclick="window.backToScorecardList()">Back to List</button></div>
+            <div class="d-grid gap-2 mt-4"><button class="btn btn-whatsapp py-3 shadow-sm text-white fw-bold" style="background:#25D366;" onclick="window.shareAsImage('saved')"><i class="bi bi-whatsapp me-2"></i>Share / Send Scorecard</button><button class="btn btn-danger py-3 fw-bold shadow-sm" onclick="window.deleteCurrentSaved()">Delete Record</button><button class="btn btn-secondary py-3 fw-bold shadow-sm" onclick="window.backToScorecardList()">Back to List</button></div>
         </div>
     </div></div></div></div>
     
-    <div class="modal fade" id="weightUnitModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow-lg"><div class="modal-body p-5 text-center"><h4>Scoring Unit</h4><p class="text-muted small mb-4">Choose format for this session</p><div class="d-grid gap-3"><button type="button" class="btn btn-primary btn-lg py-3" data-bs-dismiss="modal" onclick="window.handleUnitChoice('metric')">Kilograms (KG)</button><button type="button" class="btn btn-primary btn-lg py-3" data-bs-dismiss="modal" onclick="window.handleUnitChoice('imperial')">Pounds & Ounces</button></div></div></div></div></div>
-    <div class="modal fade" id="restoreSessionModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg"><div class="modal-body text-center p-5"><h4>Session Found</h4><p class="text-muted">Restore unfinished session for <strong id="restoreAnglerName"></strong>?</p><div class="d-grid gap-2 mt-4"><button class="btn btn-primary btn-lg py-3" data-bs-dismiss="modal" onclick="window.confirmRestore()">Resume Fishing</button><button class="btn btn-outline-secondary py-3" data-bs-dismiss="modal" onclick="window.discardRestore()">Start New</button></div></div></div></div></div>
+    <div class="modal fade" id="weightUnitModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow-lg"><div class="modal-body p-5 text-center"><h4 class="text-primary fw-bold">Scoring Unit</h4><p class="text-muted small mb-4 fw-bold">Choose format for this session</p><div class="d-grid gap-3"><button type="button" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm" data-bs-dismiss="modal" onclick="window.handleUnitChoice('metric')">Kilograms (KG)</button><button type="button" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm" data-bs-dismiss="modal" onclick="window.handleUnitChoice('imperial')">Pounds & Ounces</button></div></div></div></div></div>
+    <div class="modal fade" id="restoreSessionModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg"><div class="modal-body text-center p-5"><h4 class="text-primary fw-bold">Session Found</h4><p class="text-muted fw-bold">Restore unfinished session for <strong id="restoreAnglerName" class="text-dark"></strong>?</p><div class="d-grid gap-2 mt-4"><button class="btn btn-primary btn-lg py-3 fw-bold shadow-sm" data-bs-dismiss="modal" onclick="window.confirmRestore()">Resume Fishing</button><button class="btn btn-outline-secondary py-3 fw-bold" data-bs-dismiss="modal" onclick="window.discardRestore()">Start New</button></div></div></div></div></div>
     
     <div id="nativeImageViewer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#0f172a; z-index:99999; overflow:auto; -webkit-overflow-scrolling: touch;">
         <div class="d-flex justify-content-between align-items-center p-3 position-fixed w-100" style="top:0; left:0; z-index:100000; background: linear-gradient(to bottom, rgba(15,23,42,0.9), transparent);">
@@ -478,7 +484,8 @@
         let deferredPrompt;
         let editingOriginalFish = null;
         
-        const badgeStyle = "background: rgba(14, 165, 233, 0.1); color: #0ea5e9; border: 1px solid rgba(14, 165, 233, 0.3); padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; margin: 2px; display: inline-block;";
+        // Premium Badges Hardcoded Color Hex
+        const badgeStyle = "background: rgba(6, 148, 148, 0.1); color: var(--app-main); border: 1px solid rgba(6, 148, 148, 0.3); padding: 6px 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; margin: 3px; display: inline-block;";
 
         const PageManager={ show:function(id){ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
         const StorageHelper={ save: function(k,v) { try { localStorage.setItem(k,v); } catch(e) { console.error("Storage limit reached", e); throw new Error("QUOTA_EXCEEDED"); } }, get: (k) => localStorage.getItem(k), remove: (k) => localStorage.removeItem(k), getAll: () => ({...localStorage}) };
@@ -506,8 +513,14 @@
         window.showAppToast = function(msg, isError = false) {
             const t = document.getElementById('appToast');
             document.getElementById('toastMsg').innerHTML = isError ? `<i class="bi bi-exclamation-triangle-fill me-2"></i> ${msg}` : `<i class="bi bi-check-circle-fill me-2"></i> ${msg}`;
-            t.className = isError ? 'toast text-bg-warning border-0 shadow-lg' : 'toast text-bg-success border-0 shadow-lg';
+            t.className = isError ? 'toast text-bg-warning border-0 shadow-lg' : 'toast text-bg-dark text-white border-0 shadow-lg';
             new bootstrap.Toast(t).show();
+        };
+
+        // NEW: Fixed History Button Action
+        window.openHistory = function() {
+            window.loadSavedScorecards();
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show();
         };
 
         window.populateTideStations = function() {
@@ -529,7 +542,7 @@
 
         window.autoLocateStation = function() {
             const btn = document.getElementById('btnAutoLocate');
-            if (!navigator.geolocation) return window.showAppToast("GPS not supported on this device.", true);
+            if (!navigator.geolocation) return window.showAppToast("GPS not supported on this device. Please select manually.", true);
             
             const originalIcon = btn.innerHTML;
             btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin"></i>';
@@ -577,7 +590,7 @@
                 btn.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
                 setTimeout(() => { btn.innerHTML = originalIcon; btn.disabled = false; }, 2000);
             }, (err) => {
-                window.showAppToast("GPS error: " + err.message, true);
+                window.showAppToast("GPS connection failed. Please select manually.", true);
                 btn.innerHTML = originalIcon; btn.disabled = false;
             }, { timeout: 10000 });
         };
@@ -588,15 +601,17 @@
             const val = selectBox.value;
             const originalText = btn.innerHTML;
             
-            if (!navigator.onLine) return window.showAppToast("You are offline.", true);
-            if (!val) return window.showAppToast("Please choose a station from the list first.", true);
+            if (!navigator.onLine) {
+                return window.showAppToast("No Internet. You can proceed without data, or enter Tides manually.", true);
+            }
+            if (!val) return window.showAppToast("Please Auto-Locate or select a station first.", true);
 
             const [lat, lon] = val.split(',');
             selectedCoastalStation = selectBox.options[selectBox.selectedIndex].text;
             
             sessionStartTimeStr = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false});
 
-            btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin"></i> Fetching...';
+            btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin me-2"></i> Fetching...';
             btn.disabled = true;
 
             try {
@@ -639,21 +654,35 @@
                 if(foundTides) { 
                     document.getElementById('setupTideChartContainer').style.display = 'block';
                     try { window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], sessionStartTimeStr); } catch(e){}
-                    window.showAppToast("Weather, Waves & Tides Loaded!"); 
+                    window.showAppToast("Live Weather & Tides Fetched!"); 
                 } 
                 else { 
                     document.getElementById('setupTideChartContainer').style.display = 'none';
-                    window.showAppToast("Weather & Waves loaded. Tide times not provided by API for this port.", true); 
+                    window.showAppToast("Weather fetched, but Tide times missing for this port.", true); 
                 }
                 
                 window.saveActiveSession();
-                btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Success';
+                btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Success';
                 setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
                 
             } catch (err) {
-                window.showAppToast("API Error: " + err.message, true);
+                window.showAppToast("API Connection Error.", true);
                 btn.innerHTML = originalText; 
                 btn.disabled = false;
+            }
+        };
+
+        // NEW: Manual Tide Feature
+        window.setManualTide = function() {
+            hwTime = document.getElementById('manHW').value;
+            lwTime = document.getElementById('manLW').value;
+            
+            if(!sessionStartTimeStr) sessionStartTimeStr = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false});
+            
+            if(hwTime && lwTime) {
+                document.getElementById('setupTideChartContainer').style.display = 'block';
+                window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], sessionStartTimeStr);
+                window.saveActiveSession();
             }
         };
 
@@ -683,7 +712,7 @@
                 ctx.fillRect(0, 0, w, h);
 
                 const textColor = isDark ? '#cbd5e1' : '#64748b';
-                const waveColor = '#0ea5e9';
+                const waveColor = isDark ? '#08baba' : '#069494';
                 const gridColor = isDark ? '#334155' : '#e2e8f0';
 
                 const toMins = t => { 
@@ -737,7 +766,7 @@
                     ctx.stroke();
                     
                     ctx.fillStyle = textColor;
-                    ctx.font = "8px sans-serif";
+                    ctx.font = "500 9px 'Outfit', sans-serif";
                     ctx.textAlign = "center";
                     let hrLabel = Math.floor(t/60) % 24;
                     if(hrLabel < 0) hrLabel += 24;
@@ -780,7 +809,7 @@
                     ctx.setLineDash([]); 
 
                     ctx.fillStyle = isTide ? waveColor : textColor;
-                    ctx.font = isTide ? "bold 10px sans-serif" : "10px sans-serif";
+                    ctx.font = isTide ? "800 11px 'Outfit', sans-serif" : "500 10px 'Outfit', sans-serif";
                     ctx.textAlign = "center";
                     ctx.fillText(label, x, graphBottom + 25);
                 };
@@ -828,7 +857,7 @@
                         let distToLW = Math.abs(x - (((lwM - minT)/range)*w));
                         if (distToHW > 15 && distToLW > 15) { 
                             ctx.fillStyle = '#ef4444';
-                            ctx.font = "9px sans-serif";
+                            ctx.font = "600 10px 'Outfit', sans-serif";
                             ctx.textAlign = "center";
                             ctx.fillText(formatTime(c.timeM), x, graphBottom - 3);
                         }
@@ -843,7 +872,7 @@
 
                         if(c.count > 1) {
                             ctx.fillStyle = '#ffffff';
-                            ctx.font = "bold 10px sans-serif";
+                            ctx.font = "800 11px 'Outfit', sans-serif";
                             ctx.textAlign = "center";
                             ctx.textBaseline = "middle";
                             ctx.fillText(c.count, x, y + 0.5);
@@ -947,6 +976,9 @@
             fishData = []; currentScoringMethod = ''; isCompetitionMode = false; currentZone = ''; currentPeg = ''; currentTeam = ''; currentVenue = ''; coastalTown = ''; currentSavedKey = ''; weatherInfo = ''; windInfo = ''; swellInfo = ''; waveInfo = ''; hwTime = ''; lwTime = ''; sessionStartTimeStr = ''; editingOriginalFish = null;
             document.getElementById('venueInput').value = ''; if(document.getElementById('coastalTownInput')) document.getElementById('coastalTownInput').selectedIndex = 0; document.getElementById('scoringMethod').selectedIndex = 0; document.getElementById('isCompetition').checked = false; document.getElementById('teamInput').value = ''; document.getElementById('zoneInput').selectedIndex = 0; document.getElementById('pegInput').selectedIndex = 0; document.getElementById('sessionNotesInput').value = '';
             document.getElementById('weatherInput').value = ''; document.getElementById('windInput').value = ''; document.getElementById('swellInput').value = ''; document.getElementById('waveInput').value = ''; 
+            
+            document.getElementById('manHW').value = ''; document.getElementById('manLW').value = ''; document.getElementById('manualTideContainer').style.display = 'none';
+            
             if(document.getElementById('fishLengthInput')) document.getElementById('fishLengthInput').value = '';
             document.getElementById('speciesInput').selectedIndex = 0; document.getElementById('customSpeciesInput').value = '';
             document.getElementById('fishLog').innerHTML = ''; document.getElementById('liveScoreVal').textContent = '0'; document.getElementById('weightInfoDisplay').style.display = 'none'; document.getElementById('speciesHuntInfo').style.display = 'none';
@@ -1134,17 +1166,17 @@
             const log = document.getElementById('fishLog'); log.innerHTML=''; const labels = []; const counts = {};
             fishData.forEach(f => {
                 if(currentScoringMethod === 'species_hunt') { counts[f.species] = (counts[f.species] || 0) + 1; const a = counts[f.species]; if(a === 1) labels.push({ text: "1st: Bronze (+30)", cls: "badge bg-success" }); else if(a === 2) labels.push({ text: "2nd: Silver (+30)", cls: "badge bg-secondary" }); else if(a === 3) labels.push({ text: "3rd: Gold (+40)", cls: "badge bg-warning text-dark" }); else labels.push({ text: `Extra (+1)`, cls: "badge bg-light text-dark border" }); } 
-                else { labels.push({ text: currentScoringMethod==='weight' ? f.display : `${f.length}cm`, cls: "text-primary fw-bold small" }); }
+                else { labels.push({ text: currentScoringMethod==='weight' ? f.display : `${f.length}cm`, cls: "text-primary fw-bold fs-5" }); }
             });
 
             [...fishData].reverse().forEach((f, index)=>{
                 const tr = document.createElement('tr'); const originalIndex = fishData.length - 1 - index; const lblInfo = labels[originalIndex];
                 const displayHTML = currentScoringMethod === 'species_hunt' ? `<span class="${lblInfo.cls}">${lblInfo.text}</span>` : `<div class="${lblInfo.cls}">${lblInfo.text}</div>`;
                 const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : '';
-                const timeBadge = f.time ? `<span class="badge bg-light text-secondary ms-2 fw-normal" style="font-size: 0.7rem;"><i class="bi bi-clock"></i> ${f.time}</span>` : '';
-                tr.innerHTML = `<td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-dark">${f.species} ${timeBadge}</div>${displayHTML}</div>${ph}</div></td>
+                const timeBadge = f.time ? `<span class="badge bg-light text-muted ms-2 fw-bold" style="font-size: 0.7rem;"><i class="bi bi-clock"></i> ${f.time}</span>` : '';
+                tr.innerHTML = `<td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-dark fs-6 mb-1">${f.species} ${timeBadge}</div>${displayHTML}</div>${ph}</div></td>
                 <td class="text-end align-middle" style="width: 80px; white-space: nowrap;">
-                    <button class="btn btn-sm text-primary border-0 me-1 p-1" onclick="window.editFish(${originalIndex})"><i class="bi bi-pencil fs-5"></i></button>
+                    <button class="btn btn-sm text-primary border-0 me-1 p-1" onclick="window.editFish(${originalIndex})"><i class="bi bi-pencil-square fs-5"></i></button>
                     <button class="btn btn-sm text-danger border-0 p-1" onclick="window.delFish(${originalIndex})"><i class="bi bi-trash fs-5"></i></button>
                 </td>`;
                 log.appendChild(tr);
@@ -1177,8 +1209,8 @@
             else {
                 let eTable = '<table class="table-custom"><tbody>';
                 fishData.forEach(f=>{
-                    const val = currentScoringMethod==='weight' ? f.display : `${f.length}cm`; const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : ''; const timeBadge = f.time ? `<span class="badge bg-light text-secondary ms-2 fw-normal" style="font-size: 0.7rem;"><i class="bi bi-clock"></i> ${f.time}</span>` : '';
-                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-dark">${f.species} ${timeBadge}</div><div class="text-primary fw-bold small">${val}</div></div>${ph}</div></td></tr>`;
+                    const val = currentScoringMethod==='weight' ? f.display : `${f.length}cm`; const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : ''; const timeBadge = f.time ? `<span class="badge bg-light text-muted ms-2 fw-bold" style="font-size: 0.7rem;"><i class="bi bi-clock"></i> ${f.time}</span>` : '';
+                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-dark fs-6 mb-1">${f.species} ${timeBadge}</div><div class="text-primary fw-bold">${val}</div></div>${ph}</div></td></tr>`;
                 }); eTable += '</tbody></table>'; area.innerHTML = eTable;
             }
 
@@ -1202,7 +1234,7 @@
             const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_')).sort().reverse();
             keys.forEach((k, index) => {
                 const d = JSON.parse(StorageHelper.get(k)); const pts = window.calculatePoints(d.fishData, d.method, d.weightUnit); const unitTxt = d.method==='weight' ? '' : ' pts'; const dateStr = new Date(d.date).toLocaleDateString('en-GB'); const compBadge = d.isComp ? `<span class="badge bg-warning text-dark ms-2">Match</span>` : '';
-                const cardHTML = `<div class="inner-card shadow-sm mb-3 position-relative" style="cursor:pointer;" onclick="window.viewSaved('${k}')"><div class="d-flex justify-content-between align-items-center"><div><div class="fw-bold fs-5 text-primary">${d.venue || d.coastalTown || 'Unnamed Venue'} ${compBadge}</div><div class="text-muted small mb-1"><i class="bi bi-calendar-event me-1"></i>${dateStr}</div><div class="fw-bold text-dark"><i class="bi bi-trophy text-warning me-1"></i>${pts}${unitTxt}</div></div><button class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;" onclick="window.deleteFromList(event, '${k}')"><i class="bi bi-trash fs-5"></i></button></div></div>`;
+                const cardHTML = `<div class="inner-card shadow-sm mb-3 position-relative border-0" style="cursor:pointer;" onclick="window.viewSaved('${k}')"><div class="d-flex justify-content-between align-items-center"><div><div class="fw-bold fs-5 text-primary mb-1">${d.venue || d.coastalTown || 'Unnamed Venue'} ${compBadge}</div><div class="text-muted small fw-bold mb-1"><i class="bi bi-calendar-event me-1"></i>${dateStr}</div><div class="fw-bold text-dark fs-5"><i class="bi bi-trophy text-warning me-2"></i>${pts}${unitTxt}</div></div><button class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;" onclick="window.deleteFromList(event, '${k}')"><i class="bi bi-trash fs-5"></i></button></div></div>`;
                 if(index < 6) { recentList.innerHTML += cardHTML; } else { archiveList.innerHTML += cardHTML; }
             });
             const archiveCount = keys.length > 6 ? keys.length - 6 : 0; const archiveSection = document.getElementById('archiveSection');
@@ -1230,8 +1262,8 @@
             else {
                 let eTable = '<table class="table-custom"><tbody>';
                 d.fishData.forEach(f=>{
-                    const val = d.method==='weight' ? f.display : `${f.length}cm`; const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : ''; const timeBadge = f.time ? `<span class="badge bg-light text-secondary ms-2 fw-normal" style="font-size: 0.7rem;"><i class="bi bi-clock"></i> ${f.time}</span>` : '';
-                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-dark">${f.species} ${timeBadge}</div><div class="text-primary fw-bold small">${val}</div></div>${ph}</div></td></tr>`;
+                    const val = d.method==='weight' ? f.display : `${f.length}cm`; const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : ''; const timeBadge = f.time ? `<span class="badge bg-light text-muted ms-2 fw-bold" style="font-size: 0.7rem;"><i class="bi bi-clock"></i> ${f.time}</span>` : '';
+                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-dark fs-6 mb-1">${f.species} ${timeBadge}</div><div class="text-primary fw-bold">${val}</div></div>${ph}</div></td></tr>`;
                 }); eTable += '</tbody></table>'; area.innerHTML = eTable;
             }
 
@@ -1242,7 +1274,7 @@
 
             const notesContent = d.notes || ''; const displayNotes = notesContent.trim() !== '' ? notesContent.replace(/\n/g, '<br>') : '<em>No notes added yet.</em>';
             const notesContainer = document.getElementById('saved_view_notes_container');
-            notesContainer.innerHTML = `<div class="inner-card mt-3 p-3 border shadow-sm"><div class="d-flex justify-content-between align-items-center mb-2"><label class="form-label small fw-bold text-muted m-0"><i class="bi bi-journal-text me-1"></i>Session Notes</label><button id="btnEditNotes" class="btn btn-sm btn-outline-primary py-0 px-2" onclick="window.toggleEditNotes()"><i class="bi bi-pencil me-1"></i>Edit</button></div><div id="savedNotesDisplay" class="text-dark small">${displayNotes}</div><div id="savedNotesEditArea" style="display:none;"><textarea id="savedNotesInputView" class="form-control text-dark small mb-2" rows="3"></textarea><div class="d-flex gap-2"><button class="btn btn-sm btn-secondary w-50" onclick="window.toggleEditNotes()">Cancel</button><button class="btn btn-sm btn-primary w-50" onclick="window.saveEditedNotes()">Save</button></div></div></div>`;
+            notesContainer.innerHTML = `<div class="inner-card mt-3 p-3 border shadow-sm"><div class="d-flex justify-content-between align-items-center mb-2"><label class="form-label small fw-bold text-primary m-0"><i class="bi bi-journal-text me-1"></i>Session Notes</label><button id="btnEditNotes" class="btn btn-sm btn-outline-primary py-0 px-3 fw-bold" onclick="window.toggleEditNotes()"><i class="bi bi-pencil me-1"></i>Edit</button></div><div id="savedNotesDisplay" class="text-dark small fw-bold mt-2">${displayNotes}</div><div id="savedNotesEditArea" style="display:none;"><textarea id="savedNotesInputView" class="form-control text-dark fw-bold mb-3 mt-2" rows="3"></textarea><div class="d-flex gap-2"><button class="btn btn-secondary w-50 fw-bold" onclick="window.toggleEditNotes()">Cancel</button><button class="btn btn-primary w-50 fw-bold shadow-sm" onclick="window.saveEditedNotes()">Save</button></div></div></div>`;
             setTimeout(() => { const ta = document.getElementById('savedNotesInputView'); if(ta) ta.value = notesContent; }, 0);
             document.getElementById('savedScorecardsList').style.display='none'; document.getElementById('fullScorecardView').style.display='block';
         };
@@ -1296,9 +1328,9 @@
         
         window.shareAsImage=function(id){
             const el = document.getElementById(id==='live'?'tallyVerificationPage':'fullScorecardView'); const btns = el.querySelectorAll('button'); btns.forEach(b=>b.style.display='none'); const notesInput = document.getElementById('sessionNotesInput'); if (notesInput && id === 'live') notesInput.style.display = 'none';
-            html2canvas(el, {backgroundColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#f1f5f9'}).then(canvas=>{
+            html2canvas(el, {backgroundColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#f4f8f8'}).then(canvas=>{
                 btns.forEach(b=>b.style.display='inline-block'); if (notesInput && id === 'live') notesInput.style.display = 'block';
-                canvas.toBlob(function(blob) { const file = new File([blob], "seascore_card.png", { type: "image/png" }); if (navigator.canShare && navigator.canShare({ files: [file] })) { navigator.share({ files: [file], title: 'Sea Score Match Result', text: 'Check out my catch record!' }).catch(console.error); } else { const link = document.createElement('a'); link.download='seascore_card.png'; link.href=canvas.toDataURL(); link.click(); } });
+                canvas.toBlob(function(blob) { const file = new File([blob], "seadiary_card.png", { type: "image/png" }); if (navigator.canShare && navigator.canShare({ files: [file] })) { navigator.share({ files: [file], title: 'Sea Diary Result', text: 'Check out my catch record!' }).catch(console.error); } else { const link = document.createElement('a'); link.download='seadiary_card.png'; link.href=canvas.toDataURL(); link.click(); } });
             });
         };
 
