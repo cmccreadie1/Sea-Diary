@@ -23,29 +23,13 @@
             --bg-main: #f3f6f8;
             --card-bg: #ffffff;
             --text-main: #0f172a;      /* Almost pure black for max contrast */
-            --text-muted: #334155;     /* Dark slate for readable subtext */
-            --border-color: rgba(0,0,0,0.06);
+            --text-muted: #475569;     /* Dark slate for readable subtext */
+            --border-color: rgba(0,0,0,0.08);
             --input-bg: #f8fafc;
             --shadow-sm: 0 4px 15px rgba(0,0,0,0.04);
             --shadow-md: 0 10px 30px rgba(0,0,0,0.06);
             --picker-bg: #f1f5f9;
             --modal-bg: #ffffff;
-        }
-
-        body.dark-mode {
-            /* Webby High-Contrast Dark Theme */
-            --app-main: #08baba; 
-            --app-main-hover: #0be3e3;
-            --bg-main: #0b1120;
-            --card-bg: #151e32;
-            --text-main: #ffffff;      /* Pure white for max contrast */
-            --text-muted: #cbd5e1;     /* Light silver for subtext */
-            --border-color: rgba(255,255,255,0.08);
-            --input-bg: #0f172a;
-            --picker-bg: #0b1120;
-            --modal-bg: #151e32;
-            --shadow-sm: 0 4px 15px rgba(0,0,0,0.3);
-            --shadow-md: 0 10px 30px rgba(0,0,0,0.4);
         }
 
         html { overscroll-behavior: none; }
@@ -58,7 +42,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             overscroll-behavior: none; 
-            transition: background 0.3s ease, color 0.3s ease;
         }
         
         h1, h2, h3, h4, h5, h6, .live-score-value, .picker-item, .btn { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
@@ -68,15 +51,16 @@
         .bg-primary { background-color: var(--app-main) !important; }
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 700; border-radius: 12px;}
         .btn-primary:hover, .btn-primary:active { background-color: var(--app-main-hover) !important; border-color: var(--app-main-hover) !important; }
-        .btn-outline-primary { color: var(--app-main) !important; border-color: var(--app-main) !important; border-radius: 12px; font-weight: 600;}
+        .btn-outline-primary { color: var(--app-main) !important; border-color: var(--app-main) !important; border-radius: 12px; font-weight: 700;}
         .btn-outline-primary:hover { background-color: var(--app-main) !important; color: #fff !important; }
         
         .btn-danger { border-radius: 12px; font-weight: 700; }
         .btn-secondary { border-radius: 12px; font-weight: 700; }
+        .btn-dark { font-weight: 700; border-radius: 12px; }
 
         .text-muted { color: var(--text-muted) !important; }
 
-        /* Clean Forms & Inputs (Webby style: subtle background, strong text) */
+        /* Clean Forms & Inputs */
         .form-control, .form-select { 
             background-color: var(--input-bg);
             color: var(--text-main);
@@ -98,60 +82,43 @@
             color: var(--text-muted);
             opacity: 0.7;
         }
-        ::placeholder { color: var(--text-muted) !important; opacity: 0.6; font-weight: 400; }
-
-        /* Custom Nav Pills for Toggle */
-        .nav-pills .nav-link { color: var(--text-muted); border-radius: 10px; font-weight: 700; font-family: 'Outfit', sans-serif; transition: all 0.2s ease; }
-        .nav-pills .nav-link.active { background-color: var(--app-main); color: #fff; box-shadow: var(--shadow-sm); }
+        ::placeholder { color: #64748b !important; opacity: 0.7; font-weight: 500; }
 
         .modal-content { background-color: var(--modal-bg); border-color: var(--border-color); border-radius: 24px; box-shadow: var(--shadow-md); }
-        .btn-close { filter: invert(0); }
-        .dark-mode .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
         
         /* --- SCROLL DRUM PICKER UI --- */
-        .picker-outer-wrapper { background: var(--card-bg); padding: 15px; border-radius: 20px; border: 2px solid var(--app-main); margin-bottom: 15px; box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
-        .picker-instruction { text-align: center; font-size: 0.75rem; font-weight: 800; color: var(--app-main); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .weight-picker-container { display: flex; justify-content: center; align-items: center; background: var(--picker-bg); border-radius: 12px; height: 160px; position: relative; overflow: hidden; border: 1px solid var(--border-color); }
+        .picker-outer-wrapper { background: var(--card-bg); padding: 12px; border-radius: 20px; border: 2px solid var(--app-main); margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+        .picker-instruction { text-align: center; font-size: 0.75rem; font-weight: 800; color: var(--app-main); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .weight-picker-container { display: flex; justify-content: center; align-items: center; background: var(--picker-bg); border-radius: 12px; height: 140px; position: relative; overflow: hidden; border: 1px solid var(--border-color); }
         .picker-column { flex: 1; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; text-align: center; -ms-overflow-style: none; scrollbar-width: none; z-index: 2; overscroll-behavior-y: contain; user-select: none; touch-action: pan-y; }
         .picker-column::-webkit-scrollbar { display: none; }
-        .picker-item { height: 50px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 600; color: var(--text-muted); opacity: 0.4; scroll-snap-align: center; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .picker-item { height: 50px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 600; color: #94a3b8; opacity: 0.5; scroll-snap-align: center; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .picker-item.selected { color: var(--app-main); font-size: 2.2rem; font-weight: 800; opacity: 1; }
         .picker-highlight { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 95%; height: 54px; background: rgba(6, 148, 148, 0.08); border-top: 2px solid var(--app-main); border-bottom: 2px solid var(--app-main); pointer-events: none; z-index: 1; border-radius: 12px; }
         .picker-label-text { font-size: 0.8rem; font-weight: 900; color: var(--app-main); position: absolute; bottom: 8px; text-transform: uppercase; }
 
-        .btn-record-action { white-space: normal !important; line-height: 1.2 !important; font-size: 0.95rem !important; font-weight: 700; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px !important; border-radius: 18px; transition: transform 0.1s ease; }
+        /* Compact Action Buttons */
+        .btn-record-action { white-space: normal !important; line-height: 1.2 !important; font-size: 0.95rem !important; font-weight: 700; min-height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px !important; border-radius: 16px; transition: transform 0.1s ease; }
         .btn-record-action:active { transform: scale(0.96); }
 
         /* Page Animations */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 15px 40px 15px; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 15px 40px 15px; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         
-        /* The Bento Card Aesthetic */
-        .inner-card { background: var(--card-bg); border-radius: 24px; padding: 22px; box-shadow: var(--shadow-sm); margin-bottom: 20px; border: 1px solid var(--border-color); transition: background 0.3s ease; }
+        .inner-card { background: var(--card-bg); border-radius: 24px; padding: 22px; box-shadow: var(--shadow-sm); margin-bottom: 16px; border: 1px solid var(--border-color); }
 
         /* --- SPLASH SCREEN (STATIC PHYSICAL LOCK) --- */
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
             background: var(--bg-main); color: var(--text-main);
-            text-align: center; padding: 20px; box-sizing: border-box; z-index: 9999;
+            text-align: center; padding: 20px; box-sizing: border-box;
+            /* CRITICAL FIX: Z-index 1040 allows Modal (1055) to float above it! */
+            z-index: 1040; 
             overflow: hidden; touch-action: none; overscroll-behavior: none;
         }
         
-        /* New Floating Theme Toggle - Top Left */
-        .theme-toggle-fab { 
-            position: absolute; top: 25px; left: 25px; z-index: 100;
-            background: var(--card-bg); border: 1px solid var(--border-color); 
-            color: var(--text-main); border-radius: 50%; width: 45px; height: 45px; 
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-sm);
-            transition: transform 0.2s ease, background 0.3s ease;
-        }
-        .theme-toggle-fab:active { transform: scale(0.9); }
-        
         .logo-svg { width: 160px; height: 160px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)); margin-bottom: 25px; }
-        .dark-mode .logo-svg { filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); }
-        
         .sonar-sweep { transform-origin: 100px 100px; animation: spin 4s linear infinite; }
         .blinker { animation: blink 1s step-end infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -159,19 +126,21 @@
         @keyframes subtleSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .icon-spin { animation: subtleSpin 1s linear infinite; }
 
-        .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 24px; padding: 20px; text-align: center; margin-bottom: 20px; box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
-        .live-score-value { font-size: 4rem; font-weight: 800; color: var(--app-main); line-height: 1; letter-spacing: -2px; }
+        /* Compact Live Score Box */
+        .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 20px; padding: 10px 15px; text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+        .live-score-value { font-size: 2.8rem; font-weight: 800; color: var(--app-main); line-height: 1; letter-spacing: -1px; }
 
         .fish-thumb { width: 55px; height: 55px; object-fit: cover; border-radius: 14px; flex-shrink: 0; cursor: pointer; border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); }
-        .table-custom { width: 100%; border-collapse: separate; border-spacing: 0 12px; }
-        .table-custom td { background: var(--card-bg); padding: 16px 18px; border-radius: 20px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
+        .table-custom { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+        .table-custom td { background: var(--card-bg); padding: 14px 16px; border-radius: 20px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .stat-card { background: var(--card-bg); padding: 16px 5px; border-radius: 20px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
-        .stat-card small { display: block; color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; font-weight: 800; margin-bottom: 6px; letter-spacing: 0.5px; }
-        .stat-card strong { font-size: 1.4rem; color: var(--text-main); font-weight: 800; letter-spacing: -0.5px; }
+        /* High Contrast Stat Grid */
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--card-bg); padding: 14px 5px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .stat-card small { display: block; color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; letter-spacing: 0.5px; }
+        .stat-card strong { font-size: 1.5rem; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
         
-        .species-quota-card { background: var(--card-bg); border-radius: 20px; padding: 18px; margin-bottom: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background 0.3s ease; }
+        .species-quota-card { background: var(--card-bg); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .pip { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; background: var(--input-bg); color: var(--text-muted); margin-right: 8px; border: 2px solid transparent; }
         .pip.bronze.active { background: #cd7f32; color: white; border-color: #a05a2c; }
         .pip.silver.active { background: #94a3b8; color: white; border-color: #64748b; }
@@ -180,7 +149,7 @@
         @keyframes slideFlash { 0% { background-color: rgba(6, 148, 148, 0.15); transform: translateY(-10px); } 100% { background-color: var(--card-bg); } }
         .new-catch-anim { animation: slideFlash 1.5s ease-out; }
 
-        .tide-chart-container { background: var(--card-bg); border-radius: 20px; padding: 20px 15px 12px 15px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); cursor: zoom-in; position: relative; }
+        .tide-chart-container { background: var(--card-bg); border-radius: 20px; padding: 15px 12px 10px 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); cursor: zoom-in; position: relative; }
         
         .input-group-text-clean { background: transparent; border-color: var(--border-color); font-weight: 800; color: var(--text-muted); }
     </style>
@@ -189,15 +158,11 @@
 
     <div class="toast-container position-fixed top-0 end-0 p-3 mt-4" style="z-index: 20000;">
         <div id="appToast" class="toast border-0 shadow-lg rounded-4" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex"><div class="toast-body fw-bold fs-6" id="toastMsg"></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>
+            <div class="d-flex"><div class="toast-body fw-bold fs-6 text-dark" id="toastMsg"></div><button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button></div>
         </div>
     </div>
 
     <div id="splashScreen" class="splash-screen">
-        <button class="theme-toggle-fab" onclick="window.toggleDarkMode()" id="btnThemeToggle" title="Toggle Theme">
-            <i class="bi bi-moon-fill" id="themeIcon"></i>
-        </button>
-
         <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <circle cx="100" cy="100" r="95" fill="#0f172a" stroke="#069494" stroke-width="2"/>
             <circle cx="100" cy="100" r="60" fill="none" stroke="#069494" stroke-width="1" opacity="0.3"/>
@@ -219,15 +184,14 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 207.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 208.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
                 <i class="bi bi-download me-2"></i>Install App
             </button>
 
-            <button class="btn btn-primary btn-lg fw-bold py-3 shadow" style="font-size: 1.2rem;" onclick="window.startFishing()">Start Session</button>
-            
+            <button class="btn btn-primary btn-lg fw-bold py-3 shadow-sm" style="font-size: 1.2rem;" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.loadSavedScorecards()" data-bs-toggle="modal" data-bs-target="#savedModal">History</button>
         </div>
         
@@ -235,33 +199,33 @@
     </div>
 
     <div id="anglerRegistration" class="app-page">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="fw-bold m-0 text-primary">Session Setup</h3>
             <button class="btn btn-sm btn-outline-secondary px-4 py-2 rounded-pill fw-bold bg-white" onclick="window.resetAppToHome()"><i class="bi bi-arrow-left me-1"></i>Back</button>
         </div>
         
-        <div class="inner-card">
+        <div class="inner-card mb-3">
             <h5 class="fw-bold text-primary mb-3"><i class="bi bi-card-text me-2"></i>Match Details</h5>
             
             <div class="mb-3">
                 <label class="form-label small mb-1 fw-bold text-muted">Angler Name</label>
-                <input type="text" id="anglerName" class="form-control form-control-lg" placeholder="Your Name" oninput="window.saveActiveSession()">
+                <input type="text" id="anglerName" class="form-control" placeholder="Your Name" oninput="window.saveActiveSession()">
             </div>
             
             <div class="row g-3 mb-3">
                 <div class="col-5">
                     <label class="form-label small mb-1 fw-bold text-muted">Date</label>
-                    <input type="date" id="competitionDate" class="form-control form-control-lg" onchange="window.saveActiveSession()">
+                    <input type="date" id="competitionDate" class="form-control" onchange="window.saveActiveSession()">
                 </div>
                 <div class="col-7">
                     <label class="form-label small mb-1 fw-bold text-muted">Venue</label>
-                    <input type="text" id="venueInput" class="form-control form-control-lg" placeholder="Location Name" oninput="window.saveActiveSession()">
+                    <input type="text" id="venueInput" class="form-control" placeholder="Location Name" oninput="window.saveActiveSession()">
                 </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label small mb-1 fw-bold text-muted">Scoring Format</label>
-                <select id="scoringMethod" class="form-select form-select-lg fw-bold" onchange="window.handleMethodChange()">
+                <select id="scoringMethod" class="form-select fw-bold" onchange="window.handleMethodChange()">
                     <option value="" disabled selected>Select Format...</option>
                     <option value="measure_points">Length + 10 Pts</option>
                     <option value="length_only">Total Length Only</option>
@@ -284,49 +248,23 @@
             </div>
         </div>
 
-        <div class="inner-card">
-            <h5 class="fw-bold text-primary mb-3"><i class="bi bi-cloud-sun me-2"></i>Environment Data</h5>
+        <div class="inner-card mb-3">
+            <h5 class="fw-bold text-primary mb-3"><i class="bi bi-cloud-sun me-2"></i>Live Weather and Tide Data</h5>
             
-            <div class="nav nav-pills bg-light p-1 rounded-pill mb-4" role="tablist" style="border: 1px solid var(--border-color);">
-                <button class="nav-link active rounded-pill flex-fill fw-bold py-2" id="pill-auto-tab" data-bs-toggle="pill" data-bs-target="#pill-auto" type="button" role="tab" onclick="window.setTideMode('auto')">Auto (Internet)</button>
-                <button class="nav-link rounded-pill flex-fill fw-bold py-2" id="pill-manual-tab" data-bs-toggle="pill" data-bs-target="#pill-manual" type="button" role="tab" onclick="window.setTideMode('manual')">Manual (Offline)</button>
+            <label class="form-label small mb-2 fw-bold text-muted">Find Tidal Area</label>
+            <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-outline-primary d-flex flex-column align-items-center justify-content-center p-1" style="border-radius: 12px; width: 75px;" onclick="window.autoLocateStation()" id="btnAutoLocate">
+                    <i class="bi bi-geo-alt-fill fs-5 mb-0"></i>
+                    <span style="font-size: 0.55rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-top: 2px;">Auto Search</span>
+                </button>
+                <select id="tideStationSelect" class="form-select form-select-lg fw-bold" onchange="window.saveActiveSession()">
+                    <option value="" disabled selected>Manual Search...</option>
+                </select>
             </div>
 
-            <div class="tab-content" id="tideTabContent">
-                <div class="tab-pane fade show active" id="pill-auto" role="tabpanel">
-                    <label class="form-label small mb-2 fw-bold text-muted">Select Target Station</label>
-                    <div class="d-flex gap-2 mb-3">
-                        <button class="btn btn-outline-primary" style="border-radius: 12px; width: 60px;" onclick="window.autoLocateStation()" id="btnAutoLocate" title="Auto-Locate via GPS">
-                            <i class="bi bi-geo-alt-fill fs-5"></i>
-                        </button>
-                        <select id="tideStationSelect" class="form-select form-select-lg fw-bold" onchange="window.saveActiveSession()"></select>
-                    </div>
-
-                    <button class="btn btn-primary btn-lg w-100 fw-bold shadow-sm mb-4" onclick="window.fetchEnvironmentData()" id="btnFetchEnv">
-                        <i class="bi bi-cloud-download me-2"></i> Fetch Live Data
-                    </button>
-                </div>
-
-                <div class="tab-pane fade" id="pill-manual" role="tabpanel">
-                     <div class="alert alert-secondary border-0 small fw-bold text-muted rounded-4 mb-3">
-                         <i class="bi bi-info-circle-fill me-2"></i>Enter times from your local tide book to generate the timeline graph offline.
-                     </div>
-                     <div class="row g-3 mb-4">
-                         <div class="col-6">
-                             <label class="small text-muted fw-bold mb-1">High Water</label>
-                             <input type="time" id="manHW" class="form-control form-control-lg text-center fw-bold" onchange="window.setManualTide()">
-                         </div>
-                         <div class="col-6">
-                             <label class="small text-muted fw-bold mb-1">Low Water</label>
-                             <input type="time" id="manLW" class="form-control form-control-lg text-center fw-bold" onchange="window.setManualTide()">
-                         </div>
-                     </div>
-                     <div class="row g-2 mb-4">
-                        <div class="col-6"><input type="text" id="manWeather" class="form-control fw-bold" placeholder="Weather (Optional)" onchange="window.setManualWeather()"></div>
-                        <div class="col-6"><input type="text" id="manWind" class="form-control fw-bold" placeholder="Wind (Optional)" onchange="window.setManualWeather()"></div>
-                     </div>
-                </div>
-            </div>
+            <button class="btn btn-primary btn-lg w-100 fw-bold shadow-sm mb-4" onclick="window.fetchEnvironmentData()" id="btnFetchEnv">
+                <i class="bi bi-cloud-download me-2"></i> Fetch Live Data
+            </button>
             
             <div class="row g-2 mb-2">
                 <div class="col-6">
@@ -347,6 +285,20 @@
                 </div>
             </div>
 
+            <div class="text-center mt-3 pt-1 border-top border-opacity-10 border-dark">
+                <a href="#" class="small fw-bold text-muted text-decoration-none" onclick="document.getElementById('manualTideContainer').style.display='block'; this.style.display='none'; return false;">
+                    <i class="bi bi-pencil-square me-1"></i>Enter Tides Manually
+                </a>
+            </div>
+
+            <div id="manualTideContainer" class="mt-3 text-center" style="display:none;">
+                 <label class="small fw-bold text-primary mb-2">Manual Tide Times (Creates Graph)</label>
+                 <div class="row g-2">
+                     <div class="col-6"><label class="small text-muted fw-bold mb-1">High Water</label><input type="time" id="manHW" class="form-control text-center fw-bold" onchange="window.setManualTide()"></div>
+                     <div class="col-6"><label class="small text-muted fw-bold mb-1">Low Water</label><input type="time" id="manLW" class="form-control text-center fw-bold" onchange="window.setManualTide()"></div>
+                 </div>
+            </div>
+
             <div class="tide-chart-container mt-4" id="setupTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('setupTideCanvas').toDataURL())">
                 <div class="text-center small fw-bold text-primary mb-3"><i class="bi bi-water me-2"></i>Tide Forecast (Tap to Enlarge)</div>
                 <canvas id="setupTideCanvas" class="w-100"></canvas>
@@ -357,61 +309,61 @@
     </div>
 
     <div id="anglerFishingPage" class="app-page">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="m-0 fw-bold text-primary">Live Log</h4>
             <button class="btn btn-sm btn-outline-danger px-4 py-2 rounded-pill fw-bold bg-white" onclick="window.confirmQuit()">Quit</button>
         </div>
 
-        <div class="tide-chart-container mb-4" id="liveTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('liveTideCanvas').toDataURL())">
+        <div class="tide-chart-container mb-3" id="liveTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('liveTideCanvas').toDataURL())">
             <div class="text-center small fw-bold text-primary mb-2"><i class="bi bi-activity me-2"></i>Catch Timeline (Tap to Enlarge)</div>
             <canvas id="liveTideCanvas" class="w-100"></canvas>
         </div>
         
-        <div class="inner-card mb-4">
+        <div class="inner-card mb-3">
             <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="window.handleCameraInput()">
             
-            <div class="mb-4">
-                <label class="form-label small fw-bold text-muted mb-2">Species</label>
-                <select id="speciesInput" class="form-select form-select-lg fw-bold" onchange="window.toggleCustomSpeciesInput()"></select>
-                <input type="text" id="customSpeciesInput" class="form-control form-control-lg fw-bold mt-3" placeholder="Type Species Name" style="display:none;">
+            <div class="mb-3">
+                <label class="form-label small fw-bold text-muted mb-1">Species</label>
+                <select id="speciesInput" class="form-select fw-bold" onchange="window.toggleCustomSpeciesInput()"></select>
+                <input type="text" id="customSpeciesInput" class="form-control fw-bold mt-2" placeholder="Type Species Name" style="display:none;">
             </div>
 
-            <div id="lengthInputContainer" class="mb-4" style="display:none;">
-                <label class="form-label small fw-bold text-muted mb-2">Fish Length</label>
-                <div class="input-group input-group-lg shadow-sm">
-                    <input type="number" id="fishLengthInput" class="form-control text-center fw-bold text-primary border-end-0" inputmode="decimal" style="font-size: 1.8rem;" placeholder="0">
-                    <span class="input-group-text input-group-text-clean fs-5">cm</span>
+            <div id="lengthInputContainer" class="mb-3" style="display:none;">
+                <label class="form-label small fw-bold text-muted mb-1">Fish Length</label>
+                <div class="input-group shadow-sm">
+                    <input type="number" id="fishLengthInput" class="form-control text-center fw-bold text-primary border-end-0 py-2" inputmode="decimal" style="font-size: 1.4rem;" placeholder="0">
+                    <span class="input-group-text input-group-text-clean fs-6 py-2">cm</span>
                 </div>
             </div>
 
-            <div id="weightPickerContainer" class="mb-4" style="display:none;">
+            <div id="weightPickerContainer" class="mb-3" style="display:none;">
                 <div class="picker-outer-wrapper mb-0">
                     <div class="picker-instruction"><i class="bi bi-arrows-collapse me-1"></i> Swipe Wheels to Set Weight</div>
                     <div class="weight-picker-container"><div class="picker-highlight"></div><div id="pickerCol1" class="picker-column" onscroll="window.updatePickerDisplay('pickerCol1')"></div><div id="pickerCol2" class="picker-column" onscroll="window.updatePickerDisplay('pickerCol2')"></div><div class="picker-label-text" style="left: 20%;" id="label1">KG</div><div class="picker-label-text" style="right: 20%;" id="label2">G</div></div>
                 </div>
             </div>
 
-            <div class="row g-3 pt-2">
-                <div class="col-6"><button class="btn btn-primary btn-record-action w-100" onclick="window.addFishTextOnly()"><i class="bi bi-check-circle fs-3 mb-1"></i>Record</button></div>
-                <div class="col-6"><button class="btn btn-primary btn-record-action w-100" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-3 mb-1"></i>Photo</button></div>
+            <div class="row g-2 pt-1">
+                <div class="col-6"><button class="btn btn-primary btn-record-action w-100" onclick="window.addFishTextOnly()"><i class="bi bi-check-circle fs-4 mb-1"></i>Record</button></div>
+                <div class="col-6"><button class="btn btn-primary btn-record-action w-100" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-4 mb-1"></i>Photo</button></div>
             </div>
         </div>
 
-        <div class="live-score-box"><div class="small text-muted text-uppercase fw-bold mb-2 letter-spacing-1">Session Total</div><div class="live-score-value" id="liveScoreVal">0</div></div>
+        <div class="live-score-box mb-3"><div class="small text-muted text-uppercase fw-bold mb-1 letter-spacing-1">Session Total</div><div class="live-score-value" id="liveScoreVal">0</div></div>
         <div class="table-responsive"><table class="table-custom"><tbody id="fishLog"></tbody></table></div>
-        <button class="btn btn-danger btn-lg w-100 mt-4 py-3 fw-bold fs-5 shadow" onclick="window.endSession()">Finish Session</button>
+        <button class="btn btn-danger btn-lg w-100 mt-3 py-3 fw-bold fs-5 shadow" onclick="window.endSession()">Finish Session</button>
     </div>
 
     <div id="tallyVerificationPage" class="app-page">
-        <div class="inner-card text-center py-5 border-0 shadow-md">
+        <div class="inner-card text-center py-4 border-0 shadow-md">
             <h2 class="text-primary fw-bold mb-3">Match Complete</h2>
             <div id="session_angler" class="fw-bold fs-3 text-main"></div>
             <div class="text-muted fw-bold mt-1"><span id="session_date"></span> • <span id="session_venue"></span></div>
             <div id="session_live_conditions" class="mt-4 d-flex flex-wrap justify-content-center gap-2"></div>
             <div id="session_comp_details" class="mt-4 d-flex flex-wrap justify-content-center gap-2" style="display:none;">
-                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25 rounded-pill">Team: <span id="session_team"></span></span>
-                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25 rounded-pill">Zone: <span id="session_zone"></span></span>
-                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25 rounded-pill">Peg: <span id="session_peg"></span></span>
+                <span class="badge bg-white text-dark border border-secondary px-3 py-2 fs-6 rounded-pill shadow-sm">Team: <span id="session_team"></span></span>
+                <span class="badge bg-white text-dark border border-secondary px-3 py-2 fs-6 rounded-pill shadow-sm">Zone: <span id="session_zone"></span></span>
+                <span class="badge bg-white text-dark border border-secondary px-3 py-2 fs-6 rounded-pill shadow-sm">Peg: <span id="session_peg"></span></span>
             </div>
         </div>
         
@@ -423,21 +375,22 @@
         </div>
         
         <div class="stat-grid mb-4">
-            <div class="stat-card"><strong>Fish</strong><div id="session_total_fish" class="text-primary fs-3">0</div></div>
-            <div class="stat-card"><strong>Species</strong><div id="session_species_count" class="text-primary fs-3">0</div></div>
-            <div class="stat-card"><strong id="session_stat_label">Stat</strong><div id="session_total_stat" class="text-primary fs-3">0</div></div>
+            <div class="stat-card"><strong>Fish</strong><div id="session_total_fish" class="fw-bold fs-3" style="color:#0f172a;">0</div></div>
+            <div class="stat-card"><strong>Species</strong><div id="session_species_count" class="fw-bold fs-3" style="color:#0f172a;">0</div></div>
+            <div class="stat-card"><strong id="session_stat_label">Stat</strong><div id="session_total_stat" class="fw-bold fs-3" style="color:#0f172a;">0</div></div>
         </div>
 
         <div id="session_breakdown_area"></div>
 
-        <div class="inner-card mt-4 border-0">
+        <div class="inner-card mt-4 border-0 position-relative">
             <label class="form-label small fw-bold text-primary mb-2"><i class="bi bi-journal-text me-2"></i>Session Notes</label>
-            <textarea id="sessionNotesInput" class="form-control form-control-lg fw-bold" rows="3" placeholder="Add specific rig details, baits used, etc..."></textarea>
+            <textarea id="sessionNotesInput" class="form-control fw-bold pb-5" rows="3" placeholder="Add specific rig details, baits used, etc..."></textarea>
+            <button class="btn btn-sm btn-primary position-absolute fw-bold shadow-sm" style="bottom: 30px; right: 30px; border-radius: 8px;" onclick="window.saveEndNotes()">Save Note</button>
         </div>
 
-        <div class="d-grid gap-3 mt-5">
+        <div class="d-grid gap-3 mt-4">
             <button class="btn btn-whatsapp py-3 shadow text-white fw-bold fs-5 rounded-4" style="background:#25D366; border: none;" onclick="window.shareAsImage('live')"><i class="bi bi-share-fill me-2"></i>Share Summary</button>
-            <button class="btn btn-secondary py-3 fw-bold shadow-sm rounded-4" onclick="window.resetAppToHome()"><i class="bi bi-house-door-fill me-2"></i>Return to Home</button>
+            <button class="btn btn-dark py-3 fw-bold shadow-sm rounded-4" onclick="window.resetAppToHome()"><i class="bi bi-house-door-fill me-2"></i>Return to Home</button>
         </div>
     </div>
 
@@ -445,7 +398,7 @@
         <div id="savedScorecardsList"><button class="btn btn-outline-primary w-100 mb-4 shadow-sm fw-bold py-3 bg-white" onclick="window.exportToCSV()"><i class="bi bi-file-earmark-spreadsheet-fill me-2"></i> Export Data (CSV)</button><h6 class="text-muted small text-uppercase fw-bold mb-3 ps-1 letter-spacing-1">Recent Sessions</h6><div id="recentList"></div><div id="archiveSection" style="display:none;" class="mt-4 pt-3"><button id="btnToggleArchive" class="btn btn-light w-100 fw-bold text-primary shadow-sm mb-3 py-3 rounded-4" onclick="document.getElementById('archiveList').style.display='block'; this.style.display='none';"><i class="bi bi-archive-fill me-2"></i> View Archive (<span id="archiveCount">0</span>)</button><div id="archiveList" style="display:none;"></div></div></div>
         
         <div id="fullScorecardView" style="display:none;">
-            <div class="inner-card p-4 mb-4 text-center border-0"><h3 id="saved_view_angler" class="text-primary fw-bold m-0"></h3><div class="text-muted small fw-bold mt-1"><span id="saved_view_date"></span> • <span id="saved_view_venue"></span></div><div id="saved_view_conditions" class="mt-4 d-flex flex-wrap justify-content-center gap-2"></div><div id="saved_view_comp_details" class="mt-4 d-flex flex-wrap justify-content-center gap-2" style="display:none;"><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25 rounded-pill">Team: <span id="saved_view_team"></span></span><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25 rounded-pill">Zone: <span id="saved_view_zone"></span></span><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 border border-primary border-opacity-25 rounded-pill">Peg: <span id="saved_view_peg"></span></span></div></div>
+            <div class="inner-card p-4 mb-4 text-center border-0"><h3 id="saved_view_angler" class="text-primary fw-bold m-0"></h3><div class="text-muted small fw-bold mt-1"><span id="saved_view_date"></span> • <span id="saved_view_venue"></span></div><div id="saved_view_conditions" class="mt-4 d-flex flex-wrap justify-content-center gap-2"></div><div id="saved_view_comp_details" class="mt-4 d-flex flex-wrap justify-content-center gap-2" style="display:none;"><span class="badge bg-white text-dark border border-secondary px-3 py-2 fs-6 rounded-pill shadow-sm">Team: <span id="saved_view_team"></span></span><span class="badge bg-white text-dark border border-secondary px-3 py-2 fs-6 rounded-pill shadow-sm">Zone: <span id="saved_view_zone"></span></span><span class="badge bg-white text-dark border border-secondary px-3 py-2 fs-6 rounded-pill shadow-sm">Peg: <span id="saved_view_peg"></span></span></div></div>
             
             <div class="live-score-box mb-4"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="saved_view_points" class="live-score-value">0</div></div>
 
@@ -455,7 +408,7 @@
             </div>
 
             <div id="saved_view_breakdown"></div><div id="saved_view_notes_container"></div>
-            <div class="d-grid gap-3 mt-5"><button class="btn btn-whatsapp py-3 shadow text-white fw-bold rounded-4" style="background:#25D366; border: none;" onclick="window.shareAsImage('saved')"><i class="bi bi-whatsapp me-2"></i>Share Scorecard</button><div class="row g-3"><div class="col-6"><button class="btn btn-outline-danger w-100 py-3 fw-bold rounded-4 bg-white" onclick="window.deleteCurrentSaved()"><i class="bi bi-trash-fill me-1"></i>Delete</button></div><div class="col-6"><button class="btn btn-secondary w-100 py-3 fw-bold shadow-sm rounded-4" onclick="window.backToScorecardList()"><i class="bi bi-arrow-left me-1"></i>Back</button></div></div></div>
+            <div class="d-grid gap-3 mt-5"><button class="btn btn-whatsapp py-3 shadow text-white fw-bold rounded-4" style="background:#25D366; border: none;" onclick="window.shareAsImage('saved')"><i class="bi bi-whatsapp me-2"></i>Share Scorecard</button><div class="row g-3"><div class="col-6"><button class="btn btn-outline-danger w-100 py-3 fw-bold rounded-4 bg-white" onclick="window.deleteCurrentSaved()"><i class="bi bi-trash-fill me-1"></i>Delete</button></div><div class="col-6"><button class="btn btn-dark w-100 py-3 fw-bold shadow-sm rounded-4" onclick="window.backToScorecardList()"><i class="bi bi-arrow-left me-1"></i>Back</button></div></div></div>
         </div>
     </div></div></div></div>
     
@@ -504,7 +457,6 @@
         
         let deferredPrompt;
         let editingOriginalFish = null;
-        let currentTideMode = 'auto'; // Tracks pill state
         
         // Premium Badges Hardcoded Color Hex
         const badgeStyle = "background: rgba(6, 148, 148, 0.1); color: var(--app-main); border: 1px solid rgba(6, 148, 148, 0.3); padding: 8px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 800; margin: 3px; display: inline-block;";
@@ -525,24 +477,22 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    document.getElementById('btnInstallApp').style.display = 'none';
-                }
+                if (outcome === 'accepted') { document.getElementById('btnInstallApp').style.display = 'none'; }
                 deferredPrompt = null;
             }
         };
 
         window.showAppToast = function(msg, isError = false) {
             const t = document.getElementById('appToast');
-            document.getElementById('toastMsg').innerHTML = isError ? `<i class="bi bi-exclamation-triangle-fill me-2"></i> ${msg}` : `<i class="bi bi-check-circle-fill me-2"></i> ${msg}`;
-            t.className = isError ? 'toast text-bg-warning border-0 shadow-lg rounded-4' : 'toast text-bg-dark text-white border-0 shadow-lg rounded-4';
+            document.getElementById('toastMsg').innerHTML = isError ? `<i class="bi bi-exclamation-triangle-fill me-2"></i> ${msg}` : `<i class="bi bi-check-circle-fill me-2 text-success"></i> ${msg}`;
+            t.className = isError ? 'toast text-bg-warning border-0 shadow-lg rounded-4' : 'toast bg-white text-dark border border-success border-opacity-25 shadow-lg rounded-4';
             new bootstrap.Toast(t).show();
         };
 
         window.populateTideStations = function() {
             const select = document.getElementById('tideStationSelect');
             if(!select) return;
-            select.innerHTML = '<option value="" selected disabled>Choose Station...</option>';
+            select.innerHTML = '<option value="" selected disabled>Manual Search...</option>';
             tideStations.forEach(regionObj => {
                 const grp = document.createElement('optgroup');
                 grp.label = regionObj.region;
@@ -556,57 +506,36 @@
             });
         };
 
-        // UI State Toggles
-        window.setTideMode = function(mode) { currentTideMode = mode; };
-
         window.autoLocateStation = function() {
             const btn = document.getElementById('btnAutoLocate');
             if (!navigator.geolocation) return window.showAppToast("GPS not supported on this device. Please select manually.", true);
             
             const originalIcon = btn.innerHTML;
-            btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin fs-5"></i>';
+            btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin fs-5"></i><span style="font-size: 0.55rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-top: 2px;">Searching</span>';
             btn.disabled = true;
 
             navigator.geolocation.getCurrentPosition((pos) => {
                 const userLat = pos.coords.latitude;
                 const userLon = pos.coords.longitude;
-                let closestStation = null;
-                let minDistance = Infinity;
+                let closestStation = null; let minDistance = Infinity;
 
                 const dist = (lat1, lon1, lat2, lon2) => {
-                    const R = 6371; 
-                    const dLat = (lat2 - lat1) * Math.PI / 180;
-                    const dLon = (lon2 - lon1) * Math.PI / 180;
-                    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                              Math.sin(dLon/2) * Math.sin(dLon/2);
+                    const R = 6371; const dLat = (lat2 - lat1) * Math.PI / 180; const dLon = (lon2 - lon1) * Math.PI / 180;
+                    const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
                     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
                     return R * c;
                 };
 
-                tideStations.forEach(region => {
-                    region.stations.forEach(station => {
-                        const d = dist(userLat, userLon, station.lat, station.lon);
-                        if (d < minDistance) {
-                            minDistance = d;
-                            closestStation = station;
-                        }
-                    });
-                });
+                tideStations.forEach(region => { region.stations.forEach(station => { const d = dist(userLat, userLon, station.lat, station.lon); if (d < minDistance) { minDistance = d; closestStation = station; } }); });
 
                 if (closestStation) {
                     const select = document.getElementById('tideStationSelect');
                     const targetVal = `${closestStation.lat},${closestStation.lon}`;
-                    for(let i=0; i<select.options.length; i++) {
-                        if(select.options[i].value === targetVal) {
-                            select.selectedIndex = i;
-                            break;
-                        }
-                    }
+                    for(let i=0; i<select.options.length; i++) { if(select.options[i].value === targetVal) { select.selectedIndex = i; break; } }
                     window.showAppToast(`Found nearest: ${closestStation.name}`);
                     window.saveActiveSession();
                 }
-                btn.innerHTML = '<i class="bi bi-check-circle-fill fs-5"></i>';
+                btn.innerHTML = '<i class="bi bi-check-circle-fill fs-5 text-success"></i><span style="font-size: 0.55rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-top: 2px;">Found</span>';
                 setTimeout(() => { btn.innerHTML = originalIcon; btn.disabled = false; }, 2000);
             }, (err) => {
                 window.showAppToast("GPS connection failed. Please select manually.", true);
@@ -620,7 +549,7 @@
             const val = selectBox.value;
             const originalText = btn.innerHTML;
             
-            if (!navigator.onLine) { return window.showAppToast("No Internet. Please use Manual (Offline) mode.", true); }
+            if (!navigator.onLine) { return window.showAppToast("No Internet. Please use Manual Tides below.", true); }
             if (!val) return window.showAppToast("Please Auto-Locate or select a station first.", true);
 
             const [lat, lon] = val.split(',');
@@ -632,8 +561,7 @@
             btn.disabled = true;
 
             try {
-                let finalHW = "";
-                let finalLW = "";
+                let finalHW = ""; let finalLW = "";
 
                 const offshoreRes = await fetch(`https://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${lat},${lon}`);
                 const offshoreData = await offshoreRes.json();
@@ -645,9 +573,7 @@
                     document.getElementById('weatherInput').value = `${currentData.condition.text}, ${currentData.temp_c}°C`;
                     document.getElementById('windInput').value = `${currentData.wind_dir} ${currentData.wind_mph}mph`;
 
-                    let waveH = currentData.sig_ht_mt;
-                    let swellH = currentData.swell_ht_mt;
-                    
+                    let waveH = currentData.sig_ht_mt; let swellH = currentData.swell_ht_mt;
                     if (waveH !== undefined && waveH !== null) { document.getElementById('waveInput').value = `${waveH}m`; } else { document.getElementById('waveInput').value = `--`; }
                     if (swellH !== undefined && swellH !== null) { document.getElementById('swellInput').value = `${swellH}m`; } else { document.getElementById('swellInput').value = `--`; }
                 }
@@ -658,22 +584,18 @@
                 let foundTides = false;
                 if (portData && !portData.error && portData.forecast && portData.forecast.forecastday[0].day.tides && portData.forecast.forecastday[0].day.tides[0].tide) {
                     let tides = portData.forecast.forecastday[0].day.tides[0].tide;
-                    let hw = tides.find(t => t.tide_type === "HIGH");
-                    let lw = tides.find(t => t.tide_type === "LOW");
-                    
+                    let hw = tides.find(t => t.tide_type === "HIGH"); let lw = tides.find(t => t.tide_type === "LOW");
                     if(hw) { foundTides = true; finalHW = hw.tide_time.split(' ')[1]; }
                     if(lw) { foundTides = true; finalLW = lw.tide_time.split(' ')[1]; }
                 }
                 
-                hwTime = finalHW;
-                lwTime = finalLW;
+                hwTime = finalHW; lwTime = finalLW;
 
                 if(foundTides) { 
                     document.getElementById('setupTideChartContainer').style.display = 'block';
                     try { window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], sessionStartTimeStr); } catch(e){}
                     window.showAppToast("Live Weather & Tides Fetched!"); 
-                } 
-                else { 
+                } else { 
                     document.getElementById('setupTideChartContainer').style.display = 'none';
                     window.showAppToast("Weather fetched, but Tide times missing for this port.", true); 
                 }
@@ -684,8 +606,7 @@
                 
             } catch (err) {
                 window.showAppToast("API Connection Error.", true);
-                btn.innerHTML = originalText; 
-                btn.disabled = false;
+                btn.innerHTML = originalText; btn.disabled = false;
             }
         };
 
@@ -700,11 +621,21 @@
                 window.saveActiveSession();
             }
         };
-        window.setManualWeather = function() {
-            document.getElementById('weatherInput').value = document.getElementById('manWeather').value;
-            document.getElementById('windInput').value = document.getElementById('manWind').value;
-            window.saveActiveSession();
-        };
+
+        // NEW: End Notes Manual Save Function
+        window.saveEndNotes = function() {
+            const notes = document.getElementById('sessionNotesInput').value;
+            try { 
+                let savedSession = JSON.parse(StorageHelper.get(currentSavedKey)); 
+                if (savedSession) { 
+                    savedSession.notes = notes; 
+                    StorageHelper.save(currentSavedKey, JSON.stringify(savedSession)); 
+                    window.showAppToast("Note Saved!");
+                } 
+            } catch(err) {
+                window.showAppToast("Could not save note.", true);
+            }
+        }
 
         window.drawTideGraph = function(canvasId, hwStr, lwStr, fishArray, startStr) {
             try {
@@ -719,15 +650,13 @@
                 ctx.scale(scale, scale);
                 
                 const w = logicalW; const h = logicalH;
-                const isDark = document.body.classList.contains('dark-mode');
                 
-                // Webby style graph colors
-                ctx.fillStyle = isDark ? '#151e32' : '#ffffff';
+                ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, w, h);
 
-                const textColor = isDark ? '#cbd5e1' : '#334155';
-                const waveColor = isDark ? '#08baba' : '#069494';
-                const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+                const textColor = '#334155';
+                const waveColor = '#069494';
+                const gridColor = 'rgba(0,0,0,0.05)';
 
                 const toMins = t => { 
                     if(!t || typeof t !== 'string') return 0;
@@ -799,7 +728,7 @@
                         ctx.beginPath(); ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)'; ctx.setLineDash([2, 4]); ctx.lineWidth = 1; ctx.moveTo(x, y + r); ctx.lineTo(x, graphBottom); ctx.stroke(); ctx.setLineDash([]);
                         let distToHW = Math.abs(x - (((hwM - minT)/range)*w)); let distToLW = Math.abs(x - (((lwM - minT)/range)*w));
                         if (distToHW > 15 && distToLW > 15) { ctx.fillStyle = '#ef4444'; ctx.font = "700 10px 'Outfit', sans-serif"; ctx.textAlign = "center"; ctx.fillText(formatTime(c.timeM), x, graphBottom - 4); }
-                        ctx.beginPath(); ctx.fillStyle = '#ef4444'; ctx.arc(x, y, r, 0, 2*Math.PI); ctx.fill(); ctx.strokeStyle = isDark ? '#151e32' : '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+                        ctx.beginPath(); ctx.fillStyle = '#ef4444'; ctx.arc(x, y, r, 0, 2*Math.PI); ctx.fill(); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
                         if(c.count > 1) { ctx.fillStyle = '#ffffff'; ctx.font = "800 11px 'Outfit', sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(c.count, x, y + 0.5); }
                     });
                 }
@@ -818,23 +747,6 @@
             document.getElementById('nativeImageViewer').style.display = 'none'; document.getElementById('nativeFullImage').src = '';
             let vp = document.getElementById('appViewport'); if(vp) vp.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
             try { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); try { screen.orientation.unlock(); } catch(e){} } catch(e) {}
-        };
-
-        window.toggleDarkMode = function() {
-            const body = document.body; const icon = document.getElementById('themeIcon');
-            body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) { 
-                icon.className = 'bi bi-sun-fill text-warning'; 
-                localStorage.setItem('theme', 'dark'); 
-            } else { 
-                icon.className = 'bi bi-moon-fill text-dark'; 
-                localStorage.setItem('theme', 'light'); 
-            }
-            
-            if(document.getElementById('anglerFishingPage').style.display === 'block') window.updateFishLog();
-            if(document.getElementById('tallyVerificationPage').style.display === 'block') { try{ window.drawTideGraph('tallyTideCanvas', hwTime, lwTime, fishData, sessionStartTimeStr); }catch(e){} }
-            if(document.getElementById('fullScorecardView').style.display === 'block') { const d = JSON.parse(StorageHelper.get(currentSavedKey)); if(d.hwTime && d.lwTime) { try{ window.drawTideGraph('historyTideCanvas', d.hwTime, d.lwTime, d.fishData, d.sessionStart); }catch(e){} } }
-            if(document.getElementById('setupTideChartContainer').style.display === 'block') { try{ window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], sessionStartTimeStr); }catch(e){} }
         };
 
         window.forceAppUpdate = function() {
@@ -864,12 +776,11 @@
         };
 
         window.resetAppToHome = function() {
-            fishData = []; currentScoringMethod = ''; isCompetitionMode = false; currentZone = ''; currentPeg = ''; currentTeam = ''; currentVenue = ''; coastalTown = ''; currentSavedKey = ''; weatherInfo = ''; windInfo = ''; swellInfo = ''; waveInfo = ''; hwTime = ''; lwTime = ''; sessionStartTimeStr = ''; editingOriginalFish = null; currentTideMode = 'auto';
+            fishData = []; currentScoringMethod = ''; isCompetitionMode = false; currentZone = ''; currentPeg = ''; currentTeam = ''; currentVenue = ''; coastalTown = ''; currentSavedKey = ''; weatherInfo = ''; windInfo = ''; swellInfo = ''; waveInfo = ''; hwTime = ''; lwTime = ''; sessionStartTimeStr = ''; editingOriginalFish = null;
             document.getElementById('venueInput').value = ''; if(document.getElementById('coastalTownInput')) document.getElementById('coastalTownInput').selectedIndex = 0; document.getElementById('scoringMethod').selectedIndex = 0; document.getElementById('isCompetition').checked = false; document.getElementById('teamInput').value = ''; document.getElementById('zoneInput').selectedIndex = 0; document.getElementById('pegInput').selectedIndex = 0; document.getElementById('sessionNotesInput').value = '';
             document.getElementById('weatherInput').value = ''; document.getElementById('windInput').value = ''; document.getElementById('swellInput').value = ''; document.getElementById('waveInput').value = ''; 
             
-            document.getElementById('manHW').value = ''; document.getElementById('manLW').value = ''; document.getElementById('manWeather').value = ''; document.getElementById('manWind').value = '';
-            document.getElementById('pill-auto-tab').click(); // Reset to auto tab
+            document.getElementById('manHW').value = ''; document.getElementById('manLW').value = ''; document.getElementById('manualTideContainer').style.display = 'none';
             
             if(document.getElementById('fishLengthInput')) document.getElementById('fishLengthInput').value = '';
             document.getElementById('speciesInput').selectedIndex = 0; document.getElementById('customSpeciesInput').value = '';
@@ -945,7 +856,7 @@
         window.registerAngler = function() {
             currentAngler = document.getElementById('anglerName').value.trim(); currentVenue = document.getElementById('venueInput').value.trim(); 
             const tideSel = document.getElementById('tideStationSelect');
-            coastalTown = currentTideMode === 'auto' && tideSel.selectedIndex > 0 ? tideSel.options[tideSel.selectedIndex].text : 'Manual Location';
+            coastalTown = tideSel.selectedIndex > 0 ? tideSel.options[tideSel.selectedIndex].text : 'Manual Location';
             currentDate = document.getElementById('competitionDate').value; currentScoringMethod = document.getElementById('scoringMethod').value;
             weatherInfo = document.getElementById('weatherInput').value.trim(); windInfo = document.getElementById('windInput').value.trim(); swellInfo = document.getElementById('swellInput').value.trim(); waveInfo = document.getElementById('waveInput').value.trim();
             isCompetitionMode = document.getElementById('isCompetition').checked; currentZone = document.getElementById('zoneInput').value || '-'; currentPeg = document.getElementById('pegInput').value || '-'; currentTeam = document.getElementById('teamInput').value.trim() || '-';
@@ -1015,7 +926,7 @@
             const log = document.getElementById('fishLog'); log.innerHTML=''; const labels = []; const counts = {};
             fishData.forEach(f => {
                 if(currentScoringMethod === 'species_hunt') { counts[f.species] = (counts[f.species] || 0) + 1; const a = counts[f.species]; if(a === 1) labels.push({ text: "1st: Bronze (+30)", cls: "badge bg-success" }); else if(a === 2) labels.push({ text: "2nd: Silver (+30)", cls: "badge bg-secondary" }); else if(a === 3) labels.push({ text: "3rd: Gold (+40)", cls: "badge text-dark" }); else labels.push({ text: `Extra (+1)`, cls: "badge bg-light text-dark border" }); } 
-                else { labels.push({ text: currentScoringMethod==='weight' ? f.display : `${f.length}cm`, cls: "text-primary fw-bold fs-4" }); }
+                else { labels.push({ text: currentScoringMethod==='weight' ? f.display : `${f.length}cm`, cls: "text-primary fw-bold fs-5" }); }
             });
 
             [...fishData].reverse().forEach((f, index)=>{
@@ -1023,7 +934,7 @@
                 const displayHTML = currentScoringMethod === 'species_hunt' ? `<span class="${lblInfo.cls} p-2 rounded-pill fs-6">${lblInfo.text}</span>` : `<div class="${lblInfo.cls}">${lblInfo.text}</div>`;
                 const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : '';
                 const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
-                tr.innerHTML = `<td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-5 mb-1">${f.species} ${timeBadge}</div>${displayHTML}</div>${ph}</div></td>
+                tr.innerHTML = `<td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${timeBadge}</div>${displayHTML}</div>${ph}</div></td>
                 <td class="text-end align-middle" style="width: 80px; white-space: nowrap;">
                     <button class="btn btn-sm text-primary border-0 me-1 p-1" onclick="window.editFish(${originalIndex})"><i class="bi bi-pencil-square fs-4"></i></button>
                     <button class="btn btn-sm text-danger border-0 p-1" onclick="window.delFish(${originalIndex})"><i class="bi bi-trash-fill fs-4"></i></button>
@@ -1059,7 +970,7 @@
                 let eTable = '<table class="table-custom"><tbody>';
                 fishData.forEach(f=>{
                     const val = currentScoringMethod==='weight' ? f.display : `${f.length}cm`; const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : ''; const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
-                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-5 mb-1">${f.species} ${timeBadge}</div><div class="text-primary fw-bold fs-5">${val}</div></div>${ph}</div></td></tr>`;
+                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${timeBadge}</div><div class="text-primary fw-bold fs-6">${val}</div></div>${ph}</div></td></tr>`;
                 }); eTable += '</tbody></table>'; area.innerHTML = eTable;
             }
 
@@ -1072,6 +983,7 @@
             try { StorageHelper.save(currentSavedKey, JSON.stringify({ angler:currentAngler, venue:currentVenue, coastalTown:coastalTown, date:currentDate, isComp:isCompetitionMode, team:currentTeam, zone:currentZone, peg:currentPeg, weatherInfo, windInfo, waveInfo, swellInfo, hwTime, lwTime, sessionStart:sessionStartTimeStr, fishData, method:currentScoringMethod, weightUnit:selectedWeightUnit, notes: '' })); StorageHelper.remove('active_session'); } 
             catch(e) { window.showAppToast("Storage full. Delete old history.", true); }
             document.getElementById('sessionNotesInput').value = '';
+            // Save on input is replaced by the manual save button, but kept here for fallback
             document.getElementById('sessionNotesInput').oninput = function(e) { try { let savedSession = JSON.parse(StorageHelper.get(currentSavedKey)); if (savedSession) { savedSession.notes = e.target.value; StorageHelper.save(currentSavedKey, JSON.stringify(savedSession)); } } catch(err) {} };
         };
 
@@ -1081,7 +993,7 @@
             const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_')).sort().reverse();
             keys.forEach((k, index) => {
                 const d = JSON.parse(StorageHelper.get(k)); const pts = window.calculatePoints(d.fishData, d.method, d.weightUnit); const unitTxt = d.method==='weight' ? '' : ' pts'; const dateStr = new Date(d.date).toLocaleDateString('en-GB'); const compBadge = d.isComp ? `<span class="badge bg-warning text-dark ms-2">Match</span>` : '';
-                const cardHTML = `<div class="inner-card mb-3 border-0" style="cursor:pointer;" onclick="window.viewSaved('${k}')"><div class="d-flex justify-content-between align-items-center"><div><div class="fw-bold fs-4 text-primary mb-1">${d.venue || d.coastalTown || 'Unnamed Venue'} ${compBadge}</div><div class="text-muted small fw-bold mb-1"><i class="bi bi-calendar-event me-1"></i>${dateStr}</div><div class="fw-bold text-main fs-4"><i class="bi bi-trophy-fill text-warning me-2"></i>${pts}${unitTxt}</div></div><button class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center bg-white shadow-sm" style="width: 45px; height: 45px;" onclick="window.deleteFromList(event, '${k}')"><i class="bi bi-trash-fill fs-5"></i></button></div></div>`;
+                const cardHTML = `<div class="inner-card mb-3 border-0" style="cursor:pointer;" onclick="window.viewSaved('${k}')"><div class="d-flex justify-content-between align-items-center"><div><div class="fw-bold fs-5 text-primary mb-1">${d.venue || d.coastalTown || 'Unnamed Venue'} ${compBadge}</div><div class="text-muted small fw-bold mb-1"><i class="bi bi-calendar-event me-1"></i>${dateStr}</div><div class="fw-bold text-main fs-4"><i class="bi bi-trophy-fill text-warning me-2"></i>${pts}${unitTxt}</div></div><button class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center bg-white shadow-sm" style="width: 45px; height: 45px;" onclick="window.deleteFromList(event, '${k}')"><i class="bi bi-trash-fill fs-5"></i></button></div></div>`;
                 if(index < 6) { recentList.innerHTML += cardHTML; } else { archiveList.innerHTML += cardHTML; }
             });
             const archiveCount = keys.length > 6 ? keys.length - 6 : 0; const archiveSection = document.getElementById('archiveSection');
@@ -1110,7 +1022,7 @@
                 let eTable = '<table class="table-custom"><tbody>';
                 d.fishData.forEach(f=>{
                     const val = d.method==='weight' ? f.display : `${f.length}cm`; const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}')">` : ''; const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
-                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-5 mb-1">${f.species} ${timeBadge}</div><div class="text-primary fw-bold fs-5">${val}</div></div>${ph}</div></td></tr>`;
+                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${timeBadge}</div><div class="text-primary fw-bold fs-6">${val}</div></div>${ph}</div></td></tr>`;
                 }); eTable += '</tbody></table>'; area.innerHTML = eTable;
             }
 
@@ -1121,7 +1033,20 @@
 
             const notesContent = d.notes || ''; const displayNotes = notesContent.trim() !== '' ? notesContent.replace(/\n/g, '<br>') : '<em>No notes added yet.</em>';
             const notesContainer = document.getElementById('saved_view_notes_container');
-            notesContainer.innerHTML = `<div class="inner-card mt-4 border-0"><div class="d-flex justify-content-between align-items-center mb-2"><label class="form-label small fw-bold text-primary m-0"><i class="bi bi-journal-text me-2"></i>Session Notes</label><button id="btnEditNotes" class="btn btn-sm btn-outline-primary py-1 px-3 fw-bold bg-white" onclick="window.toggleEditNotes()"><i class="bi bi-pencil-square me-1"></i>Edit</button></div><div id="savedNotesDisplay" class="text-main fs-6 fw-bold mt-2">${displayNotes}</div><div id="savedNotesEditArea" style="display:none;"><textarea id="savedNotesInputView" class="form-control text-main fw-bold mb-3 mt-3" rows="3"></textarea><div class="d-flex gap-2"><button class="btn btn-secondary w-50 fw-bold" onclick="window.toggleEditNotes()">Cancel</button><button class="btn btn-primary w-50 fw-bold" onclick="window.saveEditedNotes()">Save</button></div></div></div>`;
+            
+            // Re-styled History Notes section to match the new Save button
+            notesContainer.innerHTML = `
+            <div class="inner-card mt-4 border-0 position-relative">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label small fw-bold text-primary m-0"><i class="bi bi-journal-text me-2"></i>Session Notes</label>
+                    <button id="btnEditNotes" class="btn btn-sm btn-outline-primary py-1 px-3 fw-bold bg-white" onclick="window.toggleEditNotes()"><i class="bi bi-pencil-square me-1"></i>Edit</button>
+                </div>
+                <div id="savedNotesDisplay" class="text-main fs-6 fw-bold mt-2">${displayNotes}</div>
+                <div id="savedNotesEditArea" style="display:none;" class="position-relative">
+                    <textarea id="savedNotesInputView" class="form-control text-main fw-bold pb-5 mt-3" rows="3"></textarea>
+                    <button class="btn btn-sm btn-primary position-absolute fw-bold shadow-sm" style="bottom: 8px; right: 8px; border-radius: 8px;" onclick="window.saveEditedNotes()">Save Note</button>
+                </div>
+            </div>`;
             setTimeout(() => { const ta = document.getElementById('savedNotesInputView'); if(ta) ta.value = notesContent; }, 0);
             document.getElementById('savedScorecardsList').style.display='none'; document.getElementById('fullScorecardView').style.display='block';
         };
@@ -1132,7 +1057,19 @@
             else { disp.style.display = 'none'; edit.style.display = 'block'; btn.style.display = 'none'; }
         };
 
-        window.saveEditedNotes = function() { const newNotes = document.getElementById('savedNotesInputView').value; try { let d = JSON.parse(StorageHelper.get(currentSavedKey)); d.notes = newNotes; StorageHelper.save(currentSavedKey, JSON.stringify(d)); window.viewSaved(currentSavedKey); } catch(e) { window.showAppToast("Failed to save notes.", true); } };
+        window.saveEditedNotes = function() { 
+            const newNotes = document.getElementById('savedNotesInputView').value; 
+            try { 
+                let d = JSON.parse(StorageHelper.get(currentSavedKey)); 
+                d.notes = newNotes; 
+                StorageHelper.save(currentSavedKey, JSON.stringify(d)); 
+                window.viewSaved(currentSavedKey); 
+                window.showAppToast("Note Saved!");
+            } catch(e) { 
+                window.showAppToast("Failed to save note.", true); 
+            } 
+        };
+
         window.confirmQuit=function(){if(confirm("Discard active session?")){window.resetAppToHome();}}; window.discardRestore=function(){window.resetAppToHome();};
 
         window.saveActiveSession = function(){
@@ -1169,7 +1106,7 @@
         
         window.shareAsImage=function(id){
             const el = document.getElementById(id==='live'?'tallyVerificationPage':'fullScorecardView'); const btns = el.querySelectorAll('button'); btns.forEach(b=>b.style.display='none'); const notesInput = document.getElementById('sessionNotesInput'); if (notesInput && id === 'live') notesInput.style.display = 'none';
-            html2canvas(el, {backgroundColor: document.body.classList.contains('dark-mode') ? '#0b1120' : '#f3f6f8'}).then(canvas=>{
+            html2canvas(el, {backgroundColor: '#f3f6f8'}).then(canvas=>{
                 btns.forEach(b=>b.style.display='inline-block'); if (notesInput && id === 'live') notesInput.style.display = 'block';
                 canvas.toBlob(function(blob) { const file = new File([blob], "seadiary_card.png", { type: "image/png" }); if (navigator.canShare && navigator.canShare({ files: [file] })) { navigator.share({ files: [file], title: 'Sea Diary Result', text: 'Check out my catch record!' }).catch(console.error); } else { const link = document.createElement('a'); link.download='seadiary_card.png'; link.href=canvas.toDataURL(); link.click(); } });
             });
@@ -1179,13 +1116,6 @@
             window.populateTideStations();
             document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; window.restoreActiveSession();
             
-            const icon = document.getElementById('themeIcon');
-            if(localStorage.getItem('theme') === 'dark') { 
-                document.body.classList.add('dark-mode'); 
-                if(icon) icon.className = 'bi bi-sun-fill text-warning'; 
-            } else {
-                if(icon) icon.className = 'bi bi-moon-fill text-dark';
-            }
             if(sessionStorage.getItem('showUpdateToast') === 'true') { sessionStorage.removeItem('showUpdateToast'); window.showAppToast("App Updated successfully!"); }
         });
     </script>
