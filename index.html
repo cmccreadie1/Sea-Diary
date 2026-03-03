@@ -133,17 +133,17 @@
         .table-custom { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
         .table-custom td { background: var(--card-bg); padding: 14px 16px; border-radius: 20px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         
-        /* High Contrast Stat Grid (3 Columns now) */
+        /* High Contrast Stat Grid */
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-card { background: var(--card-bg); padding: 14px 5px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .stat-card small { display: block; color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; letter-spacing: 0.5px; }
         .stat-card strong { font-size: 1.5rem; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
 
-        /* Insights Grid (Teal Tinted) - 3 Columns for Top Bait */
-        .insight-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .insight-card { background: rgba(6, 148, 148, 0.05); padding: 12px 5px; border-radius: 16px; text-align: center; border: 1px solid rgba(6, 148, 148, 0.2); box-shadow: var(--shadow-sm); }
-        .insight-card small { display: block; color: var(--app-main); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; }
-        .insight-card strong { font-size: 1rem; color: var(--text-main); font-weight: 800; line-height: 1.1; display: block;}
+        /* Insights 2x2 Grid */
+        .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .insight-card { background: rgba(6, 148, 148, 0.05); padding: 14px 10px; border-radius: 16px; text-align: center; border: 1px solid rgba(6, 148, 148, 0.2); box-shadow: var(--shadow-sm); }
+        .insight-card small { display: block; color: var(--app-main); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; }
+        .insight-card strong { font-size: 1.05rem; color: var(--text-main); font-weight: 800; line-height: 1.1; display: block;}
         
         .species-quota-card { background: var(--card-bg); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .pip { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; background: var(--input-bg); color: var(--text-muted); margin-right: 8px; border: 2px solid transparent; }
@@ -157,7 +157,6 @@
         .tide-chart-container { background: var(--card-bg); border-radius: 20px; padding: 15px 12px 10px 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); cursor: zoom-in; position: relative; }
         
         .input-group-text-clean { background: transparent; border-color: var(--border-color); font-weight: 800; color: var(--text-muted); }
-        
         .bait-badge { background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; display: inline-block; margin-right: 4px; margin-top: 4px; }
     </style>
 </head>
@@ -191,7 +190,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 211.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 212.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -372,7 +371,10 @@
             <div class="insight-card"><small>Peak Feed</small><strong id="session_peak_feed">--</strong></div>
             <div class="insight-card"><small>Action Rate</small><strong id="session_pace">--</strong></div>
             <div class="insight-card"><small>Top Bait</small><strong id="session_top_bait" class="text-primary">--</strong></div>
+            <div class="insight-card"><small>Best Tide</small><strong id="session_best_tide" class="text-primary">--</strong></div>
         </div>
+
+        <div id="session_visual_analytics"></div>
 
         <div class="stat-grid mb-4">
             <div class="stat-card"><strong>Fish</strong><div id="session_total_fish" class="fw-bold fs-3" style="color:#0f172a;">0</div></div>
@@ -411,7 +413,10 @@
                 <div class="insight-card"><small>Peak Feed</small><strong id="saved_peak_feed">--</strong></div>
                 <div class="insight-card"><small>Action Rate</small><strong id="saved_pace">--</strong></div>
                 <div class="insight-card"><small>Top Bait</small><strong id="saved_top_bait" class="text-primary">--</strong></div>
+                <div class="insight-card"><small>Best Tide</small><strong id="saved_best_tide" class="text-primary">--</strong></div>
             </div>
+
+            <div id="history_visual_analytics"></div>
 
             <div class="tide-chart-container mb-4" id="historyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('historyTideCanvas').toDataURL(), true)">
                 <div class="text-center small fw-bold text-primary mb-3">Session Timeline (Tap to Enlarge)</div>
@@ -424,7 +429,6 @@
     </div></div></div></div>
     
     <div class="modal fade" id="baitModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-4"><h4 class="text-primary fw-bold mb-3"><i class="bi bi-bug me-2"></i>Select Baits</h4><p class="text-muted small fw-bold mb-3">Select one or multiple baits used for this catch.</p><div id="baitGrid" class="d-flex flex-wrap gap-2 mb-3"></div><input type="text" id="customBaitInput" class="form-control fw-bold mb-4" placeholder="Other bait..."><div class="d-grid gap-2"><button class="btn btn-primary py-3 fw-bold rounded-4 shadow-sm" onclick="window.saveBaitSelection()">Save Baits</button><button class="btn btn-light py-2 fw-bold text-muted rounded-4" data-bs-dismiss="modal">Cancel</button></div></div></div></div></div>
-
     <div class="modal fade" id="weightUnitModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-5 text-center"><h3 class="text-primary fw-bold mb-2">Scoring Unit</h3><p class="text-muted fw-bold mb-4">Choose format for this session</p><div class="d-grid gap-3"><button type="button" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-4" data-bs-dismiss="modal" onclick="window.handleUnitChoice('metric')">Kilograms (KG)</button><button type="button" class="btn btn-outline-primary btn-lg py-3 fw-bold shadow-sm rounded-4 bg-white" data-bs-dismiss="modal" onclick="window.handleUnitChoice('imperial')">Pounds & Ounces</button></div></div></div></div></div>
     <div class="modal fade" id="restoreSessionModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body text-center p-5"><h3 class="text-primary fw-bold mb-2">Session Found</h3><p class="text-muted fw-bold">Restore unfinished session for <strong id="restoreAnglerName" class="text-main"></strong>?</p><div class="d-grid gap-3 mt-4"><button class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-4" data-bs-dismiss="modal" onclick="window.confirmRestore()">Resume Fishing</button><button class="btn btn-outline-secondary py-3 fw-bold rounded-4 bg-white" data-bs-dismiss="modal" onclick="window.discardRestore()">Start New</button></div></div></div></div></div>
     
@@ -449,7 +453,6 @@
             {category:"Wrasse & Mini",items:["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}
         ];
         
-        // NEW BAIT LIST
         const availableBaits = ['Lugworm', 'Ragworm', 'Squid', 'Mackerel', 'Sandeel', 'Peeler Crab', 'Mussel', 'Razor Clam', 'Blue Amis', 'Prawn', 'Artificial'];
 
         const tideStations = [
@@ -473,8 +476,7 @@
         let deferredPrompt;
         let editingOriginalFish = null;
         
-        // BAIT SYSTEM VARIABLES
-        let activeBaits = []; // Persistent during live session
+        let activeBaits = []; 
         let baitEditContext = { mode: 'new', index: -1 }; 
         
         const badgeStyle = "background: rgba(6, 148, 148, 0.1); color: var(--app-main); border: 1px solid rgba(6, 148, 148, 0.3); padding: 8px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 800; margin: 3px; display: inline-block;";
@@ -496,7 +498,6 @@
 
         window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
 
-        // INITIALIZE BAIT MODAL HTML
         window.initBaitGrid = function() {
             const grid = document.getElementById('baitGrid'); grid.innerHTML = '';
             availableBaits.forEach(b => {
@@ -508,7 +509,6 @@
         window.openBaitModal = function(mode, index) {
             baitEditContext = { mode: mode, index: index };
             let preSelected = [];
-            
             if(mode === 'new') { preSelected = [...activeBaits]; }
             else if(mode === 'live') { preSelected = fishData[index].baits || []; }
             else if(mode === 'history') { const d = JSON.parse(StorageHelper.get(currentSavedKey)); preSelected = d.fishData[index].baits || []; }
@@ -520,7 +520,6 @@
                 const cb = Array.from(document.querySelectorAll('.bait-checkbox')).find(c => c.value === b);
                 if(cb) cb.checked = true; else document.getElementById('customBaitInput').value = b;
             });
-            
             bootstrap.Modal.getOrCreateInstance(document.getElementById('baitModal')).show();
         };
 
@@ -557,8 +556,7 @@
 
         window.autoLocateStation = function() {
             const btn = document.getElementById('btnAutoLocate');
-            if (!navigator.geolocation) return window.showAppToast("GPS not supported on this device. Please select manually.", true);
-            
+            if (!navigator.geolocation) return window.showAppToast("GPS not supported on this device.", true);
             const originalIcon = btn.innerHTML;
             btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin fs-5"></i><span style="font-size: 0.55rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-top: 2px;">Searching</span>';
             btn.disabled = true;
@@ -566,13 +564,7 @@
             navigator.geolocation.getCurrentPosition((pos) => {
                 const userLat = pos.coords.latitude; const userLon = pos.coords.longitude;
                 let closestStation = null; let minDistance = Infinity;
-
-                const dist = (lat1, lon1, lat2, lon2) => {
-                    const R = 6371; const dLat = (lat2 - lat1) * Math.PI / 180; const dLon = (lon2 - lon1) * Math.PI / 180;
-                    const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
-                    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); return R * c;
-                };
-
+                const dist = (lat1, lon1, lat2, lon2) => { const R = 6371; const dLat = (lat2 - lat1) * Math.PI / 180; const dLon = (lon2 - lon1) * Math.PI / 180; const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2); return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); };
                 tideStations.forEach(region => { region.stations.forEach(station => { const d = dist(userLat, userLon, station.lat, station.lon); if (d < minDistance) { minDistance = d; closestStation = station; } }); });
 
                 if (closestStation) {
@@ -582,9 +574,7 @@
                 }
                 btn.innerHTML = '<i class="bi bi-check-circle-fill fs-5 text-success"></i><span style="font-size: 0.55rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-top: 2px;">Found</span>';
                 setTimeout(() => { btn.innerHTML = originalIcon; btn.disabled = false; }, 2000);
-            }, (err) => {
-                window.showAppToast("GPS connection failed. Please select manually.", true); btn.innerHTML = originalIcon; btn.disabled = false;
-            }, { timeout: 10000 });
+            }, (err) => { window.showAppToast("GPS connection failed. Please select manually.", true); btn.innerHTML = originalIcon; btn.disabled = false; }, { timeout: 10000 });
         };
 
         window.fetchEnvironmentData = async function() {
@@ -619,8 +609,8 @@
                     if(hw) { foundTides = true; finalHW = hw.tide_time.split(' ')[1]; }
                     if(lw) { foundTides = true; finalLW = lw.tide_time.split(' ')[1]; }
                 }
-                
                 hwTime = finalHW; lwTime = finalLW;
+
                 if(foundTides) { 
                     document.getElementById('setupTideChartContainer').style.display = 'block';
                     try { window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], sessionStartTimeStr); } catch(e){}
@@ -643,7 +633,7 @@
             try { let savedSession = JSON.parse(StorageHelper.get(currentSavedKey)); if (savedSession) { savedSession.notes = notes; StorageHelper.save(currentSavedKey, JSON.stringify(savedSession)); window.showAppToast("Note Saved!"); } } catch(err) { window.showAppToast("Could not save note.", true); }
         }
 
-        // MATH ENGINE FOR TIDE TIMES & INSIGHTS
+        // --- THE DYNAMIC ANALYTICS MATH ENGINE ---
         window.toMins = function(t) { 
             if(!t || typeof t !== 'string') return 0;
             const parts = t.split(':'); if(parts.length !== 2) return 0;
@@ -658,35 +648,42 @@
             if(events.length === 0) return "";
             let closest = events.reduce((prev, curr) => Math.abs(curr.m - cM) < Math.abs(prev.m - cM) ? curr : prev);
             let diff = cM - closest.m; let absDiff = Math.abs(diff);
-            if(absDiff <= 15) return closest.type === 'HW' ? "(High Water)" : "(Low Water)";
+            if(absDiff <= 15) return closest.type === 'HW' ? "High Water" : "Low Water";
             let hrs = Math.floor(absDiff / 60); let mins = absDiff % 60; let timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
-            if(closest.type === 'HW') { return diff < 0 ? `(${timeStr} before HW)` : `(${timeStr} into Ebb)`; } 
-            else { return diff < 0 ? `(${timeStr} before LW)` : `(${timeStr} into Flood)`; }
+            if(closest.type === 'HW') { return diff < 0 ? `${timeStr} before HW` : `${timeStr} into Ebb`; } 
+            else { return diff < 0 ? `${timeStr} before LW` : `${timeStr} into Flood`; }
         };
 
-        window.getInsights = function(fishArray, method) {
-            if(!fishArray || fishArray.length === 0) return { peak: "--", pace: "--", topBait: "--", mvpIndex: -1 };
+        window.getInsights = function(fishArray, method, hwStr, lwStr) {
+            if(!fishArray || fishArray.length === 0) return { peak: "--", pace: "--", topBait: "--", bestTide: "--", mvpFish: null, speciesBar: [], mvpIndex: -1 };
             
-            let mvpIndex = -1; let maxVal = -1; let baitCounts = {};
+            let mvpIndex = -1; let maxVal = -1; let baitCounts = {}; let tideCounts = {}; let spCounts = {};
+            
             fishArray.forEach((f, i) => {
                 let val = 0;
                 if(method === 'weight') val = parseFloat(f.raw || 0); else if(method !== 'species_hunt') val = parseFloat(f.length || 0);
                 if(val > maxVal && val > 0) { maxVal = val; mvpIndex = i; }
+                
                 if(f.baits) { f.baits.forEach(b => { baitCounts[b] = (baitCounts[b] || 0) + 1; }); }
+                
+                spCounts[f.species] = (spCounts[f.species] || 0) + 1;
+                
+                let tTag = window.getTideState(f.time, hwStr, lwStr);
+                if(tTag) tideCounts[tTag] = (tideCounts[tTag] || 0) + 1;
             });
 
             let topBait = "--"; let maxBait = 0;
             for(let b in baitCounts) { if(baitCounts[b] > maxBait) { maxBait = baitCounts[b]; topBait = b; } }
 
+            let bestTide = "--"; let maxTide = 0;
+            for(let t in tideCounts) { if(tideCounts[t] > maxTide) { maxTide = tideCounts[t]; bestTide = t; } }
+
             let times = fishArray.map(f => window.toMins(f.time)).filter(m => m > 0).sort((a,b)=>a-b);
             let pace = "--"; let peak = "--";
-
             if(times.length > 1) {
                 let duration = times[times.length-1] - times[0];
                 if(duration < 0) duration += 1440; 
-                if(duration > 0) { let rate = Math.round(duration / (times.length - 1)); pace = `1 every ${rate}m`; }
-                else { pace = "Multiple fish, same min"; }
-                
+                if(duration > 0) { let rate = Math.round(duration / (times.length - 1)); pace = `1 every ${rate}m`; } else { pace = "Multiple fish, same min"; }
                 let maxFishInWindow = 0; let bestStart = 0; let bestEnd = 0;
                 for(let i=0; i<times.length; i++) {
                     let startT = times[i]; let endT = startT + 60;
@@ -700,7 +697,62 @@
                 }
             } else if (times.length === 1) { pace = "1 fish total"; peak = "N/A"; }
 
-            return { peak, pace, topBait, mvpIndex };
+            // Calculate Species Distribution Bar Data
+            let totalFish = fishArray.length;
+            let speciesBar = [];
+            let colors = ['#069494', '#08baba', '#334155', '#64748b', '#cbd5e1', '#0f172a'];
+            let cIdx = 0;
+            for(let s in spCounts) {
+                let pct = (spCounts[s] / totalFish) * 100;
+                speciesBar.push({ name: s, pct: pct, color: colors[cIdx % colors.length], count: spCounts[s] });
+                cIdx++;
+            }
+            speciesBar.sort((a,b) => b.count - a.count);
+
+            let mvpFish = mvpIndex > -1 ? fishArray[mvpIndex] : null;
+
+            return { peak, pace, topBait, bestTide, mvpFish, speciesBar, mvpIndex };
+        };
+
+        // RENDER VISUAL ANALYTICS HTML
+        window.renderVisualAnalytics = function(insights, method, containerId) {
+            const container = document.getElementById(containerId);
+            if(!insights || !insights.mvpFish || insights.speciesBar.length === 0) { container.innerHTML = ''; return; }
+
+            let html = '';
+
+            // 1. Hero Catch Card
+            if (insights.mvpFish && method !== 'species_hunt') {
+                const val = method==='weight' ? insights.mvpFish.display : `${insights.mvpFish.length}cm`;
+                const baitTxt = (insights.mvpFish.baits && insights.mvpFish.baits.length > 0) ? ` on ${insights.mvpFish.baits.join(' & ')}` : '';
+                html += `
+                <div class="inner-card mb-4 text-start" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none;">
+                    <div class="small text-uppercase fw-bold mb-1" style="color: #08baba; letter-spacing: 1px;"><i class="bi bi-trophy-fill me-1"></i> Catch of the Day</div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <div>
+                            <h2 class="fw-bold mb-0">${insights.mvpFish.species}</h2>
+                            <div class="small fw-bold" style="color: #cbd5e1;">${insights.mvpFish.time}${baitTxt}</div>
+                        </div>
+                        <div class="fs-1 fw-bold text-white" style="line-height: 1;">${val}</div>
+                    </div>
+                </div>`;
+            }
+
+            // 2. Species Distribution Bar
+            if(insights.speciesBar.length > 0) {
+                let barHtml = ''; let legendHtml = '';
+                insights.speciesBar.forEach(sb => {
+                    barHtml += `<div style="width: ${sb.pct}%; background-color: ${sb.color}; height: 100%;"></div>`;
+                    legendHtml += `<div class="d-flex align-items-center me-3 mb-1"><span style="width:10px; height:10px; border-radius:50%; background-color:${sb.color}; margin-right:5px;"></span><span class="small fw-bold text-muted">${sb.name} (${sb.count})</span></div>`;
+                });
+                html += `
+                <div class="inner-card mb-4 text-start">
+                    <h6 class="fw-bold text-primary mb-3">Catch Distribution</h6>
+                    <div class="d-flex rounded-pill overflow-hidden mb-3 shadow-sm" style="height: 16px;">${barHtml}</div>
+                    <div class="d-flex flex-wrap">${legendHtml}</div>
+                </div>`;
+            }
+            container.innerHTML = html;
         };
 
         window.drawTideGraph = function(canvasId, hwStr, lwStr, fishArray, startStr) {
@@ -708,8 +760,7 @@
                 const canvas = document.getElementById(canvasId); if(!canvas || !hwStr || !lwStr) return;
                 const ctx = canvas.getContext('2d'); const scale = 3; const logicalW = 340; const logicalH = 150; 
                 canvas.width = logicalW * scale; canvas.height = logicalH * scale; canvas.style.width = "100%"; canvas.style.height = "auto";
-                ctx.scale(scale, scale);
-                const w = logicalW; const h = logicalH;
+                ctx.scale(scale, scale); const w = logicalW; const h = logicalH;
                 
                 ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
                 const textColor = '#334155'; const waveColor = '#069494'; const gridColor = 'rgba(0,0,0,0.05)';
@@ -915,8 +966,6 @@
                 resultObj = { species, time: catchTime, length: len };
             }
             if (photoData) resultObj.photo = photoData;
-            
-            // INJECT ACTIVE BAITS
             if(activeBaits && activeBaits.length > 0) resultObj.baits = [...activeBaits];
 
             return resultObj;
@@ -954,7 +1003,7 @@
                 if(!times[f.species]) times[f.species] = []; 
                 if(f.time) {
                     let tideTag = window.getTideState(f.time, hwStr, lwStr);
-                    times[f.species].push({ time: f.time, tag: tideTag }); 
+                    times[f.species].push({ time: f.time, tag: tideTag ? `(${tideTag})` : '' }); 
                 }
             });
             let html = '';
@@ -965,7 +1014,7 @@
                 let timeStr = '';
                 if(times[s] && times[s].length > 0) {
                     let timeStrings = times[s].reverse().map(t => `${t.time} <span class="text-primary small fw-bold">${t.tag}</span>`);
-                    timeStr = `<div class="text-muted mb-2" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${timeStrings.join(', ')}</div>`;
+                    timeStr = `<div class="text-muted mb-2 fw-bold" style="font-size: 0.7rem;"><i class="bi bi-clock me-1"></i>${timeStrings.join(', ')}</div>`;
                 }
                 
                 html += `<div class="species-quota-card"><div class="d-flex justify-content-between align-items-center mb-2"><strong class="fs-5">${s}</strong><span class="fw-bold text-primary fs-5">${p} pts</span></div>${timeStr}<div class="d-flex align-items-center">${pips}${extra}</div></div>`;
@@ -1015,12 +1064,14 @@
             
             const isW = currentScoringMethod==='weight'; document.getElementById('session_stat_label').textContent = isW ? 'Total Weight' : 'Total Length'; document.getElementById('session_total_stat').textContent = isW ? window.calculatePoints(fishData, 'weight') : fishData.reduce((s,f)=>s+parseFloat(f.length||0),0).toFixed(1) + 'cm';
             
-            const insights = window.getInsights(fishData, currentScoringMethod);
+            const insights = window.getInsights(fishData, currentScoringMethod, hwTime, lwTime);
             document.getElementById('session_peak_feed').textContent = insights.peak;
             document.getElementById('session_pace').textContent = insights.pace;
             document.getElementById('session_top_bait').textContent = insights.topBait;
-            if(fishData.length > 0) document.getElementById('session_insights_grid').style.display = 'grid';
-            else document.getElementById('session_insights_grid').style.display = 'none';
+            document.getElementById('session_best_tide').textContent = insights.bestTide;
+            if(fishData.length > 0) document.getElementById('session_insights_grid').style.display = 'grid'; else document.getElementById('session_insights_grid').style.display = 'none';
+
+            window.renderVisualAnalytics(insights, currentScoringMethod, 'session_visual_analytics');
 
             const area = document.getElementById('session_breakdown_area'); area.innerHTML='';
             
@@ -1032,7 +1083,7 @@
                     const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">` : ''; 
                     
                     const tideTag = window.getTideState(f.time, hwTime, lwTime);
-                    const tideHTML = tideTag ? `<span class="text-primary small fw-bold ms-1">${tideTag}</span>` : '';
+                    const tideHTML = tideTag ? `<span class="text-primary small fw-bold ms-1">(${tideTag})</span>` : '';
                     const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>` : '';
                     const mvpHTML = (idx === insights.mvpIndex && currentScoringMethod !== 'species_hunt') ? `<span class="badge bg-warning text-dark ms-2 fw-bold"><i class="bi bi-trophy-fill me-1"></i>MVP</span>` : '';
                     let baitHtml = ''; if(f.baits && f.baits.length > 0) { baitHtml = `<div class="mt-1">` + f.baits.map(b => `<span class="bait-badge">${b}</span>`).join('') + `</div>`; }
@@ -1079,12 +1130,14 @@
 
             document.getElementById('saved_view_points').textContent = window.calculatePoints(d.fishData, d.method, d.weightUnit);
             
-            const insights = window.getInsights(d.fishData, d.method);
+            const insights = window.getInsights(d.fishData, d.method, d.hwTime, d.lwTime);
             document.getElementById('saved_peak_feed').textContent = insights.peak;
             document.getElementById('saved_pace').textContent = insights.pace;
             document.getElementById('saved_top_bait').textContent = insights.topBait;
-            if(d.fishData.length > 0) document.getElementById('saved_view_insights_grid').style.display = 'grid';
-            else document.getElementById('saved_view_insights_grid').style.display = 'none';
+            document.getElementById('saved_best_tide').textContent = insights.bestTide;
+            if(d.fishData.length > 0) document.getElementById('saved_view_insights_grid').style.display = 'grid'; else document.getElementById('saved_view_insights_grid').style.display = 'none';
+
+            window.renderVisualAnalytics(insights, d.method, 'history_visual_analytics');
 
             const area = document.getElementById('saved_view_breakdown'); area.innerHTML='';
             if(d.method==='species_hunt'){ area.innerHTML = generateSpeciesHuntHTML(d.fishData, d.hwTime, d.lwTime); } 
@@ -1095,7 +1148,7 @@
                     const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">` : ''; 
                     
                     const tideTag = window.getTideState(f.time, d.hwTime, d.lwTime);
-                    const tideHTML = tideTag ? `<span class="text-primary small fw-bold ms-1">${tideTag}</span>` : '';
+                    const tideHTML = tideTag ? `<span class="text-primary small fw-bold ms-1">(${tideTag})</span>` : '';
                     const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>` : '';
                     const mvpHTML = (idx === insights.mvpIndex && d.method !== 'species_hunt') ? `<span class="badge bg-warning text-dark ms-2 fw-bold"><i class="bi bi-trophy-fill me-1"></i>MVP</span>` : '';
                     let baitHtml = ''; if(f.baits && f.baits.length > 0) { baitHtml = `<div class="mt-1">` + f.baits.map(b => `<span class="bait-badge">${b}</span>`).join('') + `</div>`; }
@@ -1138,13 +1191,9 @@
             const newNotes = document.getElementById('savedNotesInputView').value; 
             try { 
                 let d = JSON.parse(StorageHelper.get(currentSavedKey)); 
-                d.notes = newNotes; 
-                StorageHelper.save(currentSavedKey, JSON.stringify(d)); 
-                window.viewSaved(currentSavedKey); 
-                window.showAppToast("Note Saved!");
-            } catch(e) { 
-                window.showAppToast("Failed to save note.", true); 
-            } 
+                d.notes = newNotes; StorageHelper.save(currentSavedKey, JSON.stringify(d)); 
+                window.viewSaved(currentSavedKey); window.showAppToast("Note Saved!");
+            } catch(e) { window.showAppToast("Failed to save note.", true); } 
         };
 
         window.confirmQuit=function(){if(confirm("Discard active session?")){window.resetAppToHome();}}; window.discardRestore=function(){window.resetAppToHome();};
