@@ -141,9 +141,9 @@
 
         /* Insights Grid */
         .insight-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .insight-card { background: rgba(6, 148, 148, 0.05); padding: 12px 5px; border-radius: 16px; text-align: center; border: 1px solid rgba(6, 148, 148, 0.2); box-shadow: var(--shadow-sm); }
-        .insight-card small { display: block; color: var(--app-main); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; }
-        .insight-card strong { font-size: 1rem; color: var(--text-main); font-weight: 800; line-height: 1.1; display: block;}
+        .insight-card { background: rgba(6, 148, 148, 0.05); padding: 14px 10px; border-radius: 16px; text-align: center; border: 1px solid rgba(6, 148, 148, 0.2); box-shadow: var(--shadow-sm); }
+        .insight-card small { display: block; color: var(--app-main); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; }
+        .insight-card strong { font-size: 1.05rem; color: var(--text-main); font-weight: 800; line-height: 1.1; display: block;}
         
         .species-quota-card { background: var(--card-bg); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .pip { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; background: var(--input-bg); color: var(--text-muted); margin-right: 8px; border: 2px solid transparent; }
@@ -213,7 +213,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 214.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 215.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -224,7 +224,10 @@
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
         </div>
         
-        <button class="btn btn-link text-muted text-decoration-none mt-5 small fw-bold" data-bs-toggle="modal" data-bs-target="#guideModal"><i class="bi bi-book-fill me-1 text-primary"></i> User Guide</button>
+        <div class="mt-5 d-flex flex-column align-items-center gap-3">
+            <button class="btn btn-link text-muted text-decoration-none small fw-bold p-0" data-bs-toggle="modal" data-bs-target="#guideModal"><i class="bi bi-book-fill me-1 text-primary"></i> User Guide</button>
+            <button id="btnRefreshApp" class="btn btn-link text-muted text-decoration-none small fw-bold p-0" onclick="window.forceAppUpdate()"><i id="refreshIcon" class="bi bi-arrow-clockwise me-1 text-primary"></i> Check for Updates</button>
+        </div>
     </div>
 
     <div id="anglerRegistration" class="app-page">
@@ -812,7 +815,6 @@
             container.style.display = 'block';
         };
 
-        // NEW: SMART SPECIES LABELS ON GRAPH
         window.drawTideGraph = function(canvasId, hwStr, lwStr, fishArray, startStr) {
             try {
                 const canvas = document.getElementById(canvasId); if(!canvas || !hwStr || !lwStr) return;
@@ -865,7 +867,6 @@
                         let fm = window.toMins(f.time);
                         if (fm >= minT && fm <= maxT) {
                             let added = false;
-                            // Increased clustering radius slightly to give text room to breathe
                             for(let c of clusters) { if (Math.abs(c.timeM - fm) <= 25) { 
                                 c.count += 1; c.timeM = ((c.timeM * (c.count - 1)) + fm) / c.count; 
                                 if(!c.speciesList.includes(f.species)) c.speciesList.push(f.species);
@@ -875,7 +876,6 @@
                         }
                     });
 
-                    // Zigzag logic to prevent text overlapping
                     clusters.forEach((c, idx) => { c.yOffset = (idx % 2 === 0) ? 0 : 12; });
 
                     clusters.forEach(c => {
@@ -887,7 +887,6 @@
                         let distToHW = Math.abs(x - (((hwM - minT)/range)*w)); let distToLW = Math.abs(x - (((lwM - minT)/range)*w));
                         if (distToHW > 15 && distToLW > 15) { ctx.fillStyle = '#ef4444'; ctx.font = "700 10px 'Outfit', sans-serif"; ctx.textAlign = "center"; ctx.fillText(formatTime(c.timeM), x, graphBottom - 4); }
                         
-                        // DRAW SPECIES TEXT
                         let spText = c.speciesList.join(', ');
                         if(spText.length > 12) { if(c.count === 1) { spText = spText.substring(0, 10) + '..'; } else { spText = `${c.count} Catch`; } }
                         ctx.fillStyle = '#ef4444'; ctx.font = "800 8px 'Outfit', sans-serif"; ctx.textAlign = "center"; 
