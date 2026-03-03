@@ -44,7 +44,7 @@
             overscroll-behavior: none; 
         }
         
-        h1, h2, h3, h4, h5, h6, .live-score-value, .picker-item, .btn { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
+        h1, h2, h3, h4, h5, h6, .live-score-value, .picker-item, .btn, .xc-score { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
 
         /* Bootstrap Overrides for Primary Color */
         .text-primary { color: var(--app-main) !important; }
@@ -158,6 +158,29 @@
         
         .input-group-text-clean { background: transparent; border-color: var(--border-color); font-weight: 800; color: var(--text-muted); }
         .bait-badge { background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; display: inline-block; margin-right: 4px; margin-top: 4px; }
+
+        /* THE xC SHIELD CSS */
+        .xc-shield {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 2px solid var(--app-main);
+            border-radius: 24px;
+            padding: 24px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .xc-subtitle { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: #08baba; font-weight: 800; margin-bottom: 5px;}
+        .xc-score { font-size: 4rem; font-weight: 800; color: #ffffff; line-height: 1; margin-bottom: 5px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+        .xc-max { font-size: 1.5rem; color: #cbd5e1; font-weight: 600; }
+        .xc-stats-row { display: flex; justify-content: center; gap: 30px; margin-top: 15px; margin-bottom: 15px; }
+        .xc-stat { display: flex; flex-direction: column; }
+        .xc-stat-val { font-size: 1.5rem; font-weight: 800; color: var(--app-main); }
+        .xc-stat-lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 700; color: #cbd5e1; }
+        .xc-story { font-size: 0.95rem; color: #f8fafc; font-weight: 500; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; text-align: left;}
+        
     </style>
 </head>
 <body>
@@ -190,7 +213,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 212.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 213.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -201,7 +224,7 @@
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
         </div>
         
-        <button id="btnRefreshApp" class="btn btn-link text-muted text-decoration-none mt-5 small fw-bold" onclick="window.forceAppUpdate()"><i id="refreshIcon" class="bi bi-arrow-clockwise me-1"></i> Check for Updates</button>
+        <button class="btn btn-link text-muted text-decoration-none mt-5 small fw-bold" data-bs-toggle="modal" data-bs-target="#guideModal"><i class="bi bi-book-fill me-1 text-primary"></i> How it Works & xC Explained</button>
     </div>
 
     <div id="anglerRegistration" class="app-page">
@@ -365,6 +388,8 @@
             <div id="session_live_conditions" class="mt-4 d-flex flex-wrap justify-content-center gap-2"></div>
         </div>
         
+        <div id="session_xc_shield" class="xc-shield" style="display:none;"></div>
+
         <div class="live-score-box"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="session_total_points" class="live-score-value">0</div></div>
 
         <div class="insight-grid" id="session_insights_grid">
@@ -407,6 +432,8 @@
         <div id="fullScorecardView" style="display:none;">
             <div class="inner-card p-4 mb-4 text-center border-0"><h3 id="saved_view_angler" class="text-primary fw-bold m-0"></h3><div class="text-muted small fw-bold mt-1"><span id="saved_view_date"></span> • <span id="saved_view_venue"></span></div><div id="saved_view_conditions" class="mt-4 d-flex flex-wrap justify-content-center gap-2"></div></div>
             
+            <div id="saved_xc_shield" class="xc-shield" style="display:none;"></div>
+
             <div class="live-score-box mb-4"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="saved_view_points" class="live-score-value">0</div></div>
 
             <div class="insight-grid" id="saved_view_insights_grid">
@@ -426,6 +453,18 @@
             <div id="saved_view_breakdown"></div><div id="saved_view_notes_container"></div>
             <div class="d-grid gap-3 mt-5"><button class="btn btn-whatsapp py-3 shadow text-white fw-bold rounded-4" style="background:#25D366; border: none;" onclick="window.shareAsImage('saved')"><i class="bi bi-whatsapp me-2"></i>Share Scorecard</button><div class="row g-3"><div class="col-6"><button class="btn btn-outline-danger w-100 py-3 fw-bold rounded-4 bg-white" onclick="window.deleteCurrentSaved()"><i class="bi bi-trash-fill me-1"></i>Delete</button></div><div class="col-6"><button class="btn btn-dark w-100 py-3 fw-bold shadow-sm rounded-4" onclick="window.backToScorecardList()"><i class="bi bi-arrow-left me-1"></i>Back</button></div></div></div>
         </div>
+    </div></div></div></div>
+
+    <div class="modal fade" id="guideModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header border-0 pb-0 pt-4 px-4"><h4 class="modal-title fw-bold text-primary"><i class="bi bi-book-fill me-2"></i>Field Guide</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body px-4 pb-4 pt-3 text-main">
+        <p class="fw-bold mb-4 text-muted">A quick guide to maximizing the Sea Diary Pro analytics engine.</p>
+        <h6 class="fw-bold text-primary mb-2">What is xC? (Expected Catch)</h6>
+        <p class="small text-muted mb-4 fw-bold">xC is a mathematically generated baseline for your performance. The app scans your personal diary history for the venue you are fishing to calculate your historical average catch rate. If you have fished there less than 3 times, it uses a global baseline of 3.0 fish.</p>
+        <h6 class="fw-bold text-primary mb-2">The Session Performance Rating</h6>
+        <p class="small text-muted mb-4 fw-bold">Your 1-10 rating is highly analytical. It compares your Actual Catch against your xC, and then applies a mathematical modifier based on the live wind speed and wave height. You are highly rewarded for toughing it out in heavy swells and high winds. Landing a specimen fish relative to your history also triggers a substantial score bonus.</p>
+        <h6 class="fw-bold text-primary mb-2">Persistent Baits</h6>
+        <p class="small text-muted mb-4 fw-bold">Tap the 'Baits Used' box during a live session. Choose your baits. The app will automatically tag every fish you catch with those baits until you change them, keeping your screen clear and saving your frozen hands.</p>
+        <h6 class="fw-bold text-primary mb-2">Offline Mode</h6>
+        <p class="small text-muted mb-0 fw-bold">No signal? No problem. Select 'Manual Search' on the setup page, and enter your tide times manually using a local tide book. The app will still build the graph and calculate your insights seamlessly.</p>
     </div></div></div></div>
     
     <div class="modal fade" id="baitModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-4"><h4 class="text-primary fw-bold mb-3"><i class="bi bi-bug me-2"></i>Select Baits</h4><p class="text-muted small fw-bold mb-3">Select one or multiple baits used for this catch.</p><div id="baitGrid" class="d-flex flex-wrap gap-2 mb-3"></div><input type="text" id="customBaitInput" class="form-control fw-bold mb-4" placeholder="Other bait..."><div class="d-grid gap-2"><button class="btn btn-primary py-3 fw-bold rounded-4 shadow-sm" onclick="window.saveBaitSelection()">Save Baits</button><button class="btn btn-light py-2 fw-bold text-muted rounded-4" data-bs-dismiss="modal">Cancel</button></div></div></div></div></div>
@@ -633,7 +672,7 @@
             try { let savedSession = JSON.parse(StorageHelper.get(currentSavedKey)); if (savedSession) { savedSession.notes = notes; StorageHelper.save(currentSavedKey, JSON.stringify(savedSession)); window.showAppToast("Note Saved!"); } } catch(err) { window.showAppToast("Could not save note.", true); }
         }
 
-        // --- THE DYNAMIC ANALYTICS MATH ENGINE ---
+        // --- THE DYNAMIC MATH ENGINE ---
         window.toMins = function(t) { 
             if(!t || typeof t !== 'string') return 0;
             const parts = t.split(':'); if(parts.length !== 2) return 0;
@@ -656,25 +695,19 @@
 
         window.getInsights = function(fishArray, method, hwStr, lwStr) {
             if(!fishArray || fishArray.length === 0) return { peak: "--", pace: "--", topBait: "--", bestTide: "--", mvpFish: null, speciesBar: [], mvpIndex: -1 };
-            
             let mvpIndex = -1; let maxVal = -1; let baitCounts = {}; let tideCounts = {}; let spCounts = {};
-            
             fishArray.forEach((f, i) => {
                 let val = 0;
                 if(method === 'weight') val = parseFloat(f.raw || 0); else if(method !== 'species_hunt') val = parseFloat(f.length || 0);
                 if(val > maxVal && val > 0) { maxVal = val; mvpIndex = i; }
-                
                 if(f.baits) { f.baits.forEach(b => { baitCounts[b] = (baitCounts[b] || 0) + 1; }); }
-                
                 spCounts[f.species] = (spCounts[f.species] || 0) + 1;
-                
                 let tTag = window.getTideState(f.time, hwStr, lwStr);
                 if(tTag) tideCounts[tTag] = (tideCounts[tTag] || 0) + 1;
             });
 
             let topBait = "--"; let maxBait = 0;
             for(let b in baitCounts) { if(baitCounts[b] > maxBait) { maxBait = baitCounts[b]; topBait = b; } }
-
             let bestTide = "--"; let maxTide = 0;
             for(let t in tideCounts) { if(tideCounts[t] > maxTide) { maxTide = tideCounts[t]; bestTide = t; } }
 
@@ -697,62 +730,132 @@
                 }
             } else if (times.length === 1) { pace = "1 fish total"; peak = "N/A"; }
 
-            // Calculate Species Distribution Bar Data
-            let totalFish = fishArray.length;
-            let speciesBar = [];
-            let colors = ['#069494', '#08baba', '#334155', '#64748b', '#cbd5e1', '#0f172a'];
-            let cIdx = 0;
-            for(let s in spCounts) {
-                let pct = (spCounts[s] / totalFish) * 100;
-                speciesBar.push({ name: s, pct: pct, color: colors[cIdx % colors.length], count: spCounts[s] });
-                cIdx++;
-            }
+            let totalFish = fishArray.length; let speciesBar = []; let colors = ['#069494', '#08baba', '#334155', '#64748b', '#cbd5e1', '#0f172a']; let cIdx = 0;
+            for(let s in spCounts) { let pct = (spCounts[s] / totalFish) * 100; speciesBar.push({ name: s, pct: pct, color: colors[cIdx % colors.length], count: spCounts[s] }); cIdx++; }
             speciesBar.sort((a,b) => b.count - a.count);
 
             let mvpFish = mvpIndex > -1 ? fishArray[mvpIndex] : null;
-
             return { peak, pace, topBait, bestTide, mvpFish, speciesBar, mvpIndex };
         };
 
-        // RENDER VISUAL ANALYTICS HTML
+        // THE xC ALGORITHM (VERSION 213.0)
+        window.calculateXC = function(currentVenue, currentCatchCount, currentFishData, windStr, waveStr, swellStr) {
+            let pastSessions = [];
+            let allKeys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));
+            allKeys.forEach(k => {
+                let d = JSON.parse(StorageHelper.get(k));
+                if((d.venue === currentVenue || d.coastalTown === currentVenue) && d.venue !== '') { pastSessions.push(d); }
+            });
+
+            // 1. Calculate Baseline xC
+            let xC = 3.0; // Global Par
+            if(pastSessions.length >= 3) {
+                let totalFishHistory = 0;
+                pastSessions.forEach(s => totalFishHistory += (s.fishData ? s.fishData.length : 0));
+                xC = totalFishHistory / pastSessions.length;
+            }
+            if(xC < 1) xC = 1.0; 
+
+            // 2. Weather Coefficient
+            let wind = parseInt(windStr) || 0;
+            let swell = parseFloat(swellStr) || 0;
+            let wave = parseFloat(waveStr) || 0;
+            let maxSea = Math.max(swell, wave);
+            
+            let coeff = 1.0;
+            if(wind > 15 && maxSea > 1.5) coeff = 1.25;
+            else if(wind >= 10 || maxSea >= 1.0) coeff = 1.10;
+            else if(wind < 5 && maxSea < 0.5) coeff = 0.95;
+
+            // 3. Specimen Bonus
+            let bonus = 0.0;
+            if (currentFishData && currentFishData.length > 0 && currentScoringMethod !== 'species_hunt' && currentScoringMethod !== 'weight') {
+                let maxToday = 0; let topSpecies = "";
+                currentFishData.forEach(f => { let l = parseFloat(f.length); if(l > maxToday) { maxToday = l; topSpecies = f.species; } });
+                
+                if (maxToday > 30) {
+                    let maxHistory = 0;
+                    pastSessions.forEach(s => {
+                        if(s.fishData) { s.fishData.forEach(f => { if(f.species === topSpecies) { let l = parseFloat(f.length); if(l > maxHistory) maxHistory = l; } }); }
+                    });
+                    if (maxHistory === 0 || maxToday >= (maxHistory * 0.90)) { bonus = 1.0; }
+                }
+            }
+
+            // 4. Score Calculation
+            let baseScore = 6.0;
+            if(currentCatchCount > 0) {
+                let ratio = currentCatchCount / xC;
+                baseScore = 6.0 + ((ratio - 1) * 2.0); 
+            } else { baseScore = 3.0; }
+
+            let finalScore = (baseScore * coeff) + bonus;
+
+            // Hard limits to prevent zero or over 10
+            if(currentCatchCount === 0 && coeff > 1.1) finalScore = Math.max(finalScore, 4.5);
+            else if (currentCatchCount === 0) finalScore = Math.max(finalScore, 3.5);
+            finalScore = Math.min(Math.max(finalScore, 3.5), 10.0);
+
+            // 5. The Analytical Tone B Debrief
+            let text = "";
+            if (currentCatchCount >= (xC * 1.5) && coeff > 1.1) {
+                text = `An outstanding yield relative to the conditions. You capitalized on difficult weather to secure a catch rate well above your ${xC.toFixed(1)} historical venue average.`;
+            } else if (currentCatchCount < (xC * 0.5) && coeff > 1.1) {
+                text = `A demanding shift with minimal returns. Fish activity was low, but pushing through heavy weather mitigates the overall performance drop.`;
+            } else if (bonus > 0 && currentCatchCount >= (xC * 0.8)) {
+                text = `Volume was solid against your ${xC.toFixed(1)} expected catch. However, securing a specimen-class catch makes this a highly successful, high-quality session.`;
+            } else if (currentCatchCount > xC && coeff < 1.0) {
+                text = `Optimal conditions utilized efficiently. A high-volume session that successfully pushed past your venue baseline without the hindrance of heavy weather.`;
+            } else if (currentCatchCount < xC && coeff < 1.0) {
+                text = `A quiet session on the beach. Conditions were optimal, but fish activity failed to align with your venue average today.`;
+            } else {
+                text = `A steady, on-par performance. Volume matched your historical baseline of ${xC.toFixed(1)} for this venue, executing a solid tactical shift.`;
+            }
+
+            return { score: finalScore.toFixed(1), xC: xC.toFixed(1), text: text };
+        };
+
         window.renderVisualAnalytics = function(insights, method, containerId) {
             const container = document.getElementById(containerId);
             if(!insights || !insights.mvpFish || insights.speciesBar.length === 0) { container.innerHTML = ''; return; }
-
             let html = '';
-
-            // 1. Hero Catch Card
             if (insights.mvpFish && method !== 'species_hunt') {
                 const val = method==='weight' ? insights.mvpFish.display : `${insights.mvpFish.length}cm`;
                 const baitTxt = (insights.mvpFish.baits && insights.mvpFish.baits.length > 0) ? ` on ${insights.mvpFish.baits.join(' & ')}` : '';
                 html += `
                 <div class="inner-card mb-4 text-start" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none;">
-                    <div class="small text-uppercase fw-bold mb-1" style="color: #08baba; letter-spacing: 1px;"><i class="bi bi-trophy-fill me-1"></i> Catch of the Day</div>
+                    <div class="small text-uppercase fw-bold mb-1" style="color: #08baba; letter-spacing: 1px;"><i class="bi bi-trophy-fill me-1"></i> Session MVP</div>
                     <div class="d-flex justify-content-between align-items-end">
-                        <div>
-                            <h2 class="fw-bold mb-0">${insights.mvpFish.species}</h2>
-                            <div class="small fw-bold" style="color: #cbd5e1;">${insights.mvpFish.time}${baitTxt}</div>
-                        </div>
+                        <div><h2 class="fw-bold mb-0">${insights.mvpFish.species}</h2><div class="small fw-bold" style="color: #cbd5e1;">${insights.mvpFish.time}${baitTxt}</div></div>
                         <div class="fs-1 fw-bold text-white" style="line-height: 1;">${val}</div>
                     </div>
                 </div>`;
             }
-
-            // 2. Species Distribution Bar
             if(insights.speciesBar.length > 0) {
                 let barHtml = ''; let legendHtml = '';
                 insights.speciesBar.forEach(sb => {
                     barHtml += `<div style="width: ${sb.pct}%; background-color: ${sb.color}; height: 100%;"></div>`;
                     legendHtml += `<div class="d-flex align-items-center me-3 mb-1"><span style="width:10px; height:10px; border-radius:50%; background-color:${sb.color}; margin-right:5px;"></span><span class="small fw-bold text-muted">${sb.name} (${sb.count})</span></div>`;
                 });
-                html += `
-                <div class="inner-card mb-4 text-start">
-                    <h6 class="fw-bold text-primary mb-3">Catch Distribution</h6>
-                    <div class="d-flex rounded-pill overflow-hidden mb-3 shadow-sm" style="height: 16px;">${barHtml}</div>
-                    <div class="d-flex flex-wrap">${legendHtml}</div>
-                </div>`;
+                html += `<div class="inner-card mb-4 text-start"><h6 class="fw-bold text-primary mb-3">Catch Distribution</h6><div class="d-flex rounded-pill overflow-hidden mb-3 shadow-sm" style="height: 16px;">${barHtml}</div><div class="d-flex flex-wrap">${legendHtml}</div></div>`;
             }
             container.innerHTML = html;
+        };
+
+        window.renderXCShield = function(xcData, actualCount, containerId) {
+            const container = document.getElementById(containerId);
+            if(!xcData) { container.style.display = 'none'; return; }
+            
+            container.innerHTML = `
+                <div class="xc-subtitle"><i class="bi bi-shield-check me-1"></i> Performance Index</div>
+                <div class="xc-score">${xcData.score} <span class="xc-max">/ 10</span></div>
+                <div class="xc-stats-row">
+                    <div class="xc-stat"><span class="xc-stat-val">${actualCount}</span><span class="xc-stat-lbl">Actual</span></div>
+                    <div class="xc-stat"><span class="xc-stat-val">${xcData.xC}</span><span class="xc-stat-lbl">Expected</span></div>
+                </div>
+                <div class="xc-story">${xcData.text}</div>
+            `;
+            container.style.display = 'block';
         };
 
         window.drawTideGraph = function(canvasId, hwStr, lwStr, fishArray, startStr) {
@@ -1064,6 +1167,11 @@
             
             const isW = currentScoringMethod==='weight'; document.getElementById('session_stat_label').textContent = isW ? 'Total Weight' : 'Total Length'; document.getElementById('session_total_stat').textContent = isW ? window.calculatePoints(fishData, 'weight') : fishData.reduce((s,f)=>s+parseFloat(f.length||0),0).toFixed(1) + 'cm';
             
+            // RUN xC ALGORITHM AND RENDER SHIELD
+            const actualVenue = currentVenue || coastalTown || 'Unnamed Venue';
+            const xcData = window.calculateXC(actualVenue, fishData.length, fishData, windInfo, waveInfo, swellInfo);
+            window.renderXCShield(xcData, fishData.length, 'session_xc_shield');
+
             const insights = window.getInsights(fishData, currentScoringMethod, hwTime, lwTime);
             document.getElementById('session_peak_feed').textContent = insights.peak;
             document.getElementById('session_pace').textContent = insights.pace;
@@ -1130,6 +1238,11 @@
 
             document.getElementById('saved_view_points').textContent = window.calculatePoints(d.fishData, d.method, d.weightUnit);
             
+            // RUN xC ALGORITHM AND RENDER SHIELD IN HISTORY
+            const actualVenue = d.venue || d.coastalTown || 'Unnamed Venue';
+            const xcData = window.calculateXC(actualVenue, d.fishData.length, d.fishData, d.windInfo, d.waveInfo, d.swellInfo);
+            window.renderXCShield(xcData, d.fishData.length, 'saved_xc_shield');
+
             const insights = window.getInsights(d.fishData, d.method, d.hwTime, d.lwTime);
             document.getElementById('saved_peak_feed').textContent = insights.peak;
             document.getElementById('saved_pace').textContent = insights.pace;
