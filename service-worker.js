@@ -1,5 +1,5 @@
-// VERSION 211 - BAIT ANALYTICS & COMPETITION REMOVED
-const CACHE_NAME = 'sea-score-v211';
+// VERSION 212 - VISUAL IMPACT ANALYTICS
+const CACHE_NAME = 'sea-score-v212';
 
 const FILES_TO_CACHE = [
   './',
