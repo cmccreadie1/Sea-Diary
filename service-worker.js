@@ -1,5 +1,5 @@
-// VERSION 219 - ZERO-TYPE SMART VENUES & AUTO-NAME
-const CACHE_NAME = 'sea-score-v219';
+// VERSION 220 - SMART MEMORY & EFFICIENCY GESTURES
+const CACHE_NAME = 'sea-score-v220';
 
 const FILES_TO_CACHE = [
   './',
