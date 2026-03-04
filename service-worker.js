@@ -1,5 +1,5 @@
-// VERSION 222 - REFACTORED & OPTIMIZED CORE
-const CACHE_NAME = 'sea-score-v222';
+// VERSION 223 - RAPID ENTRY CARD & BUG FIXES
+const CACHE_NAME = 'sea-score-v223';
 
 const FILES_TO_CACHE = [
   './',
