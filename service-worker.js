@@ -1,5 +1,5 @@
-// VERSION 231 - FIREBASE LIVE MATCH UPDATE
-const CACHE_NAME = 'sea-score-v231';
+// VERSION 233.0 - FULL RESTORATION + LOBBY
+const CACHE_NAME = 'sea-score-v233';
 
 const FILES_TO_CACHE = [
   './',
@@ -17,26 +17,16 @@ const FILES_TO_CACHE = [
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
-  e.waitUntil(caches.open(CACHE_NAME).then((cache) => { return cache.addAll(FILES_TO_CACHE); }));
+  e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE)));
 });
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((keyList) => {
-    return Promise.all(keyList.map((key) => { if (key !== CACHE_NAME) { return caches.delete(key); } }));
+    return Promise.all(keyList.map((key) => { if (key !== CACHE_NAME) return caches.delete(key); }));
   }));
   e.waitUntil(clients.claim());
 });
 
 self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((response) => {
-      if (response) return response;
-      return fetch(e.request).then((fetchResponse) => {
-        return caches.open(CACHE_NAME).then((cache) => {
-          if (e.request.url.startsWith('http') && e.request.method === 'GET') { cache.put(e.request, fetchResponse.clone()); }
-          return fetchResponse;
-        });
-      });
-    }).catch(() => { console.log('Offline and resource not found in cache:', e.request.url); })
-  );
+  e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request)));
 });
