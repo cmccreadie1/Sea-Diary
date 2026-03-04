@@ -1,5 +1,5 @@
-// VERSION 218 - SMART VENUE DATABASE & AUTO-FETCH
-const CACHE_NAME = 'sea-score-v218';
+// VERSION 219 - ZERO-TYPE SMART VENUES & AUTO-NAME
+const CACHE_NAME = 'sea-score-v219';
 
 const FILES_TO_CACHE = [
   './',
