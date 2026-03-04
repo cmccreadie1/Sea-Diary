@@ -1,5 +1,5 @@
-// VERSION 226 - ULTIMATE SETUP STREAMLINING & GPS MERGE
-const CACHE_NAME = 'sea-score-v226';
+// VERSION 227 - GHOST BUG FIX
+const CACHE_NAME = 'sea-score-v227';
 
 const FILES_TO_CACHE = [
   './',
