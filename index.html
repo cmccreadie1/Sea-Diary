@@ -17,7 +17,6 @@
 
     <style>
         :root {
-            /* Webby High-Contrast Light Theme */
             --app-main: #069494; 
             --app-main-hover: #057a7a;
             --bg-main: #f3f6f8;
@@ -33,17 +32,7 @@
         }
 
         html { overscroll-behavior: none; }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: var(--bg-main); 
-            color: var(--text-main); 
-            padding-bottom: 90px;
-            min-height: 100vh;
-            overflow-x: hidden;
-            overscroll-behavior: none; 
-        }
-        
+        body { font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 90px; min-height: 100vh; overflow-x: hidden; overscroll-behavior: none; }
         h1, h2, h3, h4, h5, h6, .live-score-value, .picker-item, .btn, .xc-score { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
 
         .text-primary { color: var(--app-main) !important; }
@@ -56,10 +45,8 @@
         .btn-danger { border-radius: 12px; font-weight: 700; }
         .btn-secondary { border-radius: 12px; font-weight: 700; }
         .btn-dark { font-weight: 700; border-radius: 12px; }
-
         .text-muted { color: var(--text-muted) !important; }
 
-        /* Clean Forms & Inputs */
         .form-control, .form-select { background-color: var(--input-bg); color: var(--text-main); border-radius: 12px; padding: 12px 16px; border: 1px solid var(--border-color); font-weight: 600; box-shadow: none; transition: all 0.2s ease; }
         .form-control:focus, .form-select:focus { background-color: var(--card-bg); box-shadow: 0 0 0 3px rgba(6, 148, 148, 0.2); border-color: var(--app-main); color: var(--text-main); }
         .form-control:disabled, .form-select:disabled { background-color: var(--bg-main); color: var(--text-muted); opacity: 0.7; }
@@ -67,7 +54,6 @@
 
         .modal-content { background-color: var(--modal-bg); border-color: var(--border-color); border-radius: 24px; box-shadow: var(--shadow-md); }
         
-        /* --- SCROLL DRUM PICKER UI --- */
         .picker-outer-wrapper { background: var(--card-bg); padding: 12px; border-radius: 20px; border: 2px solid var(--app-main); margin-bottom: 12px; box-shadow: var(--shadow-sm); }
         .picker-instruction { text-align: center; font-size: 0.75rem; font-weight: 800; color: var(--app-main); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
         .weight-picker-container { display: flex; justify-content: center; align-items: center; background: var(--picker-bg); border-radius: 12px; height: 140px; position: relative; overflow: hidden; border: 1px solid var(--border-color); }
@@ -86,7 +72,6 @@
         
         .inner-card { background: var(--card-bg); border-radius: 20px; padding: 18px; box-shadow: var(--shadow-sm); margin-bottom: 16px; border: 1px solid var(--border-color); }
 
-        /* --- SPLASH SCREEN --- */
         .splash-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: var(--bg-main); color: var(--text-main); text-align: center; padding: 20px; box-sizing: border-box; z-index: 1040; overflow: hidden; touch-action: none; overscroll-behavior: none; }
         .logo-svg { width: 160px; height: 160px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)); margin-bottom: 25px; }
         .sonar-sweep { transform-origin: 100px 100px; animation: spin 4s linear infinite; }
@@ -131,6 +116,8 @@
         .xc-stat-val { font-size: 1.5rem; font-weight: 800; color: var(--app-main); }
         .xc-stat-lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 700; color: #cbd5e1; }
         .xc-story { font-size: 0.95rem; color: #f8fafc; font-weight: 500; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; text-align: left;}
+        
+        .letter-spacing-1 { letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -163,7 +150,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 222.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 223.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -244,28 +231,14 @@
             </button>
             
             <div class="row g-2 mb-2">
-                <div class="col-6">
-                    <label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:4px; letter-spacing: 0.5px;">Weather</label>
-                    <input type="text" id="weatherInput" class="form-control text-center fw-bold text-main" placeholder="--" readonly style="border-radius: 12px; background: transparent;">
-                </div>
-                <div class="col-6">
-                    <label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:4px; letter-spacing: 0.5px;">Wind</label>
-                    <input type="text" id="windInput" class="form-control text-center fw-bold text-main" placeholder="--" readonly style="border-radius: 12px; background: transparent;">
-                </div>
-                <div class="col-6">
-                    <label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:4px; letter-spacing: 0.5px;">Wave Height</label>
-                    <input type="text" id="waveInput" class="form-control text-center fw-bold text-primary" placeholder="--" readonly style="border-radius: 12px; background: transparent;">
-                </div>
-                <div class="col-6">
-                    <label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:4px; letter-spacing: 0.5px;">Swell Height</label>
-                    <input type="text" id="swellInput" class="form-control text-center fw-bold text-primary" placeholder="--" readonly style="border-radius: 12px; background: transparent;">
-                </div>
+                <div class="col-6"><label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:4px; letter-spacing: 0.5px;">Weather</label><input type="text" id="weatherInput" class="form-control text-center fw-bold text-main" placeholder="--" readonly style="border-radius: 12px; background: transparent;"></div>
+                <div class="col-6"><label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:4px; letter-spacing: 0.5px;">Wind</label><input type="text" id="windInput" class="form-control text-center fw-bold text-main" placeholder="--" readonly style="border-radius: 12px; background: transparent;"></div>
+                <div class="col-6"><label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:4px; letter-spacing: 0.5px;">Wave Height</label><input type="text" id="waveInput" class="form-control text-center fw-bold text-primary" placeholder="--" readonly style="border-radius: 12px; background: transparent;"></div>
+                <div class="col-6"><label class="form-label text-muted" style="font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:4px; letter-spacing: 0.5px;">Swell Height</label><input type="text" id="swellInput" class="form-control text-center fw-bold text-primary" placeholder="--" readonly style="border-radius: 12px; background: transparent;"></div>
             </div>
 
             <div class="text-center mt-3 pt-1 border-top border-opacity-10 border-dark">
-                <a href="#" class="small fw-bold text-muted text-decoration-none" onclick="document.getElementById('manualTideContainer').style.display='block'; this.style.display='none'; return false;">
-                    <i class="bi bi-pencil-square me-1"></i>Enter Tides Manually
-                </a>
+                <a href="#" class="small fw-bold text-muted text-decoration-none" onclick="document.getElementById('manualTideContainer').style.display='block'; this.style.display='none'; return false;"><i class="bi bi-pencil-square me-1"></i>Enter Tides Manually</a>
             </div>
 
             <div id="manualTideContainer" class="mt-3 text-center" style="display:none;">
@@ -296,28 +269,20 @@
             <canvas id="liveTideCanvas" class="w-100"></canvas>
         </div>
         
-        <div class="inner-card mb-3">
+        <div class="inner-card mb-3 p-4 bg-white rounded-4 shadow-sm border-0 position-relative overflow-hidden">
+            <div style="position:absolute; top:-40px; right:-40px; opacity:0.02; pointer-events:none;"><i class="bi bi-droplet-fill" style="font-size:150px;"></i></div>
+            
             <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="window.handleCameraInput()">
             
-            <div class="mb-3">
-                <label class="form-label small fw-bold text-muted mb-1">Species</label>
-                <select id="speciesInput" class="form-select fw-bold" onchange="window.toggleCustomSpeciesInput()"></select>
-                <input type="text" id="customSpeciesInput" class="form-control fw-bold mt-2" placeholder="Type Species Name" style="display:none;">
-            </div>
+            <label class="form-label small fw-bold text-primary mb-1 text-uppercase letter-spacing-1"><i class="bi bi-1-circle-fill me-1"></i>Species</label>
+            <select id="speciesInput" class="form-select form-select-lg fw-bold border-0 bg-light mb-3 shadow-sm" style="font-size:1.1rem;" onchange="window.handleSpeciesSelect()"></select>
+            <input type="text" id="customSpeciesInput" class="form-control fw-bold border-0 bg-light mb-3 shadow-sm" placeholder="Type Species Name" style="display:none;">
 
-            <div class="mb-3">
-                <label class="form-label small fw-bold text-muted mb-1">Bait Used (Optional)</label>
-                <div class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center shadow-sm" onclick="window.openBaitModal('new')" style="cursor:pointer; border-color: var(--border-color) !important;">
-                    <div id="liveBaitDisplay" class="fw-bold text-main fs-6">None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span></div>
-                    <i class="bi bi-chevron-right text-primary fs-5"></i>
-                </div>
-            </div>
-
-            <div id="lengthInputContainer" class="mb-3" style="display:none;">
-                <label class="form-label small fw-bold text-muted mb-1">Fish Length</label>
-                <div class="input-group shadow-sm">
-                    <input type="number" id="fishLengthInput" class="form-control text-center fw-bold text-primary border-end-0 py-2" inputmode="decimal" style="font-size: 1.4rem;" placeholder="0">
-                    <span class="input-group-text input-group-text-clean fs-6 py-2">cm</span>
+            <div id="lengthInputContainer" class="mb-3">
+                <label class="form-label small fw-bold text-primary mb-1 text-uppercase letter-spacing-1"><i class="bi bi-2-circle-fill me-1"></i>Length (cm)</label>
+                <div class="input-group shadow-sm border-0 bg-light rounded-3 overflow-hidden">
+                    <input type="number" id="fishLengthInput" class="form-control text-center fw-bold text-primary border-0 bg-transparent py-2" inputmode="decimal" style="font-size: 1.8rem;" placeholder="0">
+                    <span class="input-group-text bg-transparent border-0 text-muted fw-bold fs-5 py-2 pe-3">cm</span>
                 </div>
             </div>
 
@@ -328,9 +293,12 @@
                 </div>
             </div>
 
-            <div class="row g-2 pt-1">
-                <div class="col-6"><button class="btn btn-primary btn-record-action w-100" onclick="window.addFishTextOnly()"><i class="bi bi-check-circle fs-4 mb-1"></i>Record</button></div>
-                <div class="col-6"><button class="btn btn-primary btn-record-action w-100" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-4 mb-1"></i>Photo</button></div>
+            <label class="form-label small fw-bold text-primary mb-2 text-uppercase letter-spacing-1"><i class="bi bi-3-circle-fill me-1"></i>Bait</label>
+            <div class="d-flex flex-wrap gap-2 mb-4" id="inlineBaitContainer"></div>
+
+            <div class="row g-2">
+                <div class="col-8"><button class="btn btn-primary btn-record-action w-100 shadow-sm" style="font-size:1.1rem; flex-direction: row;" onclick="window.addFishTextOnly()"><i class="bi bi-check2-circle me-2 fs-4 mb-0"></i>Record Catch</button></div>
+                <div class="col-4"><button class="btn btn-dark btn-record-action w-100 shadow-sm" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-4 mb-0"></i></button></div>
             </div>
         </div>
 
@@ -445,14 +413,14 @@
 
     <div class="modal fade" id="guideModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header border-0 pb-0 pt-4 px-4"><h4 class="modal-title fw-bold text-primary"><i class="bi bi-book-fill me-2"></i>User Guide</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body px-4 pb-4 pt-3 text-main">
         <h6 class="fw-bold text-primary mb-2">1. Setup & Smart Memory</h6><p class="small text-muted mb-4 fw-bold">The app automatically pre-fills your name to save time. Tap the venue box to pick from your previously saved marks (zero typing required). If you choose a saved mark, the app instantly links the correct tide station and fetches the live weather. To log a brand new mark, select "+ Add New Venue", type it in, hit Auto-Search for GPS tides, and the app will remember it forever.</p>
-        <h6 class="fw-bold text-primary mb-2">2. Live Logging & Gestures</h6><p class="small text-muted mb-4 fw-bold">The Species and Bait lists automatically learn your habits, pinning your Top 5 most frequent catches and Bait Cocktails to the top of the list for 1-tap logging. If the fish are feeding fast, use the "Copy" button to instantly duplicate your last catch. Made a mistake? Just swipe the row to the left to delete it.</p>
+        <h6 class="fw-bold text-primary mb-2">2. Live Logging & Gestures</h6><p class="small text-muted mb-4 fw-bold">The Species and Bait lists automatically learn your habits, pinning your Top 5 most frequent catches and Bait Cocktails to the top of the list for 1-tap logging. The "Rapid Entry Card" automatically jumps from Species directly to your numeric keypad to save screen taps. Made a mistake? Just swipe the row to the left to delete it.</p>
         <h6 class="fw-bold text-primary mb-2">3. The xC Rating (Expected Catch)</h6><p class="small text-muted mb-4 fw-bold">Think of this exactly like 'xG' in football, but for fishing. xC calculates your performance based on the specific conditions. It is a strictly <em>personal</em> rating that compares today's catch against your own historical average at this exact venue. The algorithm evaluates your baseline catch rate, applies a difficulty multiplier for heavy winds/swells, and heavily rewards you for landing low-probability specimen fish.</p>
         <h6 class="fw-bold text-primary mb-2">4. Analytics Dashboard</h6><p class="small text-muted mb-0 fw-bold">At the end of your session, the insight engine crunches the data to reveal your Top Bait, your Peak Feeding window, your overall action pace, and the exact stage of the tide that produced the most bites. All of this is visualized on a custom catch timeline graph.</p>
     </div></div></div></div>
     
     <div class="modal fade" id="baitModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-4">
-        <div class="d-flex justify-content-between align-items-center mb-3"><h4 class="text-primary fw-bold m-0"><i class="bi bi-bug me-2"></i>Select Baits</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div id="frequentBaitsContainer" style="display:none;"></div><p class="text-muted small fw-bold mb-2">Build a new cocktail:</p><div id="baitGrid" class="d-flex flex-wrap gap-2 mb-3"></div><input type="text" id="customBaitInput" class="form-control fw-bold mb-4" placeholder="Other bait..."><button class="btn btn-primary w-100 py-3 fw-bold rounded-4 shadow-sm" onclick="window.saveBaitSelection()">Save & Apply</button>
+        <div class="d-flex justify-content-between align-items-center mb-3"><h4 class="text-primary fw-bold m-0"><i class="bi bi-bug me-2"></i>All Baits</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <p class="text-muted small fw-bold mb-2">Build a custom cocktail or select a rare bait:</p><div id="baitGrid" class="d-flex flex-wrap gap-2 mb-3"></div><input type="text" id="customBaitInput" class="form-control fw-bold mb-4" placeholder="Other bait..."><button class="btn btn-primary w-100 py-3 fw-bold rounded-4 shadow-sm" onclick="window.saveBaitSelection()">Save & Apply</button>
     </div></div></div></div>
     
     <div class="modal fade" id="weightUnitModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-5 text-center"><h3 class="text-primary fw-bold mb-2">Scoring Unit</h3><p class="text-muted fw-bold mb-4">Choose format for this session</p><div class="d-grid gap-3"><button type="button" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-4" data-bs-dismiss="modal" onclick="window.handleUnitChoice('metric')">Kilograms (KG)</button><button type="button" class="btn btn-outline-primary btn-lg py-3 fw-bold shadow-sm rounded-4 bg-white" data-bs-dismiss="modal" onclick="window.handleUnitChoice('imperial')">Pounds & Ounces</button></div></div></div></div></div>
@@ -474,7 +442,7 @@
         const availableBaits = ['Lugworm', 'Ragworm', 'Squid', 'Mackerel', 'Sandeel', 'Peeler Crab', 'Mussel', 'Razor Clam', 'Bluey', 'Prawn', 'Artificial'];
         const tideStations = [{region:"Scotland - East",stations:[{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Buckie",lat:57.6766,lon:-2.9649},{name:"Burntisland",lat:56.05,lon:-3.2333},{name:"Dunbar",lat:56.0029,lon:-2.5135},{name:"Dundee",lat:56.462,lon:-2.9707},{name:"Eyemouth",lat:55.8711,lon:-2.0867},{name:"Fraserburgh",lat:57.6953,lon:-2.0041},{name:"Granton",lat:55.9833,lon:-3.2333},{name:"Leith (Edinburgh)",lat:55.9855,lon:-3.1764},{name:"Lossiemouth",lat:57.7202,lon:-3.2842},{name:"Macduff",lat:57.67,lon:-2.4939},{name:"Methil",lat:56.1833,lon:-3},{name:"Montrose",lat:56.705,lon:-2.4566},{name:"Peterhead",lat:57.5058,lon:-1.7765},{name:"Rosyth",lat:55.9833,lon:-3.4167},{name:"St Andrews",lat:56.34,lon:-2.79},{name:"Stonehaven",lat:56.9667,lon:-2.2}]},{region:"Scotland - North & Isles",stations:[{name:"Cromarty",lat:57.6833,lon:-4.0333},{name:"Inverness",lat:57.4957,lon:-4.2405},{name:"Kirkwall",lat:58.9866,lon:-2.9566},{name:"Lerwick",lat:60.155,lon:-1.1444},{name:"Lochinver",lat:58.15,lon:-5.25},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Stornoway",lat:58.2094,lon:-6.3849},{name:"Thurso",lat:58.6,lon:-3.5167},{name:"Ullapool",lat:57.8953,lon:-5.1585},{name:"Wick",lat:58.4379,lon:-3.0841}]},{region:"Scotland - West",stations:[{name:"Ayr",lat:55.4586,lon:-4.6292},{name:"Campbeltown",lat:55.4241,lon:-5.6033},{name:"Dunoon",lat:55.95,lon:-4.9167},{name:"Fort William",lat:56.8198,lon:-5.1052},{name:"Girvan",lat:55.2443,lon:-4.8582},{name:"Gourock",lat:55.9667,lon:-4.8167},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Helensburgh",lat:56.0022,lon:-4.7355},{name:"Kyle of Lochalsh",lat:57.2833,lon:-5.7167},{name:"Largs",lat:55.7941,lon:-4.8727},{name:"Mallaig",lat:57.0064,lon:-5.8291},{name:"Oban",lat:56.4116,lon:-5.4747},{name:"Portpatrick",lat:54.8333,lon:-5.1167},{name:"Rothesay",lat:55.8333,lon:-5.05},{name:"Stranraer",lat:54.9042,lon:-5.0253},{name:"Tarbert",lat:55.8667,lon:-5.4167},{name:"Tobermory",lat:56.6225,lon:-6.0645},{name:"Troon",lat:55.55,lon:-4.6667}]},{region:"England - North East",stations:[{name:"Amble",lat:55.334,lon:-1.5772},{name:"Berwick-upon-Tweed",lat:55.7663,lon:-1.9961},{name:"Blyth",lat:55.1275,lon:-1.4984},{name:"Bridlington",lat:54.0805,lon:-0.1906},{name:"Filey",lat:54.2167,lon:-0.2833},{name:"Hartlepool",lat:54.6946,lon:-1.1895},{name:"Redcar",lat:54.6167,lon:-1.0667},{name:"Scarborough",lat:54.2831,lon:-0.3957},{name:"Seaham",lat:54.8333,lon:-1.3333},{name:"Seahouses",lat:55.5806,lon:-1.6517},{name:"South Shields",lat:55,lon:-1.4333},{name:"Sunderland",lat:54.9142,lon:-1.3735},{name:"Tynemouth",lat:55.0167,lon:-1.4167},{name:"Whitby",lat:54.4912,lon:-0.612}]},{region:"England - East",stations:[{name:"Aldeburgh",lat:52.1523,lon:1.6033},{name:"Boston",lat:52.9833,lon:-0.0167},{name:"Burnham-on-Crouch",lat:51.6288,lon:0.8143},{name:"Clacton-on-Sea",lat:51.7851,lon:1.1565},{name:"Cleethorpes",lat:53.55,lon:-0.0333},{name:"Cromer",lat:52.9333,lon:1.3},{name:"Felixstowe",lat:51.9547,lon:1.3485},{name:"Great Yarmouth",lat:52.6033,lon:1.7335},{name:"Grimsby",lat:53.5701,lon:-0.0637},{name:"Harwich",lat:51.9421,lon:1.2863},{name:"Hull",lat:54.1205,lon:-0.3341},{name:"Hunstanton",lat:52.9333,lon:0.4833},{name:"King's Lynn",lat:52.75,lon:0.4},{name:"Lowestoft",lat:52.4746,lon:1.7546},{name:"Skegness",lat:53.1333,lon:0.3333},{name:"Southend-on-Sea",lat:51.5284,lon:0.7161},{name:"Southwold",lat:52.3276,lon:1.6815},{name:"Walton-on-the-Naze",lat:51.85,lon:1.2667}]},{region:"England - South & South East",stations:[{name:"Bognor Regis",lat:50.7833,lon:-0.6667},{name:"Bournemouth",lat:50.7151,lon:-1.8754},{name:"Brighton",lat:50.8166,lon:-0.1374},{name:"Deal",lat:51.2227,lon:1.4024},{name:"Dover",lat:51.116,lon:1.319},{name:"Eastbourne",lat:50.7675,lon:0.2845},{name:"Folkestone",lat:51.0792,lon:1.1794},{name:"Hastings",lat:50.8522,lon:0.5732},{name:"Herne Bay",lat:51.3667,lon:1.1167},{name:"Isle of Wight (Cowes)",lat:50.7634,lon:-1.2977},{name:"Littlehampton",lat:50.8,lon:-0.5333},{name:"Lymington",lat:50.75,lon:-1.5333},{name:"Margate",lat:51.3897,lon:1.3831},{name:"Newhaven",lat:50.7833,lon:0.05},{name:"Poole",lat:50.7118,lon:-1.9863},{name:"Portsmouth",lat:50.7937,lon:-1.107},{name:"Ramsgate",lat:51.3323,lon:1.4215},{name:"Rye",lat:50.95,lon:0.7333},{name:"Sheerness",lat:51.4333,lon:0.75},{name:"Shoreham-by-Sea",lat:50.829,lon:-0.2709},{name:"Southampton",lat:50.892,lon:-1.3965},{name:"Swanage",lat:50.6,lon:-1.95},{name:"Weymouth",lat:50.6083,lon:-2.4542},{name:"Whitstable",lat:51.35,lon:1.0167},{name:"Worthing",lat:50.8105,lon:-0.3752}]},{region:"England - South West",stations:[{name:"Appledore",lat:51.05,lon:-4.2},{name:"Brixham",lat:50.3957,lon:-3.5132},{name:"Bude",lat:50.8294,lon:-4.5492},{name:"Burnham-on-Sea",lat:51.2381,lon:-3.0003},{name:"Dartmouth",lat:50.3508,lon:-3.5786},{name:"Exmouth",lat:50.6186,lon:-3.415},{name:"Falmouth",lat:50.1472,lon:-5.0601},{name:"Fowey",lat:50.3333,lon:-4.6333},{name:"Ilfracombe",lat:51.2081,lon:-4.1165},{name:"Looe",lat:50.3524,lon:-4.4539},{name:"Lyme Regis",lat:50.7244,lon:-2.9366},{name:"Minehead",lat:51.2066,lon:-3.4735},{name:"Newlyn",lat:50.1039,lon:-5.5469},{name:"Newquay",lat:50.4137,lon:-5.0768},{name:"Padstow",lat:50.5401,lon:-4.9388},{name:"Penzance",lat:50.1186,lon:-5.5371},{name:"Plymouth",lat:50.3664,lon:-4.146},{name:"Port Isaac",lat:50.5931,lon:-4.8315},{name:"Salcombe",lat:50.2333,lon:-3.7667},{name:"St Ives",lat:50.2132,lon:-5.4795},{name:"Teignmouth",lat:50.55,lon:-3.5},{name:"Torquay",lat:50.4578,lon:-3.5222}]},{region:"England - North West",stations:[{name:"Barrow-in-Furness",lat:54.1105,lon:-3.2263},{name:"Birkenhead",lat:53.3833,lon:-3.0167},{name:"Blackpool",lat:53.8142,lon:-3.0558},{name:"Clevedon",lat:51.4414,lon:-2.858},{name:"Fleetwood",lat:53.9248,lon:-3.0135},{name:"Heysham",lat:54.0333,lon:-2.9},{name:"Liverpool",lat:53.4084,lon:-2.9916},{name:"Maryport",lat:54.7142,lon:-3.4984},{name:"Morecambe",lat:54.0735,lon:-2.8687},{name:"Silloth",lat:54.8667,lon:-3.3833},{name:"Southport",lat:53.6333,lon:-3},{name:"Weston-super-Mare",lat:51.3458,lon:-2.9774},{name:"Whitehaven",lat:54.5489,lon:-3.5851},{name:"Workington",lat:54.6409,lon:-3.5516}]},{region:"Wales",stations:[{name:"Aberaeron",lat:52.2415,lon:-4.2589},{name:"Aberdovey",lat:52.5448,lon:-4.045},{name:"Aberystwyth",lat:52.4153,lon:-4.0829},{name:"Bangor",lat:53.2274,lon:-4.1293},{name:"Barmouth",lat:52.7175,lon:-4.0531},{name:"Barry",lat:51.3934,lon:-3.2683},{name:"Caernarfon",lat:53.1333,lon:-4.2667},{name:"Cardiff",lat:51.4552,lon:-3.1601},{name:"Cardigan",lat:52.0833,lon:-4.6625},{name:"Chepstow",lat:51.6429,lon:-2.6738},{name:"Conwy",lat:53.2831,lon:-3.83},{name:"Fishguard",lat:51.9939,lon:-4.976},{name:"Holyhead",lat:53.3134,lon:-4.63},{name:"Llandudno",lat:53.3278,lon:-3.8249},{name:"Llanelli",lat:51.6833,lon:-4.15},{name:"Milford Haven",lat:51.7135,lon:-5.0345},{name:"New Quay",lat:52.2132,lon:-4.3592},{name:"Newport",lat:51.5877,lon:-2.9984},{name:"Pembroke",lat:51.6833,lon:-4.9167},{name:"Porthcawl",lat:51.4795,lon:-3.7027},{name:"Porthmadog",lat:52.9275,lon:-4.1309},{name:"Pwllheli",lat:52.8887,lon:-4.4172},{name:"Rhyl",lat:53.3211,lon:-3.48},{name:"St Davids",lat:51.8813,lon:-5.2657},{name:"Swansea",lat:51.6152,lon:-3.9351},{name:"Tenby",lat:51.6738,lon:-4.6976},{name:"The Mumbles",lat:51.567,lon:-3.9935}]},{region:"Northern Ireland",stations:[{name:"Ballycastle",lat:55.2037,lon:-6.2514},{name:"Bangor",lat:54.6616,lon:-5.6667},{name:"Belfast",lat:54.6139,lon:-5.9103},{name:"Coleraine",lat:55.1322,lon:-6.6668},{name:"Derry / Londonderry",lat:55.0068,lon:-7.3183},{name:"Donaghadee",lat:54.6406,lon:-5.5398},{name:"Larne",lat:54.8517,lon:-5.8143},{name:"Portrush",lat:55.2045,lon:-6.6534},{name:"Portstewart",lat:55.1812,lon:-6.7118},{name:"Warrenpoint",lat:54.1017,lon:-6.2483}]}];
         
-        let fishData=[], currentScoringMethod='', selectedWeightUnit='metric', currentSavedKey='', currentAngler='', currentVenue='', currentDate='';
+        let fishData=[], currentScoringMethod='length_only', selectedWeightUnit='metric', currentSavedKey='', currentAngler='', currentVenue='', currentDate='';
         let weatherInfo = '', windInfo = '', swellInfo = '', waveInfo = '', hwTime = '', lwTime = '', coastalTown = '';
         let sessionStartTimeStr = '', sessionEndTimeStr = '', sunriseTimeStr = '', sunsetTimeStr = ''; 
         let pendingRestoreData = null, deferredPrompt = null, editingOriginalFish = null;
@@ -499,77 +467,8 @@
 
         window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
 
-        // --- SHARED SCORECARD RENDERER ---
-        window.buildScorecardUI = function(prefix, d, isHistory = false) {
-            document.getElementById(`${prefix}_angler`).textContent = d.angler;
-            document.getElementById(`${prefix}_date`).textContent = new Date(d.date).toLocaleDateString('en-GB');
-
-            let phaseText = window.getSolarPhase(d.sessionStart, d.sessionEnd, d.sunrise, d.sunset);
-            let timeStrHTML = `${d.sessionStart || '--:--'} - ${d.sessionEnd || '--:--'}`;
-            if(phaseText) timeStrHTML += ` <span class="ms-2 text-primary">${phaseText}</span>`;
-            document.getElementById(`${prefix}_time_range`).innerHTML = timeStrHTML;
-            document.getElementById(`${prefix}_venue`).textContent = d.venue || d.coastalTown || 'Unnamed Venue';
-
-            let condHTML = '';
-            if(d.weatherInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-1"></i>${d.weatherInfo}</span>`;
-            if(d.windInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-wind me-1"></i>${d.windInfo}</span>`;
-            if(d.waveInfo && d.waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-1"></i>${d.waveInfo} Wave</span>`;
-            if(d.swellInfo && d.swellInfo !== 'Inland' && d.swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-tsunami me-1"></i>${d.swellInfo} Swell</span>`;
-            document.getElementById(`${prefix}_live_conditions`).innerHTML = condHTML;
-
-            let pts = window.calculatePoints(d.fishData, d.method, d.weightUnit);
-            document.getElementById(`${prefix}_total_points`).textContent = pts;
-
-            const isW = d.method==='weight';
-            const statGrid = document.getElementById(`${prefix}_stat_grid`);
-            if (statGrid) {
-                document.getElementById(`${prefix}_total_fish`).textContent = d.fishData.length;
-                document.getElementById(`${prefix}_species_count`).textContent = new Set(d.fishData.map(f=>f.species)).size;
-                document.getElementById(`${prefix}_stat_label`).textContent = isW ? 'Total Weight' : 'Total Length';
-                document.getElementById(`${prefix}_total_stat`).textContent = isW ? pts : d.fishData.reduce((s,f)=>s+parseFloat(f.length||0),0).toFixed(1) + 'cm';
-            }
-
-            const actualVenue = d.venue || d.coastalTown || 'Unnamed Venue';
-            const xcData = window.calculateXC(actualVenue, d.fishData.length, d.fishData, d.windInfo, d.waveInfo, d.swellInfo);
-            window.renderXCShield(xcData, d.fishData.length, `${prefix}_xc_shield`);
-
-            const chartCont = document.getElementById(`${prefix}_tide_chart_container`);
-            if(d.hwTime && d.lwTime) {
-                chartCont.style.display = 'block';
-                setTimeout(() => { try { window.drawTideGraph(`${prefix}_tide_canvas`, d.hwTime, d.lwTime, d.fishData, d.sessionStart); } catch(e){} }, 200);
-            } else { chartCont.style.display = 'none'; }
-
-            const insights = window.getInsights(d.fishData, d.method, d.hwTime, d.lwTime);
-            document.getElementById(`${prefix}_peak_feed`).textContent = insights.peak;
-            document.getElementById(`${prefix}_pace`).textContent = insights.pace;
-            document.getElementById(`${prefix}_top_bait`).textContent = insights.topBait;
-            document.getElementById(`${prefix}_best_tide`).textContent = insights.bestTide;
-            document.getElementById(`${prefix}_insights_card`).style.display = d.fishData.length > 0 ? 'block' : 'none';
-
-            window.renderVisualAnalytics(insights, d.method, `${prefix}_visual_analytics`);
-
-            const area = document.getElementById(`${prefix}_breakdown`);
-            area.innerHTML='';
-            if(d.method==='species_hunt'){ area.innerHTML = generateSpeciesHuntHTML(d.fishData, d.hwTime, d.lwTime); } 
-            else {
-                let eTable = '<table class="table-custom"><tbody>';
-                d.fishData.forEach((f, idx)=>{
-                    const val = d.method==='weight' ? f.display : `${f.length}cm`; 
-                    const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">` : ''; 
-                    const tideTag = window.getTideState(f.time, d.hwTime, d.lwTime);
-                    const tideHTML = tideTag ? `<span class="text-primary small fw-bold ms-1">(${tideTag})</span>` : '';
-                    const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>` : '';
-                    let baitHtml = ''; if(f.baits && f.baits.length > 0) { baitHtml = `<div class="mt-1">` + f.baits.map(b => `<span class="bait-badge">${b}</span>`).join('') + `</div>`; }
-
-                    const baitEditBtn = isHistory ? `<button class="btn btn-sm btn-outline-primary border-0 me-2" onclick="window.openBaitModal('history', ${idx})"><i class="bi bi-bug-fill fs-5"></i></button>` : '';
-
-                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div>${baitHtml}</div><div class="d-flex align-items-center">${baitEditBtn}${ph}</div></div></td></tr>`;
-                }); 
-                eTable += '</tbody></table>'; area.innerHTML = eTable;
-            }
-        };
-
-        window.initBaitGrid = function() {
+        // --- NEW: INLINE BAIT RENDERER ---
+        window.renderInlineBaits = function() {
             let baitCounts = {};
             const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));
             keys.forEach(k => {
@@ -583,19 +482,19 @@
                     });
                 } catch(e){}
             });
-            const topBaits = Object.entries(baitCounts).sort((a,b)=>b[1]-a[1]).slice(0,4).map(e=>e[0]);
-            
-            const freqContainer = document.getElementById('frequentBaitsContainer');
-            if(freqContainer) {
-                if(topBaits.length > 0) {
-                    freqContainer.style.display = 'block';
-                    let html = '<h6 class="text-primary fw-bold mb-2"><i class="bi bi-star-fill text-warning me-1"></i> Frequent Cocktails</h6><div class="d-flex flex-wrap gap-2 mb-3">';
-                    topBaits.forEach(b => { html += `<button class="btn btn-outline-primary fw-bold rounded-pill" onclick="window.quickSelectBait('${b}')">${b}</button>`; });
-                    html += '</div><hr class="text-muted border-opacity-25">';
-                    freqContainer.innerHTML = html;
-                } else { freqContainer.style.display = 'none'; }
-            }
+            let topBaits = Object.entries(baitCounts).sort((a,b)=>b[1]-a[1]).slice(0,5).map(e=>e[0]);
+            if (topBaits.length === 0) topBaits = ["Lugworm", "Ragworm", "Squid", "Mackerel", "Peeler Crab"];
 
+            let html = '';
+            topBaits.forEach(b => {
+                let id = `inline-bait-${b.replace(/[^a-zA-Z0-9]/g, '')}`;
+                html += `<input type="checkbox" class="btn-check inline-bait-cb" id="${id}" value="${b}"><label class="btn btn-outline-secondary rounded-pill fw-bold px-3 py-1" for="${id}">${b}</label>`;
+            });
+            html += `<button class="btn btn-light rounded-pill fw-bold text-muted border shadow-sm px-3 py-1" onclick="window.openBaitModal('new')"><i class="bi bi-three-dots"></i> More</button>`;
+            document.getElementById('inlineBaitContainer').innerHTML = html;
+        };
+
+        window.initBaitGrid = function() {
             const grid = document.getElementById('baitGrid'); grid.innerHTML = '';
             availableBaits.forEach(b => {
                 const id = `bait-cb-${b.replace(/\s+/g, '')}`;
@@ -620,13 +519,6 @@
             bootstrap.Modal.getOrCreateInstance(document.getElementById('baitModal')).show();
         };
 
-        window.quickSelectBait = function(comboStr) {
-            let baits = comboStr.split(' / ');
-            if (baitEditContext.mode === 'new') { activeBaits = baits; document.getElementById('liveBaitDisplay').innerHTML = activeBaits.join(', '); } 
-            else if (baitEditContext.mode === 'live') { fishData[baitEditContext.index].baits = baits; window.updateFishLog(); window.saveActiveSession(); }
-            bootstrap.Modal.getInstance(document.getElementById('baitModal')).hide();
-        };
-
         window.saveBaitSelection = function() {
             let selected = Array.from(document.querySelectorAll('.bait-checkbox:checked')).map(cb => cb.value);
             const custom = document.getElementById('customBaitInput').value.trim();
@@ -634,7 +526,7 @@
             
             if(baitEditContext.mode === 'new') {
                 activeBaits = selected;
-                document.getElementById('liveBaitDisplay').innerHTML = activeBaits.length > 0 ? activeBaits.join(', ') : `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
+                window.showAppToast("Bait temporarily stored for next record.");
             } 
             else if(baitEditContext.mode === 'live') { fishData[baitEditContext.index].baits = selected; window.updateFishLog(); window.saveActiveSession(); }
             else if(baitEditContext.mode === 'history') {
@@ -661,12 +553,17 @@
             speciesList.forEach(g => { const grp = document.createElement('optgroup'); grp.label = g.category; g.items.sort().forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; grp.appendChild(o); }); e.appendChild(grp); }); 
         };
 
-        window.toggleCustomSpeciesInput = function() {
+        window.handleSpeciesSelect = function() {
+            window.toggleCustomSpeciesInput();
             const sel = document.getElementById("speciesInput");
-            document.getElementById("customSpeciesInput").style.display = sel.value === "Other" ? "block" : "none";
             if (sel.value && sel.value !== "Other" && (currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only')) {
                 setTimeout(() => { const lenIn = document.getElementById("fishLengthInput"); if (lenIn) lenIn.focus(); }, 100);
             }
+        };
+
+        window.toggleCustomSpeciesInput = function() {
+            const sel = document.getElementById("speciesInput");
+            document.getElementById("customSpeciesInput").style.display = sel.value === "Other" ? "block" : "none";
         };
 
         window.populateVenueDropdown = function() {
@@ -847,6 +744,13 @@
             return { peak, pace, topBait, bestTide, speciesBar };
         };
 
+        window.calculatePoints = function(data, method, unit = selectedWeightUnit){
+            if(method==='weight') { const totalRaw = data.reduce((sum, f) => sum + (parseFloat(f.raw) || 0), 0); if(unit==='metric') return totalRaw.toFixed(3) + ' kg'; return Math.floor(totalRaw/16) + 'lb ' + (totalRaw % 16).toFixed(0) + 'oz'; }
+            if(method==='species_hunt'){ const counts={}; let pts=0; data.forEach(f => { counts[f.species]=(counts[f.species]||0)+1; const n=counts[f.species]; pts+=(n===1?30:n===2?30:n===3?40:1); }); return pts; }
+            const lenSum = data.reduce((s,f)=>s+(parseFloat(f.length) || 0), 0);
+            return method==='length_only' ? Math.round(lenSum) : Math.round(lenSum + (data.length*10));
+        };
+
         window.calculateXC = function(currentVenue, currentCatchCount, currentFishData, windStr, waveStr, swellStr) {
             let pastSessions = [];
             let allKeys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));
@@ -1022,7 +926,6 @@
             document.getElementById('sessionNotesInput').value = '';
             document.getElementById('weatherInput').value = ''; document.getElementById('windInput').value = ''; document.getElementById('swellInput').value = ''; document.getElementById('waveInput').value = ''; 
             document.getElementById('manHW').value = ''; document.getElementById('manLW').value = ''; document.getElementById('manualTideContainer').style.display = 'none';
-            document.getElementById('liveBaitDisplay').innerHTML = `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
             if(document.getElementById('fishLengthInput')) document.getElementById('fishLengthInput').value = '';
             document.getElementById('speciesInput').selectedIndex = 0; document.getElementById('customSpeciesInput').value = '';
             document.getElementById('fishLog').innerHTML = ''; document.getElementById('liveScoreVal').textContent = '0'; document.getElementById('weightInfoDisplay').style.display = 'none'; document.getElementById('speciesHuntInfo').style.display = 'none';
@@ -1031,87 +934,7 @@
             PageManager.show('splashScreen'); StorageHelper.remove('active_session');
         };
 
-        window.setWeightPicker = function(raw, unit) {
-            let v1 = 0, v2 = 0;
-            if(unit === 'metric') { v1 = Math.floor(raw); v2 = Math.round((raw - v1) * 1000); } else { v1 = Math.floor(raw / 16); v2 = Math.round(raw % 16); }
-            const c1 = document.getElementById('pickerCol1'); const c2 = document.getElementById('pickerCol2');
-            const i1 = Array.from(c1.querySelectorAll('.picker-item')).findIndex(el => parseFloat(el.dataset.val) === v1);
-            let valToFind2 = unit === 'metric' ? v2/1000 : v2;
-            const i2 = Array.from(c2.querySelectorAll('.picker-item')).findIndex(el => Math.abs(parseFloat(el.dataset.val) - valToFind2) < 0.001);
-            if(i1 !== -1 && c1) c1.scrollTop = Math.max(0, i1 * 50); if(i2 !== -1 && c2) c2.scrollTop = Math.max(0, i2 * 50);
-            setTimeout(()=>{ window.updatePickerDisplay('pickerCol1'); window.updatePickerDisplay('pickerCol2'); }, 50);
-        };
-
-        window.editFish = function(index) {
-            const fishToEdit = fishData.splice(index, 1)[0]; editingOriginalFish = fishToEdit; 
-            let speciesFound = false; const select = document.getElementById("speciesInput");
-            for (let i = 0; i < select.options.length; i++) { if (select.options[i].value === fishToEdit.species) { select.selectedIndex = i; speciesFound = true; break; } }
-            if (!speciesFound) { select.value = "Other"; document.getElementById("customSpeciesInput").value = fishToEdit.species; }
-            window.toggleCustomSpeciesInput();
-            if (currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only') { document.getElementById('fishLengthInput').value = fishToEdit.length || ""; } else if (currentScoringMethod === 'weight') { window.setWeightPicker(fishToEdit.raw, selectedWeightUnit); }
-            window.updateFishLog(); window.saveActiveSession(); window.showAppToast("Catch loaded. Edit and tap Record."); window.scrollTo(0, 0);
-        };
-
-        window.initWeightPicker = function() {
-            const c1 = document.getElementById('pickerCol1'), c2 = document.getElementById('pickerCol2'); const pad = '<div style="height: 65px;"></div>'; let h1 = pad, h2 = pad;
-            if(selectedWeightUnit==='metric'){ for(let i=0;i<=50;i++) h1+=`<div class="picker-item" data-val="${i}">${i}</div>`; for(let i=0;i<=950;i+=50) h2+=`<div class="picker-item" data-val="${i/1000}">${(i/1000).toFixed(3).split('.')[1]}</div>`; document.getElementById('label1').textContent='KG'; document.getElementById('label2').textContent='G'; } 
-            else { for(let i=0;i<=60;i++) h1+=`<div class="picker-item" data-val="${i}">${i}</div>`; for(let i=0;i<=15;i++) h2+=`<div class="picker-item" data-val="${i}">${i}</div>`; document.getElementById('label1').textContent='LB'; document.getElementById('label2').textContent='OZ'; }
-            c1.innerHTML=h1+pad; c2.innerHTML=h2+pad; setTimeout(()=>{ window.updatePickerDisplay('pickerCol1'); window.updatePickerDisplay('pickerCol2'); }, 50);
-        };
-
-        window.updatePickerDisplay = function(id) {
-            const el = document.getElementById(id); if(!el) return; const items = el.querySelectorAll('.picker-item'); const mid = el.scrollTop + 90;
-            items.forEach(it => { if(it.offsetTop <= mid && (it.offsetTop+50) >= mid) it.classList.add('selected'); else it.classList.remove('selected'); });
-        };
-
-        window.getPickerValue = function() {
-            const v1 = parseFloat(document.querySelector('#pickerCol1 .selected')?.dataset.val || 0); const v2 = parseFloat(document.querySelector('#pickerCol2 .selected')?.dataset.val || 0);
-            const rawVal = selectedWeightUnit === 'metric' ? (v1 + v2) : (v1 * 16) + v2; const dispVal = selectedWeightUnit === 'metric' ? `${(v1 + v2).toFixed(3)}kg` : `${v1}lb ${v2}oz`;
-            return { raw: rawVal, display: dispVal };
-        };
-
-        window.getLengthPickerValue = function() { const val = document.getElementById('fishLengthInput').value; return parseFloat(val) || 0; };
-
-        window.handleMethodChange = function() {
-            const m = document.getElementById("scoringMethod").value;
-            currentScoringMethod = m; StorageHelper.save('lastScoringMethod', m);
-            if(m === 'weight') { bootstrap.Modal.getOrCreateInstance(document.getElementById('weightUnitModal')).show(); } else { document.getElementById('weightInfoDisplay').style.display='none'; }
-            document.getElementById('speciesHuntInfo').style.display = m==='species_hunt' ? 'block':'none'; window.saveActiveSession();
-        };
-
-        window.handleUnitChoice = function(unit) {
-            selectedWeightUnit = unit; const infoDisplay = document.getElementById('weightInfoDisplay');
-            if (infoDisplay) { infoDisplay.style.display = 'block'; infoDisplay.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> ${unit==='metric' ? 'Kilograms' : 'Pounds & Ounces'}`; } window.saveActiveSession();
-        };
-
-        window.setupFishingUI = function() {
-            const isWeight = currentScoringMethod === 'weight'; const isLength = currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only';
-            document.getElementById('weightPickerContainer').style.display = isWeight ? 'block' : 'none'; 
-            document.getElementById('lengthInputContainer').style.display = isLength ? 'block' : 'none';
-            if(isWeight) window.initWeightPicker(); 
-            if(hwTime && lwTime) { document.getElementById('liveTideChartContainer').style.display = 'block'; try { window.drawTideGraph('liveTideCanvas', hwTime, lwTime, fishData, sessionStartTimeStr); } catch(e) {} }
-        };
-
-        window.registerAngler = function() {
-            currentAngler = document.getElementById('anglerName').value.trim(); 
-            let typedVenue = document.getElementById('venueInputText').value.trim();
-            let selectedVenue = document.getElementById('venueSelect').value;
-            currentVenue = selectedVenue === '__NEW__' ? typedVenue : selectedVenue;
-            
-            const tideSel = document.getElementById('tideStationSelect');
-            coastalTown = tideSel.selectedIndex > 0 ? tideSel.options[tideSel.selectedIndex].text : 'Manual Location';
-            
-            if (currentVenue && coastalTown !== 'Manual Location') { venueTideMap[currentVenue] = coastalTown; StorageHelper.save('venueTideMap', JSON.stringify(venueTideMap)); }
-
-            currentDate = document.getElementById('competitionDate').value; currentScoringMethod = document.getElementById('scoringMethod').value;
-            weatherInfo = document.getElementById('weatherInput').value.trim(); windInfo = document.getElementById('windInput').value.trim(); swellInfo = document.getElementById('swellInput').value.trim(); waveInfo = document.getElementById('waveInput').value.trim();
-
-            if(!currentAngler || !currentScoringMethod) { window.showAppToast("Please enter your Name and Scoring Format.", true); return; }
-            if(!sessionStartTimeStr) sessionStartTimeStr = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false});
-            
-            window.setupFishingUI(); window.populateSpeciesDropdown(); PageManager.show('anglerFishingPage'); window.saveActiveSession();
-        };
-
+        // --- NEW: INLINE BAIT VALIDATION ---
         window.validateInputs = function() {
             const spIn = document.getElementById('speciesInput'); let species = spIn.value === "Other" ? document.getElementById('customSpeciesInput').value.trim() : spIn.value;
             if(!species) { window.showAppToast("Select a species.", true); return null; }
@@ -1128,7 +951,14 @@
                 resultObj = { species, time: catchTime, length: len };
             }
             if (photoData) resultObj.photo = photoData;
-            if(activeBaits && activeBaits.length > 0) resultObj.baits = [...activeBaits];
+
+            // INLINE BAIT MERGE
+            let inlineSelected = Array.from(document.querySelectorAll('.inline-bait-cb:checked')).map(cb => cb.value);
+            let finalBaits = [];
+            inlineSelected.forEach(val => { let parts = val.split(' / '); parts.forEach(p => finalBaits.push(p)); });
+            activeBaits.forEach(val => { let parts = val.split(' / '); parts.forEach(p => finalBaits.push(p)); });
+            finalBaits = [...new Set(finalBaits)];
+            if(finalBaits.length > 0) resultObj.baits = finalBaits;
 
             return resultObj;
         };
@@ -1149,9 +979,33 @@
             document.getElementById("speciesInput").selectedIndex = 0; document.getElementById("customSpeciesInput").value = ""; window.toggleCustomSpeciesInput(); 
             if(currentScoringMethod === 'weight') { const c1 = document.getElementById('pickerCol1'); const c2 = document.getElementById('pickerCol2'); if(c1) c1.scrollTop = 0; if(c2) c2.scrollTop = 0; setTimeout(()=>{ window.updatePickerDisplay('pickerCol1'); window.updatePickerDisplay('pickerCol2'); }, 50); }
             if(currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only') { document.getElementById("fishLengthInput").value = ""; }
-            activeBaits = []; document.getElementById('liveBaitDisplay').innerHTML = `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
+            
+            document.querySelectorAll('.inline-bait-cb').forEach(cb => cb.checked = false);
+            activeBaits = []; 
             window.saveActiveSession();
         }
+
+        window.editFish = function(index) {
+            const fishToEdit = fishData.splice(index, 1)[0]; editingOriginalFish = fishToEdit; 
+            let speciesFound = false; const select = document.getElementById("speciesInput");
+            for (let i = 0; i < select.options.length; i++) { if (select.options[i].value === fishToEdit.species) { select.selectedIndex = i; speciesFound = true; break; } }
+            if (!speciesFound) { select.value = "Other"; document.getElementById("customSpeciesInput").value = fishToEdit.species; }
+            window.toggleCustomSpeciesInput();
+            
+            if (currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only') { document.getElementById('fishLengthInput').value = fishToEdit.length || ""; } else if (currentScoringMethod === 'weight') { window.setWeightPicker(fishToEdit.raw, selectedWeightUnit); }
+            
+            // LOAD BAITS INTO INLINE PILLS
+            document.querySelectorAll('.inline-bait-cb').forEach(cb => cb.checked = false);
+            activeBaits = [];
+            if(fishToEdit.baits && fishToEdit.baits.length > 0) {
+                let comboStr = fishToEdit.baits.join(' / ');
+                let inlineFound = false;
+                document.querySelectorAll('.inline-bait-cb').forEach(cb => { if(cb.value === comboStr || fishToEdit.baits.includes(cb.value)) { cb.checked = true; inlineFound = true; } });
+                if(!inlineFound) { activeBaits = fishToEdit.baits; }
+            }
+
+            window.updateFishLog(); window.saveActiveSession(); window.showAppToast("Catch loaded. Edit and tap Record."); window.scrollTo(0, 0);
+        };
 
         window.duplicateFish = function(index) {
             if(index < 0 || index >= fishData.length) return;
@@ -1195,14 +1049,13 @@
                     </div>
                 </div>`;
             });
-            document.getElementById('liveScoreVal').textContent = window.calculatePoints(fishData, currentScoringMethod);
+            document.getElementById('liveScoreVal').textContent = String(window.calculatePoints(fishData, currentScoringMethod));
             if(hwTime && lwTime) { try { window.drawTideGraph('liveTideCanvas', hwTime, lwTime, fishData, sessionStartTimeStr); } catch(e){} }
         };
 
         window.endSession = function(){
             if(!confirm("Finish and save this session to History?")) return;
             sessionEndTimeStr = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false});
-            
             const currentSessionData = { angler: currentAngler, venue: currentVenue, coastalTown: coastalTown, date: currentDate, weatherInfo, windInfo, waveInfo, swellInfo, hwTime, lwTime, sessionStart: sessionStartTimeStr, sessionEnd: sessionEndTimeStr, sunrise: sunriseTimeStr, sunset: sunsetTimeStr, fishData, method: currentScoringMethod, weightUnit: selectedWeightUnit, notes: document.getElementById('sessionNotesInput').value || '' };
 
             PageManager.show('tallyVerificationPage');
@@ -1289,8 +1142,9 @@
             const select = document.getElementById('tideStationSelect');
             if (coastalTown && select) { for (let i = 0; i < select.options.length; i++) { if (select.options[i].text === coastalTown) { select.selectedIndex = i; break; } } }
             document.getElementById('scoringMethod').value=s.method; document.getElementById('weatherInput').value=weatherInfo; document.getElementById('windInput').value=windInfo; if(document.getElementById('waveInput')) document.getElementById('waveInput').value=waveInfo; if(document.getElementById('swellInput')) document.getElementById('swellInput').value=swellInfo;
-            document.getElementById('liveBaitDisplay').innerHTML = activeBaits.length > 0 ? activeBaits.join(', ') : `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
+            
             window.populateSpeciesDropdown();
+            window.renderInlineBaits();
 
             if(s.phase==='fishing'){ window.setupFishingUI(); PageManager.show('anglerFishingPage'); window.updateFishLog(); } else if(s.phase==='tally'){ window.endSession(); } else { PageManager.show('anglerRegistration'); if(hwTime && lwTime) { document.getElementById('setupTideChartContainer').style.display = 'block'; try { window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], sessionStartTimeStr); } catch(e) {} } }
         };
@@ -1301,7 +1155,9 @@
             document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; 
             currentAngler = currentAngler || "Christopher Francis McCreadie"; document.getElementById("anglerName").value = currentAngler;
             let lastFormat = StorageHelper.get('lastScoringMethod') || 'length_only'; document.getElementById('scoringMethod').value = lastFormat; currentScoringMethod = lastFormat; window.handleMethodChange();
-            window.populateTideStations(); window.populateVenueDropdown(); PageManager.show('anglerRegistration'); 
+            window.populateTideStations(); window.populateVenueDropdown(); 
+            window.renderInlineBaits(); // PREPARE RAPID ENTRY UI
+            PageManager.show('anglerRegistration'); 
         };
         
         window.shareAsImage=function(id){
@@ -1313,7 +1169,7 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            window.populateTideStations(); window.populateVenueDropdown(); window.initBaitGrid();
+            window.populateTideStations(); window.populateVenueDropdown(); window.initBaitGrid(); window.renderInlineBaits();
             document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; currentAngler = "Christopher Francis McCreadie"; document.getElementById("anglerName").value = currentAngler;
             window.restoreActiveSession();
             if(sessionStorage.getItem('showUpdateToast') === 'true') { sessionStorage.removeItem('showUpdateToast'); window.showAppToast("App Updated successfully!"); }
