@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -149,7 +149,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 227.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 228.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -593,6 +593,8 @@
                         window.populateVenueDropdown();
                         document.getElementById('venueSelect').value = venueName;
                         window.saveActiveSession();
+                    } else {
+                        window.showAppToast("No nearby tide station found.", true); btn.innerHTML = originalText; btn.disabled = false;
                     }
                 }, (err) => { window.showAppToast("GPS failed. Please allow location access.", true); btn.innerHTML = originalText; btn.disabled = false; }, { timeout: 10000 });
             } else {
@@ -607,7 +609,7 @@
                     await window.performWeatherAPI(sLat, sLon, coastalTown, btn, originalText);
                     window.saveActiveSession();
                 } else {
-                    window.showAppToast("Tide station missing for this venue.", true); btn.innerHTML = originalText; btn.disabled = false;
+                    window.showAppToast("Tide station mapping error.", true); btn.innerHTML = originalText; btn.disabled = false;
                 }
             }
         };
@@ -639,7 +641,7 @@
                 hwTime = finalHW; lwTime = finalLW;
 
                 if(foundTides) { window.showAppToast("Live Weather & Tides Fetched!"); } 
-                else { window.showAppToast("Weather fetched, but Tide times missing for this port.", true); }
+                else { window.showAppToast("Weather fetched, but Tide times missing.", true); }
                 
                 btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Success'; 
                 setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
@@ -892,6 +894,7 @@
             
             document.getElementById('sessionNotesInput').value = '';
             document.getElementById('weatherInput').value = ''; document.getElementById('windInput').value = ''; document.getElementById('swellInput').value = ''; document.getElementById('waveInput').value = ''; 
+            
             if(document.getElementById('fishLengthInput')) document.getElementById('fishLengthInput').value = '';
             document.getElementById('speciesInput').selectedIndex = 0; document.getElementById('customSpeciesInput').value = '';
             document.getElementById('fishLog').innerHTML = ''; document.getElementById('liveScoreVal').textContent = '0'; document.getElementById('weightInfoDisplay').style.display = 'none'; document.getElementById('speciesHuntInfo').style.display = 'none';
@@ -1159,7 +1162,7 @@
         window.startFishing=function(){ 
             currentAngler = currentAngler || "Christopher Francis McCreadie"; document.getElementById("anglerName").value = currentAngler;
             let lastFormat = StorageHelper.get('lastScoringMethod') || 'length_only'; document.getElementById('scoringMethod').value = lastFormat; currentScoringMethod = lastFormat; window.handleMethodChange();
-            window.populateTideStations(); window.populateVenueDropdown(); 
+            window.populateVenueDropdown(); 
             PageManager.show('anglerRegistration'); 
         };
         
@@ -1172,7 +1175,7 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            window.populateTideStations(); window.populateVenueDropdown(); 
+            window.populateVenueDropdown(); 
             currentAngler = "Christopher Francis McCreadie"; document.getElementById("anglerName").value = currentAngler;
             window.restoreActiveSession();
             if(sessionStorage.getItem('showUpdateToast') === 'true') { sessionStorage.removeItem('showUpdateToast'); window.showAppToast("App Updated successfully!"); }
