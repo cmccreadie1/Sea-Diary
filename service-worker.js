@@ -1,5 +1,5 @@
-// VERSION 223 - RAPID ENTRY CARD & BUG FIXES
-const CACHE_NAME = 'sea-score-v223';
+// VERSION 224 - ULTRA-LEAN RAPID ENTRY (NO BAIT)
+const CACHE_NAME = 'sea-score-v224';
 
 const FILES_TO_CACHE = [
   './',
