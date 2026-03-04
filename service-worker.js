@@ -1,5 +1,5 @@
-// VERSION 217 - PER-CATCH BAITS & COMPACT DASHBOARD
-const CACHE_NAME = 'sea-score-v217';
+// VERSION 218 - SMART VENUE DATABASE & AUTO-FETCH
+const CACHE_NAME = 'sea-score-v218';
 
 const FILES_TO_CACHE = [
   './',
