@@ -46,7 +46,7 @@
         
         h1, h2, h3, h4, h5, h6, .live-score-value, .picker-item, .btn, .xc-score { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
 
-        /* Bootstrap Overrides for Primary Color */
+        /* Bootstrap Overrides */
         .text-primary { color: var(--app-main) !important; }
         .bg-primary { background-color: var(--app-main) !important; }
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 700; border-radius: 12px;}
@@ -97,17 +97,15 @@
         .picker-highlight { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 95%; height: 54px; background: rgba(6, 148, 148, 0.08); border-top: 2px solid var(--app-main); border-bottom: 2px solid var(--app-main); pointer-events: none; z-index: 1; border-radius: 12px; }
         .picker-label-text { font-size: 0.8rem; font-weight: 900; color: var(--app-main); position: absolute; bottom: 8px; text-transform: uppercase; }
 
-        /* Compact Action Buttons */
         .btn-record-action { white-space: normal !important; line-height: 1.2 !important; font-size: 0.95rem !important; font-weight: 700; min-height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px !important; border-radius: 16px; transition: transform 0.1s ease; }
         .btn-record-action:active { transform: scale(0.96); }
 
-        /* Page Animations */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 15px 40px 15px; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         
         .inner-card { background: var(--card-bg); border-radius: 20px; padding: 18px; box-shadow: var(--shadow-sm); margin-bottom: 16px; border: 1px solid var(--border-color); }
 
-        /* --- SPLASH SCREEN (STATIC PHYSICAL LOCK) --- */
+        /* --- SPLASH SCREEN --- */
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
@@ -125,7 +123,6 @@
         @keyframes subtleSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .icon-spin { animation: subtleSpin 1s linear infinite; }
 
-        /* Compact Live Score Box */
         .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 20px; padding: 10px 15px; text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
         .live-score-value { font-size: 2.8rem; font-weight: 800; color: var(--app-main); line-height: 1; letter-spacing: -1px; }
 
@@ -133,7 +130,6 @@
         .table-custom { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
         .table-custom td { background: var(--card-bg); padding: 14px 16px; border-radius: 16px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         
-        /* High Contrast Stat Grid */
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-card { background: var(--card-bg); padding: 14px 5px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .stat-card small { display: block; color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; letter-spacing: 0.5px; }
@@ -145,7 +141,7 @@
         .pip.silver.active { background: #94a3b8; color: white; border-color: #64748b; }
         .pip.gold.active { background: #eab308; color: white; border-color: #ca8a04; }
         
-        @keyframes slideFlash { 0% { background-color: rgba(6, 148, 148, 0.15); transform: translateY(-10px); } 100% { background-color: var(--card-bg); } }
+        @keyframes slideFlash { 0% { background-color: rgba(6, 148, 148, 0.15); transform: translateY(-10px); } 100% { background-color: #ffffff; } }
         .new-catch-anim { animation: slideFlash 1.5s ease-out; }
 
         .tide-chart-container { background: var(--card-bg); border-radius: 20px; padding: 25px 12px 10px 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); cursor: zoom-in; position: relative; }
@@ -153,19 +149,7 @@
         .input-group-text-clean { background: transparent; border-color: var(--border-color); font-weight: 800; color: var(--text-muted); }
         .bait-badge { background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; display: inline-block; margin-right: 4px; margin-top: 4px; }
 
-        /* THE xC SHIELD CSS */
-        .xc-shield {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            border: 2px solid var(--app-main);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-        }
+        .xc-shield { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid var(--app-main); border-radius: 20px; padding: 20px; text-align: center; color: white; box-shadow: var(--shadow-md); margin-bottom: 16px; position: relative; overflow: hidden; }
         .xc-subtitle { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: #08baba; font-weight: 800; margin-bottom: 5px;}
         .xc-score { font-size: 4rem; font-weight: 800; color: #ffffff; line-height: 1; margin-bottom: 5px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);}
         .xc-max { font-size: 1.5rem; color: #cbd5e1; font-weight: 600; }
@@ -207,7 +191,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 219.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 220.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -251,9 +235,8 @@
                 <div class="col-6">
                     <label class="form-label small mb-1 fw-bold text-muted">Scoring Format</label>
                     <select id="scoringMethod" class="form-select fw-bold" onchange="window.handleMethodChange()">
-                        <option value="" disabled selected>Select...</option>
-                        <option value="measure_points">Length + 10 Pts</option>
                         <option value="length_only">Total Length Only</option>
+                        <option value="measure_points">Length + 10 Pts</option>
                         <option value="species_hunt">Species Hunt</option>
                         <option value="weight">Total Weight</option>
                     </select>
@@ -374,12 +357,13 @@
         </div>
 
         <div class="live-score-box mb-3"><div class="small text-muted text-uppercase fw-bold mb-1 letter-spacing-1">Session Total</div><div class="live-score-value" id="liveScoreVal">0</div></div>
-        <div class="table-responsive"><table class="table-custom"><tbody id="fishLog"></tbody></table></div>
-        <button class="btn btn-danger btn-lg w-100 mt-3 py-3 fw-bold fs-5 shadow" onclick="window.endSession()">Finish Session</button>
+        
+        <div id="fishLog" class="d-flex flex-column gap-2 mb-4"></div>
+        
+        <button class="btn btn-danger btn-lg w-100 py-3 fw-bold fs-5 shadow" onclick="window.endSession()">Finish Session</button>
     </div>
 
     <div id="tallyVerificationPage" class="app-page">
-        
         <div class="inner-card p-3 mb-3 border-0 shadow-sm">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h4 class="text-primary fw-bold m-0" id="session_angler"></h4>
@@ -433,7 +417,6 @@
         <div id="savedScorecardsList"><button class="btn btn-outline-primary w-100 mb-4 shadow-sm fw-bold py-3 bg-white" onclick="window.exportToCSV()"><i class="bi bi-file-earmark-spreadsheet-fill me-2"></i> Export Data (CSV)</button><h6 class="text-muted small text-uppercase fw-bold mb-3 ps-1 letter-spacing-1">Recent Sessions</h6><div id="recentList"></div><div id="archiveSection" style="display:none;" class="mt-4 pt-3"><button id="btnToggleArchive" class="btn btn-light w-100 fw-bold text-primary shadow-sm mb-3 py-3 rounded-4" onclick="document.getElementById('archiveList').style.display='block'; this.style.display='none';"><i class="bi bi-archive-fill me-2"></i> View Archive (<span id="archiveCount">0</span>)</button><div id="archiveList" style="display:none;"></div></div></div>
         
         <div id="fullScorecardView" style="display:none;">
-            
             <div class="inner-card p-3 mb-3 border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h4 class="text-primary fw-bold m-0" id="saved_view_angler"></h4>
@@ -471,10 +454,10 @@
 
     <div class="modal fade" id="guideModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header border-0 pb-0 pt-4 px-4"><h4 class="modal-title fw-bold text-primary"><i class="bi bi-book-fill me-2"></i>User Guide</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body px-4 pb-4 pt-3 text-main">
         <h6 class="fw-bold text-primary mb-2">1. Setup & Smart Memory</h6>
-        <p class="small text-muted mb-4 fw-bold">The app automatically pre-fills your name to save time. When selecting a venue, tap the dropdown to pick from your previously saved marks (zero typing required). If you choose a saved mark, the app instantly links the correct tide station and fetches the live weather. To log a brand new secret mark, select "+ Add New Venue", type it in, and the app will remember it forever.</p>
+        <p class="small text-muted mb-4 fw-bold">The app automatically pre-fills your name to save time. Tap the venue box to pick from your previously saved marks (zero typing required). If you choose a saved mark, the app instantly links the correct tide station and fetches the live weather. To log a brand new mark, select "+ Add New Venue", type it in, hit Auto-Search for GPS tides, and the app will remember it forever.</p>
         
-        <h6 class="fw-bold text-primary mb-2">2. Live Catch Logging</h6>
-        <p class="small text-muted mb-4 fw-bold">Log your fish, attach photos, and select the specific baits you used for that catch. The bait menu resets after every fish to ensure your statistics stay 100% accurate. The app works completely offline—if you have no signal, simply input your tide times manually using a local tide book.</p>
+        <h6 class="fw-bold text-primary mb-2">2. Live Logging & Gestures</h6>
+        <p class="small text-muted mb-4 fw-bold">The Species and Bait lists automatically learn your habits, pinning your Top 5 most frequent catches and Bait Cocktails to the top of the list for 1-tap logging. If the fish are feeding fast, use the "Copy" button to instantly duplicate your last catch. Made a mistake? Just swipe the row to the left to delete it.</p>
 
         <h6 class="fw-bold text-primary mb-2">3. The xC Rating (Expected Catch)</h6>
         <p class="small text-muted mb-4 fw-bold">Think of this exactly like 'xG' in football, but for fishing. xC calculates your performance based on the specific conditions. It is a strictly <em>personal</em> rating that compares today's catch against your own historical average at this exact venue. The algorithm evaluates your baseline catch rate, applies a difficulty multiplier for heavy winds/swells, and heavily rewards you for landing low-probability specimen fish.</p>
@@ -483,7 +466,18 @@
         <p class="small text-muted mb-0 fw-bold">At the end of your session, the insight engine crunches the data to reveal your Top Bait, your Peak Feeding window, your overall action pace, and the exact stage of the tide that produced the most bites. All of this is visualized on a custom catch timeline graph.</p>
     </div></div></div></div>
     
-    <div class="modal fade" id="baitModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-4"><h4 class="text-primary fw-bold mb-3"><i class="bi bi-bug me-2"></i>Select Baits</h4><p class="text-muted small fw-bold mb-3">Select one or multiple baits used for this catch.</p><div id="baitGrid" class="d-flex flex-wrap gap-2 mb-3"></div><input type="text" id="customBaitInput" class="form-control fw-bold mb-4" placeholder="Other bait..."><div class="d-grid gap-2"><button class="btn btn-primary py-3 fw-bold rounded-4 shadow-sm" onclick="window.saveBaitSelection()">Save Baits</button><button class="btn btn-light py-2 fw-bold text-muted rounded-4" data-bs-dismiss="modal">Cancel</button></div></div></div></div></div>
+    <div class="modal fade" id="baitModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary fw-bold m-0"><i class="bi bi-bug me-2"></i>Select Baits</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div id="frequentBaitsContainer" style="display:none;"></div>
+        <p class="text-muted small fw-bold mb-2">Build a new cocktail:</p>
+        <div id="baitGrid" class="d-flex flex-wrap gap-2 mb-3"></div>
+        <input type="text" id="customBaitInput" class="form-control fw-bold mb-4" placeholder="Other bait...">
+        <button class="btn btn-primary w-100 py-3 fw-bold rounded-4 shadow-sm" onclick="window.saveBaitSelection()">Save & Apply</button>
+    </div></div></div></div>
+    
     <div class="modal fade" id="weightUnitModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-5 text-center"><h3 class="text-primary fw-bold mb-2">Scoring Unit</h3><p class="text-muted fw-bold mb-4">Choose format for this session</p><div class="d-grid gap-3"><button type="button" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-4" data-bs-dismiss="modal" onclick="window.handleUnitChoice('metric')">Kilograms (KG)</button><button type="button" class="btn btn-outline-primary btn-lg py-3 fw-bold shadow-sm rounded-4 bg-white" data-bs-dismiss="modal" onclick="window.handleUnitChoice('imperial')">Pounds & Ounces</button></div></div></div></div></div>
     <div class="modal fade" id="restoreSessionModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body text-center p-5"><h3 class="text-primary fw-bold mb-2">Session Found</h3><p class="text-muted fw-bold">Restore unfinished session for <strong id="restoreAnglerName" class="text-main"></strong>?</p><div class="d-grid gap-3 mt-4"><button class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-4" data-bs-dismiss="modal" onclick="window.confirmRestore()">Resume Fishing</button><button class="btn btn-outline-secondary py-3 fw-bold rounded-4 bg-white" data-bs-dismiss="modal" onclick="window.discardRestore()">Start New</button></div></div></div></div></div>
     
@@ -535,6 +529,8 @@
         let baitEditContext = { mode: 'new', index: -1 }; 
         let venueTideMap = {};
         
+        let swipeStartX = 0, swipeCurrentX = 0, isSwiping = false;
+
         const badgeStyle = "background: rgba(6, 148, 148, 0.1); color: var(--app-main); border: 1px solid rgba(6, 148, 148, 0.3); padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; margin: 1px; display: inline-block;";
 
         const PageManager={ show:function(id){ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
@@ -554,11 +550,38 @@
 
         window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
 
+        // THE SMART BAIT / COCKTAIL ENGINE
         window.initBaitGrid = function() {
+            let baitCounts = {};
+            const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));
+            keys.forEach(k => {
+                try {
+                    const d = JSON.parse(StorageHelper.get(k));
+                    if(d.fishData) d.fishData.forEach(f => {
+                        if(f.baits && f.baits.length > 0) {
+                            let combo = f.baits.join(' / ');
+                            baitCounts[combo] = (baitCounts[combo] || 0) + 1;
+                        }
+                    });
+                } catch(e){}
+            });
+            const topBaits = Object.entries(baitCounts).sort((a,b)=>b[1]-a[1]).slice(0,4).map(e=>e[0]);
+            
+            const freqContainer = document.getElementById('frequentBaitsContainer');
+            if(freqContainer) {
+                if(topBaits.length > 0) {
+                    freqContainer.style.display = 'block';
+                    let html = '<h6 class="text-primary fw-bold mb-2"><i class="bi bi-star-fill text-warning me-1"></i> Frequent Cocktails</h6><div class="d-flex flex-wrap gap-2 mb-3">';
+                    topBaits.forEach(b => { html += `<button class="btn btn-outline-primary fw-bold rounded-pill" onclick="window.quickSelectBait('${b}')">${b}</button>`; });
+                    html += '</div><hr class="text-muted border-opacity-25">';
+                    freqContainer.innerHTML = html;
+                } else { freqContainer.style.display = 'none'; }
+            }
+
             const grid = document.getElementById('baitGrid'); grid.innerHTML = '';
             availableBaits.forEach(b => {
                 const id = `bait-cb-${b.replace(/\s+/g, '')}`;
-                grid.innerHTML += `<input type="checkbox" class="btn-check bait-checkbox" id="${id}" value="${b}"><label class="btn btn-outline-primary mb-1 rounded-pill" for="${id}">${b}</label>`;
+                grid.innerHTML += `<input type="checkbox" class="btn-check bait-checkbox" id="${id}" value="${b}"><label class="btn btn-outline-secondary mb-1 rounded-pill fw-bold" for="${id}">${b}</label>`;
             });
         };
 
@@ -577,6 +600,18 @@
                 if(cb) cb.checked = true; else document.getElementById('customBaitInput').value = b;
             });
             bootstrap.Modal.getOrCreateInstance(document.getElementById('baitModal')).show();
+        };
+
+        window.quickSelectBait = function(comboStr) {
+            let baits = comboStr.split(' / ');
+            if (baitEditContext.mode === 'new') {
+                activeBaits = baits;
+                document.getElementById('liveBaitDisplay').innerHTML = activeBaits.join(', ');
+            } else if (baitEditContext.mode === 'live') {
+                fishData[baitEditContext.index].baits = baits;
+                window.updateFishLog(); window.saveActiveSession();
+            }
+            bootstrap.Modal.getInstance(document.getElementById('baitModal')).hide();
         };
 
         window.saveBaitSelection = function() {
@@ -603,53 +638,63 @@
             bootstrap.Modal.getInstance(document.getElementById('baitModal')).hide();
         };
 
-        // THE PURE SMART MEMORY ENGINE
+        // TOP 5 SPECIES ENGINE
+        window.populateSpeciesDropdown = function() { 
+            let spCounts = {};
+            const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));
+            keys.forEach(k => {
+                try {
+                    const d = JSON.parse(StorageHelper.get(k));
+                    if(d.fishData) d.fishData.forEach(f => spCounts[f.species] = (spCounts[f.species] || 0) + 1);
+                } catch(e){}
+            });
+            const topSpecies = Object.entries(spCounts).sort((a,b)=>b[1]-a[1]).slice(0,5).map(e=>e[0]);
+
+            const e = document.getElementById('speciesInput'); 
+            e.innerHTML='<option value="" selected disabled>Select Fish...</option><option value="Other">Other (Manual Entry)</option>'; 
+            
+            if(topSpecies.length > 0) {
+                const freqGrp = document.createElement('optgroup');
+                freqGrp.label = '⭐ Frequent Catches';
+                topSpecies.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; freqGrp.appendChild(o); });
+                e.appendChild(freqGrp);
+            }
+            speciesList.forEach(g => { const grp = document.createElement('optgroup'); grp.label = g.category; g.items.sort().forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; grp.appendChild(o); }); e.appendChild(grp); }); 
+        };
+
+        // AUTO-FOCUS KEYPAD ON SPECIES SELECT
+        window.toggleCustomSpeciesInput = function() {
+            const sel = document.getElementById("speciesInput");
+            document.getElementById("customSpeciesInput").style.display = sel.value === "Other" ? "block" : "none";
+            if (sel.value && sel.value !== "Other" && (currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only')) {
+                setTimeout(() => { const lenIn = document.getElementById("fishLengthInput"); if (lenIn) lenIn.focus(); }, 100);
+            }
+        };
+
         window.populateVenueDropdown = function() {
             venueTideMap = JSON.parse(StorageHelper.get('venueTideMap') || '{}');
             const sel = document.getElementById('venueSelect');
             const textInput = document.getElementById('venueInputText');
-            
             sel.innerHTML = '<option value="" disabled selected>Tap to select saved venue...</option>';
-            
             const venues = Object.keys(venueTideMap).sort();
-            venues.forEach(v => {
-                sel.innerHTML += `<option value="${v}">${v}</option>`;
-            });
-            
-            sel.innerHTML += '<option value="__NEW__">+ Add New Venue...</option>';
-            
-            if(venues.length === 0) {
-                sel.value = '__NEW__';
-                textInput.style.display = 'block';
-            } else {
-                textInput.style.display = 'none';
-            }
+            venues.forEach(v => { sel.innerHTML += `<option value="${v}">${v}</option>`; });
+            sel.innerHTML += '<option value="__NEW__" class="fw-bold text-success">+ Add New Venue...</option>';
+            if(venues.length === 0) { sel.value = '__NEW__'; textInput.style.display = 'block'; } else { textInput.style.display = 'none'; }
         };
 
         window.handleVenueDropdown = function() {
             const val = document.getElementById('venueSelect').value;
             const textInput = document.getElementById('venueInputText');
-            
             if (val === '__NEW__') {
-                textInput.style.display = 'block';
-                textInput.value = '';
-                textInput.focus();
+                textInput.style.display = 'block'; textInput.value = ''; textInput.focus();
             } else {
-                textInput.style.display = 'none';
-                textInput.value = val;
-                
+                textInput.style.display = 'none'; textInput.value = val;
                 const tideTown = venueTideMap[val];
                 if (tideTown) {
                     const tideSel = document.getElementById('tideStationSelect');
-                    for(let i=0; i<tideSel.options.length; i++) {
-                        if(tideSel.options[i].text === tideTown) {
-                            tideSel.selectedIndex = i; break;
-                        }
-                    }
+                    for(let i=0; i<tideSel.options.length; i++) { if(tideSel.options[i].text === tideTown) { tideSel.selectedIndex = i; break; } }
                     window.showAppToast(`📍 ${tideTown} tides auto-linked.`);
-                    if(navigator.onLine) {
-                        setTimeout(() => { window.fetchEnvironmentData(); }, 500);
-                    }
+                    if(navigator.onLine) { setTimeout(() => { window.fetchEnvironmentData(); }, 500); }
                 }
             }
             window.saveActiveSession();
@@ -662,6 +707,7 @@
             tideStations.forEach(regionObj => { const grp = document.createElement('optgroup'); grp.label = regionObj.region; regionObj.stations.forEach(station => { const opt = document.createElement('option'); opt.value = `${station.lat},${station.lon}`; opt.textContent = station.name; grp.appendChild(opt); }); select.appendChild(grp); });
         };
 
+        // ONE-TAP GPS + WEATHER CHAIN
         window.autoLocateStation = function() {
             const btn = document.getElementById('btnAutoLocate');
             if (!navigator.geolocation) return window.showAppToast("GPS not supported on this device.", true);
@@ -678,7 +724,9 @@
                 if (closestStation) {
                     const select = document.getElementById('tideStationSelect'); const targetVal = `${closestStation.lat},${closestStation.lon}`;
                     for(let i=0; i<select.options.length; i++) { if(select.options[i].value === targetVal) { select.selectedIndex = i; break; } }
-                    window.showAppToast(`Found nearest: ${closestStation.name}`); window.saveActiveSession();
+                    window.showAppToast(`📍 Found nearest: ${closestStation.name}. Fetching weather...`); 
+                    window.saveActiveSession();
+                    setTimeout(() => { window.fetchEnvironmentData(); }, 1000); // CHAIN TRIGGER
                 }
                 btn.innerHTML = '<i class="bi bi-check-circle-fill fs-5 text-success"></i><span style="font-size: 0.55rem; font-weight: 800; text-transform: uppercase; line-height: 1; margin-top: 2px;">Found</span>';
                 setTimeout(() => { btn.innerHTML = originalIcon; btn.disabled = false; }, 2000);
@@ -1002,7 +1050,13 @@
             fishData = []; currentScoringMethod = ''; currentVenue = ''; coastalTown = ''; currentSavedKey = ''; weatherInfo = ''; windInfo = ''; swellInfo = ''; waveInfo = ''; hwTime = ''; lwTime = ''; sessionStartTimeStr = ''; editingOriginalFish = null; activeBaits = [];
             
             document.getElementById('venueSelect').selectedIndex = 0; document.getElementById('venueInputText').value = ''; document.getElementById('venueInputText').style.display = 'none';
-            if(document.getElementById('tideStationSelect')) document.getElementById('tideStationSelect').selectedIndex = 0; document.getElementById('scoringMethod').selectedIndex = 0; document.getElementById('sessionNotesInput').value = '';
+            if(document.getElementById('tideStationSelect')) document.getElementById('tideStationSelect').selectedIndex = 0; 
+            
+            // PRESERVE DEFAULT METHOD
+            let lastFormat = StorageHelper.get('lastScoringMethod') || 'length_only';
+            document.getElementById('scoringMethod').value = lastFormat;
+            
+            document.getElementById('sessionNotesInput').value = '';
             document.getElementById('weatherInput').value = ''; document.getElementById('windInput').value = ''; document.getElementById('swellInput').value = ''; document.getElementById('waveInput').value = ''; 
             document.getElementById('manHW').value = ''; document.getElementById('manLW').value = ''; document.getElementById('manualTideContainer').style.display = 'none';
             document.getElementById('liveBaitDisplay').innerHTML = `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
@@ -1055,8 +1109,11 @@
 
         window.getLengthPickerValue = function() { const val = document.getElementById('fishLengthInput').value; return parseFloat(val) || 0; };
 
+        // REMEMBER SCORING METHOD
         window.handleMethodChange = function() {
             const m = document.getElementById("scoringMethod").value;
+            currentScoringMethod = m;
+            StorageHelper.save('lastScoringMethod', m);
             if(m === 'weight') { bootstrap.Modal.getOrCreateInstance(document.getElementById('weightUnitModal')).show(); } else { document.getElementById('weightInfoDisplay').style.display='none'; }
             document.getElementById('speciesHuntInfo').style.display = m==='species_hunt' ? 'block':'none'; window.saveActiveSession();
         };
@@ -1083,7 +1140,6 @@
             const tideSel = document.getElementById('tideStationSelect');
             coastalTown = tideSel.selectedIndex > 0 ? tideSel.options[tideSel.selectedIndex].text : 'Manual Location';
             
-            // SAVE TO SMART MEMORY
             if (currentVenue && coastalTown !== 'Manual Location') {
                 venueTideMap[currentVenue] = coastalTown;
                 StorageHelper.save('venueTideMap', JSON.stringify(venueTideMap));
@@ -1131,7 +1187,7 @@
         };
 
         function finishAddAction() {
-            editingOriginalFish = null; window.updateFishLog(); const firstRow = document.querySelector('#fishLog tr:first-child'); if(firstRow) firstRow.classList.add('new-catch-anim');
+            editingOriginalFish = null; window.updateFishLog(); 
             document.getElementById("speciesInput").selectedIndex = 0; document.getElementById("customSpeciesInput").value = ""; window.toggleCustomSpeciesInput(); 
             if(currentScoringMethod === 'weight') { const c1 = document.getElementById('pickerCol1'); const c2 = document.getElementById('pickerCol2'); if(c1) c1.scrollTop = 0; if(c2) c2.scrollTop = 0; setTimeout(()=>{ window.updatePickerDisplay('pickerCol1'); window.updatePickerDisplay('pickerCol2'); }, 50); }
             if(currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only') { document.getElementById("fishLengthInput").value = ""; }
@@ -1141,6 +1197,18 @@
             
             window.saveActiveSession();
         }
+
+        // QUICK COPY ENGINE
+        window.duplicateFish = function(index) {
+            if(index < 0 || index >= fishData.length) return;
+            let f = fishData[index];
+            let newFish = JSON.parse(JSON.stringify(f));
+            newFish.time = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false});
+            fishData.push(newFish);
+            window.updateFishLog();
+            window.saveActiveSession();
+            window.showAppToast("Catch duplicated! ⟳");
+        };
 
         window.calculatePoints = function(data, method, unit = selectedWeightUnit){
             if(method==='weight') { const totalRaw = data.reduce((sum, f) => sum + (parseFloat(f.raw) || 0), 0); if(unit==='metric') return totalRaw.toFixed(3) + ' kg'; return Math.floor(totalRaw/16) + 'lb ' + (totalRaw % 16).toFixed(0) + 'oz'; }
@@ -1173,6 +1241,28 @@
             } return html;
         }
 
+        // GLOBAL SWIPE HANDLERS
+        window.ts = function(e) { swipeStartX = e.touches[0].clientX; isSwiping = true; e.currentTarget.style.transition = 'none'; };
+        window.tm = function(e) { 
+            if(!isSwiping) return; 
+            swipeCurrentX = e.touches[0].clientX; 
+            let diff = swipeCurrentX - swipeStartX; 
+            if(diff < 0) { e.currentTarget.style.transform = `translateX(${Math.max(diff, -100)}px)`; } 
+        };
+        window.te = function(e, index) { 
+            isSwiping = false; 
+            e.currentTarget.style.transition = 'transform 0.2s ease'; 
+            let diff = swipeCurrentX - swipeStartX; 
+            if(diff < -60) { 
+                e.currentTarget.style.transform = `translateX(-100%)`; 
+                setTimeout(() => { window.delFish(index); }, 200); 
+            } else { 
+                e.currentTarget.style.transform = `translateX(0px)`; 
+            } 
+            swipeStartX = 0; swipeCurrentX = 0;
+        };
+
+        // SWIPE-TO-DELETE LOG BUILDER
         window.updateFishLog = function(){
             const log = document.getElementById('fishLog'); log.innerHTML=''; const labels = []; const counts = {};
             fishData.forEach(f => {
@@ -1181,20 +1271,37 @@
             });
 
             [...fishData].reverse().forEach((f, index)=>{
-                const tr = document.createElement('tr'); const originalIndex = fishData.length - 1 - index; const lblInfo = labels[originalIndex];
+                const originalIndex = fishData.length - 1 - index; const lblInfo = labels[originalIndex];
                 const displayHTML = currentScoringMethod === 'species_hunt' ? `<span class="${lblInfo.cls} p-2 rounded-pill fs-6">${lblInfo.text}</span>` : `<div class="${lblInfo.cls}">${lblInfo.text}</div>`;
-                const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">` : '';
+                const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-2" onclick="window.viewImg('${f.photo}', false)">` : '';
                 const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time}</span>` : '';
                 
                 let baitHtml = '';
                 if(f.baits && f.baits.length > 0) { baitHtml = `<div class="mt-1">` + f.baits.map(b => `<span class="bait-badge">${b}</span>`).join('') + `</div>`; }
 
-                tr.innerHTML = `<td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${timeBadge}</div>${displayHTML}${baitHtml}</div>${ph}</div></td>
-                <td class="text-end align-middle" style="width: 80px; white-space: nowrap;">
-                    <button class="btn btn-sm text-primary border-0 me-1 p-1" onclick="window.editFish(${originalIndex})"><i class="bi bi-pencil-square fs-4"></i></button>
-                    <button class="btn btn-sm text-danger border-0 p-1" onclick="window.delFish(${originalIndex})"><i class="bi bi-trash-fill fs-4"></i></button>
-                </td>`;
-                log.appendChild(tr);
+                const isTopItem = (index === 0);
+                let rowHtml = `
+                <div style="position: relative; border-radius: 16px; overflow: hidden; background: #ef4444; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);" class="${isTopItem ? 'new-catch-anim' : ''}">
+                    <div style="position: absolute; right: 20px; top: 0; bottom: 0; display: flex; align-items: center; color: white; font-weight: bold;">
+                        <i class="bi bi-trash-fill fs-2"></i>
+                    </div>
+                    <div class="bg-white p-3 d-flex justify-content-between align-items-center" style="position: relative; z-index: 1; transition: transform 0.2s ease;" ontouchstart="window.ts(event)" ontouchmove="window.tm(event)" ontouchend="window.te(event, ${originalIndex})">
+                        <div>
+                            <div class="fw-bold text-main fs-6 mb-1">${f.species} ${timeBadge}</div>
+                            ${displayHTML}
+                            ${baitHtml}
+                        </div>
+                        <div class="d-flex flex-column align-items-end gap-2">
+                            ${isTopItem ? `<button class="btn btn-sm btn-outline-secondary py-0 px-2 fw-bold mb-1" onclick="window.duplicateFish(${originalIndex})"><i class="bi bi-copy me-1"></i>Copy</button>` : ''}
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-sm text-primary border-0 p-0" onclick="window.editFish(${originalIndex})"><i class="bi bi-pencil-square fs-2"></i></button>
+                                ${ph}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                log.innerHTML += rowHtml;
             });
             document.getElementById('liveScoreVal').textContent = window.calculatePoints(fishData, currentScoringMethod);
             if(hwTime && lwTime) { try { window.drawTideGraph('liveTideCanvas', hwTime, lwTime, fishData, sessionStartTimeStr); } catch(e){} }
@@ -1364,9 +1471,7 @@
                 let tempVenue = '';
                 if(document.getElementById('venueSelect')) {
                     tempVenue = document.getElementById('venueSelect').value === '__NEW__' ? document.getElementById('venueInputText').value : document.getElementById('venueSelect').value;
-                } else {
-                    tempVenue = currentVenue;
-                }
+                } else { tempVenue = currentVenue; }
 
                 StorageHelper.save('active_session', JSON.stringify({ phase:p, angler:currentAngler||document.getElementById('anglerName').value, venue:tempVenue, coastalTown:coastalTown||(document.getElementById('tideStationSelect') ? document.getElementById('tideStationSelect').options[document.getElementById('tideStationSelect').selectedIndex]?.text : ''), date:currentDate||document.getElementById('competitionDate').value, method:currentScoringMethod, unit:selectedWeightUnit, weatherInfo:weatherI, windInfo:windI, waveInfo:waveI, swellInfo:swellI, hwTime:hwTime, lwTime:lwTime, sessionStart:sessionStartTimeStr, fishData, activeBaits }));
             } catch(e) {}
@@ -1390,9 +1495,7 @@
                 }
             }
             if(!vFound && currentVenue) {
-                vSel.value = '__NEW__';
-                vText.style.display = 'block';
-                vText.value = currentVenue;
+                vSel.value = '__NEW__'; vText.style.display = 'block'; vText.value = currentVenue;
             }
 
             window.populateTideStations();
@@ -1406,16 +1509,18 @@
             if(s.phase==='fishing'){ window.setupFishingUI(); PageManager.show('anglerFishingPage'); window.updateFishLog(); } else if(s.phase==='tally'){ window.endSession(); } else { PageManager.show('anglerRegistration'); if(hwTime && lwTime) { document.getElementById('setupTideChartContainer').style.display = 'block'; try { window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], sessionStartTimeStr); } catch(e) {} } }
         };
 
-        window.populateSpeciesDropdown = function() { const e = document.getElementById('speciesInput'); e.innerHTML='<option value="" selected disabled>Select Fish...</option><option value="Other">Other (Manual Entry)</option>'; speciesList.forEach(g => { const grp = document.createElement('optgroup'); grp.label = g.category; g.items.sort().forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; grp.appendChild(o); }); e.appendChild(grp); }); };
-        window.toggleCustomSpeciesInput=function(){document.getElementById("customSpeciesInput").style.display=document.getElementById("speciesInput").value==="Other"?"block":"none";};
-        window.backToScorecardList=function(){document.getElementById("fullScorecardView").style.display="none";document.getElementById("savedScorecardsList").style.display="block";};
-        window.deleteCurrentSaved=function(){ if(confirm("Delete record?")){ StorageHelper.remove(currentSavedKey); window.loadSavedScorecards(); } };
-        window.delFish=function(i){if(confirm("Delete catch?")){fishData.splice(i,1); window.updateFishLog(); window.saveActiveSession();}};
+        window.delFish=function(i){fishData.splice(i,1); window.updateFishLog(); window.saveActiveSession();};
         
         window.startFishing=function(){ 
             document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; 
             currentAngler = currentAngler || "Christopher Francis McCreadie";
             document.getElementById("anglerName").value = currentAngler;
+            
+            let lastFormat = StorageHelper.get('lastScoringMethod') || 'length_only';
+            document.getElementById('scoringMethod').value = lastFormat;
+            currentScoringMethod = lastFormat;
+            window.handleMethodChange();
+            
             window.populateTideStations(); 
             window.populateVenueDropdown(); 
             PageManager.show('anglerRegistration'); 
