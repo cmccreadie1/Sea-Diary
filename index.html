@@ -149,7 +149,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 228.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 229.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -547,8 +547,10 @@
                 document.getElementById('venueInputContainer').style.display = 'flex';
                 document.getElementById('venueInputText').value = ''; 
                 document.getElementById('venueInputText').focus();
+                coastalTown = ''; 
             } else {
                 document.getElementById('venueInputContainer').style.display = 'none';
+                coastalTown = venueTideMap[val] || '';
             }
             window.saveActiveSession();
         };
@@ -558,6 +560,7 @@
             document.getElementById('venueInputContainer').style.display = 'none';
             document.getElementById('venueInputText').value = ''; 
             document.getElementById('venueSelect').selectedIndex = 0; 
+            coastalTown = '';
             window.saveActiveSession();
         };
 
@@ -964,19 +967,25 @@
             if(hwTime && lwTime) { document.getElementById('liveTideChartContainer').style.display = 'block'; try { window.drawTideGraph('liveTideCanvas', hwTime, lwTime, fishData, sessionStartTimeStr); } catch(e) {} }
         };
 
+        // FIXED REGISTER LOGIC
         window.registerAngler = function() {
             currentAngler = document.getElementById('anglerName').value.trim(); 
             let typedVenue = document.getElementById('venueInputText').value.trim();
             let selectedVenue = document.getElementById('venueSelect').value;
             currentVenue = selectedVenue === '__NEW__' ? typedVenue : selectedVenue;
             
-            if(!weatherInfo || !currentVenue) { window.showAppToast("Please select a Venue and hit Fetch Live Data.", true); return; }
-
             currentDate = new Date().toISOString().split('T')[0]; 
             currentScoringMethod = document.getElementById('scoringMethod').value;
-            weatherInfo = document.getElementById('weatherInput').value.trim(); windInfo = document.getElementById('windInput').value.trim(); swellInfo = document.getElementById('swellInput').value.trim(); waveInfo = document.getElementById('waveInput').value.trim();
+            
+            // Grabbing values directly to prevent the empty validation bug
+            weatherInfo = document.getElementById('weatherInput').value.trim(); if(weatherInfo === '--') weatherInfo = '';
+            windInfo = document.getElementById('windInput').value.trim(); if(windInfo === '--') windInfo = '';
+            swellInfo = document.getElementById('swellInput').value.trim(); if(swellInfo === '--') swellInfo = '';
+            waveInfo = document.getElementById('waveInput').value.trim(); if(waveInfo === '--') waveInfo = '';
 
-            if(!currentAngler || !currentScoringMethod) { window.showAppToast("Please enter your Name and Scoring Format.", true); return; }
+            if(!currentAngler) { window.showAppToast("Please enter your Name.", true); return; }
+            if(!currentVenue) { window.showAppToast("Please select or type a Venue.", true); return; }
+            
             if(!sessionStartTimeStr) sessionStartTimeStr = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false});
             
             window.setupFishingUI(); window.populateSpeciesDropdown(); PageManager.show('anglerFishingPage'); window.saveActiveSession();
