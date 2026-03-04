@@ -207,7 +207,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 217.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 218.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -236,28 +236,32 @@
                 <label class="form-label small mb-1 fw-bold text-muted">Angler Name</label>
                 <input type="text" id="anglerName" class="form-control" placeholder="Your Name" oninput="window.saveActiveSession()">
             </div>
+            
+            <div class="mb-3">
+                <label class="form-label small mb-1 fw-bold text-muted">Venue (Search or Type New)</label>
+                <input type="text" id="venueInput" class="form-control fw-bold text-primary" placeholder="Start typing venue name..." list="venueDatalist" oninput="window.handleVenueSelection()">
+                <datalist id="venueDatalist"></datalist>
+            </div>
+
             <div class="row g-3 mb-3">
-                <div class="col-5">
+                <div class="col-6">
                     <label class="form-label small mb-1 fw-bold text-muted">Date</label>
                     <input type="date" id="competitionDate" class="form-control" onchange="window.saveActiveSession()">
                 </div>
-                <div class="col-7">
-                    <label class="form-label small mb-1 fw-bold text-muted">Venue</label>
-                    <input type="text" id="venueInput" class="form-control" placeholder="Location Name" oninput="window.saveActiveSession()">
+                <div class="col-6">
+                    <label class="form-label small mb-1 fw-bold text-muted">Scoring Format</label>
+                    <select id="scoringMethod" class="form-select fw-bold" onchange="window.handleMethodChange()">
+                        <option value="" disabled selected>Select...</option>
+                        <option value="measure_points">Length + 10 Pts</option>
+                        <option value="length_only">Total Length Only</option>
+                        <option value="species_hunt">Species Hunt</option>
+                        <option value="weight">Total Weight</option>
+                    </select>
                 </div>
             </div>
-            <div class="mb-2">
-                <label class="form-label small mb-1 fw-bold text-muted">Scoring Format</label>
-                <select id="scoringMethod" class="form-select fw-bold" onchange="window.handleMethodChange()">
-                    <option value="" disabled selected>Select Format...</option>
-                    <option value="measure_points">Length + 10 Pts</option>
-                    <option value="length_only">Total Length Only</option>
-                    <option value="species_hunt">Species Hunt (3=100pts)</option>
-                    <option value="weight">Total Weight</option>
-                </select>
-                <div id="speciesHuntInfo" class="mt-2 small text-muted fw-bold" style="display:none;"><i class="bi bi-info-circle-fill me-1"></i> 1st: 30 | 2nd: 30 | 3rd: 40 | 4th+: 1pt</div>
-                <div id="weightInfoDisplay" class="mt-2 small fw-bold text-primary" style="display:none;"></div>
-            </div>
+            
+            <div id="speciesHuntInfo" class="small text-muted fw-bold mb-1" style="display:none;"><i class="bi bi-info-circle-fill me-1"></i> 1st: 30 | 2nd: 30 | 3rd: 40 | 4th+: 1pt</div>
+            <div id="weightInfoDisplay" class="small fw-bold text-primary mb-1" style="display:none;"></div>
         </div>
 
         <div class="inner-card mb-3">
@@ -466,8 +470,8 @@
     </div></div></div></div>
 
     <div class="modal fade" id="guideModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header border-0 pb-0 pt-4 px-4"><h4 class="modal-title fw-bold text-primary"><i class="bi bi-book-fill me-2"></i>User Guide</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body px-4 pb-4 pt-3 text-main">
-        <h6 class="fw-bold text-primary mb-2">1. Live Weather & Tides</h6>
-        <p class="small text-muted mb-4 fw-bold">Use 'Auto Search' on the beach to pull real-time conditions, or 'Manual Search' to input local tide book times. Unlocking this data generates your Catch Timeline graph, auto-tags the tide state for every fish, and provides the weather context needed for the xC algorithm.</p>
+        <h6 class="fw-bold text-primary mb-2">1. Smart Setup & Tides</h6>
+        <p class="small text-muted mb-4 fw-bold">Start typing your venue. If it's in the database, select it—the app will automatically link the nearest tide station and fetch the live sea state for you. If you are fishing a secret mark, simply type the name, tap 'Auto Search' to find the closest tide station via GPS, and your secret mark will be saved to your personal list for next time.</p>
         
         <h6 class="fw-bold text-primary mb-2">2. The xC Rating (Expected Catch)</h6>
         <p class="small text-muted mb-4 fw-bold">Think of this exactly like 'xG' in football, but for fishing. xC calculates your expected performance based on the specific conditions. It is a strictly <em>personal</em> rating that compares today's catch against your own historical average at this venue. The algorithm evaluates your baseline catch rate, applies a difficulty multiplier for heavy winds/swells, and rewards you for landing low-probability specimen fish.</p>
@@ -501,8 +505,34 @@
             {category:"Wrasse & Mini",items:["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}
         ];
         
-        // BAIT LIST UPDATED
         const availableBaits = ['Lugworm', 'Ragworm', 'Squid', 'Mackerel', 'Sandeel', 'Peeler Crab', 'Mussel', 'Razor Clam', 'Bluey', 'Prawn', 'Artificial'];
+
+        // NEW: PRE-LOADED UK VENUE DATABASE MAP (Venue -> Tide Station)
+        const venueDatabase = {
+            "Elliot Beach": "Arbroath", "Arbroath Breakwater": "Arbroath", "Victoria Park": "Arbroath", "Ballys": "Arbroath", "Easthaven": "Arbroath", "Auchmithie": "Arbroath", "Carnoustie": "Arbroath",
+            "Usan": "Montrose", "Ferryden": "Montrose", "Lunan Bay": "Montrose", "Boddin Point": "Montrose", "The Lurgies": "Montrose",
+            "Riverside Drive": "Dundee", 
+            "Crail Roome Bay": "St Andrews", "Fife Ness": "St Andrews", "Anstruther Pier": "St Andrews", "St Andrews East Sands": "St Andrews",
+            "Dysart": "Burntisland", "Kirkcaldy Breakwater": "Burntisland", "Kinghorn": "Burntisland", "Pettycur Bay": "Burntisland", "Burntisland Breakwater": "Burntisland",
+            "Leven": "Methil", "Methil Breakwater": "Methil",
+            "Granton Eastern Breakwater": "Leith (Edinburgh)", "Newhaven": "Leith (Edinburgh)", "Portobello": "Leith (Edinburgh)", "Musselburgh": "Leith (Edinburgh)", "Prestonpans": "Leith (Edinburgh)", "Seton Sands": "Leith (Edinburgh)", "Aberlady": "Leith (Edinburgh)", "Gullane": "Leith (Edinburgh)",
+            "North Berwick": "Dunbar", "Torness": "Dunbar", "Dunglass": "Dunbar", "Skateraw": "Dunbar", "Pease Bay": "Dunbar", "Dunbar Cement Works": "Dunbar",
+            "Eyemouth Hurdies": "Eyemouth", "St Abbs": "Eyemouth", "Burnmouth": "Eyemouth",
+            "Aberdeen Beach": "Aberdeen", "Aberdeen South Breakwater": "Aberdeen", "Cove Bay": "Aberdeen", "Don Mouth": "Aberdeen",
+            "Stonehaven": "Stonehaven", 
+            "Peterhead Breakwater": "Peterhead", "Rattray Head": "Peterhead", "Fraserburgh Pier": "Fraserburgh", "Macduff": "Macduff", "Hopeman": "Lossiemouth", "Burghead": "Lossiemouth", "Lossiemouth East Beach": "Lossiemouth",
+            "Gourock Pier": "Greenock", "Greenock Custom House": "Greenock", 
+            "Largs Pencil": "Largs", "Stevenston Point": "Largs", "Ardrossan": "Largs", "Saltcoats": "Largs",
+            "Troon Ballast Bank": "Troon", "Prestwick": "Troon", "Ayr Pier": "Ayr",
+            "Loch Etive (Bonawe)": "Oban", "Loch Etive (Taynuilt)": "Oban", "Dunstaffnage": "Oban",
+            "Lochaline": "Tobermory", "Corran Narrows": "Fort William", "Loch Leven": "Fort William",
+            "Loch Long (Arrochar)": "Helensburgh", "Loch Long (Finnart)": "Helensburgh", "Loch Fyne (Coulport)": "Helensburgh", "Loch Goil": "Helensburgh",
+            "Portpatrick": "Portpatrick", "Stranraer": "Stranraer", "Luce Bay": "Portpatrick", "Drummore": "Portpatrick", "Isle of Whithorn": "Portpatrick",
+            "Chesil Beach": "Weymouth", "Samphire Hoe": "Dover", "Dungeness": "Dover", "Deal Pier": "Deal", "Admiralty Pier": "Deal", 
+            "The Mumbles": "Swansea", "Oxwich Bay": "Swansea", "Rhyl": "Rhyl", "Llandudno Pier": "Llandudno", "Holyhead Breakwater": "Holyhead",
+            "Blackpool": "Blackpool", "Fleetwood": "Fleetwood", "Morecambe": "Morecambe", "Holderness": "Bridlington", 
+            "Whitby West Pier": "Whitby", "Scarborough Marine Drive": "Scarborough", "Sunderland Pier": "Sunderland", "South Shields": "South Shields", "Blyth Pier": "Blyth", "Amble Pier": "Amble"
+        };
 
         const tideStations = [
             {region:"Scotland - East",stations:[{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Buckie",lat:57.6766,lon:-2.9649},{name:"Burntisland",lat:56.05,lon:-3.2333},{name:"Dunbar",lat:56.0029,lon:-2.5135},{name:"Dundee",lat:56.462,lon:-2.9707},{name:"Eyemouth",lat:55.8711,lon:-2.0867},{name:"Fraserburgh",lat:57.6953,lon:-2.0041},{name:"Granton",lat:55.9833,lon:-3.2333},{name:"Leith (Edinburgh)",lat:55.9855,lon:-3.1764},{name:"Lossiemouth",lat:57.7202,lon:-3.2842},{name:"Macduff",lat:57.67,lon:-2.4939},{name:"Methil",lat:56.1833,lon:-3},{name:"Montrose",lat:56.705,lon:-2.4566},{name:"Peterhead",lat:57.5058,lon:-1.7765},{name:"Rosyth",lat:55.9833,lon:-3.4167},{name:"St Andrews",lat:56.34,lon:-2.79},{name:"Stonehaven",lat:56.9667,lon:-2.2}]},
@@ -527,8 +557,8 @@
         
         let activeBaits = []; 
         let baitEditContext = { mode: 'new', index: -1 }; 
+        let lastAutoFetchedVenue = '';
         
-        // TIGHTER BADGE STYLE FOR HEADER CARD
         const badgeStyle = "background: rgba(6, 148, 148, 0.1); color: var(--app-main); border: 1px solid rgba(6, 148, 148, 0.3); padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; margin: 1px; display: inline-block;";
 
         const PageManager={ show:function(id){ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
@@ -595,6 +625,63 @@
                 } catch(e) {}
             }
             bootstrap.Modal.getInstance(document.getElementById('baitModal')).hide();
+        };
+
+        // NEW: PREDICTIVE VENUE DATALIST INITIALIZER
+        window.populateVenues = function() {
+            const datalist = document.getElementById('venueDatalist');
+            if (!datalist) return;
+            datalist.innerHTML = '';
+            
+            let allVenues = new Set(Object.keys(venueDatabase));
+            
+            const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));
+            keys.forEach(k => {
+                try {
+                    const d = JSON.parse(StorageHelper.get(k));
+                    if(d.venue) {
+                        allVenues.add(d.venue);
+                        if (d.coastalTown && !venueDatabase[d.venue]) {
+                            venueDatabase[d.venue] = d.coastalTown;
+                        }
+                    }
+                } catch(e){}
+            });
+
+            Array.from(allVenues).sort().forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v;
+                datalist.appendChild(opt);
+            });
+        };
+
+        // NEW: SMART VENUE SELECTION & AUTO-FETCH HANDLER
+        window.handleVenueSelection = function() {
+            const val = document.getElementById('venueInput').value;
+            window.saveActiveSession();
+            
+            if (val === lastAutoFetchedVenue) return; 
+            
+            const linkedTown = venueDatabase[val];
+            if (linkedTown) {
+                lastAutoFetchedVenue = val;
+                const select = document.getElementById('tideStationSelect');
+                let found = false;
+                for(let i=0; i<select.options.length; i++) {
+                    if(select.options[i].text === linkedTown) {
+                        select.selectedIndex = i; 
+                        found = true;
+                        break;
+                    }
+                }
+                if(found) {
+                    window.showAppToast(`📍 ${linkedTown} tides auto-linked. Fetching data...`);
+                    window.saveActiveSession();
+                    if(navigator.onLine) {
+                        setTimeout(() => { window.fetchEnvironmentData(); }, 800);
+                    }
+                }
+            }
         };
 
         window.populateTideStations = function() {
@@ -941,7 +1028,7 @@
         };
 
         window.resetAppToHome = function() {
-            fishData = []; currentScoringMethod = ''; currentVenue = ''; coastalTown = ''; currentSavedKey = ''; weatherInfo = ''; windInfo = ''; swellInfo = ''; waveInfo = ''; hwTime = ''; lwTime = ''; sessionStartTimeStr = ''; editingOriginalFish = null; activeBaits = [];
+            fishData = []; currentScoringMethod = ''; currentVenue = ''; coastalTown = ''; currentSavedKey = ''; weatherInfo = ''; windInfo = ''; swellInfo = ''; waveInfo = ''; hwTime = ''; lwTime = ''; sessionStartTimeStr = ''; editingOriginalFish = null; activeBaits = []; lastAutoFetchedVenue = '';
             document.getElementById('venueInput').value = ''; if(document.getElementById('coastalTownInput')) document.getElementById('coastalTownInput').selectedIndex = 0; document.getElementById('scoringMethod').selectedIndex = 0; document.getElementById('sessionNotesInput').value = '';
             document.getElementById('weatherInput').value = ''; document.getElementById('windInput').value = ''; document.getElementById('swellInput').value = ''; document.getElementById('waveInput').value = ''; 
             document.getElementById('manHW').value = ''; document.getElementById('manLW').value = ''; document.getElementById('manualTideContainer').style.display = 'none';
@@ -1065,7 +1152,6 @@
             if(currentScoringMethod === 'weight') { const c1 = document.getElementById('pickerCol1'); const c2 = document.getElementById('pickerCol2'); if(c1) c1.scrollTop = 0; if(c2) c2.scrollTop = 0; setTimeout(()=>{ window.updatePickerDisplay('pickerCol1'); window.updatePickerDisplay('pickerCol2'); }, 50); }
             if(currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only') { document.getElementById("fishLengthInput").value = ""; }
             
-            // RESET BAIT SELECTOR FOR EACH FISH
             activeBaits = [];
             document.getElementById('liveBaitDisplay').innerHTML = `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
             
@@ -1146,7 +1232,6 @@
             
             const isW = currentScoringMethod==='weight'; document.getElementById('session_stat_label').textContent = isW ? 'Total Weight' : 'Total Length'; document.getElementById('session_total_stat').textContent = isW ? window.calculatePoints(fishData, 'weight') : fishData.reduce((s,f)=>s+parseFloat(f.length||0),0).toFixed(1) + 'cm';
             
-            // RUN xC ALGORITHM AND RENDER SHIELD
             const actualVenue = currentVenue || coastalTown || 'Unnamed Venue';
             const xcData = window.calculateXC(actualVenue, fishData.length, fishData, windInfo, waveInfo, swellInfo);
             window.renderXCShield(xcData, fishData.length, 'session_xc_shield');
@@ -1216,7 +1301,6 @@
 
             document.getElementById('saved_view_points').textContent = window.calculatePoints(d.fishData, d.method, d.weightUnit);
             
-            // RUN xC ALGORITHM AND RENDER SHIELD IN HISTORY
             const actualVenue = d.venue || d.coastalTown || 'Unnamed Venue';
             const xcData = window.calculateXC(actualVenue, d.fishData.length, d.fishData, d.windInfo, d.waveInfo, d.swellInfo);
             window.renderXCShield(xcData, d.fishData.length, 'saved_xc_shield');
@@ -1319,7 +1403,13 @@
         window.backToScorecardList=function(){document.getElementById("fullScorecardView").style.display="none";document.getElementById("savedScorecardsList").style.display="block";};
         window.deleteCurrentSaved=function(){ if(confirm("Delete record?")){ StorageHelper.remove(currentSavedKey); window.loadSavedScorecards(); } };
         window.delFish=function(i){if(confirm("Delete catch?")){fishData.splice(i,1); window.updateFishLog(); window.saveActiveSession();}};
-        window.startFishing=function(){ document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; window.populateTideStations(); PageManager.show('anglerRegistration'); };
+        
+        window.startFishing=function(){ 
+            document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; 
+            window.populateTideStations(); 
+            window.populateVenues(); // LOAD PREDICTIVE LIST HERE
+            PageManager.show('anglerRegistration'); 
+        };
         
         window.shareAsImage=function(id){
             const el = document.getElementById(id==='live'?'tallyVerificationPage':'fullScorecardView'); const btns = el.querySelectorAll('button'); btns.forEach(b=>b.style.display='none'); const notesInput = document.getElementById('sessionNotesInput'); if (notesInput && id === 'live') notesInput.style.display = 'none';
@@ -1331,6 +1421,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             window.populateTideStations();
+            window.populateVenues();
             window.initBaitGrid();
             document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; window.restoreActiveSession();
             if(sessionStorage.getItem('showUpdateToast') === 'true') { sessionStorage.removeItem('showUpdateToast'); window.showAppToast("App Updated successfully!"); }
