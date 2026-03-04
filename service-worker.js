@@ -1,5 +1,5 @@
-// VERSION 227 - GHOST BUG FIX
-const CACHE_NAME = 'sea-score-v227';
+// VERSION 228 - GHOST CODE REMOVAL (STABILITY PATCH)
+const CACHE_NAME = 'sea-score-v228';
 
 const FILES_TO_CACHE = [
   './',
