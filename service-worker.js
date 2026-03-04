@@ -1,5 +1,5 @@
-// VERSION 221 - VENUE TOGGLE, SOLAR PHASE & TIME LOGGING
-const CACHE_NAME = 'sea-score-v221';
+// VERSION 222 - REFACTORED & OPTIMIZED CORE
+const CACHE_NAME = 'sea-score-v222';
 
 const FILES_TO_CACHE = [
   './',
