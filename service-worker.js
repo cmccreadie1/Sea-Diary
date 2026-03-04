@@ -1,5 +1,5 @@
-// VERSION 233.0 - FULL RESTORATION + LOBBY
-const CACHE_NAME = 'sea-score-v233';
+// VERSION 230 - ULTRA-TIGHT UI COMPACTION
+const CACHE_NAME = 'sea-score-v230';
 
 const FILES_TO_CACHE = [
   './',
@@ -10,23 +10,31 @@ const FILES_TO_CACHE = [
   'https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
-  'https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js',
-  'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js'
+  'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
 ];
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
-  e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE)));
+  e.waitUntil(caches.open(CACHE_NAME).then((cache) => { return cache.addAll(FILES_TO_CACHE); }));
 });
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((keyList) => {
-    return Promise.all(keyList.map((key) => { if (key !== CACHE_NAME) return caches.delete(key); }));
+    return Promise.all(keyList.map((key) => { if (key !== CACHE_NAME) { return caches.delete(key); } }));
   }));
   e.waitUntil(clients.claim());
 });
 
 self.addEventListener('fetch', (e) => {
-  e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request)));
+  e.respondWith(
+    caches.match(e.request).then((response) => {
+      if (response) return response;
+      return fetch(e.request).then((fetchResponse) => {
+        return caches.open(CACHE_NAME).then((cache) => {
+          if (e.request.url.startsWith('http') && e.request.method === 'GET') { cache.put(e.request, fetchResponse.clone()); }
+          return fetchResponse;
+        });
+      });
+    }).catch(() => { console.log('Offline and resource not found in cache:', e.request.url); })
+  );
 });
