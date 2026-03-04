@@ -1,5 +1,5 @@
-// VERSION 216 - DISTINCT WAVE AND SWELL ICONS
-const CACHE_NAME = 'sea-score-v216';
+// VERSION 217 - PER-CATCH BAITS & COMPACT DASHBOARD
+const CACHE_NAME = 'sea-score-v217';
 
 const FILES_TO_CACHE = [
   './',
