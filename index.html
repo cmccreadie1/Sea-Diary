@@ -105,7 +105,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 15px 40px 15px; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         
-        .inner-card { background: var(--card-bg); border-radius: 24px; padding: 22px; box-shadow: var(--shadow-sm); margin-bottom: 16px; border: 1px solid var(--border-color); }
+        .inner-card { background: var(--card-bg); border-radius: 20px; padding: 18px; box-shadow: var(--shadow-sm); margin-bottom: 16px; border: 1px solid var(--border-color); }
 
         /* --- SPLASH SCREEN (STATIC PHYSICAL LOCK) --- */
         .splash-screen {
@@ -131,21 +131,15 @@
 
         .fish-thumb { width: 55px; height: 55px; object-fit: cover; border-radius: 14px; flex-shrink: 0; cursor: pointer; border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .table-custom { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-        .table-custom td { background: var(--card-bg); padding: 14px 16px; border-radius: 20px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .table-custom td { background: var(--card-bg); padding: 14px 16px; border-radius: 16px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         
         /* High Contrast Stat Grid */
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-card { background: var(--card-bg); padding: 14px 5px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .stat-card small { display: block; color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; letter-spacing: 0.5px; }
         .stat-card strong { font-size: 1.5rem; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
-
-        /* Insights Grid */
-        .insight-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .insight-card { background: rgba(6, 148, 148, 0.05); padding: 14px 10px; border-radius: 16px; text-align: center; border: 1px solid rgba(6, 148, 148, 0.2); box-shadow: var(--shadow-sm); }
-        .insight-card small { display: block; color: var(--app-main); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; }
-        .insight-card strong { font-size: 1.05rem; color: var(--text-main); font-weight: 800; line-height: 1.1; display: block;}
         
-        .species-quota-card { background: var(--card-bg); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .species-quota-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .pip { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; background: var(--input-bg); color: var(--text-muted); margin-right: 8px; border: 2px solid transparent; }
         .pip.bronze.active { background: #cd7f32; color: white; border-color: #a05a2c; }
         .pip.silver.active { background: #94a3b8; color: white; border-color: #64748b; }
@@ -163,12 +157,12 @@
         .xc-shield {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             border: 2px solid var(--app-main);
-            border-radius: 24px;
-            padding: 24px 20px;
+            border-radius: 20px;
+            padding: 20px;
             text-align: center;
             color: white;
             box-shadow: var(--shadow-md);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             position: relative;
             overflow: hidden;
         }
@@ -213,7 +207,7 @@
         </svg>
 
         <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 216.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 217.0</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
@@ -347,9 +341,9 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label small fw-bold text-muted mb-1">Baits Used</label>
+                <label class="form-label small fw-bold text-muted mb-1">Bait Used (Optional)</label>
                 <div class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center shadow-sm" onclick="window.openBaitModal('new')" style="cursor:pointer; border-color: var(--border-color) !important;">
-                    <div id="liveBaitDisplay" class="fw-bold text-main fs-6">None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to set persistent baits</span></div>
+                    <div id="liveBaitDisplay" class="fw-bold text-main fs-6">None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span></div>
                     <i class="bi bi-chevron-right text-primary fs-5"></i>
                 </div>
             </div>
@@ -381,40 +375,45 @@
     </div>
 
     <div id="tallyVerificationPage" class="app-page">
-        <div class="inner-card text-center py-4 border-0 shadow-md">
-            <h2 class="text-primary fw-bold mb-3">Diary Saved</h2>
-            <div id="session_angler" class="fw-bold fs-3 text-main"></div>
-            <div class="text-muted fw-bold mt-1"><span id="session_date"></span> • <span id="session_venue"></span></div>
-            <div id="session_live_conditions" class="mt-4 d-flex flex-wrap justify-content-center gap-2"></div>
+        
+        <div class="inner-card p-3 mb-3 border-0 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="text-primary fw-bold m-0" id="session_angler"></h4>
+                <div class="text-muted small fw-bold"><i class="bi bi-calendar-event me-1"></i><span id="session_date"></span></div>
+            </div>
+            <div class="fw-bold text-main fs-5 mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i><span id="session_venue"></span></div>
+            <div id="session_live_conditions" class="d-flex flex-wrap gap-1"></div>
         </div>
         
         <div id="session_xc_shield" class="xc-shield" style="display:none;"></div>
 
-        <div class="tide-chart-container mb-4" id="tallyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('tallyTideCanvas').toDataURL(), true)">
+        <div class="tide-chart-container mb-3" id="tallyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('tallyTideCanvas').toDataURL(), true)">
             <div class="text-center small fw-bold text-primary mb-3">Session Timeline (Tap to Enlarge)</div>
             <canvas id="tallyTideCanvas" class="w-100"></canvas>
         </div>
 
-        <div class="live-score-box"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="session_total_points" class="live-score-value">0</div></div>
-
-        <div class="insight-grid" id="session_insights_grid">
-            <div class="insight-card"><small>Peak Feed</small><strong id="session_peak_feed">--</strong></div>
-            <div class="insight-card"><small>Action Rate</small><strong id="session_pace">--</strong></div>
-            <div class="insight-card"><small>Top Bait</small><strong id="session_top_bait" class="text-primary">--</strong></div>
-            <div class="insight-card"><small>Best Tide</small><strong id="session_best_tide" class="text-primary">--</strong></div>
+        <div class="inner-card p-3 mb-3 border-0 shadow-sm" id="session_insights_card" style="display:none;">
+            <h6 class="fw-bold text-primary mb-3"><i class="bi bi-graph-up me-2"></i>Session Insights</h6>
+            <div class="row g-2 text-center">
+                <div class="col-6 border-end border-bottom pb-2"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.65rem;">Peak Feed</small><strong id="session_peak_feed" class="text-main fs-6">--</strong></div>
+                <div class="col-6 border-bottom pb-2"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.65rem;">Action Rate</small><strong id="session_pace" class="text-main fs-6">--</strong></div>
+                <div class="col-6 border-end pt-2"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.65rem;">Top Bait</small><strong id="session_top_bait" class="text-primary fs-6">--</strong></div>
+                <div class="col-6 pt-2"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.65rem;">Best Tide</small><strong id="session_best_tide" class="text-primary fs-6">--</strong></div>
+            </div>
         </div>
 
-        <div id="session_visual_analytics"></div>
+        <div class="live-score-box mb-3"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="session_total_points" class="live-score-value">0</div></div>
 
-        <div class="stat-grid mb-4">
+        <div class="stat-grid mb-3">
             <div class="stat-card"><strong>Fish</strong><div id="session_total_fish" class="fw-bold fs-3" style="color:#0f172a;">0</div></div>
             <div class="stat-card"><strong>Species</strong><div id="session_species_count" class="fw-bold fs-3" style="color:#0f172a;">0</div></div>
             <div class="stat-card"><strong id="session_stat_label">Stat</strong><div id="session_total_stat" class="fw-bold fs-3" style="color:#0f172a;">0</div></div>
         </div>
 
+        <div id="session_visual_analytics"></div>
         <div id="session_breakdown_area"></div>
 
-        <div class="inner-card mt-4 border-0 position-relative">
+        <div class="inner-card mt-3 border-0 position-relative">
             <label class="form-label small fw-bold text-primary mb-2"><i class="bi bi-journal-text me-2"></i>Session Notes</label>
             <textarea id="sessionNotesInput" class="form-control fw-bold pb-5" rows="3" placeholder="Add specific rig details, conditions, etc..."></textarea>
             <button class="btn btn-sm btn-primary position-absolute fw-bold shadow-sm" style="bottom: 30px; right: 30px; border-radius: 8px;" onclick="window.saveEndNotes()">Save Note</button>
@@ -430,23 +429,34 @@
         <div id="savedScorecardsList"><button class="btn btn-outline-primary w-100 mb-4 shadow-sm fw-bold py-3 bg-white" onclick="window.exportToCSV()"><i class="bi bi-file-earmark-spreadsheet-fill me-2"></i> Export Data (CSV)</button><h6 class="text-muted small text-uppercase fw-bold mb-3 ps-1 letter-spacing-1">Recent Sessions</h6><div id="recentList"></div><div id="archiveSection" style="display:none;" class="mt-4 pt-3"><button id="btnToggleArchive" class="btn btn-light w-100 fw-bold text-primary shadow-sm mb-3 py-3 rounded-4" onclick="document.getElementById('archiveList').style.display='block'; this.style.display='none';"><i class="bi bi-archive-fill me-2"></i> View Archive (<span id="archiveCount">0</span>)</button><div id="archiveList" style="display:none;"></div></div></div>
         
         <div id="fullScorecardView" style="display:none;">
-            <div class="inner-card p-4 mb-4 text-center border-0"><h3 id="saved_view_angler" class="text-primary fw-bold m-0"></h3><div class="text-muted small fw-bold mt-1"><span id="saved_view_date"></span> • <span id="saved_view_venue"></span></div><div id="saved_view_conditions" class="mt-4 d-flex flex-wrap justify-content-center gap-2"></div></div>
+            
+            <div class="inner-card p-3 mb-3 border-0 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h4 class="text-primary fw-bold m-0" id="saved_view_angler"></h4>
+                    <div class="text-muted small fw-bold"><i class="bi bi-calendar-event me-1"></i><span id="saved_view_date"></span></div>
+                </div>
+                <div class="fw-bold text-main fs-5 mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i><span id="saved_view_venue"></span></div>
+                <div id="saved_view_conditions" class="d-flex flex-wrap gap-1"></div>
+            </div>
             
             <div id="saved_xc_shield" class="xc-shield" style="display:none;"></div>
 
-            <div class="tide-chart-container mb-4" id="historyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('historyTideCanvas').toDataURL(), true)">
+            <div class="tide-chart-container mb-3" id="historyTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('historyTideCanvas').toDataURL(), true)">
                 <div class="text-center small fw-bold text-primary mb-3">Session Timeline (Tap to Enlarge)</div>
                 <canvas id="historyTideCanvas" class="w-100"></canvas>
             </div>
 
-            <div class="live-score-box mb-4"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="saved_view_points" class="live-score-value">0</div></div>
-
-            <div class="insight-grid" id="saved_view_insights_grid">
-                <div class="insight-card"><small>Peak Feed</small><strong id="saved_peak_feed">--</strong></div>
-                <div class="insight-card"><small>Action Rate</small><strong id="saved_pace">--</strong></div>
-                <div class="insight-card"><small>Top Bait</small><strong id="saved_top_bait" class="text-primary">--</strong></div>
-                <div class="insight-card"><small>Best Tide</small><strong id="saved_best_tide" class="text-primary">--</strong></div>
+            <div class="inner-card p-3 mb-3 border-0 shadow-sm" id="saved_view_insights_card" style="display:none;">
+                <h6 class="fw-bold text-primary mb-3"><i class="bi bi-graph-up me-2"></i>Session Insights</h6>
+                <div class="row g-2 text-center">
+                    <div class="col-6 border-end border-bottom pb-2"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.65rem;">Peak Feed</small><strong id="saved_peak_feed" class="text-main fs-6">--</strong></div>
+                    <div class="col-6 border-bottom pb-2"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.65rem;">Action Rate</small><strong id="saved_pace" class="text-main fs-6">--</strong></div>
+                    <div class="col-6 border-end pt-2"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.65rem;">Top Bait</small><strong id="saved_top_bait" class="text-primary fs-6">--</strong></div>
+                    <div class="col-6 pt-2"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.65rem;">Best Tide</small><strong id="saved_best_tide" class="text-primary fs-6">--</strong></div>
+                </div>
             </div>
+
+            <div class="live-score-box mb-3"><div class="small text-muted text-uppercase fw-bold mb-2">Final Score</div><div id="saved_view_points" class="live-score-value">0</div></div>
 
             <div id="history_visual_analytics"></div>
 
@@ -460,10 +470,10 @@
         <p class="small text-muted mb-4 fw-bold">Use 'Auto Search' on the beach to pull real-time conditions, or 'Manual Search' to input local tide book times. Unlocking this data generates your Catch Timeline graph, auto-tags the tide state for every fish, and provides the weather context needed for the xC algorithm.</p>
         
         <h6 class="fw-bold text-primary mb-2">2. The xC Rating (Expected Catch)</h6>
-        <p class="small text-muted mb-4 fw-bold">Similar to 'xG' in football, xC calculates your performance based on the specific conditions. It is a strictly <em>personal</em> rating that compares today's catch against your own historical average at this venue. The algorithm evaluates your baseline catch rate, applies a difficulty multiplier for heavy winds/swells, and rewards you for landing low-probability specimen fish.</p>
+        <p class="small text-muted mb-4 fw-bold">Think of this exactly like 'xG' in football, but for fishing. xC calculates your expected performance based on the specific conditions. It is a strictly <em>personal</em> rating that compares today's catch against your own historical average at this venue. The algorithm evaluates your baseline catch rate, applies a difficulty multiplier for heavy winds/swells, and rewards you for landing low-probability specimen fish.</p>
         
-        <h6 class="fw-bold text-primary mb-2">3. Persistent Baits</h6>
-        <p class="small text-muted mb-0 fw-bold">Tap the 'Baits Used' box during a live session. Choose your baits once, and the app will automatically tag every fish you catch with them until you change it—keeping your screen clear and saving your freezing hands.</p>
+        <h6 class="fw-bold text-primary mb-2">3. Catch Analytics</h6>
+        <p class="small text-muted mb-0 fw-bold">Select the exact baits you used for every fish. At the end of the session, the app's insight engine will automatically crunch the data to reveal your Top Bait, your Peak Feeding window, your Pace, and the most productive stage of the Tide.</p>
     </div></div></div></div>
     
     <div class="modal fade" id="baitModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-4"><h4 class="text-primary fw-bold mb-3"><i class="bi bi-bug me-2"></i>Select Baits</h4><p class="text-muted small fw-bold mb-3">Select one or multiple baits used for this catch.</p><div id="baitGrid" class="d-flex flex-wrap gap-2 mb-3"></div><input type="text" id="customBaitInput" class="form-control fw-bold mb-4" placeholder="Other bait..."><div class="d-grid gap-2"><button class="btn btn-primary py-3 fw-bold rounded-4 shadow-sm" onclick="window.saveBaitSelection()">Save Baits</button><button class="btn btn-light py-2 fw-bold text-muted rounded-4" data-bs-dismiss="modal">Cancel</button></div></div></div></div></div>
@@ -491,7 +501,8 @@
             {category:"Wrasse & Mini",items:["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}
         ];
         
-        const availableBaits = ['Lugworm', 'Ragworm', 'Squid', 'Mackerel', 'Sandeel', 'Peeler Crab', 'Mussel', 'Razor Clam', 'Blue Amis', 'Prawn', 'Artificial'];
+        // BAIT LIST UPDATED
+        const availableBaits = ['Lugworm', 'Ragworm', 'Squid', 'Mackerel', 'Sandeel', 'Peeler Crab', 'Mussel', 'Razor Clam', 'Bluey', 'Prawn', 'Artificial'];
 
         const tideStations = [
             {region:"Scotland - East",stations:[{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Buckie",lat:57.6766,lon:-2.9649},{name:"Burntisland",lat:56.05,lon:-3.2333},{name:"Dunbar",lat:56.0029,lon:-2.5135},{name:"Dundee",lat:56.462,lon:-2.9707},{name:"Eyemouth",lat:55.8711,lon:-2.0867},{name:"Fraserburgh",lat:57.6953,lon:-2.0041},{name:"Granton",lat:55.9833,lon:-3.2333},{name:"Leith (Edinburgh)",lat:55.9855,lon:-3.1764},{name:"Lossiemouth",lat:57.7202,lon:-3.2842},{name:"Macduff",lat:57.67,lon:-2.4939},{name:"Methil",lat:56.1833,lon:-3},{name:"Montrose",lat:56.705,lon:-2.4566},{name:"Peterhead",lat:57.5058,lon:-1.7765},{name:"Rosyth",lat:55.9833,lon:-3.4167},{name:"St Andrews",lat:56.34,lon:-2.79},{name:"Stonehaven",lat:56.9667,lon:-2.2}]},
@@ -517,7 +528,8 @@
         let activeBaits = []; 
         let baitEditContext = { mode: 'new', index: -1 }; 
         
-        const badgeStyle = "background: rgba(6, 148, 148, 0.1); color: var(--app-main); border: 1px solid rgba(6, 148, 148, 0.3); padding: 8px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 800; margin: 3px; display: inline-block;";
+        // TIGHTER BADGE STYLE FOR HEADER CARD
+        const badgeStyle = "background: rgba(6, 148, 148, 0.1); color: var(--app-main); border: 1px solid rgba(6, 148, 148, 0.3); padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; margin: 1px; display: inline-block;";
 
         const PageManager={ show:function(id){ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
         const StorageHelper={ save: function(k,v) { try { localStorage.setItem(k,v); } catch(e) { console.error("Storage limit reached", e); throw new Error("QUOTA_EXCEEDED"); } }, get: (k) => localStorage.getItem(k), remove: (k) => localStorage.removeItem(k), getAll: () => ({...localStorage}) };
@@ -568,7 +580,7 @@
             
             if(baitEditContext.mode === 'new') {
                 activeBaits = selected;
-                document.getElementById('liveBaitDisplay').innerHTML = activeBaits.length > 0 ? activeBaits.join(', ') : `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to set persistent baits</span>`;
+                document.getElementById('liveBaitDisplay').innerHTML = activeBaits.length > 0 ? activeBaits.join(', ') : `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
             } 
             else if(baitEditContext.mode === 'live') {
                 fishData[baitEditContext.index].baits = selected;
@@ -692,12 +704,9 @@
         };
 
         window.getInsights = function(fishArray, method, hwStr, lwStr) {
-            if(!fishArray || fishArray.length === 0) return { peak: "--", pace: "--", topBait: "--", bestTide: "--", mvpFish: null, speciesBar: [], mvpIndex: -1 };
-            let mvpIndex = -1; let maxVal = -1; let baitCounts = {}; let tideCounts = {}; let spCounts = {};
+            if(!fishArray || fishArray.length === 0) return { peak: "--", pace: "--", topBait: "--", bestTide: "--", speciesBar: [] };
+            let baitCounts = {}; let tideCounts = {}; let spCounts = {};
             fishArray.forEach((f, i) => {
-                let val = 0;
-                if(method === 'weight') val = parseFloat(f.raw || 0); else if(method !== 'species_hunt') val = parseFloat(f.length || 0);
-                if(val > maxVal && val > 0) { maxVal = val; mvpIndex = i; }
                 if(f.baits) { f.baits.forEach(b => { baitCounts[b] = (baitCounts[b] || 0) + 1; }); }
                 spCounts[f.species] = (spCounts[f.species] || 0) + 1;
                 let tTag = window.getTideState(f.time, hwStr, lwStr);
@@ -732,8 +741,7 @@
             for(let s in spCounts) { let pct = (spCounts[s] / totalFish) * 100; speciesBar.push({ name: s, pct: pct, color: colors[cIdx % colors.length], count: spCounts[s] }); cIdx++; }
             speciesBar.sort((a,b) => b.count - a.count);
 
-            let mvpFish = mvpIndex > -1 ? fishArray[mvpIndex] : null;
-            return { peak, pace, topBait, bestTide, mvpFish, speciesBar, mvpIndex };
+            return { peak, pace, topBait, bestTide, speciesBar };
         };
 
         window.calculateXC = function(currentVenue, currentCatchCount, currentFishData, windStr, waveStr, swellStr) {
@@ -790,21 +798,16 @@
 
         window.renderVisualAnalytics = function(insights, method, containerId) {
             const container = document.getElementById(containerId);
-            if(!insights || !insights.mvpFish || insights.speciesBar.length === 0) { container.innerHTML = ''; return; }
+            if(!insights || insights.speciesBar.length === 0) { container.innerHTML = ''; return; }
             let html = '';
-            if (insights.mvpFish && method !== 'species_hunt') {
-                const val = method==='weight' ? insights.mvpFish.display : `${insights.mvpFish.length}cm`;
-                const baitTxt = (insights.mvpFish.baits && insights.mvpFish.baits.length > 0) ? ` on ${insights.mvpFish.baits.join(' & ')}` : '';
-                html += `<div class="inner-card mb-4 text-start" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none;"><div class="small text-uppercase fw-bold mb-1" style="color: #08baba; letter-spacing: 1px;"><i class="bi bi-trophy-fill me-1"></i> Session MVP</div><div class="d-flex justify-content-between align-items-end"><div><h2 class="fw-bold mb-0">${insights.mvpFish.species}</h2><div class="small fw-bold" style="color: #cbd5e1;">${insights.mvpFish.time}${baitTxt}</div></div><div class="fs-1 fw-bold text-white" style="line-height: 1;">${val}</div></div></div>`;
-            }
-            if(insights.speciesBar.length > 0) {
-                let barHtml = ''; let legendHtml = '';
-                insights.speciesBar.forEach(sb => {
-                    barHtml += `<div style="width: ${sb.pct}%; background-color: ${sb.color}; height: 100%;"></div>`;
-                    legendHtml += `<div class="d-flex align-items-center me-3 mb-1"><span style="width:10px; height:10px; border-radius:50%; background-color:${sb.color}; margin-right:5px;"></span><span class="small fw-bold text-muted">${sb.name} (${sb.count})</span></div>`;
-                });
-                html += `<div class="inner-card mb-4 text-start"><h6 class="fw-bold text-primary mb-3">Catch Distribution</h6><div class="d-flex rounded-pill overflow-hidden mb-3 shadow-sm" style="height: 16px;">${barHtml}</div><div class="d-flex flex-wrap">${legendHtml}</div></div>`;
-            }
+            
+            let barHtml = ''; let legendHtml = '';
+            insights.speciesBar.forEach(sb => {
+                barHtml += `<div style="width: ${sb.pct}%; background-color: ${sb.color}; height: 100%;"></div>`;
+                legendHtml += `<div class="d-flex align-items-center me-3 mb-1"><span style="width:10px; height:10px; border-radius:50%; background-color:${sb.color}; margin-right:5px;"></span><span class="small fw-bold text-muted">${sb.name} (${sb.count})</span></div>`;
+            });
+            html += `<div class="inner-card mb-4 text-start"><h6 class="fw-bold text-primary mb-3">Catch Distribution</h6><div class="d-flex rounded-pill overflow-hidden mb-3 shadow-sm" style="height: 16px;">${barHtml}</div><div class="d-flex flex-wrap">${legendHtml}</div></div>`;
+            
             container.innerHTML = html;
         };
 
@@ -942,7 +945,7 @@
             document.getElementById('venueInput').value = ''; if(document.getElementById('coastalTownInput')) document.getElementById('coastalTownInput').selectedIndex = 0; document.getElementById('scoringMethod').selectedIndex = 0; document.getElementById('sessionNotesInput').value = '';
             document.getElementById('weatherInput').value = ''; document.getElementById('windInput').value = ''; document.getElementById('swellInput').value = ''; document.getElementById('waveInput').value = ''; 
             document.getElementById('manHW').value = ''; document.getElementById('manLW').value = ''; document.getElementById('manualTideContainer').style.display = 'none';
-            document.getElementById('liveBaitDisplay').innerHTML = `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to set persistent baits</span>`;
+            document.getElementById('liveBaitDisplay').innerHTML = `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
             if(document.getElementById('fishLengthInput')) document.getElementById('fishLengthInput').value = '';
             document.getElementById('speciesInput').selectedIndex = 0; document.getElementById('customSpeciesInput').value = '';
             document.getElementById('fishLog').innerHTML = ''; document.getElementById('liveScoreVal').textContent = '0'; document.getElementById('weightInfoDisplay').style.display = 'none'; document.getElementById('speciesHuntInfo').style.display = 'none';
@@ -1061,6 +1064,11 @@
             document.getElementById("speciesInput").selectedIndex = 0; document.getElementById("customSpeciesInput").value = ""; window.toggleCustomSpeciesInput(); 
             if(currentScoringMethod === 'weight') { const c1 = document.getElementById('pickerCol1'); const c2 = document.getElementById('pickerCol2'); if(c1) c1.scrollTop = 0; if(c2) c2.scrollTop = 0; setTimeout(()=>{ window.updatePickerDisplay('pickerCol1'); window.updatePickerDisplay('pickerCol2'); }, 50); }
             if(currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only') { document.getElementById("fishLengthInput").value = ""; }
+            
+            // RESET BAIT SELECTOR FOR EACH FISH
+            activeBaits = [];
+            document.getElementById('liveBaitDisplay').innerHTML = `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
+            
             window.saveActiveSession();
         }
 
@@ -1128,10 +1136,10 @@
             document.getElementById('session_angler').textContent = currentAngler; document.getElementById('session_date').textContent = new Date(currentDate).toLocaleDateString('en-GB'); document.getElementById('session_venue').textContent = currentVenue || coastalTown || 'Unnamed Venue';
             
             let condHTML = '';
-            if(weatherInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-2"></i>${weatherInfo}</span>`;
-            if(windInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-wind me-2"></i>${windInfo}</span>`;
-            if(waveInfo && waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-2"></i>${waveInfo} Wave</span>`;
-            if(swellInfo && swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-tsunami me-2"></i>${swellInfo} Swell</span>`;
+            if(weatherInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-1"></i>${weatherInfo}</span>`;
+            if(windInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-wind me-1"></i>${windInfo}</span>`;
+            if(waveInfo && waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-1"></i>${waveInfo} Wave</span>`;
+            if(swellInfo && swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-tsunami me-1"></i>${swellInfo} Swell</span>`;
             document.getElementById('session_live_conditions').innerHTML = condHTML;
 
             document.getElementById('session_total_points').textContent = window.calculatePoints(fishData, currentScoringMethod); document.getElementById('session_total_fish').textContent = fishData.length; document.getElementById('session_species_count').textContent = new Set(fishData.map(f=>f.species)).size;
@@ -1153,7 +1161,7 @@
             document.getElementById('session_pace').textContent = insights.pace;
             document.getElementById('session_top_bait').textContent = insights.topBait;
             document.getElementById('session_best_tide').textContent = insights.bestTide;
-            if(fishData.length > 0) document.getElementById('session_insights_grid').style.display = 'grid'; else document.getElementById('session_insights_grid').style.display = 'none';
+            if(fishData.length > 0) document.getElementById('session_insights_card').style.display = 'block'; else document.getElementById('session_insights_card').style.display = 'none';
 
             window.renderVisualAnalytics(insights, currentScoringMethod, 'session_visual_analytics');
 
@@ -1169,10 +1177,9 @@
                     const tideTag = window.getTideState(f.time, hwTime, lwTime);
                     const tideHTML = tideTag ? `<span class="text-primary small fw-bold ms-1">(${tideTag})</span>` : '';
                     const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>` : '';
-                    const mvpHTML = (idx === insights.mvpIndex && currentScoringMethod !== 'species_hunt') ? `<span class="badge bg-warning text-dark ms-2 fw-bold"><i class="bi bi-trophy-fill me-1"></i>MVP</span>` : '';
                     let baitHtml = ''; if(f.baits && f.baits.length > 0) { baitHtml = `<div class="mt-1">` + f.baits.map(b => `<span class="bait-badge">${b}</span>`).join('') + `</div>`; }
 
-                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${mvpHTML} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div>${baitHtml}</div>${ph}</div></td></tr>`;
+                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div>${baitHtml}</div>${ph}</div></td></tr>`;
                 }); eTable += '</tbody></table>'; area.innerHTML = eTable;
             }
 
@@ -1201,10 +1208,10 @@
         window.viewSaved = function(k){
             currentSavedKey = k; const d = JSON.parse(StorageHelper.get(k)); document.getElementById('saved_view_angler').textContent = d.angler; document.getElementById('saved_view_date').textContent = new Date(d.date).toLocaleDateString('en-GB'); document.getElementById('saved_view_venue').textContent = d.venue || d.coastalTown || 'Unnamed Venue';
             let condHTML = '';
-            if(d.weatherInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-2"></i>${d.weatherInfo}</span>`;
-            if(d.windInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-wind me-2"></i>${d.windInfo}</span>`;
-            if(d.waveInfo && d.waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-2"></i>${d.waveInfo} Wave</span>`;
-            if(d.swellInfo && d.swellInfo !== 'Inland' && d.swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-tsunami me-2"></i>${d.swellInfo} Swell</span>`;
+            if(d.weatherInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-1"></i>${d.weatherInfo}</span>`;
+            if(d.windInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-wind me-1"></i>${d.windInfo}</span>`;
+            if(d.waveInfo && d.waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-1"></i>${d.waveInfo} Wave</span>`;
+            if(d.swellInfo && d.swellInfo !== 'Inland' && d.swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-tsunami me-1"></i>${d.swellInfo} Swell</span>`;
             document.getElementById('saved_view_conditions').innerHTML = condHTML;
 
             document.getElementById('saved_view_points').textContent = window.calculatePoints(d.fishData, d.method, d.weightUnit);
@@ -1224,7 +1231,7 @@
             document.getElementById('saved_pace').textContent = insights.pace;
             document.getElementById('saved_top_bait').textContent = insights.topBait;
             document.getElementById('saved_best_tide').textContent = insights.bestTide;
-            if(d.fishData.length > 0) document.getElementById('saved_view_insights_grid').style.display = 'grid'; else document.getElementById('saved_view_insights_grid').style.display = 'none';
+            if(d.fishData.length > 0) document.getElementById('saved_view_insights_card').style.display = 'block'; else document.getElementById('saved_view_insights_card').style.display = 'none';
 
             window.renderVisualAnalytics(insights, d.method, 'history_visual_analytics');
 
@@ -1239,10 +1246,9 @@
                     const tideTag = window.getTideState(f.time, d.hwTime, d.lwTime);
                     const tideHTML = tideTag ? `<span class="text-primary small fw-bold ms-1">(${tideTag})</span>` : '';
                     const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>` : '';
-                    const mvpHTML = (idx === insights.mvpIndex && d.method !== 'species_hunt') ? `<span class="badge bg-warning text-dark ms-2 fw-bold"><i class="bi bi-trophy-fill me-1"></i>MVP</span>` : '';
                     let baitHtml = ''; if(f.baits && f.baits.length > 0) { baitHtml = `<div class="mt-1">` + f.baits.map(b => `<span class="bait-badge">${b}</span>`).join('') + `</div>`; }
 
-                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} ${mvpHTML} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div>${baitHtml}</div><div class="d-flex align-items-center"><button class="btn btn-sm btn-outline-primary border-0 me-2" onclick="window.openBaitModal('history', ${idx})"><i class="bi bi-bug-fill fs-5"></i></button>${ph}</div></div></td></tr>`;
+                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div>${baitHtml}</div><div class="d-flex align-items-center"><button class="btn btn-sm btn-outline-primary border-0 me-2" onclick="window.openBaitModal('history', ${idx})"><i class="bi bi-bug-fill fs-5"></i></button>${ph}</div></div></td></tr>`;
                 }); eTable += '</tbody></table>'; area.innerHTML = eTable;
             }
 
@@ -1302,7 +1308,7 @@
             if (coastalTown && select) { for (let i = 0; i < select.options.length; i++) { if (select.options[i].text === coastalTown) { select.selectedIndex = i; break; } } }
             document.getElementById('scoringMethod').value=s.method; document.getElementById('weatherInput').value=weatherInfo; document.getElementById('windInput').value=windInfo; if(document.getElementById('waveInput')) document.getElementById('waveInput').value=waveInfo; if(document.getElementById('swellInput')) document.getElementById('swellInput').value=swellInfo;
             
-            document.getElementById('liveBaitDisplay').innerHTML = activeBaits.length > 0 ? activeBaits.join(', ') : `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to set persistent baits</span>`;
+            document.getElementById('liveBaitDisplay').innerHTML = activeBaits.length > 0 ? activeBaits.join(', ') : `None Selected <span class="text-muted small fw-normal d-block" style="font-size: 0.7rem;">Tap to select bait for this catch</span>`;
 
             window.populateSpeciesDropdown();
             if(s.phase==='fishing'){ window.setupFishingUI(); PageManager.show('anglerFishingPage'); window.updateFishLog(); } else if(s.phase==='tally'){ window.endSession(); } else { PageManager.show('anglerRegistration'); if(hwTime && lwTime) { document.getElementById('setupTideChartContainer').style.display = 'block'; try { window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], sessionStartTimeStr); } catch(e) {} } }
