@@ -1,17 +1,15 @@
-const CACHE_NAME = 'sea-diary-cache-v246';
+const CACHE_NAME = 'sea-diary-cache-v247';
 const urlsToCache = [
   '/',
-  '/index.html?v=246',
+  '/index.html?v=247',
   '/manifest.json'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache v246');
+    caches.open(CACHE_NAME).then(cache => {
         return cache.addAll(urlsToCache);
-      })
+    })
   );
   self.skipWaiting();
 });
@@ -23,7 +21,6 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
-            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -39,22 +36,9 @@ self.addEventListener('fetch', event => {
       event.request.url.includes('weatherapi.com')) {
       return; 
   }
-
   event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        if(!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
-        }
-        let responseToCache = response.clone();
-        caches.open(CACHE_NAME)
-          .then(cache => {
-            cache.put(event.request, responseToCache);
-          });
-        return response;
-      })
-      .catch(() => {
+    fetch(event.request).catch(() => {
         return caches.match(event.request);
-      })
+    })
   );
 });
