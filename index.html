@@ -109,7 +109,7 @@
 
     <div id="splashScreen" class="splash-screen">
         <h1 class="display-4 fw-bold mb-1 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 236.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 237.0</p>
         
         <div class="d-flex flex-column w-100 px-2" style="max-width: 400px;">
             <button class="door-card" style="background: linear-gradient(135deg, #069494 0%, #0369a1 100%); color: white;" onclick="window.openProMenu()">
@@ -162,32 +162,14 @@
         <p class="text-muted text-center fw-bold small mb-4">No graphs. No weather. Just fishing.</p>
         
         <div class="inner-card p-4 shadow-sm border-warning" style="border-width: 2px;">
-            <label class="form-label small fw-bold text-muted">1. Your Name</label>
-            <input type="text" id="liteAnglerName" class="form-control mb-3 fw-bold fs-5 text-center" placeholder="e.g. Stevie">
+            <label class="form-label small fw-bold text-muted">1. Enter Your Name</label>
+            <input type="text" id="liteAnglerName" class="form-control mb-4 fw-bold fs-5 text-center" placeholder="e.g. Stevie">
             
-            <hr>
-            
-            <label class="form-label small fw-bold text-muted mt-2">Joining a Match?</label>
-            <input type="text" id="litePinInput" class="form-control mb-2 fw-bold text-center text-primary" placeholder="Enter 4-Digit PIN" maxlength="4" inputmode="numeric" style="font-size: 1.5rem; letter-spacing: 8px;">
-            <button class="btn btn-dark w-100 fw-bold py-2 mb-3 shadow-sm" onclick="window.joinMatchFlow('lite')">Join Room</button>
-            
-            <hr>
-            
-            <label class="form-label small fw-bold text-muted mt-2">Hosting a Match?</label>
-            <select id="liteScoringMethod" class="form-select fw-bold mb-2 text-center">
-                <option value="length_only">Total Length Only</option>
-                <option value="measure_points">Length + 10 Pts</option>
-                <option value="species_hunt">Species Hunt</option>
-                <option value="weight">Total Weight</option>
-            </select>
-            <select id="liteDuration" class="form-select fw-bold mb-2 text-center">
-                <option value="2">2 Hour Match</option>
-                <option value="3">3 Hour Match</option>
-                <option value="4" selected>4 Hour Match</option>
-                <option value="5">5 Hour Match</option>
-                <option value="6">6 Hour Match</option>
-            </select>
-            <button class="btn btn-warning w-100 fw-bold py-2 shadow-sm" style="color:#0f172a;" onclick="window.hostMatchFlow('lite')">Create New Room</button>
+            <label class="form-label small fw-bold text-muted">2. Choose Match Action</label>
+            <div class="d-grid gap-2">
+                <button class="btn btn-warning btn-lg fw-bold text-dark shadow-sm" onclick="window.openHostModal('lite')"><i class="bi bi-plus-circle-fill me-2"></i>Host a New Match</button>
+                <button class="btn btn-outline-dark btn-lg fw-bold shadow-sm" onclick="window.openJoinModal('lite')"><i class="bi bi-box-arrow-in-right me-2"></i>Join Existing Match</button>
+            </div>
         </div>
         
         <button class="btn btn-outline-primary w-100 mt-3 fw-bold shadow-sm bg-white" onclick="window.openLiteHistory()"><i class="bi bi-clock-history me-1"></i>View Lite History</button>
@@ -208,22 +190,11 @@
             <button class="btn btn-sm btn-outline-secondary px-3 py-1 rounded-pill fw-bold bg-white" onclick="PageManager.show('proMenuScreen')"><i class="bi bi-arrow-left me-1"></i>Back</button>
         </div>
         <div class="inner-card">
-            <h6 class="fw-bold text-primary mb-2"><i class="bi bi-card-text me-2"></i>Match Details</h6>
+            <h6 class="fw-bold text-primary mb-2"><i class="bi bi-card-text me-2"></i>Your Details</h6>
             <div class="mb-2">
                 <label class="form-label small mb-1 fw-bold text-muted">Angler Name</label>
                 <input type="text" id="anglerName" class="form-control fw-bold" oninput="window.saveActiveSession()">
             </div>
-            <div class="mb-1">
-                <label class="form-label small mb-1 fw-bold text-muted">Scoring Format</label>
-                <select id="scoringMethod" class="form-select fw-bold" onchange="window.handleMethodChange()">
-                    <option value="length_only">Total Length Only</option>
-                    <option value="measure_points">Length + 10 Pts</option>
-                    <option value="species_hunt">Species Hunt</option>
-                    <option value="weight">Total Weight</option>
-                </select>
-            </div>
-            <div id="speciesHuntInfo" class="small text-muted fw-bold mt-1" style="display:none;"><i class="bi bi-info-circle-fill me-1"></i> 1st: 30 | 2nd: 30 | 3rd: 40 | 4th+: 1pt</div>
-            <div id="weightInfoDisplay" class="small fw-bold text-primary mt-1" style="display:none;"></div>
         </div>
 
         <div class="inner-card">
@@ -247,46 +218,59 @@
             </div>
         </div>
         
-        <div class="row g-2 mt-1">
-            <div class="col-6">
-                <button class="btn btn-dark btn-lg w-100 py-2 shadow-sm fw-bold" style="font-size: 1rem;" onclick="window.registerAngler(false)">Offline Mode</button>
+        <div class="row g-2 mt-2">
+            <div class="col-12">
+                <button class="btn btn-dark btn-lg w-100 py-2 shadow-sm fw-bold" onclick="window.registerAngler(false)"><i class="bi bi-person-fill me-2"></i>Fish Offline (Personal Diary)</button>
             </div>
             <div class="col-6">
-                <button class="btn btn-warning btn-lg w-100 py-2 shadow-sm fw-bold" style="font-size: 1rem; color:#0f172a;" onclick="window.showProMatchModal()"><i class="bi bi-broadcast blinker me-1 text-danger"></i>Live Match</button>
+                <button class="btn btn-warning w-100 py-2 shadow-sm fw-bold text-dark" onclick="window.openHostModal('pro')"><i class="bi bi-plus-circle-fill me-1"></i>Host Match</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-outline-dark w-100 py-2 shadow-sm fw-bold bg-white" onclick="window.openJoinModal('pro')"><i class="bi bi-box-arrow-in-right me-1"></i>Join Match</button>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="proMatchModal" tabindex="-1">
+    <div class="modal fade" id="unifiedHostModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body p-4">
-                    <h4 class="text-primary fw-bold mb-3 text-center"><i class="bi bi-broadcast me-2"></i>Live Match Setup</h4>
+                <div class="modal-body p-4 text-center">
+                    <h4 class="text-primary fw-bold mb-3"><i class="bi bi-plus-circle-fill me-2"></i>Host a Match</h4>
+                    <p class="text-muted fw-bold small mb-3">Set the rules for the room. Participants will be locked into these choices.</p>
                     
-                    <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
-                      <li class="nav-item" role="presentation"><button class="nav-link active fw-bold" data-bs-toggle="pill" data-bs-target="#pills-join" type="button">Join Room</button></li>
-                      <li class="nav-item" role="presentation"><button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#pills-host" type="button">Host Room</button></li>
-                    </ul>
+                    <label class="form-label small fw-bold text-muted mt-2">Scoring Method</label>
+                    <select id="unifiedScoringMethod" class="form-select fw-bold mb-3 text-center">
+                        <option value="length_only">Total Length Only</option>
+                        <option value="measure_points">Length + 10 Pts</option>
+                        <option value="species_hunt">Species Hunt</option>
+                        <option value="weight">Total Weight</option>
+                    </select>
+
+                    <label class="form-label small fw-bold text-muted">Match Duration</label>
+                    <select id="unifiedDuration" class="form-select fw-bold mb-4 text-center">
+                        <option value="2">2 Hour Match</option>
+                        <option value="3">3 Hour Match</option>
+                        <option value="4" selected>4 Hour Match</option>
+                        <option value="5">5 Hour Match</option>
+                        <option value="6">6 Hour Match</option>
+                    </select>
                     
-                    <div class="tab-content" id="pills-tabContent">
-                      <div class="tab-pane fade show active text-center" id="pills-join">
-                          <label class="form-label small fw-bold text-muted mt-2">Enter Match PIN</label>
-                          <input type="text" id="proPinInput" class="form-control mb-3 fw-bold text-center text-primary" placeholder="----" maxlength="4" inputmode="numeric" style="font-size: 2rem; letter-spacing: 8px;">
-                          <button class="btn btn-dark w-100 fw-bold py-2 shadow-sm" onclick="window.joinMatchFlow('pro')">Join Match</button>
-                      </div>
-                      
-                      <div class="tab-pane fade text-center" id="pills-host">
-                          <label class="form-label small fw-bold text-muted mt-2">Match Duration</label>
-                          <select id="proDuration" class="form-select fw-bold mb-4 text-center">
-                              <option value="2">2 Hour Match</option>
-                              <option value="3">3 Hour Match</option>
-                              <option value="4" selected>4 Hour Match</option>
-                              <option value="5">5 Hour Match</option>
-                              <option value="6">6 Hour Match</option>
-                          </select>
-                          <button class="btn btn-warning w-100 fw-bold py-2 shadow-sm" style="color:#0f172a;" onclick="window.hostMatchFlow('pro')">Generate Room PIN</button>
-                      </div>
-                    </div>
+                    <button class="btn btn-warning btn-lg w-100 fw-bold py-2 shadow-sm" style="color:#0f172a;" onclick="window.executeHost()">Generate Room PIN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="unifiedJoinModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4 text-center">
+                    <h4 class="text-primary fw-bold mb-3"><i class="bi bi-box-arrow-in-right me-2"></i>Join a Match</h4>
+                    <p class="text-muted fw-bold small mb-3">Enter the PIN provided by the Host to enter their waiting room.</p>
+                    
+                    <input type="text" id="unifiedPinInput" class="form-control mb-4 fw-bold text-center text-primary" placeholder="----" maxlength="4" inputmode="numeric" style="font-size: 2.5rem; letter-spacing: 12px;">
+                    
+                    <button class="btn btn-dark btn-lg w-100 fw-bold py-2 shadow-sm" onclick="window.executeJoin()">Connect to Room</button>
                 </div>
             </div>
         </div>
@@ -294,8 +278,11 @@
 
     <div id="waitingRoomPage" class="app-page text-center">
         <h2 class="fw-bold text-primary mt-4 mb-1">Match Lobby</h2>
-        <p class="text-muted fw-bold">Room PIN</p>
-        <div class="display-1 fw-bold text-dark mb-4" style="letter-spacing: 8px;" id="waitingRoomPin">----</div>
+        <p class="text-muted fw-bold mb-1">Room PIN</p>
+        <div class="display-1 fw-bold text-dark mb-2" style="letter-spacing: 8px;" id="waitingRoomPin">----</div>
+        
+        <div class="badge bg-dark mb-4 px-3 py-2 fw-bold shadow-sm" id="waitingRoomRules" style="font-size: 0.9rem;">
+            </div>
         
         <div class="inner-card shadow-sm mb-4 text-start">
             <h6 class="fw-bold text-primary mb-2 border-bottom pb-2"><i class="bi bi-people-fill me-2"></i>Anglers Connected</h6>
@@ -304,7 +291,7 @@
         </div>
         
         <div id="hostControls" style="display:none;">
-            <p class="text-muted small fw-bold mb-2">You are the Host. Start when everyone is ready.</p>
+            <p class="text-muted small fw-bold mb-2">You are the Host. Tell everyone the PIN. Start when all names appear above.</p>
             <button class="btn btn-danger btn-lg w-100 fw-bold shadow py-3" onclick="window.startMatchForEveryone()"><i class="bi bi-play-circle-fill me-2"></i>START MATCH NOW</button>
         </div>
         
@@ -520,6 +507,7 @@
         let matchTimerInterval = null;
         let globalEndTime = null;
         let globalGraceTime = null;
+        let matchContext = 'pro'; // Stores if we are in pro or lite mode for the unified modals
 
         const WEATHER_API_KEY="db7f2afb64d943719e0203116260103",speciesList=[{category:"Common",items:["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},{category:"Round Fish",items:["Bass","Bream (Black)","Bream (Gilthead)","Bream (Red)","Garfish","Gurnard (Grey)","Gurnard (Red)","Gurnard (Tub)","Mackerel","Mullet (Golden)","Mullet (Grey/Thick)","Mullet (Red)","Scad","Weever (Lesser)"]},{category:"Flatfish",items:["Brill","Megrim","Sole (Dover)","Sole (Lemon)","Topknot"]},{category:"Sharks & Rays",items:["Dogfish (Blackmouth)","Smoothhound (Common)","Smoothhound (Starry)","Spurdog","Tope","Ray (Thornback)","Ray (Spotted)","Ray (Blonde)","Ray (Small-eyed)","Ray (Stingray)"]},{category:"Wrasse & Mini",items:["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}],tideStations=[{region:"Scotland - East",stations:[{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Buckie",lat:57.6766,lon:-2.9649},{name:"Burntisland",lat:56.05,lon:-3.2333},{name:"Dunbar",lat:56.0029,lon:-2.5135},{name:"Dundee",lat:56.462,lon:-2.9707},{name:"Eyemouth",lat:55.8711,lon:-2.0867},{name:"Fraserburgh",lat:57.6953,lon:-2.0041},{name:"Granton",lat:55.9833,lon:-3.2333},{name:"Leith (Edinburgh)",lat:55.9855,lon:-3.1764},{name:"Lossiemouth",lat:57.7202,lon:-3.2842},{name:"Macduff",lat:57.67,lon:-2.4939},{name:"Methil",lat:56.1833,lon:-3},{name:"Montrose",lat:56.705,lon:-2.4566},{name:"Peterhead",lat:57.5058,lon:-1.7765},{name:"Rosyth",lat:55.9833,lon:-3.4167},{name:"St Andrews",lat:56.34,lon:-2.79},{name:"Stonehaven",lat:56.9667,lon:-2.2}]},{region:"Scotland - North & Isles",stations:[{name:"Cromarty",lat:57.6833,lon:-4.0333},{name:"Inverness",lat:57.4957,lon:-4.2405},{name:"Kirkwall",lat:58.9866,lon:-2.9566},{name:"Lerwick",lat:60.155,lon:-1.1444},{name:"Lochinver",lat:58.15,lon:-5.25},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Stornoway",lat:58.2094,lon:-6.3849},{name:"Thurso",lat:58.6,lon:-3.5167},{name:"Ullapool",lat:57.8953,lon:-5.1585},{name:"Wick",lat:58.4379,lon:-3.0841}]},{region:"Scotland - West",stations:[{name:"Ayr",lat:55.4586,lon:-4.6292},{name:"Campbeltown",lat:55.4241,lon:-5.6033},{name:"Dunoon",lat:55.95,lon:-4.9167},{name:"Fort William",lat:56.8198,lon:-5.1052},{name:"Girvan",lat:55.2443,lon:-4.8582},{name:"Gourock",lat:55.9667,lon:-4.8167},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Helensburgh",lat:56.0022,lon:-4.7355},{name:"Kyle of Lochalsh",lat:57.2833,lon:-5.7167},{name:"Largs",lat:55.7941,lon:-4.8727},{name:"Mallaig",lat:57.0064,lon:-5.8291},{name:"Oban",lat:56.4116,lon:-5.4747},{name:"Portpatrick",lat:54.8333,lon:-5.1167},{name:"Rothesay",lat:55.8333,lon:-5.05},{name:"Stranraer",lat:54.9042,lon:-5.0253},{name:"Tarbert",lat:55.8667,lon:-5.4167},{name:"Tobermory",lat:56.6225,lon:-6.0645},{name:"Troon",lat:55.55,lon:-4.6667}]},{region:"England - North East",stations:[{name:"Amble",lat:55.334,lon:-1.5772},{name:"Berwick-upon-Tweed",lat:55.7663,lon:-1.9961},{name:"Blyth",lat:55.1275,lon:-1.4984},{name:"Bridlington",lat:54.0805,lon:-0.1906},{name:"Filey",lat:54.2167,lon:-0.2833},{name:"Hartlepool",lat:54.6946,lon:-1.1895},{name:"Redcar",lat:54.6167,lon:-1.0667},{name:"Scarborough",lat:54.2831,lon:-0.3957},{name:"Seaham",lat:54.8333,lon:-1.3333},{name:"Seahouses",lat:55.5806,lon:-1.6517},{name:"South Shields",lat:55,lon:-1.4333},{name:"Sunderland",lat:54.9142,lon:-1.3735},{name:"Tynemouth",lat:55.0167,lon:-1.4167},{name:"Whitby",lat:54.4912,lon:-0.612}]},{region:"England - East",stations:[{name:"Aldeburgh",lat:52.1523,lon:1.6033},{name:"Boston",lat:52.9833,lon:-0.0167},{name:"Burnham-on-Crouch",lat:51.6288,lon:0.8143},{name:"Clacton-on-Sea",lat:51.7851,lon:1.1565},{name:"Cleethorpes",lat:53.55,lon:-0.0333},{name:"Cromer",lat:52.9333,lon:1.3},{name:"Felixstowe",lat:51.9547,lon:1.3485},{name:"Great Yarmouth",lat:52.6033,lon:1.7335},{name:"Grimsby",lat:53.5701,lon:-0.0637},{name:"Harwich",lat:51.9421,lon:1.2863},{name:"Hull",lat:54.1205,lon:-0.3341},{name:"Hunstanton",lat:52.9333,lon:0.4833},{name:"King's Lynn",lat:52.75,lon:0.4},{name:"Lowestoft",lat:52.4746,lon:1.7546},{name:"Skegness",lat:53.1333,lon:0.3333},{name:"Southend-on-Sea",lat:51.5284,lon:0.7161},{name:"Southwold",lat:52.3276,lon:1.6815},{name:"Walton-on-the-Naze",lat:51.85,lon:1.2667}]},{region:"England - South & South East",stations:[{name:"Bognor Regis",lat:50.7833,lon:-0.6667},{name:"Bournemouth",lat:50.7151,lon:-1.8754},{name:"Brighton",lat:50.8166,lon:-0.1374},{name:"Deal",lat:51.2227,lon:1.4024},{name:"Dover",lat:51.116,lon:1.319},{name:"Eastbourne",lat:50.7675,lon:0.2845},{name:"Folkestone",lat:51.0792,lon:1.1794},{name:"Hastings",lat:50.8522,lon:0.5732},{name:"Herne Bay",lat:51.3667,lon:1.1167},{name:"Isle of Wight (Cowes)",lat:50.7634,lon:-1.2977},{name:"Littlehampton",lat:50.8,lon:-0.5333},{name:"Lymington",lat:50.75,lon:-1.5333},{name:"Margate",lat:51.3897,lon:1.3831},{name:"Newhaven",lat:50.7833,lon:0.05},{name:"Poole",lat:50.7118,lon:-1.9863},{name:"Portsmouth",lat:50.7937,lon:-1.107},{name:"Ramsgate",lat:51.3323,lon:1.4215},{name:"Rye",lat:50.95,lon:0.7333},{name:"Sheerness",lat:51.4333,lon:0.75},{name:"Shoreham-by-Sea",lat:50.829,lon:-0.2709},{name:"Southampton",lat:50.892,lon:-1.3965},{name:"Swanage",lat:50.6,lon:-1.95},{name:"Weymouth",lat:50.6083,lon:-2.4542},{name:"Whitstable",lat:51.35,lon:1.0167},{name:"Worthing",lat:50.8105,lon:-0.3752}]},{region:"England - South West",stations:[{name:"Appledore",lat:51.05,lon:-4.2},{name:"Brixham",lat:50.3957,lon:-3.5132},{name:"Bude",lat:50.8294,lon:-4.5492},{name:"Burnham-on-Sea",lat:51.2381,lon:-3.0003},{name:"Dartmouth",lat:50.3508,lon:-3.5786},{name:"Exmouth",lat:50.6186,lon:-3.415},{name:"Falmouth",lat:50.1472,lon:-5.0601},{name:"Fowey",lat:50.3333,lon:-4.6333},{name:"Ilfracombe",lat:51.2081,lon:-4.1165},{name:"Looe",lat:50.3524,lon:-4.4539},{name:"Lyme Regis",lat:50.7244,lon:-2.9366},{name:"Minehead",lat:51.2066,lon:-3.4735},{name:"Newlyn",lat:50.1039,lon:-5.5469},{name:"Newquay",lat:50.4137,lon:-5.0768},{name:"Padstow",lat:50.5401,lon:-4.9388},{name:"Penzance",lat:50.1186,lon:-5.5371},{name:"Plymouth",lat:50.3664,lon:-4.146},{name:"Port Isaac",lat:50.5931,lon:-4.8315},{name:"Salcombe",lat:50.2333,lon:-3.7667},{name:"St Ives",lat:50.2132,lon:-5.4795},{name:"Teignmouth",lat:50.55,lon:-3.5},{name:"Torquay",lat:50.4578,lon:-3.5222}]},{region:"England - North West",stations:[{name:"Barrow-in-Furness",lat:54.1105,lon:-3.2263},{name:"Birkenhead",lat:53.3833,lon:-3.0167},{name:"Blackpool",lat:53.8142,lon:-3.0558},{name:"Clevedon",lat:51.4414,lon:-2.858},{name:"Fleetwood",lat:53.9248,lon:-3.0135},{name:"Heysham",lat:54.0333,lon:-2.9},{name:"Liverpool",lat:53.4084,lon:-2.9916},{name:"Maryport",lat:54.7142,lon:-3.4984},{name:"Morecambe",lat:54.0735,lon:-2.8687},{name:"Silloth",lat:54.8667,lon:-3.3833},{name:"Southport",lat:53.6333,lon:-3},{name:"Weston-super-Mare",lat:51.3458,lon:-2.9774},{name:"Whitehaven",lat:54.5489,lon:-3.5851},{name:"Workington",lat:54.6409,lon:-3.5516}]},{region:"Wales",stations:[{name:"Aberaeron",lat:52.2415,lon:-4.2589},{name:"Aberdovey",lat:52.5448,lon:-4.045},{name:"Aberystwyth",lat:52.4153,lon:-4.0829},{name:"Bangor",lat:53.2274,lon:-4.1293},{name:"Barmouth",lat:52.7175,lon:-4.0531},{name:"Barry",lat:51.3934,lon:-3.2683},{name:"Caernarfon",lat:53.1333,lon:-4.2667},{name:"Cardiff",lat:51.4552,lon:-3.1601},{name:"Cardigan",lat:52.0833,lon:-4.6625},{name:"Chepstow",lat:51.6429,lon:-2.6738},{name:"Conwy",lat:53.2831,lon:-3.83},{name:"Fishguard",lat:51.9939,lon:-4.976},{name:"Holyhead",lat:53.3134,lon:-4.63},{name:"Llandudno",lat:53.3278,lon:-3.8249},{name:"Llanelli",lat:51.6833,lon:-4.15},{name:"Milford Haven",lat:51.7135,lon:-5.0345},{name:"New Quay",lat:52.2132,lon:-4.3592},{name:"Newport",lat:51.5877,lon:-2.9984},{name:"Pembroke",lat:51.6833,lon:-4.9167},{name:"Porthcawl",lat:51.4795,lon:-3.7027},{name:"Porthmadog",lat:52.9275,lon:-4.1309},{name:"Pwllheli",lat:52.8887,lon:-4.4172},{name:"Rhyl",lat:53.3211,lon:-3.48},{name:"St Davids",lat:51.8813,lon:-5.2657},{name:"Swansea",lat:51.6152,lon:-3.9351},{name:"Tenby",lat:51.6738,lon:-4.6976},{name:"The Mumbles",lat:51.567,lon:-3.9935}]},{region:"Northern Ireland",stations:[{name:"Ballycastle",lat:55.2037,lon:-6.2514},{name:"Bangor",lat:54.6616,lon:-5.6667},{name:"Belfast",lat:54.6139,lon:-5.9103},{name:"Coleraine",lat:55.1322,lon:-6.6668},{name:"Derry / Londonderry",lat:55.0068,lon:-7.3183},{name:"Donaghadee",lat:54.6406,lon:-5.5398},{name:"Larne",lat:54.8517,lon:-5.8143},{name:"Portrush",lat:55.2045,lon:-6.6534},{name:"Portstewart",lat:55.1812,lon:-6.7118},{name:"Warrenpoint",lat:54.1017,lon:-6.2483}]}],defaultVenues={"Arbroath Breakwater":"Arbroath","Victoria Park (Arbroath)":"Arbroath",Usan:"Montrose","Bodden Point":"Montrose",Auchmithie:"Arbroath","Carnoustie Beach":"Arbroath","Riverside Drive (Dundee)":"Dundee",Tayport:"Dundee","Granton Breakwater":"Granton","Leith Docks":"Leith (Edinburgh)","Burntisland Pier":"Burntisland","Kirkcaldy Breakwater":"Methil","Torness Power Station":"Dunbar","Belhaven Beach":"Dunbar","Eyemouth Harbour":"Eyemouth","St Abbs Harbour":"Eyemouth","Peterhead South Breakwater":"Peterhead","Aberdeen South Pier":"Aberdeen","Stonehaven Harbour":"Stonehaven","Greenock Esplanade":"Greenock","Custom House Way (Greenock)":"Greenock","Largs Pencil":"Largs","Largs Marina":"Largs","Gourock Pier":"Gourock","Helensburgh Pier":"Helensburgh","Ayr South Pier":"Ayr","Troon Harbour":"Troon","Prestwick Boundary Wall":"Ayr","Girvan Breakwater":"Girvan","Loch Etive (Bonawe)":"Oban","Loch Etive (Priory)":"Oban","Loch Fyne (Furnace)":"Tarbert","Loch Fyne (Cairndow)":"Tarbert","Loch Long (Arrochar)":"Dunoon","Portpatrick Breakwater":"Portpatrick","Loch Ryan":"Stranraer","Ardwell Bay":"Portpatrick",Southerness:"Silloth","Scrabster Harbour":"Scrabster","Thurso Bay":"Thurso","Dunnet Bay":"Scrabster","Wick Harbour":"Wick","Ullapool Pier":"Ullapool"};
         let fishData=[],currentScoringMethod='length_only',selectedWeightUnit='metric',currentSavedKey='',currentAngler='',currentVenue='',currentDate='',weatherInfo='',windInfo='',swellInfo='',waveInfo='',hwTime='',lwTime='',coastalTown='',sessionStartTimeStr='',sessionEndTimeStr='',sunriseTimeStr='',sunsetTimeStr='',pendingRestoreData=null,deferredPrompt=null,editingOriginalFish=null,venueTideMap={},swipeStartX=0,swipeCurrentX=0,isSwiping=false;
@@ -537,20 +525,33 @@
         window.openProMenu=function(){ isLiteMode = false; PageManager.show('proMenuScreen'); };
         window.openLiteMode=function(){ isLiteMode = true; PageManager.show('liteLobbyScreen'); };
         
-        // ---- HOST & JOIN LOGIC (WAITING ROOM) ----
-        
-        window.showProMatchModal=function(){
-            currentAngler=document.getElementById('anglerName').value.trim();
-            if(!currentAngler)return window.showAppToast("Please enter your Name.",true);
-            bootstrap.Modal.getOrCreateInstance(document.getElementById('proMatchModal')).show();
+        // ---- UNIFIED HOST & JOIN LOGIC ----
+        window.openHostModal=function(ctx){
+            matchContext = ctx;
+            let name = ctx === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
+            if(!name) return window.showAppToast("Please enter your Name first.", true);
+            if(ctx === 'pro') {
+                let venue = document.getElementById('venueSelect').value;
+                if(!venue) return window.showAppToast("Please select a venue first.", true);
+            }
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('unifiedHostModal')).show();
         };
 
-        window.hostMatchFlow=async function(mode){
-            currentAngler = mode === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
-            if(!currentAngler) return window.showAppToast("Please enter your Name.",true);
-            
-            const duration = mode === 'lite' ? parseInt(document.getElementById('liteDuration').value) : parseInt(document.getElementById('proDuration').value);
-            currentScoringMethod = mode === 'lite' ? document.getElementById('liteScoringMethod').value : document.getElementById('scoringMethod').value;
+        window.openJoinModal=function(ctx){
+            matchContext = ctx;
+            let name = ctx === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
+            if(!name) return window.showAppToast("Please enter your Name first.", true);
+            if(ctx === 'pro') {
+                let venue = document.getElementById('venueSelect').value;
+                if(!venue) return window.showAppToast("Please select a venue first.", true);
+            }
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('unifiedJoinModal')).show();
+        };
+
+        window.executeHost=async function(){
+            currentAngler = matchContext === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
+            const duration = parseInt(document.getElementById('unifiedDuration').value);
+            currentScoringMethod = document.getElementById('unifiedScoringMethod').value;
             
             const pin = Math.floor(1000 + Math.random() * 9000).toString();
             liveMatchPin = pin;
@@ -571,16 +572,15 @@
                     score:0, display:"0", catches:0, lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                if(mode==='pro') bootstrap.Modal.getInstance(document.getElementById('proMatchModal')).hide();
+                bootstrap.Modal.getInstance(document.getElementById('unifiedHostModal')).hide();
                 window.enterWaitingRoom(pin);
             } catch(e) { window.showAppToast("Network Error.",true); }
         };
 
-        window.joinMatchFlow=async function(mode){
-            currentAngler = mode === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
-            const pin = mode === 'lite' ? document.getElementById('litePinInput').value.trim() : document.getElementById('proPinInput').value.trim();
+        window.executeJoin=async function(){
+            currentAngler = matchContext === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
+            const pin = document.getElementById('unifiedPinInput').value.trim();
             
-            if(!currentAngler) return window.showAppToast("Please enter your Name.",true);
             if(pin.length<3) return window.showAppToast("PIN required.",true);
             
             isHost = false;
@@ -597,36 +597,37 @@
                     score:0, display:"0", catches:0, lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
                 }, {merge:true});
 
-                if(mode==='pro') {
-                    document.getElementById('scoringMethod').value = currentScoringMethod;
-                    bootstrap.Modal.getInstance(document.getElementById('proMatchModal')).hide();
-                }
+                if(matchContext === 'pro') document.getElementById('scoringMethod').value = currentScoringMethod;
+                
+                bootstrap.Modal.getInstance(document.getElementById('unifiedJoinModal')).hide();
                 window.enterWaitingRoom(pin);
             } catch(e) { window.showAppToast("Network Error.",true); }
         };
 
         window.enterWaitingRoom=function(pin){
             document.getElementById('waitingRoomPin').innerText = pin;
+            
+            let ruleText = currentScoringMethod === 'weight' ? 'Total Weight' : 
+                           currentScoringMethod === 'species_hunt' ? 'Species Hunt' : 
+                           currentScoringMethod === 'measure_points' ? 'Length + 10 Pts' : 'Total Length';
+            document.getElementById('waitingRoomRules').innerText = `Scoring Rule: ${ruleText}`;
+
             document.getElementById('hostControls').style.display = isHost ? 'block' : 'none';
             document.getElementById('participantControls').style.display = isHost ? 'none' : 'block';
             PageManager.show('waitingRoomPage');
 
-            // Listen for anglers joining, AND listen for the host pressing start
             liveMatchListener = db.collection("matches").doc(pin).onSnapshot(doc => {
                 if(doc.exists) {
                     const data = doc.data();
                     if(data.status === 'active' && data.endTime) {
-                        // MATCH HAS STARTED!
                         globalEndTime = data.endTime;
-                        globalGraceTime = data.endTime + (10 * 60 * 1000); // 10 minutes grace
-                        
+                        globalGraceTime = data.endTime + (10 * 60 * 1000); 
                         if(liveMatchListener) { liveMatchListener(); liveMatchListener = null; }
                         window.launchLiveFishing();
                     }
                 }
             });
 
-            // Listen for list of anglers in lobby
             matchDocListener = db.collection("matches").doc(pin).collection("anglers").onSnapshot(snapshot => {
                 let html = "";
                 snapshot.forEach(d => {
@@ -642,15 +643,12 @@
             btn.innerHTML = '<i class="bi bi-hourglass me-2"></i>Starting...';
             btn.disabled = true;
 
-            // Calculate global end time (e.g. 4 hours from exactly right now)
             db.collection("matches").doc(liveMatchPin).get().then(doc => {
                 if(doc.exists){
                     const hrs = doc.data().durationHours || 4;
                     const endTime = Date.now() + (hrs * 3600000); 
-                    
                     db.collection("matches").doc(liveMatchPin).update({
-                        status: 'active',
-                        endTime: endTime
+                        status: 'active', endTime: endTime
                     });
                 }
             });
@@ -661,13 +659,12 @@
             document.getElementById('drawerPinDisplay').textContent = liveMatchPin;
             document.getElementById('btnToggleScores').style.display = 'inline-block';
             
-            // Bypass pro venue setup if lite mode
             if(isLiteMode){
                 currentDate = new Date().toISOString().split('T')[0];
                 currentVenue = "Lite Match Venue"; 
                 document.getElementById('liveTideChartContainer').style.display = 'none';
             } else {
-                window.registerAngler(true); // Registers venue/weather offline
+                window.registerAngler(true); 
             }
             
             if(!sessionStartTimeStr) sessionStartTimeStr=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false});
@@ -682,7 +679,7 @@
             window.showAppToast("Lobby Closed. Match Started!");
         };
 
-        // --- THE GLOBAL COUNTDOWN TIMER & GRACE PERIOD ---
+        // --- GLOBAL TIMER & GRACE PERIOD ---
         window.startMatchTimer=function(){
             const banner = document.getElementById('matchTimerBanner');
             const txt = document.getElementById('matchTimerText');
@@ -692,9 +689,9 @@
 
             matchTimerInterval = setInterval(() => {
                 const now = Date.now();
-                
+                if(!globalEndTime) return;
+
                 if(now < globalEndTime) {
-                    // Match is Active
                     let diff = globalEndTime - now;
                     let h = Math.floor(diff / 3600000).toString().padStart(2, '0');
                     let m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
@@ -704,7 +701,6 @@
                     document.getElementById('recordButtonsDiv').style.display = 'flex';
                 } 
                 else if (now >= globalEndTime && now <= globalGraceTime) {
-                    // Grace Period
                     let diff = globalGraceTime - now;
                     let m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
                     let s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
@@ -713,10 +709,9 @@
                     document.getElementById('recordButtonsDiv').style.display = 'flex';
                 }
                 else {
-                    // Match Over - Lock everything down
                     banner.className = 'match-timer-banner ended';
                     txt.innerHTML = `🛑 MATCH ENDED`;
-                    document.getElementById('recordButtonsDiv').style.display = 'none'; // Locks Record button
+                    document.getElementById('recordButtonsDiv').style.display = 'none'; 
                     clearInterval(matchTimerInterval);
                 }
             }, 1000);
@@ -864,16 +859,7 @@
                     let pts = window.calculatePoints(d.fishData, d.method, d.weightUnit);
                     let lbBtn = d.liveMatchPin ? `<button class="btn btn-warning btn-sm w-100 fw-bold mt-2 text-dark shadow-sm" onclick="window.viewArchivedMatch('${d.liveMatchPin}')"><i class="bi bi-trophy-fill me-1"></i> Final Match Leaderboard</button>` : '';
                     
-                    list.innerHTML += `
-                        <div class="inner-card mb-2 shadow-sm border-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div class="fw-bold text-main fs-5 mb-1">${dateStr}</div>
-                                    <div class="text-muted small fw-bold">🐟 ${d.fishData.length} Fish | 🏆 ${pts}</div>
-                                </div>
-                            </div>
-                            ${lbBtn}
-                        </div>`;
+                    list.innerHTML += `<div class="inner-card mb-2 shadow-sm border-0"><div class="d-flex justify-content-between align-items-center"><div><div class="fw-bold text-main fs-5 mb-1">${dateStr}</div><div class="text-muted small fw-bold">🐟 ${d.fishData.length} Fish | 🏆 ${pts}</div></div></div>${lbBtn}</div>`;
                 });
             }
             PageManager.show('liteHistoryPage');
@@ -917,8 +903,6 @@
         
         window.saveActiveSession=function(){
             try{
-                // Only save if we are actually fishing or in setup. 
-                // Do not persist if we are just sitting in the waiting room (to avoid lockups).
                 if(document.getElementById('waitingRoomPage').style.display === 'block') return;
 
                 const p=document.getElementById('anglerFishingPage').style.display==='block'?'fishing':(document.getElementById('tallyVerificationPage').style.display==='block'?'tally':'setup');
