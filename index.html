@@ -78,7 +78,7 @@
         .xc-story { font-size: 0.9rem; color: #f8fafc; font-weight: 500; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; text-align: left;}
         .letter-spacing-1 { letter-spacing: 1px; }
 
-        /* Slide-Out Drawer Styles */
+        /* Drawer Styles */
         .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1060; }
         .drawer-overlay.show { display: block; }
         .drawer { position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100vh; background-color: #0f172a; z-index: 1065; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: -10px 0 25px rgba(0,0,0,0.5); display: flex; flex-direction: column; color: white; }
@@ -89,9 +89,14 @@
         .angler-row { background-color: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155; }
         .angler-row.is-me { border: 2px solid #069494; background-color: #134e4a; }
         
-        /* New Elegant Splash Screen Cards */
+        /* Elegant Splash Screen Cards */
         .door-card { width: 100%; border: none; border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.1s ease; }
         .door-card:active { transform: scale(0.96); }
+
+        /* Timer Styles */
+        .match-timer-banner { background-color: #0f172a; color: white; text-align: center; padding: 8px; border-radius: 12px; font-weight: bold; font-family: 'Outfit', sans-serif; letter-spacing: 1px; margin-bottom: 12px; border: 2px solid #334155;}
+        .match-timer-banner.grace { background-color: #ea580c; border-color: #9a3412; animation: blink 2s step-end infinite;}
+        .match-timer-banner.ended { background-color: #ef4444; border-color: #991b1b; }
     </style>
 </head>
 <body>
@@ -104,7 +109,7 @@
 
     <div id="splashScreen" class="splash-screen">
         <h1 class="display-4 fw-bold mb-1 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 235.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 236.0</p>
         
         <div class="d-flex flex-column w-100 px-2" style="max-width: 400px;">
             <button class="door-card" style="background: linear-gradient(135deg, #069494 0%, #0369a1 100%); color: white;" onclick="window.openProMenu()">
@@ -112,7 +117,7 @@
                     <i class="bi bi-journal-check fs-2 me-3"></i>
                     <h3 class="m-0 fw-bold">Sea Diary Pro</h3>
                 </div>
-                <p class="small m-0 fw-bold" style="opacity: 0.85;">Full personal diary. Logs weather, tides, GPS venues, and tracks deep catch analytics.</p>
+                <p class="small m-0 fw-bold" style="opacity: 0.85;">Full personal diary. Logs weather, tides, and deep catch analytics. <br><br><b>* Includes full access to Host or Join Live Matches.</b></p>
             </button>
             
             <button class="door-card" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); color: #0f172a;" onclick="window.openLiteMode()">
@@ -143,8 +148,8 @@
         <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Full Analytics</p>
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
             <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-2 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()"><i class="bi bi-download me-2"></i>Install App</button>
-            <button class="btn btn-primary btn-lg fw-bold py-2 shadow-sm" style="font-size: 1.2rem;" onclick="window.startFishing()">Start Session</button>
-            <button class="btn btn-outline-primary btn-lg py-2 fw-bold bg-white" onclick="window.openHistory()">History</button>
+            <button class="btn btn-primary btn-lg fw-bold py-2 shadow-sm" style="font-size: 1.2rem;" onclick="window.startFishing()">Start Session / Live Match</button>
+            <button class="btn btn-outline-primary btn-lg py-2 fw-bold bg-white" onclick="window.openHistory()">Pro History</button>
         </div>
         <div class="mt-4 d-flex flex-column align-items-center gap-3">
             <button class="btn btn-link text-muted text-decoration-none small fw-bold p-0" data-bs-toggle="modal" data-bs-target="#guideModal"><i class="bi bi-book-fill me-1 text-primary"></i> User Guide</button>
@@ -160,25 +165,41 @@
             <label class="form-label small fw-bold text-muted">1. Your Name</label>
             <input type="text" id="liteAnglerName" class="form-control mb-3 fw-bold fs-5 text-center" placeholder="e.g. Stevie">
             
-            <label class="form-label small fw-bold text-muted mt-2">2. Match PIN</label>
-            <input type="text" id="litePinInput" class="form-control mb-4 fw-bold text-center text-primary" placeholder="----" maxlength="4" inputmode="numeric" style="font-size: 2.5rem; letter-spacing: 12px;">
+            <hr>
             
-            <button class="btn btn-warning w-100 fw-bold py-3 mb-3 shadow-sm" style="font-size: 1.2rem; color: #0f172a;" onclick="window.joinLiteMatch()">Join Match</button>
+            <label class="form-label small fw-bold text-muted mt-2">Joining a Match?</label>
+            <input type="text" id="litePinInput" class="form-control mb-2 fw-bold text-center text-primary" placeholder="Enter 4-Digit PIN" maxlength="4" inputmode="numeric" style="font-size: 1.5rem; letter-spacing: 8px;">
+            <button class="btn btn-dark w-100 fw-bold py-2 mb-3 shadow-sm" onclick="window.joinMatchFlow('lite')">Join Room</button>
             
-            <div class="text-center mt-3 pt-3 border-top">
-                <span class="small fw-bold text-muted d-block mb-2">First one on the beach?</span>
-                <select id="liteScoringMethod" class="form-select fw-bold mb-2 text-center">
-                    <option value="length_only">Total Length Only</option>
-                    <option value="measure_points">Length + 10 Pts</option>
-                    <option value="species_hunt">Species Hunt</option>
-                    <option value="weight">Total Weight</option>
-                </select>
-                <button class="btn btn-outline-dark w-100 fw-bold py-2" onclick="window.hostLiteMatch()">Create New Room</button>
-            </div>
+            <hr>
+            
+            <label class="form-label small fw-bold text-muted mt-2">Hosting a Match?</label>
+            <select id="liteScoringMethod" class="form-select fw-bold mb-2 text-center">
+                <option value="length_only">Total Length Only</option>
+                <option value="measure_points">Length + 10 Pts</option>
+                <option value="species_hunt">Species Hunt</option>
+                <option value="weight">Total Weight</option>
+            </select>
+            <select id="liteDuration" class="form-select fw-bold mb-2 text-center">
+                <option value="2">2 Hour Match</option>
+                <option value="3">3 Hour Match</option>
+                <option value="4" selected>4 Hour Match</option>
+                <option value="5">5 Hour Match</option>
+                <option value="6">6 Hour Match</option>
+            </select>
+            <button class="btn btn-warning w-100 fw-bold py-2 shadow-sm" style="color:#0f172a;" onclick="window.hostMatchFlow('lite')">Create New Room</button>
         </div>
         
-        <button class="btn btn-outline-primary w-100 mt-3 fw-bold shadow-sm bg-white" onclick="window.openHistory()"><i class="bi bi-clock-history me-1"></i>View Match History</button>
+        <button class="btn btn-outline-primary w-100 mt-3 fw-bold shadow-sm bg-white" onclick="window.openLiteHistory()"><i class="bi bi-clock-history me-1"></i>View Lite History</button>
         <button class="btn btn-link text-muted w-100 mt-2 fw-bold" onclick="window.resetAppToHome()">Back to Start</button>
+    </div>
+
+    <div id="liteHistoryPage" class="app-page">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold m-0 text-primary">Lite History</h4>
+            <button class="btn btn-sm btn-outline-secondary px-3 py-1 rounded-pill fw-bold bg-white" onclick="PageManager.show('liteLobbyScreen')"><i class="bi bi-arrow-left me-1"></i>Back</button>
+        </div>
+        <div id="liteHistoryList"></div>
     </div>
 
     <div id="anglerRegistration" class="app-page">
@@ -231,34 +252,82 @@
                 <button class="btn btn-dark btn-lg w-100 py-2 shadow-sm fw-bold" style="font-size: 1rem;" onclick="window.registerAngler(false)">Offline Mode</button>
             </div>
             <div class="col-6">
-                <button class="btn btn-warning btn-lg w-100 py-2 shadow-sm fw-bold" style="font-size: 1rem; color:#0f172a;" onclick="window.showPinModal()"><i class="bi bi-broadcast blinker me-1 text-danger"></i>Live Match</button>
+                <button class="btn btn-warning btn-lg w-100 py-2 shadow-sm fw-bold" style="font-size: 1rem; color:#0f172a;" onclick="window.showProMatchModal()"><i class="bi bi-broadcast blinker me-1 text-danger"></i>Live Match</button>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="pinModal" tabindex="-1">
+    <div class="modal fade" id="proMatchModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body p-4 text-center">
-                    <h4 class="text-primary fw-bold mb-2"><i class="bi bi-broadcast me-2"></i>Live Match</h4>
-                    <p class="text-muted fw-bold mb-3" style="font-size: 0.85rem;">Enter a Room PIN to join your mates, or create a new one to host.</p>
-                    <input type="text" id="liveMatchPinInput" class="form-control text-center fw-bold text-primary mb-3" style="font-size: 2.5rem; letter-spacing: 8px;" placeholder="----" maxlength="4" inputmode="numeric">
-                    <button class="btn btn-warning btn-lg w-100 fw-bold py-2 shadow-sm fs-5" style="color:#0f172a;" onclick="window.startLiveMatch()">Connect Room</button>
+                <div class="modal-body p-4">
+                    <h4 class="text-primary fw-bold mb-3 text-center"><i class="bi bi-broadcast me-2"></i>Live Match Setup</h4>
+                    
+                    <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+                      <li class="nav-item" role="presentation"><button class="nav-link active fw-bold" data-bs-toggle="pill" data-bs-target="#pills-join" type="button">Join Room</button></li>
+                      <li class="nav-item" role="presentation"><button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#pills-host" type="button">Host Room</button></li>
+                    </ul>
+                    
+                    <div class="tab-content" id="pills-tabContent">
+                      <div class="tab-pane fade show active text-center" id="pills-join">
+                          <label class="form-label small fw-bold text-muted mt-2">Enter Match PIN</label>
+                          <input type="text" id="proPinInput" class="form-control mb-3 fw-bold text-center text-primary" placeholder="----" maxlength="4" inputmode="numeric" style="font-size: 2rem; letter-spacing: 8px;">
+                          <button class="btn btn-dark w-100 fw-bold py-2 shadow-sm" onclick="window.joinMatchFlow('pro')">Join Match</button>
+                      </div>
+                      
+                      <div class="tab-pane fade text-center" id="pills-host">
+                          <label class="form-label small fw-bold text-muted mt-2">Match Duration</label>
+                          <select id="proDuration" class="form-select fw-bold mb-4 text-center">
+                              <option value="2">2 Hour Match</option>
+                              <option value="3">3 Hour Match</option>
+                              <option value="4" selected>4 Hour Match</option>
+                              <option value="5">5 Hour Match</option>
+                              <option value="6">6 Hour Match</option>
+                          </select>
+                          <button class="btn btn-warning w-100 fw-bold py-2 shadow-sm" style="color:#0f172a;" onclick="window.hostMatchFlow('pro')">Generate Room PIN</button>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="waitingRoomPage" class="app-page text-center">
+        <h2 class="fw-bold text-primary mt-4 mb-1">Match Lobby</h2>
+        <p class="text-muted fw-bold">Room PIN</p>
+        <div class="display-1 fw-bold text-dark mb-4" style="letter-spacing: 8px;" id="waitingRoomPin">----</div>
+        
+        <div class="inner-card shadow-sm mb-4 text-start">
+            <h6 class="fw-bold text-primary mb-2 border-bottom pb-2"><i class="bi bi-people-fill me-2"></i>Anglers Connected</h6>
+            <div id="lobbyAnglersList" class="fw-bold text-dark d-flex flex-column gap-2" style="font-size: 1.1rem; min-height: 100px;">
+                </div>
+        </div>
+        
+        <div id="hostControls" style="display:none;">
+            <p class="text-muted small fw-bold mb-2">You are the Host. Start when everyone is ready.</p>
+            <button class="btn btn-danger btn-lg w-100 fw-bold shadow py-3" onclick="window.startMatchForEveryone()"><i class="bi bi-play-circle-fill me-2"></i>START MATCH NOW</button>
+        </div>
+        
+        <div id="participantControls" style="display:none;">
+            <div class="spinner-border text-warning mb-3" role="status"></div>
+            <h5 class="fw-bold text-dark">Waiting for Host to start match...</h5>
+        </div>
+        
+        <button class="btn btn-link text-muted w-100 mt-4 fw-bold" onclick="window.resetAppToHome()">Leave Room</button>
+    </div>
+
     <div id="anglerFishingPage" class="app-page">
+        <div id="matchTimerBanner" class="match-timer-banner" style="display:none;">
+            <span id="matchTimerText">⏱️ Loading Timer...</span>
+        </div>
+        
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h4 class="m-0 fw-bold text-primary">Live Log</h4>
             <div class="d-flex align-items-center gap-2">
-                <button id="btnToggleScores" class="btn btn-warning fw-bold text-dark px-3 py-1 rounded-pill shadow-sm" style="display:none; font-size: 0.85rem;" onclick="window.toggleDrawer(true)"><i class="bi bi-trophy-fill me-1"></i>View Live Scoring</button>
+                <button id="btnToggleScores" class="btn btn-warning fw-bold text-dark px-3 py-1 rounded-pill shadow-sm" style="display:none; font-size: 0.85rem;" onclick="window.toggleDrawer(true)"><i class="bi bi-trophy-fill me-1"></i>Live Scoring</button>
                 <button class="btn btn-outline-danger px-3 py-1 rounded-pill fw-bold bg-white" style="font-size: 0.85rem;" onclick="window.confirmQuit()">Quit</button>
             </div>
         </div>
-
-        <div id="liveMatchLeaderboard" class="inner-card mb-2 p-2 shadow-sm" style="display:none !important;"></div>
 
         <div class="tide-chart-container mb-2" id="liveTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('liveTideCanvas').toDataURL(), true)">
             <div class="text-center small fw-bold text-primary mb-1"><i class="bi bi-activity me-1"></i>Timeline</div>
@@ -288,7 +357,7 @@
                 </div>
             </div>
 
-            <div class="row g-2 mt-1">
+            <div class="row g-2 mt-1" id="recordButtonsDiv">
                 <div class="col-8"><button class="btn btn-primary btn-record-action w-100 shadow-sm" style="font-size:1.1rem; flex-direction: row;" onclick="window.addFishTextOnly()"><i class="bi bi-check2-circle me-2 fs-4 mb-0"></i>Record Catch</button></div>
                 <div class="col-4"><button class="btn btn-dark btn-record-action w-100 shadow-sm" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-4 mb-0"></i></button></div>
             </div>
@@ -307,7 +376,7 @@
                 <div class="small fw-bold mt-1 text-light opacity-75">Room PIN: <span id="drawerPinDisplay">----</span></div>
             </div>
             <button class="btn btn-outline-light fw-bold px-3 py-1 rounded-pill shadow-sm" onclick="window.toggleDrawer(false)">
-                <i class="bi bi-arrow-return-right me-1"></i>Back to Scorecard
+                <i class="bi bi-arrow-return-right me-1"></i>Back
             </button>
         </div>
         
@@ -443,9 +512,14 @@
         const firebaseConfig = { apiKey: "AIzaSyAEDi6Zr6eR88jfCiBE05zTiXaRtd3dioY", authDomain: "sea-diary-match.firebaseapp.com", projectId: "sea-diary-match", storageBucket: "sea-diary-match.firebasestorage.app", messagingSenderId: "32868968041", appId: "1:32868968041:web:a5c7547cbd69c323cb64f8" };
         if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
         const db = firebase.firestore();
+        
         let liveMatchPin = null; 
         let liveMatchListener = null;
         let matchDocListener = null; 
+        let isHost = false;
+        let matchTimerInterval = null;
+        let globalEndTime = null;
+        let globalGraceTime = null;
 
         const WEATHER_API_KEY="db7f2afb64d943719e0203116260103",speciesList=[{category:"Common",items:["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},{category:"Round Fish",items:["Bass","Bream (Black)","Bream (Gilthead)","Bream (Red)","Garfish","Gurnard (Grey)","Gurnard (Red)","Gurnard (Tub)","Mackerel","Mullet (Golden)","Mullet (Grey/Thick)","Mullet (Red)","Scad","Weever (Lesser)"]},{category:"Flatfish",items:["Brill","Megrim","Sole (Dover)","Sole (Lemon)","Topknot"]},{category:"Sharks & Rays",items:["Dogfish (Blackmouth)","Smoothhound (Common)","Smoothhound (Starry)","Spurdog","Tope","Ray (Thornback)","Ray (Spotted)","Ray (Blonde)","Ray (Small-eyed)","Ray (Stingray)"]},{category:"Wrasse & Mini",items:["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}],tideStations=[{region:"Scotland - East",stations:[{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Buckie",lat:57.6766,lon:-2.9649},{name:"Burntisland",lat:56.05,lon:-3.2333},{name:"Dunbar",lat:56.0029,lon:-2.5135},{name:"Dundee",lat:56.462,lon:-2.9707},{name:"Eyemouth",lat:55.8711,lon:-2.0867},{name:"Fraserburgh",lat:57.6953,lon:-2.0041},{name:"Granton",lat:55.9833,lon:-3.2333},{name:"Leith (Edinburgh)",lat:55.9855,lon:-3.1764},{name:"Lossiemouth",lat:57.7202,lon:-3.2842},{name:"Macduff",lat:57.67,lon:-2.4939},{name:"Methil",lat:56.1833,lon:-3},{name:"Montrose",lat:56.705,lon:-2.4566},{name:"Peterhead",lat:57.5058,lon:-1.7765},{name:"Rosyth",lat:55.9833,lon:-3.4167},{name:"St Andrews",lat:56.34,lon:-2.79},{name:"Stonehaven",lat:56.9667,lon:-2.2}]},{region:"Scotland - North & Isles",stations:[{name:"Cromarty",lat:57.6833,lon:-4.0333},{name:"Inverness",lat:57.4957,lon:-4.2405},{name:"Kirkwall",lat:58.9866,lon:-2.9566},{name:"Lerwick",lat:60.155,lon:-1.1444},{name:"Lochinver",lat:58.15,lon:-5.25},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Stornoway",lat:58.2094,lon:-6.3849},{name:"Thurso",lat:58.6,lon:-3.5167},{name:"Ullapool",lat:57.8953,lon:-5.1585},{name:"Wick",lat:58.4379,lon:-3.0841}]},{region:"Scotland - West",stations:[{name:"Ayr",lat:55.4586,lon:-4.6292},{name:"Campbeltown",lat:55.4241,lon:-5.6033},{name:"Dunoon",lat:55.95,lon:-4.9167},{name:"Fort William",lat:56.8198,lon:-5.1052},{name:"Girvan",lat:55.2443,lon:-4.8582},{name:"Gourock",lat:55.9667,lon:-4.8167},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Helensburgh",lat:56.0022,lon:-4.7355},{name:"Kyle of Lochalsh",lat:57.2833,lon:-5.7167},{name:"Largs",lat:55.7941,lon:-4.8727},{name:"Mallaig",lat:57.0064,lon:-5.8291},{name:"Oban",lat:56.4116,lon:-5.4747},{name:"Portpatrick",lat:54.8333,lon:-5.1167},{name:"Rothesay",lat:55.8333,lon:-5.05},{name:"Stranraer",lat:54.9042,lon:-5.0253},{name:"Tarbert",lat:55.8667,lon:-5.4167},{name:"Tobermory",lat:56.6225,lon:-6.0645},{name:"Troon",lat:55.55,lon:-4.6667}]},{region:"England - North East",stations:[{name:"Amble",lat:55.334,lon:-1.5772},{name:"Berwick-upon-Tweed",lat:55.7663,lon:-1.9961},{name:"Blyth",lat:55.1275,lon:-1.4984},{name:"Bridlington",lat:54.0805,lon:-0.1906},{name:"Filey",lat:54.2167,lon:-0.2833},{name:"Hartlepool",lat:54.6946,lon:-1.1895},{name:"Redcar",lat:54.6167,lon:-1.0667},{name:"Scarborough",lat:54.2831,lon:-0.3957},{name:"Seaham",lat:54.8333,lon:-1.3333},{name:"Seahouses",lat:55.5806,lon:-1.6517},{name:"South Shields",lat:55,lon:-1.4333},{name:"Sunderland",lat:54.9142,lon:-1.3735},{name:"Tynemouth",lat:55.0167,lon:-1.4167},{name:"Whitby",lat:54.4912,lon:-0.612}]},{region:"England - East",stations:[{name:"Aldeburgh",lat:52.1523,lon:1.6033},{name:"Boston",lat:52.9833,lon:-0.0167},{name:"Burnham-on-Crouch",lat:51.6288,lon:0.8143},{name:"Clacton-on-Sea",lat:51.7851,lon:1.1565},{name:"Cleethorpes",lat:53.55,lon:-0.0333},{name:"Cromer",lat:52.9333,lon:1.3},{name:"Felixstowe",lat:51.9547,lon:1.3485},{name:"Great Yarmouth",lat:52.6033,lon:1.7335},{name:"Grimsby",lat:53.5701,lon:-0.0637},{name:"Harwich",lat:51.9421,lon:1.2863},{name:"Hull",lat:54.1205,lon:-0.3341},{name:"Hunstanton",lat:52.9333,lon:0.4833},{name:"King's Lynn",lat:52.75,lon:0.4},{name:"Lowestoft",lat:52.4746,lon:1.7546},{name:"Skegness",lat:53.1333,lon:0.3333},{name:"Southend-on-Sea",lat:51.5284,lon:0.7161},{name:"Southwold",lat:52.3276,lon:1.6815},{name:"Walton-on-the-Naze",lat:51.85,lon:1.2667}]},{region:"England - South & South East",stations:[{name:"Bognor Regis",lat:50.7833,lon:-0.6667},{name:"Bournemouth",lat:50.7151,lon:-1.8754},{name:"Brighton",lat:50.8166,lon:-0.1374},{name:"Deal",lat:51.2227,lon:1.4024},{name:"Dover",lat:51.116,lon:1.319},{name:"Eastbourne",lat:50.7675,lon:0.2845},{name:"Folkestone",lat:51.0792,lon:1.1794},{name:"Hastings",lat:50.8522,lon:0.5732},{name:"Herne Bay",lat:51.3667,lon:1.1167},{name:"Isle of Wight (Cowes)",lat:50.7634,lon:-1.2977},{name:"Littlehampton",lat:50.8,lon:-0.5333},{name:"Lymington",lat:50.75,lon:-1.5333},{name:"Margate",lat:51.3897,lon:1.3831},{name:"Newhaven",lat:50.7833,lon:0.05},{name:"Poole",lat:50.7118,lon:-1.9863},{name:"Portsmouth",lat:50.7937,lon:-1.107},{name:"Ramsgate",lat:51.3323,lon:1.4215},{name:"Rye",lat:50.95,lon:0.7333},{name:"Sheerness",lat:51.4333,lon:0.75},{name:"Shoreham-by-Sea",lat:50.829,lon:-0.2709},{name:"Southampton",lat:50.892,lon:-1.3965},{name:"Swanage",lat:50.6,lon:-1.95},{name:"Weymouth",lat:50.6083,lon:-2.4542},{name:"Whitstable",lat:51.35,lon:1.0167},{name:"Worthing",lat:50.8105,lon:-0.3752}]},{region:"England - South West",stations:[{name:"Appledore",lat:51.05,lon:-4.2},{name:"Brixham",lat:50.3957,lon:-3.5132},{name:"Bude",lat:50.8294,lon:-4.5492},{name:"Burnham-on-Sea",lat:51.2381,lon:-3.0003},{name:"Dartmouth",lat:50.3508,lon:-3.5786},{name:"Exmouth",lat:50.6186,lon:-3.415},{name:"Falmouth",lat:50.1472,lon:-5.0601},{name:"Fowey",lat:50.3333,lon:-4.6333},{name:"Ilfracombe",lat:51.2081,lon:-4.1165},{name:"Looe",lat:50.3524,lon:-4.4539},{name:"Lyme Regis",lat:50.7244,lon:-2.9366},{name:"Minehead",lat:51.2066,lon:-3.4735},{name:"Newlyn",lat:50.1039,lon:-5.5469},{name:"Newquay",lat:50.4137,lon:-5.0768},{name:"Padstow",lat:50.5401,lon:-4.9388},{name:"Penzance",lat:50.1186,lon:-5.5371},{name:"Plymouth",lat:50.3664,lon:-4.146},{name:"Port Isaac",lat:50.5931,lon:-4.8315},{name:"Salcombe",lat:50.2333,lon:-3.7667},{name:"St Ives",lat:50.2132,lon:-5.4795},{name:"Teignmouth",lat:50.55,lon:-3.5},{name:"Torquay",lat:50.4578,lon:-3.5222}]},{region:"England - North West",stations:[{name:"Barrow-in-Furness",lat:54.1105,lon:-3.2263},{name:"Birkenhead",lat:53.3833,lon:-3.0167},{name:"Blackpool",lat:53.8142,lon:-3.0558},{name:"Clevedon",lat:51.4414,lon:-2.858},{name:"Fleetwood",lat:53.9248,lon:-3.0135},{name:"Heysham",lat:54.0333,lon:-2.9},{name:"Liverpool",lat:53.4084,lon:-2.9916},{name:"Maryport",lat:54.7142,lon:-3.4984},{name:"Morecambe",lat:54.0735,lon:-2.8687},{name:"Silloth",lat:54.8667,lon:-3.3833},{name:"Southport",lat:53.6333,lon:-3},{name:"Weston-super-Mare",lat:51.3458,lon:-2.9774},{name:"Whitehaven",lat:54.5489,lon:-3.5851},{name:"Workington",lat:54.6409,lon:-3.5516}]},{region:"Wales",stations:[{name:"Aberaeron",lat:52.2415,lon:-4.2589},{name:"Aberdovey",lat:52.5448,lon:-4.045},{name:"Aberystwyth",lat:52.4153,lon:-4.0829},{name:"Bangor",lat:53.2274,lon:-4.1293},{name:"Barmouth",lat:52.7175,lon:-4.0531},{name:"Barry",lat:51.3934,lon:-3.2683},{name:"Caernarfon",lat:53.1333,lon:-4.2667},{name:"Cardiff",lat:51.4552,lon:-3.1601},{name:"Cardigan",lat:52.0833,lon:-4.6625},{name:"Chepstow",lat:51.6429,lon:-2.6738},{name:"Conwy",lat:53.2831,lon:-3.83},{name:"Fishguard",lat:51.9939,lon:-4.976},{name:"Holyhead",lat:53.3134,lon:-4.63},{name:"Llandudno",lat:53.3278,lon:-3.8249},{name:"Llanelli",lat:51.6833,lon:-4.15},{name:"Milford Haven",lat:51.7135,lon:-5.0345},{name:"New Quay",lat:52.2132,lon:-4.3592},{name:"Newport",lat:51.5877,lon:-2.9984},{name:"Pembroke",lat:51.6833,lon:-4.9167},{name:"Porthcawl",lat:51.4795,lon:-3.7027},{name:"Porthmadog",lat:52.9275,lon:-4.1309},{name:"Pwllheli",lat:52.8887,lon:-4.4172},{name:"Rhyl",lat:53.3211,lon:-3.48},{name:"St Davids",lat:51.8813,lon:-5.2657},{name:"Swansea",lat:51.6152,lon:-3.9351},{name:"Tenby",lat:51.6738,lon:-4.6976},{name:"The Mumbles",lat:51.567,lon:-3.9935}]},{region:"Northern Ireland",stations:[{name:"Ballycastle",lat:55.2037,lon:-6.2514},{name:"Bangor",lat:54.6616,lon:-5.6667},{name:"Belfast",lat:54.6139,lon:-5.9103},{name:"Coleraine",lat:55.1322,lon:-6.6668},{name:"Derry / Londonderry",lat:55.0068,lon:-7.3183},{name:"Donaghadee",lat:54.6406,lon:-5.5398},{name:"Larne",lat:54.8517,lon:-5.8143},{name:"Portrush",lat:55.2045,lon:-6.6534},{name:"Portstewart",lat:55.1812,lon:-6.7118},{name:"Warrenpoint",lat:54.1017,lon:-6.2483}]}],defaultVenues={"Arbroath Breakwater":"Arbroath","Victoria Park (Arbroath)":"Arbroath",Usan:"Montrose","Bodden Point":"Montrose",Auchmithie:"Arbroath","Carnoustie Beach":"Arbroath","Riverside Drive (Dundee)":"Dundee",Tayport:"Dundee","Granton Breakwater":"Granton","Leith Docks":"Leith (Edinburgh)","Burntisland Pier":"Burntisland","Kirkcaldy Breakwater":"Methil","Torness Power Station":"Dunbar","Belhaven Beach":"Dunbar","Eyemouth Harbour":"Eyemouth","St Abbs Harbour":"Eyemouth","Peterhead South Breakwater":"Peterhead","Aberdeen South Pier":"Aberdeen","Stonehaven Harbour":"Stonehaven","Greenock Esplanade":"Greenock","Custom House Way (Greenock)":"Greenock","Largs Pencil":"Largs","Largs Marina":"Largs","Gourock Pier":"Gourock","Helensburgh Pier":"Helensburgh","Ayr South Pier":"Ayr","Troon Harbour":"Troon","Prestwick Boundary Wall":"Ayr","Girvan Breakwater":"Girvan","Loch Etive (Bonawe)":"Oban","Loch Etive (Priory)":"Oban","Loch Fyne (Furnace)":"Tarbert","Loch Fyne (Cairndow)":"Tarbert","Loch Long (Arrochar)":"Dunoon","Portpatrick Breakwater":"Portpatrick","Loch Ryan":"Stranraer","Ardwell Bay":"Portpatrick",Southerness:"Silloth","Scrabster Harbour":"Scrabster","Thurso Bay":"Thurso","Dunnet Bay":"Scrabster","Wick Harbour":"Wick","Ullapool Pier":"Ullapool"};
         let fishData=[],currentScoringMethod='length_only',selectedWeightUnit='metric',currentSavedKey='',currentAngler='',currentVenue='',currentDate='',weatherInfo='',windInfo='',swellInfo='',waveInfo='',hwTime='',lwTime='',coastalTown='',sessionStartTimeStr='',sessionEndTimeStr='',sunriseTimeStr='',sunsetTimeStr='',pendingRestoreData=null,deferredPrompt=null,editingOriginalFish=null,venueTideMap={},swipeStartX=0,swipeCurrentX=0,isSwiping=false;
@@ -463,99 +537,189 @@
         window.openProMenu=function(){ isLiteMode = false; PageManager.show('proMenuScreen'); };
         window.openLiteMode=function(){ isLiteMode = true; PageManager.show('liteLobbyScreen'); };
         
-        window.hostLiteMatch=function(){
-            currentAngler=document.getElementById('liteAnglerName').value.trim();
-            if(!currentAngler) return window.showAppToast("Please enter your Name.",true);
-            currentScoringMethod = document.getElementById('liteScoringMethod').value;
-            const newPin = Math.floor(1000 + Math.random() * 9000).toString();
-            document.getElementById('litePinInput').value = newPin;
-            window.showAppToast("Room created! Share PIN: " + newPin);
-        };
-
-        window.joinLiteMatch=async function(){
-            currentAngler=document.getElementById('liteAnglerName').value.trim();
-            const pin=document.getElementById('litePinInput').value.trim();
-            if(!currentAngler) return window.showAppToast("Please enter your Name.",true);
-            if(pin.length<3) return window.showAppToast("PIN must be at least 3 digits.",true);
-            
-            currentDate = new Date().toISOString().split('T')[0];
-            currentVenue = "Lite Match Venue"; 
-            if(!sessionStartTimeStr) sessionStartTimeStr=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false});
-            
-            window.showAppToast("Connecting to cloud...");
-            try{
-                const matchRef=db.collection("matches").doc(pin);
-                const doc=await matchRef.get();
-                if(!doc.exists){
-                    currentScoringMethod = document.getElementById('liteScoringMethod').value;
-                    await matchRef.set({format:currentScoringMethod, createdAt:firebase.firestore.FieldValue.serverTimestamp(), biggestFish: {name: 'None', length: 0, species: ''}});
-                }else{
-                    currentScoringMethod=doc.data().format;
-                }
-                
-                liveMatchPin=pin;
-                document.getElementById('drawerPinDisplay').textContent=pin;
-                document.getElementById('btnToggleScores').style.display='inline-block';
-                
-                await db.collection("matches").doc(pin).collection("anglers").doc(currentAngler).set({score:0,display:"0",catches:0,lastUpdate:firebase.firestore.FieldValue.serverTimestamp()}, {merge:true});
-                
-                window.startFirebaseListeners(pin);
-                document.getElementById('liveTideChartContainer').style.display = 'none';
-                window.setupFishingUI();
-                window.populateSpeciesDropdown();
-                window.saveActiveSession();
-                PageManager.show('anglerFishingPage');
-                window.showAppToast("Live Match Connected!");
-            }catch(e){
-                window.showAppToast("Network Error. Fishing offline.",true);
-                PageManager.show('anglerFishingPage');
-            }
-        };
-
-        window.showPinModal=function(){currentAngler=document.getElementById('anglerName').value.trim();if(!currentAngler)return window.showAppToast("Please enter your Name.",true);bootstrap.Modal.getOrCreateInstance(document.getElementById('pinModal')).show();};
+        // ---- HOST & JOIN LOGIC (WAITING ROOM) ----
         
-        window.startLiveMatch=async function(){
-            const pin=document.getElementById('liveMatchPinInput').value.trim();
-            if(pin.length<3)return window.showAppToast("PIN must be at least 3 digits.",true);
-            bootstrap.Modal.getInstance(document.getElementById('pinModal')).hide();
-            
-            const success=window.registerAngler(true);
-            if(!success)return;
-            
-            window.showAppToast("Connecting to cloud...");
-            try{
-                const matchRef=db.collection("matches").doc(pin);
-                const doc=await matchRef.get();
-                if(!doc.exists){
-                    await matchRef.set({format:currentScoringMethod, createdAt:firebase.firestore.FieldValue.serverTimestamp(), biggestFish: {name: 'None', length: 0, species: ''}});
-                }else{
-                    currentScoringMethod=doc.data().format;
-                    document.getElementById('scoringMethod').value=currentScoringMethod;
-                }
-                
-                liveMatchPin=pin;
-                document.getElementById('drawerPinDisplay').textContent=pin;
-                document.getElementById('btnToggleScores').style.display='inline-block';
-                
-                await db.collection("matches").doc(pin).collection("anglers").doc(currentAngler).set({score:0,display:"0",catches:0,lastUpdate:firebase.firestore.FieldValue.serverTimestamp()}, {merge:true});
-                
-                window.startFirebaseListeners(pin);
-                window.saveActiveSession(); 
-                
-                PageManager.show('anglerFishingPage');
-                window.showAppToast("Live Match Connected!");
-            }catch(e){
-                window.showAppToast("Network Error. Fishing offline.",true);
-                PageManager.show('anglerFishingPage');
-            }
+        window.showProMatchModal=function(){
+            currentAngler=document.getElementById('anglerName').value.trim();
+            if(!currentAngler)return window.showAppToast("Please enter your Name.",true);
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('proMatchModal')).show();
         };
 
-        window.viewArchivedMatch = function(pin) {
-            document.getElementById('drawerPinDisplay').textContent = pin + " (Archived)";
-            if(liveMatchListener) liveMatchListener();
-            if(matchDocListener) matchDocListener();
-            window.startFirebaseListeners(pin);
-            window.toggleDrawer(true);
+        window.hostMatchFlow=async function(mode){
+            currentAngler = mode === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
+            if(!currentAngler) return window.showAppToast("Please enter your Name.",true);
+            
+            const duration = mode === 'lite' ? parseInt(document.getElementById('liteDuration').value) : parseInt(document.getElementById('proDuration').value);
+            currentScoringMethod = mode === 'lite' ? document.getElementById('liteScoringMethod').value : document.getElementById('scoringMethod').value;
+            
+            const pin = Math.floor(1000 + Math.random() * 9000).toString();
+            liveMatchPin = pin;
+            isHost = true;
+            
+            window.showAppToast("Creating Room...");
+            try {
+                await db.collection("matches").doc(pin).set({
+                    format: currentScoringMethod, 
+                    durationHours: duration,
+                    status: 'waiting',
+                    host: currentAngler,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(), 
+                    biggestFish: {name: 'None', length: 0, species: ''}
+                });
+                
+                await db.collection("matches").doc(pin).collection("anglers").doc(currentAngler).set({
+                    score:0, display:"0", catches:0, lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                if(mode==='pro') bootstrap.Modal.getInstance(document.getElementById('proMatchModal')).hide();
+                window.enterWaitingRoom(pin);
+            } catch(e) { window.showAppToast("Network Error.",true); }
+        };
+
+        window.joinMatchFlow=async function(mode){
+            currentAngler = mode === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
+            const pin = mode === 'lite' ? document.getElementById('litePinInput').value.trim() : document.getElementById('proPinInput').value.trim();
+            
+            if(!currentAngler) return window.showAppToast("Please enter your Name.",true);
+            if(pin.length<3) return window.showAppToast("PIN required.",true);
+            
+            isHost = false;
+            window.showAppToast("Connecting to room...");
+            try {
+                const matchRef = db.collection("matches").doc(pin);
+                const doc = await matchRef.get();
+                if(!doc.exists) return window.showAppToast("Room not found.",true);
+                
+                currentScoringMethod = doc.data().format;
+                liveMatchPin = pin;
+                
+                await matchRef.collection("anglers").doc(currentAngler).set({
+                    score:0, display:"0", catches:0, lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
+                }, {merge:true});
+
+                if(mode==='pro') {
+                    document.getElementById('scoringMethod').value = currentScoringMethod;
+                    bootstrap.Modal.getInstance(document.getElementById('proMatchModal')).hide();
+                }
+                window.enterWaitingRoom(pin);
+            } catch(e) { window.showAppToast("Network Error.",true); }
+        };
+
+        window.enterWaitingRoom=function(pin){
+            document.getElementById('waitingRoomPin').innerText = pin;
+            document.getElementById('hostControls').style.display = isHost ? 'block' : 'none';
+            document.getElementById('participantControls').style.display = isHost ? 'none' : 'block';
+            PageManager.show('waitingRoomPage');
+
+            // Listen for anglers joining, AND listen for the host pressing start
+            liveMatchListener = db.collection("matches").doc(pin).onSnapshot(doc => {
+                if(doc.exists) {
+                    const data = doc.data();
+                    if(data.status === 'active' && data.endTime) {
+                        // MATCH HAS STARTED!
+                        globalEndTime = data.endTime;
+                        globalGraceTime = data.endTime + (10 * 60 * 1000); // 10 minutes grace
+                        
+                        if(liveMatchListener) { liveMatchListener(); liveMatchListener = null; }
+                        window.launchLiveFishing();
+                    }
+                }
+            });
+
+            // Listen for list of anglers in lobby
+            matchDocListener = db.collection("matches").doc(pin).collection("anglers").onSnapshot(snapshot => {
+                let html = "";
+                snapshot.forEach(d => {
+                    html += `<div class="p-2 border rounded bg-light"><i class="bi bi-person-check-fill text-success me-2"></i>${d.id}</div>`;
+                });
+                document.getElementById('lobbyAnglersList').innerHTML = html;
+            });
+        };
+
+        window.startMatchForEveryone=function(){
+            if(!isHost || !liveMatchPin) return;
+            const btn = document.querySelector('#hostControls button');
+            btn.innerHTML = '<i class="bi bi-hourglass me-2"></i>Starting...';
+            btn.disabled = true;
+
+            // Calculate global end time (e.g. 4 hours from exactly right now)
+            db.collection("matches").doc(liveMatchPin).get().then(doc => {
+                if(doc.exists){
+                    const hrs = doc.data().durationHours || 4;
+                    const endTime = Date.now() + (hrs * 3600000); 
+                    
+                    db.collection("matches").doc(liveMatchPin).update({
+                        status: 'active',
+                        endTime: endTime
+                    });
+                }
+            });
+        };
+
+        window.launchLiveFishing=function(){
+            if(matchDocListener) { matchDocListener(); matchDocListener = null; }
+            document.getElementById('drawerPinDisplay').textContent = liveMatchPin;
+            document.getElementById('btnToggleScores').style.display = 'inline-block';
+            
+            // Bypass pro venue setup if lite mode
+            if(isLiteMode){
+                currentDate = new Date().toISOString().split('T')[0];
+                currentVenue = "Lite Match Venue"; 
+                document.getElementById('liveTideChartContainer').style.display = 'none';
+            } else {
+                window.registerAngler(true); // Registers venue/weather offline
+            }
+            
+            if(!sessionStartTimeStr) sessionStartTimeStr=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false});
+
+            window.setupFishingUI();
+            window.populateSpeciesDropdown();
+            window.saveActiveSession(); 
+            
+            PageManager.show('anglerFishingPage');
+            window.startMatchTimer();
+            window.startFirebaseListeners(liveMatchPin);
+            window.showAppToast("Lobby Closed. Match Started!");
+        };
+
+        // --- THE GLOBAL COUNTDOWN TIMER & GRACE PERIOD ---
+        window.startMatchTimer=function(){
+            const banner = document.getElementById('matchTimerBanner');
+            const txt = document.getElementById('matchTimerText');
+            banner.style.display = 'block';
+
+            if(matchTimerInterval) clearInterval(matchTimerInterval);
+
+            matchTimerInterval = setInterval(() => {
+                const now = Date.now();
+                
+                if(now < globalEndTime) {
+                    // Match is Active
+                    let diff = globalEndTime - now;
+                    let h = Math.floor(diff / 3600000).toString().padStart(2, '0');
+                    let m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+                    let s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+                    banner.className = 'match-timer-banner';
+                    txt.innerHTML = `⏱️ Match Time Remaining: ${h}:${m}:${s}`;
+                    document.getElementById('recordButtonsDiv').style.display = 'flex';
+                } 
+                else if (now >= globalEndTime && now <= globalGraceTime) {
+                    // Grace Period
+                    let diff = globalGraceTime - now;
+                    let m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+                    let s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+                    banner.className = 'match-timer-banner grace';
+                    txt.innerHTML = `⚠️ REEL IN! GRACE PERIOD: ${m}:${s}`;
+                    document.getElementById('recordButtonsDiv').style.display = 'flex';
+                }
+                else {
+                    // Match Over - Lock everything down
+                    banner.className = 'match-timer-banner ended';
+                    txt.innerHTML = `🛑 MATCH ENDED`;
+                    document.getElementById('recordButtonsDiv').style.display = 'none'; // Locks Record button
+                    clearInterval(matchTimerInterval);
+                }
+            }, 1000);
         };
 
         window.startFirebaseListeners=function(pin){
@@ -565,7 +729,6 @@
                 snapshot.forEach(doc=>leaderboard.push({name:doc.id,...doc.data()}));
                 leaderboard.sort((a,b)=>b.score-a.score);
                 window.renderLeaderboard(leaderboard);
-                
                 if(navigator.vibrate && !isFirstLoad && leaderboard.length > 0) navigator.vibrate([100, 50, 100]);
             });
             
@@ -577,6 +740,14 @@
                     }
                 }
             });
+        };
+
+        window.viewArchivedMatch = function(pin) {
+            document.getElementById('drawerPinDisplay').textContent = pin + " (Archived)";
+            if(liveMatchListener) liveMatchListener();
+            if(matchDocListener) matchDocListener();
+            window.startFirebaseListeners(pin);
+            window.toggleDrawer(true);
         };
 
         window.toggleDrawer=function(isOpen){
@@ -595,70 +766,40 @@
             data.forEach((p,idx)=>{
                 const isMeClass=p.name===currentAngler ? 'is-me' : '';
                 const medal=idx===0?"🥇":idx===1?"🥈":idx===2?"🥉":`<span class="text-muted fw-bold" style="width:20px;display:inline-block;text-align:center;">#${idx+1}</span>`;
-                
                 let latestCatchHtml = p.latestSpecies ? `<div class="small mt-1" style="color: #0ea5e9;"><i>Latest: ${p.latestLength} ${p.latestSpecies}</i></div>` : '';
-                
-                html+=`
-                    <div class="angler-row ${isMeClass}">
-                        <div>
-                            <div class="fw-bold fs-6">${medal} ${p.name}</div>
-                            <div class="small text-light opacity-75 mt-1">🐟 ${p.catches} fish</div>
-                            ${latestCatchHtml}
-                        </div>
-                        <div class="fw-bold text-warning fs-5 text-end">${p.display}</div>
-                    </div>
-                `;
+                html+=`<div class="angler-row ${isMeClass}"><div><div class="fw-bold fs-6">${medal} ${p.name}</div><div class="small text-light opacity-75 mt-1">🐟 ${p.catches} fish</div>${latestCatchHtml}</div><div class="fw-bold text-warning fs-5 text-end">${p.display}</div></div>`;
             });
             lb.innerHTML=html;
         };
 
         window.syncLiveScore=function(){
             if(!liveMatchPin)return;
-            
-            let numScore=0;
-            let displayScore=window.calculatePoints(fishData,currentScoringMethod);
-            
-            let latestSpecies = '';
-            let latestLength = '';
+            let numScore=0; let displayScore=window.calculatePoints(fishData,currentScoringMethod);
+            let latestSpecies = ''; let latestLength = '';
             if(fishData.length > 0) {
                 let lastFish = fishData[fishData.length - 1];
                 latestSpecies = lastFish.species;
                 latestLength = currentScoringMethod === 'weight' ? lastFish.display : lastFish.length + 'cm';
             }
-            
-            if(currentScoringMethod==='weight'){
-                numScore=fishData.reduce((sum,f)=>sum+(parseFloat(f.raw)||0),0);
-            }else{
-                numScore=parseFloat(displayScore)||0;
-            }
+            if(currentScoringMethod==='weight'){ numScore=fishData.reduce((sum,f)=>sum+(parseFloat(f.raw)||0),0);
+            }else{ numScore=parseFloat(displayScore)||0; }
             
             db.collection("matches").doc(liveMatchPin).collection("anglers").doc(currentAngler).set({
-                score:numScore,
-                display:String(displayScore),
-                catches:fishData.length,
-                latestSpecies: latestSpecies,
-                latestLength: latestLength,
-                lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
+                score:numScore, display:String(displayScore), catches:fishData.length,
+                latestSpecies: latestSpecies, latestLength: latestLength, lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
             },{merge:true});
             
-            let myBiggest = 0;
-            let myBiggestSpecies = '';
+            let myBiggest = 0; let myBiggestSpecies = '';
             if(currentScoringMethod === 'length_only' || currentScoringMethod === 'measure_points'){
-                fishData.forEach(f => {
-                    let l = parseFloat(f.length) || 0;
-                    if(l > myBiggest) { myBiggest = l; myBiggestSpecies = f.species; }
-                });
+                fishData.forEach(f => { let l = parseFloat(f.length) || 0; if(l > myBiggest) { myBiggest = l; myBiggestSpecies = f.species; } });
             }
-            
             if (myBiggest > 0) {
                 const matchRef = db.collection("matches").doc(liveMatchPin);
                 db.runTransaction(transaction => {
                     return transaction.get(matchRef).then(sfDoc => {
                         if (!sfDoc.exists) return;
                         let currentBiggest = sfDoc.data().biggestFish?.length || 0;
-                        if (myBiggest > currentBiggest) {
-                            transaction.update(matchRef, { biggestFish: { name: currentAngler, length: myBiggest, species: myBiggestSpecies } });
-                        }
+                        if (myBiggest > currentBiggest) { transaction.update(matchRef, { biggestFish: { name: currentAngler, length: myBiggest, species: myBiggestSpecies } }); }
                     });
                 }).catch(err => console.error("Bounty Update Failed: ", err));
             }
@@ -707,6 +848,37 @@
                 eTable+='</tbody></table>';area.innerHTML=eTable;
             }
         };
+        
+        // --- LITE HISTORY VIEWER ---
+        window.openLiteHistory = function() {
+            const list = document.getElementById('liteHistoryList');
+            list.innerHTML = '';
+            const keys = Object.keys(StorageHelper.getAll()).filter(k => k.startsWith('scorecard_')).sort().reverse();
+            
+            if(keys.length === 0) {
+                list.innerHTML = '<p class="text-muted text-center mt-4 fw-bold">No saved matches yet.</p>';
+            } else {
+                keys.forEach(k => {
+                    const d = JSON.parse(StorageHelper.get(k));
+                    const dateStr = new Date(d.date).toLocaleDateString('en-GB');
+                    let pts = window.calculatePoints(d.fishData, d.method, d.weightUnit);
+                    let lbBtn = d.liveMatchPin ? `<button class="btn btn-warning btn-sm w-100 fw-bold mt-2 text-dark shadow-sm" onclick="window.viewArchivedMatch('${d.liveMatchPin}')"><i class="bi bi-trophy-fill me-1"></i> Final Match Leaderboard</button>` : '';
+                    
+                    list.innerHTML += `
+                        <div class="inner-card mb-2 shadow-sm border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-bold text-main fs-5 mb-1">${dateStr}</div>
+                                    <div class="text-muted small fw-bold">🐟 ${d.fishData.length} Fish | 🏆 ${pts}</div>
+                                </div>
+                            </div>
+                            ${lbBtn}
+                        </div>`;
+                });
+            }
+            PageManager.show('liteHistoryPage');
+        };
+
         window.populateSpeciesDropdown=function(){let spCounts={};const keys=Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));keys.forEach(k=>{try{const d=JSON.parse(StorageHelper.get(k));if(d.fishData)d.fishData.forEach(f=>spCounts[f.species]=(spCounts[f.species]||0)+1);}catch(e){}});const topSpecies=Object.entries(spCounts).sort((a,b)=>b[1]-a[1]).slice(0,5).map(e=>e[0]);const e=document.getElementById('speciesInput');e.innerHTML='<option value="" selected disabled>Select Fish...</option><option value="Other">Other (Manual Entry)</option>';if(topSpecies.length>0){const freqGrp=document.createElement('optgroup');freqGrp.label='⭐ Frequent Catches';topSpecies.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;freqGrp.appendChild(o);});e.appendChild(freqGrp);}speciesList.forEach(g=>{const grp=document.createElement('optgroup');grp.label=g.category;g.items.sort().forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;grp.appendChild(o);});e.appendChild(grp);});};
         window.handleSpeciesSelect=function(){window.toggleCustomSpeciesInput();const sel=document.getElementById("speciesInput");if(sel.value&&sel.value!=="Other"&&(currentScoringMethod==='measure_points'||currentScoringMethod==='length_only')){setTimeout(()=>{const lenIn=document.getElementById("fishLengthInput");if(lenIn)lenIn.focus();},100);}};
         window.toggleCustomSpeciesInput=function(){const sel=document.getElementById("speciesInput");document.getElementById("customSpeciesInput").style.display=sel.value==="Other"?"block":"none";};
@@ -734,15 +906,21 @@
         window.resetAppToHome=function(){
             if(liveMatchListener){liveMatchListener();liveMatchListener=null;} 
             if(matchDocListener){matchDocListener();matchDocListener=null;}
+            if(matchTimerInterval){clearInterval(matchTimerInterval); matchTimerInterval=null;}
             liveMatchPin=null; 
             document.getElementById('btnToggleScores').style.display='none';
+            document.getElementById('matchTimerBanner').style.display='none';
             window.toggleDrawer(false);
             
-            fishData=[];currentScoringMethod='';currentVenue='';coastalTown='';currentSavedKey='';weatherInfo='';windInfo='';swellInfo='';waveInfo='';hwTime='';lwTime='';sessionStartTimeStr='';sessionEndTimeStr='';sunriseTimeStr='';sunsetTimeStr='';editingOriginalFish=null;isLiteMode=false;document.getElementById('venueSelectContainer').style.display='block';document.getElementById('venueInputContainer').style.display='none';document.getElementById('venueSelect').selectedIndex=0;document.getElementById('venueInputText').value='';let lastFormat=StorageHelper.get('lastScoringMethod')||'length_only';document.getElementById('scoringMethod').value=lastFormat;document.getElementById('sessionNotesInput').value='';document.getElementById('weatherInput').value='';document.getElementById('windInput').value='';document.getElementById('swellInput').value='';document.getElementById('waveInput').value='';if(document.getElementById('fishLengthInput'))document.getElementById('fishLengthInput').value='';document.getElementById('speciesInput').selectedIndex=0;document.getElementById('customSpeciesInput').value='';document.getElementById('fishLog').innerHTML='';document.getElementById('liveScoreVal').textContent='0';document.getElementById('weightInfoDisplay').style.display='none';document.getElementById('speciesHuntInfo').style.display='none';document.getElementById('liveTideChartContainer').style.display='none';window.toggleCustomSpeciesInput();const cols=['pickerCol1','pickerCol2'];cols.forEach(c=>{const el=document.getElementById(c);if(el){el.scrollTop=0;window.updatePickerDisplay(c);}});PageManager.show('splashScreen');StorageHelper.remove('active_session');
+            fishData=[];currentScoringMethod='';currentVenue='';coastalTown='';currentSavedKey='';weatherInfo='';windInfo='';swellInfo='';waveInfo='';hwTime='';lwTime='';sessionStartTimeStr='';sessionEndTimeStr='';sunriseTimeStr='';sunsetTimeStr='';editingOriginalFish=null;isLiteMode=false;globalEndTime=null;globalGraceTime=null;document.getElementById('venueSelectContainer').style.display='block';document.getElementById('venueInputContainer').style.display='none';document.getElementById('venueSelect').selectedIndex=0;document.getElementById('venueInputText').value='';let lastFormat=StorageHelper.get('lastScoringMethod')||'length_only';document.getElementById('scoringMethod').value=lastFormat;document.getElementById('sessionNotesInput').value='';document.getElementById('weatherInput').value='';document.getElementById('windInput').value='';document.getElementById('swellInput').value='';document.getElementById('waveInput').value='';if(document.getElementById('fishLengthInput'))document.getElementById('fishLengthInput').value='';document.getElementById('speciesInput').selectedIndex=0;document.getElementById('customSpeciesInput').value='';document.getElementById('fishLog').innerHTML='';document.getElementById('liveScoreVal').textContent='0';document.getElementById('weightInfoDisplay').style.display='none';document.getElementById('speciesHuntInfo').style.display='none';document.getElementById('liveTideChartContainer').style.display='none';window.toggleCustomSpeciesInput();const cols=['pickerCol1','pickerCol2'];cols.forEach(c=>{const el=document.getElementById(c);if(el){el.scrollTop=0;window.updatePickerDisplay(c);}});PageManager.show('splashScreen');StorageHelper.remove('active_session');
         };
         
         window.saveActiveSession=function(){
             try{
+                // Only save if we are actually fishing or in setup. 
+                // Do not persist if we are just sitting in the waiting room (to avoid lockups).
+                if(document.getElementById('waitingRoomPage').style.display === 'block') return;
+
                 const p=document.getElementById('anglerFishingPage').style.display==='block'?'fishing':(document.getElementById('tallyVerificationPage').style.display==='block'?'tally':'setup');
                 const weatherI=document.getElementById('weatherInput')?document.getElementById('weatherInput').value:weatherInfo;
                 const windI=document.getElementById('windInput')?document.getElementById('windInput').value:windInfo;
@@ -758,9 +936,9 @@
                 StorageHelper.save('active_session',JSON.stringify({
                     phase:p,angler:currentAngler||document.getElementById('anglerName').value,venue:tempVenue,coastalTown:coastalTown||'',
                     date:currentDate,method:currentScoringMethod,unit:selectedWeightUnit,weatherInfo:weatherI,windInfo:windI,waveInfo:waveI,
-                    swellInfo:swellI,hwTime:hwTime,lwTime:sessionStart:sessionStartTimeStr,sessionEnd:sessionEndTimeStr,
+                    swellInfo:swellI, hwTime:hwTime, lwTime:lwTime, sessionStart:sessionStartTimeStr,sessionEnd:sessionEndTimeStr,
                     sunrise:sunriseTimeStr,sunset:sunsetTimeStr,fishData:fishData, isLiteMode: isLiteMode, 
-                    liveMatchPin: liveMatchPin 
+                    liveMatchPin: liveMatchPin, globalEndTime: globalEndTime, globalGraceTime: globalGraceTime
                 }));
             }catch(e){console.error("Save Active Session Error:", e)}
         };
@@ -774,6 +952,7 @@
             windInfo=s.windInfo||'';waveInfo=s.waveInfo||'';swellInfo=s.swellInfo||'';hwTime=s.hwTime||'';lwTime=s.lwTime||'';
             sessionStartTimeStr=s.sessionStart||'';sessionEndTimeStr=s.sessionEnd||'';sunriseTimeStr=s.sunrise||'';sunsetTimeStr=s.sunset||'';
             isLiteMode=s.isLiteMode||false;
+            globalEndTime=s.globalEndTime||null; globalGraceTime=s.globalGraceTime||null;
             
             if(s.liveMatchPin) {
                 liveMatchPin = s.liveMatchPin;
@@ -793,7 +972,12 @@
             if(document.getElementById('swellInput'))document.getElementById('swellInput').value=swellInfo;
             window.populateSpeciesDropdown();
             
-            if(s.phase==='fishing'){window.setupFishingUI();PageManager.show('anglerFishingPage');window.updateFishLog();}
+            if(s.phase==='fishing'){
+                window.setupFishingUI();
+                PageManager.show('anglerFishingPage');
+                window.updateFishLog();
+                if(globalEndTime) window.startMatchTimer();
+            }
             else if(s.phase==='tally'){window.endSession();}
             else{PageManager.show('anglerRegistration');}
         };
