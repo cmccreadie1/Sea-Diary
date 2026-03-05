@@ -1,7 +1,7 @@
-const CACHE_NAME = 'sea-diary-cache-v247';
+const CACHE_NAME = 'sea-diary-cache-v248';
 const urlsToCache = [
   '/',
-  '/index.html?v=247',
+  '/index.html?v=248',
   '/manifest.json'
 ];
 
