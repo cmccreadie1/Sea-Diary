@@ -78,10 +78,10 @@
         .xc-story { font-size: 0.9rem; color: #f8fafc; font-weight: 500; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; text-align: left;}
         .letter-spacing-1 { letter-spacing: 1px; }
 
-        /* Slide-Out Drawer Styles */
-        .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1045; }
+        /* Slide-Out Drawer Styles (Elevated z-index to overlay history modal) */
+        .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1060; }
         .drawer-overlay.show { display: block; }
-        .drawer { position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100vh; background-color: #0f172a; z-index: 1050; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: -10px 0 25px rgba(0,0,0,0.5); display: flex; flex-direction: column; color: white; }
+        .drawer { position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100vh; background-color: #0f172a; z-index: 1065; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: -10px 0 25px rgba(0,0,0,0.5); display: flex; flex-direction: column; color: white; }
         .drawer.open { right: 0; }
         .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background-color: #1e293b; border-bottom: 1px solid #334155; }
         .bounty-banner { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #000; padding: 15px; text-align: center; border-bottom: 2px solid #b45309; }
@@ -111,7 +111,8 @@
             <circle cx="100" cy="100" r="4" fill="#ef4444" class="blinker"/>
             <defs><linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#08baba" stop-opacity="1"/><stop offset="100%" stop-color="#069494" stop-opacity="0"/></linearGradient></defs>
         </svg>
-        <h1 class="display-3 fw-bold mb-4 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
+        <h1 class="display-3 fw-bold mb-1 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 234.0</p>
         
         <button class="door-btn text-white" style="background: linear-gradient(135deg, #069494 0%, #0369a1 100%);" onclick="window.openProMenu()">
             <i class="bi bi-journal-check me-2"></i>Sea Diary Pro
@@ -119,6 +120,10 @@
         <button class="door-btn text-dark" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);" onclick="window.openLiteMode()">
             <i class="bi bi-trophy-fill me-2"></i>Match Mode Lite
         </button>
+        
+        <div class="mt-4 d-flex flex-column align-items-center gap-3">
+            <button class="btn btn-link text-muted text-decoration-none small fw-bold p-0" onclick="window.forceAppUpdate()"><i class="bi bi-arrow-clockwise me-1 text-primary"></i> Check for Updates</button>
+        </div>
     </div>
 
     <div id="proMenuScreen" class="splash-screen" style="display: none;">
@@ -140,7 +145,6 @@
         </div>
         <div class="mt-4 d-flex flex-column align-items-center gap-3">
             <button class="btn btn-link text-muted text-decoration-none small fw-bold p-0" data-bs-toggle="modal" data-bs-target="#guideModal"><i class="bi bi-book-fill me-1 text-primary"></i> User Guide</button>
-            <button id="btnRefreshApp" class="btn btn-link text-muted text-decoration-none small fw-bold p-0" onclick="window.forceAppUpdate()"><i id="refreshIcon" class="bi bi-arrow-clockwise me-1 text-primary"></i> Check for Updates</button>
             <button class="btn btn-link text-danger text-decoration-none small fw-bold p-0 mt-2" onclick="window.resetAppToHome()"><i class="bi bi-arrow-left me-1"></i> Back to Start</button>
         </div>
     </div>
@@ -161,13 +165,17 @@
             <div class="text-center mt-3 pt-3 border-top">
                 <span class="small fw-bold text-muted d-block mb-2">First one on the beach?</span>
                 <select id="liteScoringMethod" class="form-select fw-bold mb-2 text-center">
-                    <option value="length_only">Total Length</option>
+                    <option value="length_only">Total Length Only</option>
+                    <option value="measure_points">Length + 10 Pts</option>
+                    <option value="species_hunt">Species Hunt</option>
                     <option value="weight">Total Weight</option>
                 </select>
                 <button class="btn btn-outline-dark w-100 fw-bold py-2" onclick="window.hostLiteMatch()">Create New Room</button>
             </div>
         </div>
-        <button class="btn btn-link text-muted w-100 mt-2 fw-bold" onclick="window.resetAppToHome()">Leave</button>
+        
+        <button class="btn btn-outline-primary w-100 mt-3 fw-bold shadow-sm bg-white" onclick="window.openHistory()"><i class="bi bi-clock-history me-1"></i>View Match History</button>
+        <button class="btn btn-link text-muted w-100 mt-2 fw-bold" onclick="window.resetAppToHome()">Back to Start</button>
     </div>
 
     <div id="anglerRegistration" class="app-page">
@@ -529,7 +537,7 @@
                 await db.collection("matches").doc(pin).collection("anglers").doc(currentAngler).set({score:0,display:"0",catches:0,lastUpdate:firebase.firestore.FieldValue.serverTimestamp()}, {merge:true});
                 
                 window.startFirebaseListeners(pin);
-                window.saveActiveSession(); // Explicitly save to lock in the PIN immediately
+                window.saveActiveSession(); 
                 
                 PageManager.show('anglerFishingPage');
                 window.showAppToast("Live Match Connected!");
@@ -537,6 +545,18 @@
                 window.showAppToast("Network Error. Fishing offline.",true);
                 PageManager.show('anglerFishingPage');
             }
+        };
+
+        // NEW: Load a saved/archived match from History
+        window.viewArchivedMatch = function(pin) {
+            document.getElementById('drawerPinDisplay').textContent = pin + " (Archived)";
+            
+            // Kill active listeners to prevent crossover
+            if(liveMatchListener) liveMatchListener();
+            if(matchDocListener) matchDocListener();
+            
+            window.startFirebaseListeners(pin);
+            window.toggleDrawer(true);
         };
 
         window.startFirebaseListeners=function(pin){
@@ -577,7 +597,6 @@
                 const isMeClass=p.name===currentAngler ? 'is-me' : '';
                 const medal=idx===0?"🥇":idx===1?"🥈":idx===2?"🥉":`<span class="text-muted fw-bold" style="width:20px;display:inline-block;text-align:center;">#${idx+1}</span>`;
                 
-                // NEW: Show the latest catch under their fish count
                 let latestCatchHtml = p.latestSpecies ? `<div class="small mt-1" style="color: #0ea5e9;"><i>Latest: ${p.latestLength} ${p.latestSpecies}</i></div>` : '';
                 
                 html+=`
@@ -600,7 +619,6 @@
             let numScore=0;
             let displayScore=window.calculatePoints(fishData,currentScoringMethod);
             
-            // NEW: Grab the latest fish details to push to the cloud
             let latestSpecies = '';
             let latestLength = '';
             if(fishData.length > 0) {
@@ -647,7 +665,50 @@
             }
         };
 
-        window.buildScorecardUI=function(prefix,d,isHistory=false){document.getElementById(`${prefix}_angler`).textContent=d.angler;document.getElementById(`${prefix}_date`).textContent=new Date(d.date).toLocaleDateString('en-GB');let phaseText=window.getSolarPhase(d.sessionStart,d.sessionEnd,d.sunrise,d.sunset);let timeStrHTML=`${d.sessionStart||'--:--'} - ${d.sessionEnd||'--:--'}`;if(phaseText)timeStrHTML+=` <span class="ms-2 text-primary">${phaseText}</span>`;document.getElementById(`${prefix}_time_range`).innerHTML=timeStrHTML;document.getElementById(`${prefix}_venue`).textContent=d.venue||d.coastalTown||'Unnamed Venue';let condHTML='';if(d.weatherInfo)condHTML+=`<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-1"></i>${d.weatherInfo}</span>`;if(d.windInfo)condHTML+=`<span style="${badgeStyle}"><i class="bi bi-wind me-1"></i>${d.windInfo}</span>`;if(d.waveInfo&&d.waveInfo!=='--')condHTML+=`<span style="${badgeStyle}"><i class="bi bi-water me-1"></i>${d.waveInfo} Wave</span>`;if(d.swellInfo&&d.swellInfo!=='Inland'&&d.swellInfo!=='--')condHTML+=`<span style="${badgeStyle}"><i class="bi bi-tsunami me-1"></i>${d.swellInfo} Swell</span>`;document.getElementById(`${prefix}_live_conditions`).innerHTML=condHTML;let pts=window.calculatePoints(d.fishData,d.method,d.weightUnit);document.getElementById(`${prefix}_total_points`).textContent=pts;const isW=d.method==='weight';const statGrid=document.getElementById(`${prefix}_stat_grid`);if(statGrid){document.getElementById(`${prefix}_total_fish`).textContent=d.fishData.length;document.getElementById(`${prefix}_species_count`).textContent=new Set(d.fishData.map(f=>f.species)).size;document.getElementById(`${prefix}_stat_label`).textContent=isW?'Total Weight':'Total Length';document.getElementById(`${prefix}_total_stat`).textContent=isW?pts:d.fishData.reduce((s,f)=>s+parseFloat(f.length||0),0).toFixed(1)+'cm';}const actualVenue=d.venue||d.coastalTown||'Unnamed Venue';const xcData=window.calculateXC(actualVenue,d.fishData.length,d.fishData,d.windInfo,d.waveInfo,d.swellInfo);window.renderXCShield(xcData,d.fishData.length,`${prefix}_xc_shield`);const chartCont=document.getElementById(`${prefix}_tide_chart_container`);if(d.hwTime&&d.lwTime){chartCont.style.display='block';setTimeout(()=>{try{window.drawTideGraph(`${prefix}_tide_canvas`,d.hwTime,d.lwTime,d.fishData,d.sessionStart);}catch(e){}},200);}else{chartCont.style.display='none';}const insights=window.getInsights(d.fishData,d.method,d.hwTime,d.lwTime);document.getElementById(`${prefix}_peak_feed`).textContent=insights.peak;document.getElementById(`${prefix}_pace`).textContent=insights.pace;document.getElementById(`${prefix}_best_tide`).textContent=insights.bestTide;document.getElementById(`${prefix}_insights_card`).style.display=d.fishData.length>0?'block':'none';window.renderVisualAnalytics(insights,d.method,`${prefix}_visual_analytics`);const area=document.getElementById(`${prefix}_breakdown`);area.innerHTML='';if(d.method==='species_hunt'){area.innerHTML=generateSpeciesHuntHTML(d.fishData,d.hwTime,d.lwTime);}else{let eTable='<table class="table-custom"><tbody>';d.fishData.forEach((f,idx)=>{const val=d.method==='weight'?f.display:`${f.length}cm`;const ph=f.photo?`<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">`:'';const tideTag=window.getTideState(f.time,d.hwTime,d.lwTime);const tideHTML=tideTag?`<span class="text-primary small fw-bold ms-1">(${tideTag})</span>`:'';const timeBadge=f.time?`<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>`:'';eTable+=`<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div></div><div class="d-flex align-items-center">${ph}</div></div></td></tr>`;});eTable+='</tbody></table>';area.innerHTML=eTable;}};
+        window.buildScorecardUI=function(prefix,d,isHistory=false){
+            document.getElementById(`${prefix}_angler`).textContent=d.angler;
+            document.getElementById(`${prefix}_date`).textContent=new Date(d.date).toLocaleDateString('en-GB');
+            let phaseText=window.getSolarPhase(d.sessionStart,d.sessionEnd,d.sunrise,d.sunset);
+            let timeStrHTML=`${d.sessionStart||'--:--'} - ${d.sessionEnd||'--:--'}`;
+            if(phaseText)timeStrHTML+=` <span class="ms-2 text-primary">${phaseText}</span>`;
+            document.getElementById(`${prefix}_time_range`).innerHTML=timeStrHTML;
+            document.getElementById(`${prefix}_venue`).textContent=d.venue||d.coastalTown||'Unnamed Venue';
+            
+            let condHTML='';
+            if(d.weatherInfo)condHTML+=`<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-1"></i>${d.weatherInfo}</span>`;
+            if(d.windInfo)condHTML+=`<span style="${badgeStyle}"><i class="bi bi-wind me-1"></i>${d.windInfo}</span>`;
+            if(d.waveInfo&&d.waveInfo!=='--')condHTML+=`<span style="${badgeStyle}"><i class="bi bi-water me-1"></i>${d.waveInfo} Wave</span>`;
+            if(d.swellInfo&&d.swellInfo!=='Inland'&&d.swellInfo!=='--')condHTML+=`<span style="${badgeStyle}"><i class="bi bi-tsunami me-1"></i>${d.swellInfo} Swell</span>`;
+            
+            // NEW: Add the Match Loader button to the scorecard if a PIN was saved
+            if(d.liveMatchPin){
+                condHTML+=`<button class="btn btn-sm btn-warning fw-bold text-dark w-100 mt-2 mb-1 shadow-sm" onclick="window.viewArchivedMatch('${d.liveMatchPin}')"><i class="bi bi-trophy-fill me-2"></i>View Final Match Leaderboard (PIN: ${d.liveMatchPin})</button>`;
+            }
+            
+            document.getElementById(`${prefix}_live_conditions`).innerHTML=condHTML;
+            
+            let pts=window.calculatePoints(d.fishData,d.method,d.weightUnit);
+            document.getElementById(`${prefix}_total_points`).textContent=pts;
+            const isW=d.method==='weight';
+            const statGrid=document.getElementById(`${prefix}_stat_grid`);
+            if(statGrid){document.getElementById(`${prefix}_total_fish`).textContent=d.fishData.length;document.getElementById(`${prefix}_species_count`).textContent=new Set(d.fishData.map(f=>f.species)).size;document.getElementById(`${prefix}_stat_label`).textContent=isW?'Total Weight':'Total Length';document.getElementById(`${prefix}_total_stat`).textContent=isW?pts:d.fishData.reduce((s,f)=>s+parseFloat(f.length||0),0).toFixed(1)+'cm';}
+            const actualVenue=d.venue||d.coastalTown||'Unnamed Venue';
+            const xcData=window.calculateXC(actualVenue,d.fishData.length,d.fishData,d.windInfo,d.waveInfo,d.swellInfo);
+            window.renderXCShield(xcData,d.fishData.length,`${prefix}_xc_shield`);
+            const chartCont=document.getElementById(`${prefix}_tide_chart_container`);
+            if(d.hwTime&&d.lwTime){chartCont.style.display='block';setTimeout(()=>{try{window.drawTideGraph(`${prefix}_tide_canvas`,d.hwTime,d.lwTime,d.fishData,d.sessionStart);}catch(e){}},200);}else{chartCont.style.display='none';}
+            const insights=window.getInsights(d.fishData,d.method,d.hwTime,d.lwTime);
+            document.getElementById(`${prefix}_peak_feed`).textContent=insights.peak;document.getElementById(`${prefix}_pace`).textContent=insights.pace;document.getElementById(`${prefix}_best_tide`).textContent=insights.bestTide;document.getElementById(`${prefix}_insights_card`).style.display=d.fishData.length>0?'block':'none';window.renderVisualAnalytics(insights,d.method,`${prefix}_visual_analytics`);
+            const area=document.getElementById(`${prefix}_breakdown`);
+            area.innerHTML='';
+            if(d.method==='species_hunt'){
+                area.innerHTML=generateSpeciesHuntHTML(d.fishData,d.hwTime,d.lwTime);
+            }else{
+                let eTable='<table class="table-custom"><tbody>';
+                d.fishData.forEach((f,idx)=>{const val=d.method==='weight'?f.display:`${f.length}cm`;const ph=f.photo?`<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">`:'';const tideTag=window.getTideState(f.time,d.hwTime,d.lwTime);const tideHTML=tideTag?`<span class="text-primary small fw-bold ms-1">(${tideTag})</span>`:'';const timeBadge=f.time?`<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>`:'';eTable+=`<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div></div><div class="d-flex align-items-center">${ph}</div></div></td></tr>`;});
+                eTable+='</tbody></table>';area.innerHTML=eTable;
+            }
+        };
         window.populateSpeciesDropdown=function(){let spCounts={};const keys=Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));keys.forEach(k=>{try{const d=JSON.parse(StorageHelper.get(k));if(d.fishData)d.fishData.forEach(f=>spCounts[f.species]=(spCounts[f.species]||0)+1);}catch(e){}});const topSpecies=Object.entries(spCounts).sort((a,b)=>b[1]-a[1]).slice(0,5).map(e=>e[0]);const e=document.getElementById('speciesInput');e.innerHTML='<option value="" selected disabled>Select Fish...</option><option value="Other">Other (Manual Entry)</option>';if(topSpecies.length>0){const freqGrp=document.createElement('optgroup');freqGrp.label='⭐ Frequent Catches';topSpecies.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;freqGrp.appendChild(o);});e.appendChild(freqGrp);}speciesList.forEach(g=>{const grp=document.createElement('optgroup');grp.label=g.category;g.items.sort().forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;grp.appendChild(o);});e.appendChild(grp);});};
         window.handleSpeciesSelect=function(){window.toggleCustomSpeciesInput();const sel=document.getElementById("speciesInput");if(sel.value&&sel.value!=="Other"&&(currentScoringMethod==='measure_points'||currentScoringMethod==='length_only')){setTimeout(()=>{const lenIn=document.getElementById("fishLengthInput");if(lenIn)lenIn.focus();},100);}};
         window.toggleCustomSpeciesInput=function(){const sel=document.getElementById("speciesInput");document.getElementById("customSpeciesInput").style.display=sel.value==="Other"?"block":"none";};
@@ -701,7 +762,7 @@
                     date:currentDate,method:currentScoringMethod,unit:selectedWeightUnit,weatherInfo:weatherI,windInfo:windI,waveInfo:waveI,
                     swellInfo:swellI,hwTime:hwTime,lwTime:lwTime,sessionStart:sessionStartTimeStr,sessionEnd:sessionEndTimeStr,
                     sunrise:sunriseTimeStr,sunset:sunsetTimeStr,fishData:fishData, isLiteMode: isLiteMode, 
-                    liveMatchPin: liveMatchPin // <-- NEW: Saving the Match PIN
+                    liveMatchPin: liveMatchPin 
                 }));
             }catch(e){console.error("Save Active Session Error:", e)}
         };
@@ -716,13 +777,12 @@
             sessionStartTimeStr=s.sessionStart||'';sessionEndTimeStr=s.sessionEnd||'';sunriseTimeStr=s.sunrise||'';sunsetTimeStr=s.sunset||'';
             isLiteMode=s.isLiteMode||false;
             
-            // NEW: Restore live connection
             if(s.liveMatchPin) {
                 liveMatchPin = s.liveMatchPin;
                 document.getElementById('drawerPinDisplay').textContent=liveMatchPin;
                 document.getElementById('btnToggleScores').style.display='inline-block';
                 window.startFirebaseListeners(liveMatchPin);
-                window.syncLiveScore(); // Pushes any offline fish up
+                window.syncLiveScore(); 
             }
 
             document.getElementById('anglerName').value=s.angler;window.populateVenueDropdown();
