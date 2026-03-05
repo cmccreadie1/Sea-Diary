@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sea-diary-cache-v239';
+const CACHE_NAME = 'sea-diary-cache-v240';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -9,7 +9,7 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache v239');
+        console.log('Opened cache v240');
         return cache.addAll(urlsToCache);
       })
   );
@@ -36,3 +36,25 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.url.includes('firestore') || 
       event.request.url.includes('firebaseio.com') ||
+      event.request.url.includes('weatherapi.com')) {
+      return; 
+  }
+
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        if(!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+        let responseToCache = response.clone();
+        caches.open(CACHE_NAME)
+          .then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+        return response;
+      })
+      .catch(() => {
+        return caches.match(event.request);
+      })
+  );
+});
