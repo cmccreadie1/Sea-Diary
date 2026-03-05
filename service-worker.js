@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sea-diary-cache-v236';
+const CACHE_NAME = 'sea-diary-cache-v236'; 
 const urlsToCache = [
   '/',
   '/index.html',
