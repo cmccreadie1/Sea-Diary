@@ -109,7 +109,7 @@
 
     <div id="splashScreen" class="splash-screen">
         <h1 class="display-4 fw-bold mb-1 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 238.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 239.0</p>
         
         <div class="d-flex flex-column w-100 px-2" style="max-width: 400px;">
             <button class="door-card" style="background: linear-gradient(135deg, #069494 0%, #0369a1 100%); color: white;" onclick="window.openProMenu()">
@@ -536,7 +536,7 @@
         window.showAppToast=function(msg,isError=false){const t=document.getElementById('appToast');document.getElementById('toastMsg').innerHTML=isError?`<i class="bi bi-exclamation-triangle-fill me-2"></i> ${msg}`:`<i class="bi bi-check-circle-fill me-2 text-success"></i> ${msg}`;t.className=isError?'toast text-bg-warning border-0 shadow-lg rounded-4':'toast bg-white text-dark border border-success border-opacity-25 shadow-lg rounded-4';new bootstrap.Toast(t).show();};
         window.openHistory=function(){window.loadSavedScorecards();bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show();};
         
-        // --- HELPER FUNCTIONS (Restored from minification errors) ---
+        // --- RESTORED HELPER FUNCTIONS ---
         window.discardRestore = function() {
             window.resetAppToHome();
         };
@@ -936,6 +936,7 @@
             fishData=[];currentScoringMethod='length_only';currentVenue='';coastalTown='';currentSavedKey='';weatherInfo='';windInfo='';swellInfo='';waveInfo='';hwTime='';lwTime='';sessionStartTimeStr='';sessionEndTimeStr='';sunriseTimeStr='';sunsetTimeStr='';editingOriginalFish=null;isLiteMode=false;globalEndTime=null;globalGraceTime=null;document.getElementById('venueSelectContainer').style.display='block';document.getElementById('venueInputContainer').style.display='none';document.getElementById('venueSelect').selectedIndex=0;document.getElementById('venueInputText').value='';let lastFormat=StorageHelper.get('lastScoringMethod')||'length_only';document.getElementById('scoringMethod').value=lastFormat;document.getElementById('sessionNotesInput').value='';document.getElementById('weatherInput').value='';document.getElementById('windInput').value='';document.getElementById('swellInput').value='';document.getElementById('waveInput').value='';if(document.getElementById('fishLengthInput'))document.getElementById('fishLengthInput').value='';document.getElementById('speciesInput').selectedIndex=0;document.getElementById('customSpeciesInput').value='';document.getElementById('fishLog').innerHTML='';document.getElementById('liveScoreVal').textContent='0';document.getElementById('weightInfoDisplay').style.display='none';document.getElementById('speciesHuntInfo').style.display='none';document.getElementById('liveTideChartContainer').style.display='none';window.toggleCustomSpeciesInput();const cols=['pickerCol1','pickerCol2'];cols.forEach(c=>{const el=document.getElementById(c);if(el){el.scrollTop=0;window.updatePickerDisplay(c);}});PageManager.show('splashScreen');StorageHelper.remove('active_session');
         };
         
+        // --- FIXED SAVE FUNCTION ---
         window.saveActiveSession=function(){
             try{
                 if(document.getElementById('waitingRoomPage').style.display === 'block') return;
@@ -953,11 +954,28 @@
                 }
                 
                 StorageHelper.save('active_session',JSON.stringify({
-                    phase:p,angler:currentAngler||document.getElementById('anglerName').value,venue:tempVenue,coastalTown:coastalTown||'',
-                    date:currentDate,method:currentScoringMethod,unit:selectedWeightUnit,weatherInfo:weatherI,windInfo:windI,waveInfo:waveI,
-                    swellInfo:swellI, hwTime:hwTime, lwTime:lwTime, sessionStart:sessionStartTimeStr,sessionEnd:sessionEndTimeStr,
-                    sunrise:sunriseTimeStr,sunset:sunsetTimeStr,fishData:fishData, isLiteMode: isLiteMode, 
-                    liveMatchPin: liveMatchPin, globalEndTime: globalEndTime, globalGraceTime: globalGraceTime
+                    phase: p,
+                    angler: currentAngler||document.getElementById('anglerName').value,
+                    venue: tempVenue,
+                    coastalTown: coastalTown||'',
+                    date: currentDate,
+                    method: currentScoringMethod,
+                    unit: selectedWeightUnit,
+                    weatherInfo: weatherI,
+                    windInfo: windI,
+                    waveInfo: waveI,
+                    swellInfo: swellI,
+                    hwTime: hwTime,
+                    lwTime: lwTime,
+                    sessionStart: sessionStartTimeStr,
+                    sessionEnd: sessionEndTimeStr,
+                    sunrise: sunriseTimeStr,
+                    sunset: sunsetTimeStr,
+                    fishData: fishData,
+                    isLiteMode: isLiteMode, 
+                    liveMatchPin: liveMatchPin,
+                    globalEndTime: globalEndTime,
+                    globalGraceTime: globalGraceTime
                 }));
             }catch(e){console.error("Save Active Session Error:", e)}
         };
