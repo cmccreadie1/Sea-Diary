@@ -109,7 +109,7 @@
 
     <div id="splashScreen" class="splash-screen">
         <h1 class="display-4 fw-bold mb-1 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 239.0</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 240.0</p>
         
         <div class="d-flex flex-column w-100 px-2" style="max-width: 400px;">
             <button class="door-card" style="background: linear-gradient(135deg, #069494 0%, #0369a1 100%); color: white;" onclick="window.openProMenu()">
@@ -117,7 +117,7 @@
                     <i class="bi bi-journal-check fs-2 me-3"></i>
                     <h3 class="m-0 fw-bold">Sea Diary Pro</h3>
                 </div>
-                <p class="small m-0 fw-bold" style="opacity: 0.85;">Full personal diary. Logs weather, tides, and deep catch analytics. <br><br><b>* Includes full access to Host or Join Live Matches.</b></p>
+                <p class="small m-0 fw-bold" style="opacity: 0.85;">Full personal diary. Logs weather, tides, and deep catch analytics. <br><br><b>* Includes access to Host or Join Live Matches.</b></p>
             </button>
             
             <button class="door-card" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); color: #0f172a;" onclick="window.openLiteMode()">
@@ -179,7 +179,7 @@
     <div id="liteHistoryPage" class="app-page">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="fw-bold m-0 text-primary">Lite History</h4>
-            <button class="btn btn-sm btn-outline-secondary px-3 py-1 rounded-pill fw-bold bg-white" onclick="PageManager.show('liteLobbyScreen')"><i class="bi bi-arrow-left me-1"></i>Back</button>
+            <button class="btn btn-sm btn-outline-secondary px-3 py-1 rounded-pill fw-bold bg-white" onclick="window.resetAppToHome()"><i class="bi bi-arrow-left me-1"></i>Back</button>
         </div>
         <div id="liteHistoryList"></div>
     </div>
@@ -510,10 +510,21 @@
 
     <script>
         // FIREBASE SETUP
-        const firebaseConfig = { apiKey: "AIzaSyAEDi6Zr6eR88jfCiBE05zTiXaRtd3dioY", authDomain: "sea-diary-match.firebaseapp.com", projectId: "sea-diary-match", storageBucket: "sea-diary-match.firebasestorage.app", messagingSenderId: "32868968041", appId: "1:32868968041:web:a5c7547cbd69c323cb64f8" };
-        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+        const firebaseConfig = { 
+            apiKey: "AIzaSyAEDi6Zr6eR88jfCiBE05zTiXaRtd3dioY", 
+            authDomain: "sea-diary-match.firebaseapp.com", 
+            projectId: "sea-diary-match", 
+            storageBucket: "sea-diary-match.firebasestorage.app", 
+            messagingSenderId: "32868968041", 
+            appId: "1:32868968041:web:a5c7547cbd69c323cb64f8" 
+        };
+        
+        if (!firebase.apps.length) { 
+            firebase.initializeApp(firebaseConfig); 
+        }
         const db = firebase.firestore();
         
+        // GLOBAL VARIABLES
         let liveMatchPin = null; 
         let liveMatchListener = null;
         let matchDocListener = null; 
@@ -523,19 +534,60 @@
         let globalGraceTime = null;
         let matchContext = 'pro'; 
 
-        const WEATHER_API_KEY="db7f2afb64d943719e0203116260103",speciesList=[{category:"Common",items:["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},{category:"Round Fish",items:["Bass","Bream (Black)","Bream (Gilthead)","Bream (Red)","Garfish","Gurnard (Grey)","Gurnard (Red)","Gurnard (Tub)","Mackerel","Mullet (Golden)","Mullet (Grey/Thick)","Mullet (Red)","Scad","Weever (Lesser)"]},{category:"Flatfish",items:["Brill","Megrim","Sole (Dover)","Sole (Lemon)","Topknot"]},{category:"Sharks & Rays",items:["Dogfish (Blackmouth)","Smoothhound (Common)","Smoothhound (Starry)","Spurdog","Tope","Ray (Thornback)","Ray (Spotted)","Ray (Blonde)","Ray (Small-eyed)","Ray (Stingray)"]},{category:"Wrasse & Mini",items:["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}],tideStations=[{region:"Scotland - East",stations:[{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Buckie",lat:57.6766,lon:-2.9649},{name:"Burntisland",lat:56.05,lon:-3.2333},{name:"Dunbar",lat:56.0029,lon:-2.5135},{name:"Dundee",lat:56.462,lon:-2.9707},{name:"Eyemouth",lat:55.8711,lon:-2.0867},{name:"Fraserburgh",lat:57.6953,lon:-2.0041},{name:"Granton",lat:55.9833,lon:-3.2333},{name:"Leith (Edinburgh)",lat:55.9855,lon:-3.1764},{name:"Lossiemouth",lat:57.7202,lon:-3.2842},{name:"Macduff",lat:57.67,lon:-2.4939},{name:"Methil",lat:56.1833,lon:-3},{name:"Montrose",lat:56.705,lon:-2.4566},{name:"Peterhead",lat:57.5058,lon:-1.7765},{name:"Rosyth",lat:55.9833,lon:-3.4167},{name:"St Andrews",lat:56.34,lon:-2.79},{name:"Stonehaven",lat:56.9667,lon:-2.2}]},{region:"Scotland - North & Isles",stations:[{name:"Cromarty",lat:57.6833,lon:-4.0333},{name:"Inverness",lat:57.4957,lon:-4.2405},{name:"Kirkwall",lat:58.9866,lon:-2.9566},{name:"Lerwick",lat:60.155,lon:-1.1444},{name:"Lochinver",lat:58.15,lon:-5.25},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Stornoway",lat:58.2094,lon:-6.3849},{name:"Thurso",lat:58.6,lon:-3.5167},{name:"Ullapool",lat:57.8953,lon:-5.1585},{name:"Wick",lat:58.4379,lon:-3.0841}]},{region:"Scotland - West",stations:[{name:"Ayr",lat:55.4586,lon:-4.6292},{name:"Campbeltown",lat:55.4241,lon:-5.6033},{name:"Dunoon",lat:55.95,lon:-4.9167},{name:"Fort William",lat:56.8198,lon:-5.1052},{name:"Girvan",lat:55.2443,lon:-4.8582},{name:"Gourock",lat:55.9667,lon:-4.8167},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Helensburgh",lat:56.0022,lon:-4.7355},{name:"Kyle of Lochalsh",lat:57.2833,lon:-5.7167},{name:"Largs",lat:55.7941,lon:-4.8727},{name:"Mallaig",lat:57.0064,lon:-5.8291},{name:"Oban",lat:56.4116,lon:-5.4747},{name:"Portpatrick",lat:54.8333,lon:-5.1167},{name:"Rothesay",lat:55.8333,lon:-5.05},{name:"Stranraer",lat:54.9042,lon:-5.0253},{name:"Tarbert",lat:55.8667,lon:-5.4167},{name:"Tobermory",lat:56.6225,lon:-6.0645},{name:"Troon",lat:55.55,lon:-4.6667}]},{region:"England - North East",stations:[{name:"Amble",lat:55.334,lon:-1.5772},{name:"Berwick-upon-Tweed",lat:55.7663,lon:-1.9961},{name:"Blyth",lat:55.1275,lon:-1.4984},{name:"Bridlington",lat:54.0805,lon:-0.1906},{name:"Filey",lat:54.2167,lon:-0.2833},{name:"Hartlepool",lat:54.6946,lon:-1.1895},{name:"Redcar",lat:54.6167,lon:-1.0667},{name:"Scarborough",lat:54.2831,lon:-0.3957},{name:"Seaham",lat:54.8333,lon:-1.3333},{name:"Seahouses",lat:55.5806,lon:-1.6517},{name:"South Shields",lat:55,lon:-1.4333},{name:"Sunderland",lat:54.9142,lon:-1.3735},{name:"Tynemouth",lat:55.0167,lon:-1.4167},{name:"Whitby",lat:54.4912,lon:-0.612}]},{region:"England - East",stations:[{name:"Aldeburgh",lat:52.1523,lon:1.6033},{name:"Boston",lat:52.9833,lon:-0.0167},{name:"Burnham-on-Crouch",lat:51.6288,lon:0.8143},{name:"Clacton-on-Sea",lat:51.7851,lon:1.1565},{name:"Cleethorpes",lat:53.55,lon:-0.0333},{name:"Cromer",lat:52.9333,lon:1.3},{name:"Felixstowe",lat:51.9547,lon:1.3485},{name:"Great Yarmouth",lat:52.6033,lon:1.7335},{name:"Grimsby",lat:53.5701,lon:-0.0637},{name:"Harwich",lat:51.9421,lon:1.2863},{name:"Hull",lat:54.1205,lon:-0.3341},{name:"Hunstanton",lat:52.9333,lon:0.4833},{name:"King's Lynn",lat:52.75,lon:0.4},{name:"Lowestoft",lat:52.4746,lon:1.7546},{name:"Skegness",lat:53.1333,lon:0.3333},{name:"Southend-on-Sea",lat:51.5284,lon:0.7161},{name:"Southwold",lat:52.3276,lon:1.6815},{name:"Walton-on-the-Naze",lat:51.85,lon:1.2667}]},{region:"England - South & South East",stations:[{name:"Bognor Regis",lat:50.7833,lon:-0.6667},{name:"Bournemouth",lat:50.7151,lon:-1.8754},{name:"Brighton",lat:50.8166,lon:-0.1374},{name:"Deal",lat:51.2227,lon:1.4024},{name:"Dover",lat:51.116,lon:1.319},{name:"Eastbourne",lat:50.7675,lon:0.2845},{name:"Folkestone",lat:51.0792,lon:1.1794},{name:"Hastings",lat:50.8522,lon:0.5732},{name:"Herne Bay",lat:51.3667,lon:1.1167},{name:"Isle of Wight (Cowes)",lat:50.7634,lon:-1.2977},{name:"Littlehampton",lat:50.8,lon:-0.5333},{name:"Lymington",lat:50.75,lon:-1.5333},{name:"Margate",lat:51.3897,lon:1.3831},{name:"Newhaven",lat:50.7833,lon:0.05},{name:"Poole",lat:50.7118,lon:-1.9863},{name:"Portsmouth",lat:50.7937,lon:-1.107},{name:"Ramsgate",lat:51.3323,lon:1.4215},{name:"Rye",lat:50.95,lon:0.7333},{name:"Sheerness",lat:51.4333,lon:0.75},{name:"Shoreham-by-Sea",lat:50.829,lon:-0.2709},{name:"Southampton",lat:50.892,lon:-1.3965},{name:"Swanage",lat:50.6,lon:-1.95},{name:"Weymouth",lat:50.6083,lon:-2.4542},{name:"Whitstable",lat:51.35,lon:1.0167},{name:"Worthing",lat:50.8105,lon:-0.3752}]},{region:"England - South West",stations:[{name:"Appledore",lat:51.05,lon:-4.2},{name:"Brixham",lat:50.3957,lon:-3.5132},{name:"Bude",lat:50.8294,lon:-4.5492},{name:"Burnham-on-Sea",lat:51.2381,lon:-3.0003},{name:"Dartmouth",lat:50.3508,lon:-3.5786},{name:"Exmouth",lat:50.6186,lon:-3.415},{name:"Falmouth",lat:50.1472,lon:-5.0601},{name:"Fowey",lat:50.3333,lon:-4.6333},{name:"Ilfracombe",lat:51.2081,lon:-4.1165},{name:"Looe",lat:50.3524,lon:-4.4539},{name:"Lyme Regis",lat:50.7244,lon:-2.9366},{name:"Minehead",lat:51.2066,lon:-3.4735},{name:"Newlyn",lat:50.1039,lon:-5.5469},{name:"Newquay",lat:50.4137,lon:-5.0768},{name:"Padstow",lat:50.5401,lon:-4.9388},{name:"Penzance",lat:50.1186,lon:-5.5371},{name:"Plymouth",lat:50.3664,lon:-4.146},{name:"Port Isaac",lat:50.5931,lon:-4.8315},{name:"Salcombe",lat:50.2333,lon:-3.7667},{name:"St Ives",lat:50.2132,lon:-5.4795},{name:"Teignmouth",lat:50.55,lon:-3.5},{name:"Torquay",lat:50.4578,lon:-3.5222}]},{region:"England - North West",stations:[{name:"Barrow-in-Furness",lat:54.1105,lon:-3.2263},{name:"Birkenhead",lat:53.3833,lon:-3.0167},{name:"Blackpool",lat:53.8142,lon:-3.0558},{name:"Clevedon",lat:51.4414,lon:-2.858},{name:"Fleetwood",lat:53.9248,lon:-3.0135},{name:"Heysham",lat:54.0333,lon:-2.9},{name:"Liverpool",lat:53.4084,lon:-2.9916},{name:"Maryport",lat:54.7142,lon:-3.4984},{name:"Morecambe",lat:54.0735,lon:-2.8687},{name:"Silloth",lat:54.8667,lon:-3.3833},{name:"Southport",lat:53.6333,lon:-3},{name:"Weston-super-Mare",lat:51.3458,lon:-2.9774},{name:"Whitehaven",lat:54.5489,lon:-3.5851},{name:"Workington",lat:54.6409,lon:-3.5516}]},{region:"Wales",stations:[{name:"Aberaeron",lat:52.2415,lon:-4.2589},{name:"Aberdovey",lat:52.5448,lon:-4.045},{name:"Aberystwyth",lat:52.4153,lon:-4.0829},{name:"Bangor",lat:53.2274,lon:-4.1293},{name:"Barmouth",lat:52.7175,lon:-4.0531},{name:"Barry",lat:51.3934,lon:-3.2683},{name:"Caernarfon",lat:53.1333,lon:-4.2667},{name:"Cardiff",lat:51.4552,lon:-3.1601},{name:"Cardigan",lat:52.0833,lon:-4.6625},{name:"Chepstow",lat:51.6429,lon:-2.6738},{name:"Conwy",lat:53.2831,lon:-3.83},{name:"Fishguard",lat:51.9939,lon:-4.976},{name:"Holyhead",lat:53.3134,lon:-4.63},{name:"Llandudno",lat:53.3278,lon:-3.8249},{name:"Llanelli",lat:51.6833,lon:-4.15},{name:"Milford Haven",lat:51.7135,lon:-5.0345},{name:"New Quay",lat:52.2132,lon:-4.3592},{name:"Newport",lat:51.5877,lon:-2.9984},{name:"Pembroke",lat:51.6833,lon:-4.9167},{name:"Porthcawl",lat:51.4795,lon:-3.7027},{name:"Porthmadog",lat:52.9275,lon:-4.1309},{name:"Pwllheli",lat:52.8887,lon:-4.4172},{name:"Rhyl",lat:53.3211,lon:-3.48},{name:"St Davids",lat:51.8813,lon:-5.2657},{name:"Swansea",lat:51.6152,lon:-3.9351},{name:"Tenby",lat:51.6738,lon:-4.6976},{name:"The Mumbles",lat:51.567,lon:-3.9935}]},{region:"Northern Ireland",stations:[{name:"Ballycastle",lat:55.2037,lon:-6.2514},{name:"Bangor",lat:54.6616,lon:-5.6667},{name:"Belfast",lat:54.6139,lon:-5.9103},{name:"Coleraine",lat:55.1322,lon:-6.6668},{name:"Derry / Londonderry",lat:55.0068,lon:-7.3183},{name:"Donaghadee",lat:54.6406,lon:-5.5398},{name:"Larne",lat:54.8517,lon:-5.8143},{name:"Portrush",lat:55.2045,lon:-6.6534},{name:"Portstewart",lat:55.1812,lon:-6.7118},{name:"Warrenpoint",lat:54.1017,lon:-6.2483}]}],defaultVenues={"Arbroath Breakwater":"Arbroath","Victoria Park (Arbroath)":"Arbroath",Usan:"Montrose","Bodden Point":"Montrose",Auchmithie:"Arbroath","Carnoustie Beach":"Arbroath","Riverside Drive (Dundee)":"Dundee",Tayport:"Dundee","Granton Breakwater":"Granton","Leith Docks":"Leith (Edinburgh)","Burntisland Pier":"Burntisland","Kirkcaldy Breakwater":"Methil","Torness Power Station":"Dunbar","Belhaven Beach":"Dunbar","Eyemouth Harbour":"Eyemouth","St Abbs Harbour":"Eyemouth","Peterhead South Breakwater":"Peterhead","Aberdeen South Pier":"Aberdeen","Stonehaven Harbour":"Stonehaven","Greenock Esplanade":"Greenock","Custom House Way (Greenock)":"Greenock","Largs Pencil":"Largs","Largs Marina":"Largs","Gourock Pier":"Gourock","Helensburgh Pier":"Helensburgh","Ayr South Pier":"Ayr","Troon Harbour":"Troon","Prestwick Boundary Wall":"Ayr","Girvan Breakwater":"Girvan","Loch Etive (Bonawe)":"Oban","Loch Etive (Priory)":"Oban","Loch Fyne (Furnace)":"Tarbert","Loch Fyne (Cairndow)":"Tarbert","Loch Long (Arrochar)":"Dunoon","Portpatrick Breakwater":"Portpatrick","Loch Ryan":"Stranraer","Ardwell Bay":"Portpatrick",Southerness:"Silloth","Scrabster Harbour":"Scrabster","Thurso Bay":"Thurso","Dunnet Bay":"Scrabster","Wick Harbour":"Wick","Ullapool Pier":"Ullapool"};
-        let fishData=[],currentScoringMethod='length_only',selectedWeightUnit='metric',currentSavedKey='',currentAngler='',currentVenue='',currentDate='',weatherInfo='',windInfo='',swellInfo='',waveInfo='',hwTime='',lwTime='',coastalTown='',sessionStartTimeStr='',sessionEndTimeStr='',sunriseTimeStr='',sunsetTimeStr='',pendingRestoreData=null,deferredPrompt=null,editingOriginalFish=null,venueTideMap={},swipeStartX=0,swipeCurrentX=0,isSwiping=false;
+        const WEATHER_API_KEY = "db7f2afb64d943719e0203116260103";
+        const speciesList = [{"category":"Common","items":["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},{"category":"Round Fish","items":["Bass","Bream (Black)","Bream (Gilthead)","Bream (Red)","Garfish","Gurnard (Grey)","Gurnard (Red)","Gurnard (Tub)","Mackerel","Mullet (Golden)","Mullet (Grey/Thick)","Mullet (Red)","Scad","Weever (Lesser)"]},{"category":"Flatfish","items":["Brill","Megrim","Sole (Dover)","Sole (Lemon)","Topknot"]},{"category":"Sharks & Rays","items":["Dogfish (Blackmouth)","Smoothhound (Common)","Smoothhound (Starry)","Spurdog","Tope","Ray (Thornback)","Ray (Spotted)","Ray (Blonde)","Ray (Small-eyed)","Ray (Stingray)"]},{"category":"Wrasse & Mini","items":["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}];
+        const tideStations = [{"region":"Scotland - East","stations":[{"name":"Aberdeen","lat":57.1437,"lon":-2.0776},{"name":"Arbroath","lat":56.5503,"lon":-2.5802},{"name":"Buckie","lat":57.6766,"lon":-2.9649},{"name":"Burntisland","lat":56.05,"lon":-3.2333},{"name":"Dunbar","lat":56.0029,"lon":-2.5135},{"name":"Dundee","lat":56.462,"lon":-2.9707},{"name":"Eyemouth","lat":55.8711,"lon":-2.0867},{"name":"Fraserburgh","lat":57.6953,"lon":-2.0041},{"name":"Granton","lat":55.9833,"lon":-3.2333},{"name":"Leith (Edinburgh)","lat":55.9855,"lon":-3.1764},{"name":"Lossiemouth","lat":57.7202,"lon":-3.2842},{"name":"Macduff","lat":57.67,"lon":-2.4939},{"name":"Methil","lat":56.1833,"lon":-3},{"name":"Montrose","lat":56.705,"lon":-2.4566},{"name":"Peterhead","lat":57.5058,"lon":-1.7765},{"name":"Rosyth","lat":55.9833,"lon":-3.4167},{"name":"St Andrews","lat":56.34,"lon":-2.79},{"name":"Stonehaven","lat":56.9667,"lon":-2.2}]},{"region":"Scotland - North & Isles","stations":[{"name":"Cromarty","lat":57.6833,"lon":-4.0333},{"name":"Inverness","lat":57.4957,"lon":-4.2405},{"name":"Kirkwall","lat":58.9866,"lon":-2.9566},{"name":"Lerwick","lat":60.155,"lon":-1.1444},{"name":"Lochinver","lat":58.15,"lon":-5.25},{"name":"Scrabster","lat":58.6083,"lon":-3.5416},{"name":"Stornoway","lat":58.2094,"lon":-6.3849},{"name":"Thurso","lat":58.6,"lon":-3.5167},{"name":"Ullapool","lat":57.8953,"lon":-5.1585},{"name":"Wick","lat":58.4379,"lon":-3.0841}]},{"region":"Scotland - West","stations":[{"name":"Ayr","lat":55.4586,"lon":-4.6292},{"name":"Campbeltown","lat":55.4241,"lon":-5.6033},{"name":"Dunoon","lat":55.95,"lon":-4.9167},{"name":"Fort William","lat":56.8198,"lon":-5.1052},{"name":"Girvan","lat":55.2443,"lon":-4.8582},{"name":"Gourock","lat":55.9667,"lon":-4.8167},{"name":"Greenock","lat":55.9521,"lon":-4.7644},{"name":"Helensburgh","lat":56.0022,"lon":-4.7355},{"name":"Kyle of Lochalsh","lat":57.2833,"lon":-5.7167},{"name":"Largs","lat":55.7941,"lon":-4.8727},{"name":"Mallaig","lat":57.0064,"lon":-5.8291},{"name":"Oban","lat":56.4116,"lon":-5.4747},{"name":"Portpatrick","lat":54.8333,"lon":-5.1167},{"name":"Rothesay","lat":55.8333,"lon":-5.05},{"name":"Stranraer","lat":54.9042,"lon":-5.0253},{"name":"Tarbert","lat":55.8667,"lon":-5.4167},{"name":"Tobermory","lat":56.6225,"lon":-6.0645},{"name":"Troon","lat":55.55,"lon":-4.6667}]},{"region":"England - North East","stations":[{"name":"Amble","lat":55.334,"lon":-1.5772},{"name":"Berwick-upon-Tweed","lat":55.7663,"lon":-1.9961},{"name":"Blyth","lat":55.1275,"lon":-1.4984},{"name":"Bridlington","lat":54.0805,"lon":-0.1906},{"name":"Filey","lat":54.2167,"lon":-0.2833},{"name":"Hartlepool","lat":54.6946,"lon":-1.1895},{"name":"Redcar","lat":54.6167,"lon":-1.0667},{"name":"Scarborough","lat":54.2831,"lon":-0.3957},{"name":"Seaham","lat":54.8333,"lon":-1.3333},{"name":"Seahouses","lat":55.5806,"lon":-1.6517},{"name":"South Shields","lat":55,"lon":-1.4333},{"name":"Sunderland","lat":54.9142,"lon":-1.3735},{"name":"Tynemouth","lat":55.0167,"lon":-1.4167},{"name":"Whitby","lat":54.4912,"lon":-0.612}]},{"region":"England - East","stations":[{"name":"Aldeburgh","lat":52.1523,"lon":1.6033},{"name":"Boston","lat":52.9833,"lon":-0.0167},{"name":"Burnham-on-Crouch","lat":51.6288,"lon":0.8143},{"name":"Clacton-on-Sea","lat":51.7851,"lon":1.1565},{"name":"Cleethorpes","lat":53.55,"lon":-0.0333},{"name":"Cromer","lat":52.9333,"lon":1.3},{"name":"Felixstowe","lat":51.9547,"lon":1.3485},{"name":"Great Yarmouth","lat":52.6033,"lon":1.7335},{"name":"Grimsby","lat":53.5701,"lon":-0.0637},{"name":"Harwich","lat":51.9421,"lon":1.2863},{"name":"Hull","lat":54.1205,"lon":-0.3341},{"name":"Hunstanton","lat":52.9333,"lon":0.4833},{"name":"King's Lynn","lat":52.75,"lon":0.4},{"name":"Lowestoft","lat":52.4746,"lon":1.7546},{"name":"Skegness","lat":53.1333,"lon":0.3333},{"name":"Southend-on-Sea","lat":51.5284,"lon":0.7161},{"name":"Southwold","lat":52.3276,"lon":1.6815},{"name":"Walton-on-the-Naze","lat":51.85,"lon":1.2667}]},{"region":"England - South & South East","stations":[{"name":"Bognor Regis","lat":50.7833,"lon":-0.6667},{"name":"Bournemouth","lat":50.7151,"lon":-1.8754},{"name":"Brighton","lat":50.8166,"lon":-0.1374},{"name":"Deal","lat":51.2227,"lon":1.4024},{"name":"Dover","lat":51.116,"lon":1.319},{"name":"Eastbourne","lat":50.7675,"lon":0.2845},{"name":"Folkestone","lat":51.0792,"lon":1.1794},{"name":"Hastings","lat":50.8522,"lon":0.5732},{"name":"Herne Bay","lat":51.3667,"lon":1.1167},{"name":"Isle of Wight (Cowes)","lat":50.7634,"lon":-1.2977},{"name":"Littlehampton","lat":50.8,"lon":-0.5333},{"name":"Lymington","lat":50.75,"lon":-1.5333},{"name":"Margate","lat":51.3897,"lon":1.3831},{"name":"Newhaven","lat":50.7833,"lon":0.05},{"name":"Poole","lat:50.7118,"lon":-1.9863},{"name":"Portsmouth","lat":50.7937,"lon":-1.107},{"name":"Ramsgate","lat":51.3323,"lon":1.4215},{"name":"Rye","lat":50.95,"lon":0.7333},{"name":"Sheerness","lat":51.4333,"lon":0.75},{"name":"Shoreham-by-Sea","lat":50.829,"lon":-0.2709},{"name":"Southampton","lat":50.892,"lon":-1.3965},{"name":"Swanage","lat":50.6,"lon":-1.95},{"name":"Weymouth","lat":50.6083,"lon":-2.4542},{"name":"Whitstable","lat":51.35,"lon":1.0167},{"name":"Worthing","lat":50.8105,"lon":-0.3752}]},{"region":"England - South West","stations":[{"name":"Appledore","lat":51.05,"lon":-4.2},{"name":"Brixham","lat":50.3957,"lon":-3.5132},{"name":"Bude","lat":50.8294,"lon":-4.5492},{"name":"Burnham-on-Sea","lat":51.2381,"lon":-3.0003},{"name":"Dartmouth","lat":50.3508,"lon":-3.5786},{"name":"Exmouth","lat":50.6186,"lon":-3.415},{"name":"Falmouth","lat":50.1472,"lon":-5.0601},{"name":"Fowey","lat":50.3333,"lon":-4.6333},{"name":"Ilfracombe","lat":51.2081,"lon":-4.1165},{"name":"Looe","lat":50.3524,"lon":-4.4539},{"name":"Lyme Regis","lat":50.7244,"lon":-2.9366},{"name":"Minehead","lat:51.2066,"lon":-3.4735},{"name":"Newlyn","lat":50.1039,"lon":-5.5469},{"name":"Newquay","lat":50.4137,"lon":-5.0768},{"name":"Padstow","lat":50.5401,"lon":-4.9388},{"name":"Penzance","lat":50.1186,"lon":-5.5371},{"name":"Plymouth","lat":50.3664,"lon":-4.146},{"name":"Port Isaac","lat":50.5931,"lon":-4.8315},{"name":"Salcombe","lat":50.2333,"lon":-3.7667},{"name":"St Ives","lat":50.2132,"lon":-5.4795},{"name":"Teignmouth","lat":50.55,"lon":-3.5},{"name":"Torquay","lat":50.4578,"lon":-3.5222}]},{"region":"England - North West","stations":[{"name":"Barrow-in-Furness","lat":54.1105,"lon":-3.2263},{"name":"Birkenhead","lat":53.3833,"lon":-3.0167},{"name":"Blackpool","lat":53.8142,"lon":-3.0558},{"name":"Clevedon","lat":51.4414,"lon":-2.858},{"name":"Fleetwood","lat":53.9248,"lon":-3.0135},{"name":"Heysham","lat":54.0333,"lon":-2.9},{"name":"Liverpool","lat":53.4084,"lon":-2.9916},{"name":"Maryport","lat":54.7142,"lon":-3.4984},{"name":"Morecambe","lat":54.0735,"lon":-2.8687},{"name":"Silloth","lat":54.8667,"lon":-3.3833},{"name":"Southport","lat":53.6333,"lon":-3},{"name":"Weston-super-Mare","lat":51.3458,"lon":-2.9774},{"name":"Whitehaven","lat":54.5489,"lon":-3.5851},{"name":"Workington","lat":54.6409,"lon":-3.5516}]},{"region":"Wales","stations":[{"name":"Aberaeron","lat":52.2415,"lon":-4.2589},{"name":"Aberdovey","lat":52.5448,"lon":-4.045},{"name":"Aberystwyth","lat":52.4153,"lon":-4.0829},{"name":"Bangor","lat":53.2274,"lon":-4.1293},{"name":"Barmouth","lat":52.7175,"lon":-4.0531},{"name":"Barry","lat":51.3934,"lon":-3.2683},{"name":"Caernarfon","lat":53.1333,"lon":-4.2667},{"name":"Cardiff","lat":51.4552,"lon":-3.1601},{"name:"Cardigan","lat":52.0833,"lon":-4.6625},{"name:"Chepstow","lat":51.6429,"lon":-2.6738},{"name:"Conwy","lat":53.2831,"lon":-3.83},{"name":"Fishguard","lat":51.9939,"lon":-4.976},{"name":"Holyhead","lat":53.3134,"lon":-4.63},{"name":"Llandudno","lat":53.3278,"lon":-3.8249},{"name:"Llanelli","lat":51.6833,"lon":-4.15},{"name:"Milford Haven","lat":51.7135,"lon":-5.0345},{"name":"New Quay","lat":52.2132,"lon":-4.3592},{"name:"Newport","lat":51.5877,"lon":-2.9984},{"name":"Pembroke","lat":51.6833,"lon":-4.9167},{"name:"Porthcawl","lat":51.4795,"lon":-3.7027},{"name:"Porthmadog","lat":52.9275,"lon":-4.1309},{"name:"Pwllheli","lat":52.8887,"lon":-4.4172},{"name:"Rhyl","lat":53.3211,"lon":-3.48},{"name:"St Davids","lat":51.8813,"lon":-5.2657},{"name:"Swansea","lat":51.6152,"lon":-3.9351},{"name:"Tenby","lat":51.6738,"lon":-4.6976},{"name:"The Mumbles","lat":51.567,"lon":-3.9935}]},{"region":"Northern Ireland","stations":[{"name":"Ballycastle","lat":55.2037,"lon":-6.2514},{"name":"Bangor","lat":54.6616,"lon":-5.6667},{"name":"Belfast","lat":54.6139,"lon":-5.9103},{"name":"Coleraine","lat":55.1322,"lon":-6.6668},{"name":"Derry / Londonderry","lat":55.0068,"lon":-7.3183},{"name":"Donaghadee","lat":54.6406,"lon":-5.5398},{"name":"Larne","lat":54.8517,"lon":-5.8143},{"name":"Portrush","lat":55.2045,"lon":-6.6534},{"name":"Portstewart","lat":55.1812,"lon":-6.7118},{"name":"Warrenpoint","lat":54.1017,"lon":-6.2483}]}];
+        const defaultVenues = {"Arbroath Breakwater":"Arbroath","Victoria Park (Arbroath)":"Arbroath","Usan":"Montrose","Bodden Point":"Montrose","Auchmithie":"Arbroath","Carnoustie Beach":"Arbroath","Riverside Drive (Dundee)":"Dundee","Tayport":"Dundee","Granton Breakwater":"Granton","Leith Docks":"Leith (Edinburgh)","Burntisland Pier":"Burntisland","Kirkcaldy Breakwater":"Methil","Torness Power Station":"Dunbar","Belhaven Beach":"Dunbar","Eyemouth Harbour":"Eyemouth","St Abbs Harbour":"Eyemouth","Peterhead South Breakwater":"Peterhead","Aberdeen South Pier":"Aberdeen","Stonehaven Harbour":"Stonehaven","Greenock Esplanade":"Greenock","Custom House Way (Greenock)":"Greenock","Largs Pencil":"Largs","Largs Marina":"Largs","Gourock Pier":"Gourock","Helensburgh Pier":"Helensburgh","Ayr South Pier":"Ayr","Troon Harbour":"Troon","Prestwick Boundary Wall":"Ayr","Girvan Breakwater":"Girvan","Loch Etive (Bonawe)":"Oban","Loch Etive (Priory)":"Oban","Loch Fyne (Furnace)":"Tarbert","Loch Fyne (Cairndow)":"Tarbert","Loch Long (Arrochar)":"Dunoon","Portpatrick Breakwater":"Portpatrick","Loch Ryan":"Stranraer","Ardwell Bay":"Portpatrick","Southerness":"Silloth","Scrabster Harbour":"Scrabster","Thurso Bay":"Thurso","Dunnet Bay":"Scrabster","Wick Harbour":"Wick","Ullapool Pier":"Ullapool"};
+        
+        let fishData = [];
+        let currentScoringMethod = 'length_only';
+        let selectedWeightUnit = 'metric';
+        let currentSavedKey = '';
+        let currentAngler = '';
+        let currentVenue = '';
+        let currentDate = '';
+        let weatherInfo = '';
+        let windInfo = '';
+        let swellInfo = '';
+        let waveInfo = '';
+        let hwTime = '';
+        let lwTime = '';
+        let coastalTown = '';
+        let sessionStartTimeStr = '';
+        let sessionEndTimeStr = '';
+        let sunriseTimeStr = '';
+        let sunsetTimeStr = '';
+        let pendingRestoreData = null;
+        let deferredPrompt = null;
+        let editingOriginalFish = null;
+        let venueTideMap = {};
+        let swipeStartX = 0;
+        let swipeCurrentX = 0;
+        let isSwiping = false;
         let isLiteMode = false;
         
-        const badgeStyle="background:rgba(6,148,148,0.1);color:var(--app-main);border:1px solid rgba(6,148,148,0.3);padding:4px 10px;border-radius:8px;font-size:0.7rem;font-weight:800;margin:1px;display:inline-block;";
-        const PageManager={show:function(id){document.querySelectorAll('.app-page, .splash-screen').forEach(p=>p.style.display='none');document.getElementById(id).style.display= (id.includes('splash')||id.includes('Menu')) ? 'flex' : 'block';window.scrollTo(0,0);}};
-        const StorageHelper={save:function(k,v){try{localStorage.setItem(k,v);}catch(e){throw new Error("QUOTA_EXCEEDED");}},get:(k)=>localStorage.getItem(k),remove:(k)=>localStorage.removeItem(k),getAll:()=>({...localStorage})};
-        if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').then(function(){},function(){});});}
-        window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;const installBtn=document.getElementById('btnInstallApp');if(installBtn)installBtn.style.display='block';});
-        window.installApp=async function(){if(deferredPrompt){deferredPrompt.prompt();const {outcome}=await deferredPrompt.userChoice;if(outcome==='accepted'){document.getElementById('btnInstallApp').style.display='none';}deferredPrompt=null;}};
-        window.showAppToast=function(msg,isError=false){const t=document.getElementById('appToast');document.getElementById('toastMsg').innerHTML=isError?`<i class="bi bi-exclamation-triangle-fill me-2"></i> ${msg}`:`<i class="bi bi-check-circle-fill me-2 text-success"></i> ${msg}`;t.className=isError?'toast text-bg-warning border-0 shadow-lg rounded-4':'toast bg-white text-dark border border-success border-opacity-25 shadow-lg rounded-4';new bootstrap.Toast(t).show();};
-        window.openHistory=function(){window.loadSavedScorecards();bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show();};
+        const badgeStyle = "background:rgba(6,148,148,0.1);color:var(--app-main);border:1px solid rgba(6,148,148,0.3);padding:4px 10px;border-radius:8px;font-size:0.7rem;font-weight:800;margin:1px;display:inline-block;";
         
+        const PageManager = {
+            show: function(id) {
+                document.querySelectorAll('.app-page, .splash-screen').forEach(p => p.style.display = 'none');
+                const target = document.getElementById(id);
+                if(target) {
+                    target.style.display = (id.includes('splash') || id.includes('Menu')) ? 'flex' : 'block';
+                    window.scrollTo(0, 0);
+                }
+            }
+        };
+
+        const StorageHelper = {
+            save: function(k, v) {
+                try { localStorage.setItem(k, v); } catch(e) { throw new Error("QUOTA_EXCEEDED"); }
+            },
+            get: (k) => localStorage.getItem(k),
+            remove: (k) => localStorage.removeItem(k),
+            getAll: () => ({...localStorage})
+        };
+
         // --- RESTORED HELPER FUNCTIONS ---
         window.discardRestore = function() {
             window.resetAppToHome();
@@ -560,8 +612,18 @@
             }
         };
 
-        // --- UNIFIED HOST & JOIN LOGIC ---
-        window.openHostModal=function(ctx){
+        // --- NAVIGATION LOGIC ---
+        window.openProMenu = function() { 
+            isLiteMode = false; 
+            PageManager.show('proMenuScreen'); 
+        };
+        
+        window.openLiteMode = function() { 
+            isLiteMode = true; 
+            PageManager.show('liteLobbyScreen'); 
+        };
+        
+        window.openHostModal = function(ctx) {
             matchContext = ctx;
             let name = ctx === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
             if(!name) return window.showAppToast("Please enter your Name first.", true);
@@ -572,7 +634,7 @@
             bootstrap.Modal.getOrCreateInstance(document.getElementById('unifiedHostModal')).show();
         };
 
-        window.openJoinModal=function(ctx){
+        window.openJoinModal = function(ctx) {
             matchContext = ctx;
             let name = ctx === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
             if(!name) return window.showAppToast("Please enter your Name first.", true);
@@ -583,7 +645,7 @@
             bootstrap.Modal.getOrCreateInstance(document.getElementById('unifiedJoinModal')).show();
         };
 
-        window.executeHost=async function(){
+        window.executeHost = async function() {
             currentAngler = matchContext === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
             const duration = parseInt(document.getElementById('unifiedDuration').value);
             currentScoringMethod = document.getElementById('unifiedScoringMethod').value;
@@ -604,42 +666,44 @@
                 });
                 
                 await db.collection("matches").doc(pin).collection("anglers").doc(currentAngler).set({
-                    score:0, display:"0", catches:0, lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
+                    score: 0, display: "0", catches: 0, lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
                 bootstrap.Modal.getInstance(document.getElementById('unifiedHostModal')).hide();
                 window.enterWaitingRoom(pin);
-            } catch(e) { window.showAppToast("Network Error.",true); }
+            } catch(e) { window.showAppToast("Network Error.", true); }
         };
 
-        window.executeJoin=async function(){
+        window.executeJoin = async function() {
             currentAngler = matchContext === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
             const pin = document.getElementById('unifiedPinInput').value.trim();
             
-            if(pin.length<3) return window.showAppToast("PIN required.",true);
+            if(pin.length < 3) return window.showAppToast("PIN required.", true);
             
             isHost = false;
             window.showAppToast("Connecting to room...");
             try {
                 const matchRef = db.collection("matches").doc(pin);
                 const doc = await matchRef.get();
-                if(!doc.exists) return window.showAppToast("Room not found.",true);
+                if(!doc.exists) return window.showAppToast("Room not found.", true);
                 
                 currentScoringMethod = doc.data().format;
                 liveMatchPin = pin;
                 
                 await matchRef.collection("anglers").doc(currentAngler).set({
-                    score:0, display:"0", catches:0, lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
-                }, {merge:true});
+                    score: 0, display: "0", catches: 0, lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+                }, {merge: true});
 
-                if(matchContext === 'pro') document.getElementById('scoringMethod').value = currentScoringMethod;
+                if(matchContext === 'pro') {
+                    document.getElementById('scoringMethod').value = currentScoringMethod;
+                }
                 
                 bootstrap.Modal.getInstance(document.getElementById('unifiedJoinModal')).hide();
                 window.enterWaitingRoom(pin);
-            } catch(e) { window.showAppToast("Network Error.",true); }
+            } catch(e) { window.showAppToast("Network Error.", true); }
         };
 
-        window.enterWaitingRoom=function(pin){
+        window.enterWaitingRoom = function(pin) {
             document.getElementById('waitingRoomPin').innerText = pin;
             
             let ruleText = currentScoringMethod === 'weight' ? 'Total Weight' : 
@@ -672,7 +736,7 @@
             });
         };
 
-        window.startMatchForEveryone=function(){
+        window.startMatchForEveryone = function() {
             if(!isHost || !liveMatchPin) return;
             const btn = document.querySelector('#hostControls button');
             btn.innerHTML = '<i class="bi bi-hourglass me-2"></i>Starting...';
@@ -689,7 +753,7 @@
             });
         };
 
-        window.launchLiveFishing=function(){
+        window.launchLiveFishing = function() {
             if(matchDocListener) { matchDocListener(); matchDocListener = null; }
             document.getElementById('drawerPinDisplay').textContent = liveMatchPin;
             document.getElementById('btnToggleScores').style.display = 'inline-block';
@@ -702,7 +766,9 @@
                 window.registerAngler(true); 
             }
             
-            if(!sessionStartTimeStr) sessionStartTimeStr=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false});
+            if(!sessionStartTimeStr) {
+                sessionStartTimeStr = new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', hour12:false});
+            }
 
             window.setupFishingUI();
             window.populateSpeciesDropdown();
@@ -714,8 +780,7 @@
             window.showAppToast("Lobby Closed. Match Started!");
         };
 
-        // --- GLOBAL TIMER & GRACE PERIOD ---
-        window.startMatchTimer=function(){
+        window.startMatchTimer = function() {
             const banner = document.getElementById('matchTimerBanner');
             const txt = document.getElementById('matchTimerText');
             banner.style.display = 'block';
@@ -752,17 +817,17 @@
             }, 1000);
         };
 
-        window.startFirebaseListeners=function(pin){
-            liveMatchListener=db.collection("matches").doc(pin).collection("anglers").onSnapshot(snapshot=>{
-                let leaderboard=[];
+        window.startFirebaseListeners = function(pin) {
+            liveMatchListener = db.collection("matches").doc(pin).collection("anglers").onSnapshot(snapshot => {
+                let leaderboard = [];
                 let isFirstLoad = snapshot.metadata.hasPendingWrites; 
-                snapshot.forEach(doc=>leaderboard.push({name:doc.id,...doc.data()}));
-                leaderboard.sort((a,b)=>b.score-a.score);
+                snapshot.forEach(doc => leaderboard.push({name: doc.id, ...doc.data()}));
+                leaderboard.sort((a,b) => b.score - a.score);
                 window.renderLeaderboard(leaderboard);
                 if(navigator.vibrate && !isFirstLoad && leaderboard.length > 0) navigator.vibrate([100, 50, 100]);
             });
             
-            matchDocListener=db.collection("matches").doc(pin).onSnapshot(doc => {
+            matchDocListener = db.collection("matches").doc(pin).onSnapshot(doc => {
                 if(doc.exists) {
                     let data = doc.data();
                     if(data.biggestFish && data.biggestFish.length > 0) {
@@ -780,8 +845,8 @@
             window.toggleDrawer(true);
         };
 
-        window.toggleDrawer=function(isOpen){
-            if(isOpen){
+        window.toggleDrawer = function(isOpen) {
+            if(isOpen) {
                 document.getElementById('drawerOverlay').classList.add('show');
                 document.getElementById('leaderboardDrawer').classList.add('open');
             } else {
@@ -790,96 +855,144 @@
             }
         };
 
-        window.renderLeaderboard=function(data){
-            const lb=document.getElementById("drawerLeaderboardList");
-            let html="";
-            data.forEach((p,idx)=>{
-                const isMeClass=p.name===currentAngler ? 'is-me' : '';
-                const medal=idx===0?"🥇":idx===1?"🥈":idx===2?"🥉":`<span class="text-muted fw-bold" style="width:20px;display:inline-block;text-align:center;">#${idx+1}</span>`;
+        window.renderLeaderboard = function(data) {
+            const lb = document.getElementById("drawerLeaderboardList");
+            let html = "";
+            data.forEach((p, idx) => {
+                const isMeClass = p.name === currentAngler ? 'is-me' : '';
+                const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `<span class="text-muted fw-bold" style="width:20px;display:inline-block;text-align:center;">#${idx+1}</span>`;
                 let latestCatchHtml = p.latestSpecies ? `<div class="small mt-1" style="color: #0ea5e9;"><i>Latest: ${p.latestLength} ${p.latestSpecies}</i></div>` : '';
-                html+=`<div class="angler-row ${isMeClass}"><div><div class="fw-bold fs-6">${medal} ${p.name}</div><div class="small text-light opacity-75 mt-1">🐟 ${p.catches} fish</div>${latestCatchHtml}</div><div class="fw-bold text-warning fs-5 text-end">${p.display}</div></div>`;
+                html += `<div class="angler-row ${isMeClass}"><div><div class="fw-bold fs-6">${medal} ${p.name}</div><div class="small text-light opacity-75 mt-1">🐟 ${p.catches} fish</div>${latestCatchHtml}</div><div class="fw-bold text-warning fs-5 text-end">${p.display}</div></div>`;
             });
-            lb.innerHTML=html;
+            lb.innerHTML = html;
         };
 
-        window.syncLiveScore=function(){
-            if(!liveMatchPin)return;
-            let numScore=0; let displayScore=window.calculatePoints(fishData,currentScoringMethod);
-            let latestSpecies = ''; let latestLength = '';
+        window.syncLiveScore = function() {
+            if(!liveMatchPin) return;
+            let numScore = 0; 
+            let displayScore = window.calculatePoints(fishData, currentScoringMethod);
+            let latestSpecies = ''; 
+            let latestLength = '';
+            
             if(fishData.length > 0) {
                 let lastFish = fishData[fishData.length - 1];
                 latestSpecies = lastFish.species;
                 latestLength = currentScoringMethod === 'weight' ? lastFish.display : lastFish.length + 'cm';
             }
-            if(currentScoringMethod==='weight'){ numScore=fishData.reduce((sum,f)=>sum+(parseFloat(f.raw)||0),0);
-            }else{ numScore=parseFloat(displayScore)||0; }
+            
+            if(currentScoringMethod === 'weight'){ 
+                numScore = fishData.reduce((sum, f) => sum + (parseFloat(f.raw) || 0), 0);
+            } else { 
+                numScore = parseFloat(displayScore) || 0; 
+            }
             
             db.collection("matches").doc(liveMatchPin).collection("anglers").doc(currentAngler).set({
-                score:numScore, display:String(displayScore), catches:fishData.length,
-                latestSpecies: latestSpecies, latestLength: latestLength, lastUpdate:firebase.firestore.FieldValue.serverTimestamp()
-            },{merge:true});
+                score: numScore, 
+                display: String(displayScore), 
+                catches: fishData.length,
+                latestSpecies: latestSpecies, 
+                latestLength: latestLength, 
+                lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+            }, {merge: true});
             
-            let myBiggest = 0; let myBiggestSpecies = '';
-            if(currentScoringMethod === 'length_only' || currentScoringMethod === 'measure_points'){
-                fishData.forEach(f => { let l = parseFloat(f.length) || 0; if(l > myBiggest) { myBiggest = l; myBiggestSpecies = f.species; } });
+            let myBiggest = 0; 
+            let myBiggestSpecies = '';
+            if(currentScoringMethod === 'length_only' || currentScoringMethod === 'measure_points') {
+                fishData.forEach(f => { 
+                    let l = parseFloat(f.length) || 0; 
+                    if(l > myBiggest) { 
+                        myBiggest = l; 
+                        myBiggestSpecies = f.species; 
+                    } 
+                });
             }
+            
             if (myBiggest > 0) {
                 const matchRef = db.collection("matches").doc(liveMatchPin);
                 db.runTransaction(transaction => {
                     return transaction.get(matchRef).then(sfDoc => {
                         if (!sfDoc.exists) return;
                         let currentBiggest = sfDoc.data().biggestFish?.length || 0;
-                        if (myBiggest > currentBiggest) { transaction.update(matchRef, { biggestFish: { name: currentAngler, length: myBiggest, species: myBiggestSpecies } }); }
+                        if (myBiggest > currentBiggest) { 
+                            transaction.update(matchRef, { biggestFish: { name: currentAngler, length: myBiggest, species: myBiggestSpecies } }); 
+                        }
                     });
                 }).catch(err => console.error("Bounty Update Failed: ", err));
             }
         };
 
-        window.buildScorecardUI=function(prefix,d,isHistory=false){
-            document.getElementById(`${prefix}_angler`).textContent=d.angler;
-            document.getElementById(`${prefix}_date`).textContent=new Date(d.date).toLocaleDateString('en-GB');
-            let phaseText=window.getSolarPhase(d.sessionStart,d.sessionEnd,d.sunrise,d.sunset);
-            let timeStrHTML=`${d.sessionStart||'--:--'} - ${d.sessionEnd||'--:--'}`;
-            if(phaseText)timeStrHTML+=` <span class="ms-2 text-primary">${phaseText}</span>`;
-            document.getElementById(`${prefix}_time_range`).innerHTML=timeStrHTML;
-            document.getElementById(`${prefix}_venue`).textContent=d.venue||d.coastalTown||'Unnamed Venue';
+        window.buildScorecardUI = function(prefix, d, isHistory=false) {
+            document.getElementById(`${prefix}_angler`).textContent = d.angler;
+            document.getElementById(`${prefix}_date`).textContent = new Date(d.date).toLocaleDateString('en-GB');
+            let phaseText = window.getSolarPhase(d.sessionStart, d.sessionEnd, d.sunrise, d.sunset);
+            let timeStrHTML = `${d.sessionStart||'--:--'} - ${d.sessionEnd||'--:--'}`;
+            if(phaseText) timeStrHTML += ` <span class="ms-2 text-primary">${phaseText}</span>`;
+            document.getElementById(`${prefix}_time_range`).innerHTML = timeStrHTML;
+            document.getElementById(`${prefix}_venue`).textContent = d.venue || d.coastalTown || 'Unnamed Venue';
             
-            let condHTML='';
-            if(d.weatherInfo)condHTML+=`<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-1"></i>${d.weatherInfo}</span>`;
-            if(d.windInfo)condHTML+=`<span style="${badgeStyle}"><i class="bi bi-wind me-1"></i>${d.windInfo}</span>`;
-            if(d.waveInfo&&d.waveInfo!=='--')condHTML+=`<span style="${badgeStyle}"><i class="bi bi-water me-1"></i>${d.waveInfo} Wave</span>`;
-            if(d.swellInfo&&d.swellInfo!=='Inland'&&d.swellInfo!=='--')condHTML+=`<span style="${badgeStyle}"><i class="bi bi-tsunami me-1"></i>${d.swellInfo} Swell</span>`;
+            let condHTML = '';
+            if(d.weatherInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-cloud-fill me-1"></i>${d.weatherInfo}</span>`;
+            if(d.windInfo) condHTML += `<span style="${badgeStyle}"><i class="bi bi-wind me-1"></i>${d.windInfo}</span>`;
+            if(d.waveInfo && d.waveInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-water me-1"></i>${d.waveInfo} Wave</span>`;
+            if(d.swellInfo && d.swellInfo !== 'Inland' && d.swellInfo !== '--') condHTML += `<span style="${badgeStyle}"><i class="bi bi-tsunami me-1"></i>${d.swellInfo} Swell</span>`;
             
-            if(d.liveMatchPin){
-                condHTML+=`<button class="btn btn-sm btn-warning fw-bold text-dark w-100 mt-2 mb-1 shadow-sm" onclick="window.viewArchivedMatch('${d.liveMatchPin}')"><i class="bi bi-trophy-fill me-2"></i>View Final Match Leaderboard (PIN: ${d.liveMatchPin})</button>`;
+            if(d.liveMatchPin) {
+                condHTML += `<button class="btn btn-sm btn-warning fw-bold text-dark w-100 mt-2 mb-1 shadow-sm" onclick="window.viewArchivedMatch('${d.liveMatchPin}')"><i class="bi bi-trophy-fill me-2"></i>View Final Match Leaderboard (PIN: ${d.liveMatchPin})</button>`;
             }
             
-            document.getElementById(`${prefix}_live_conditions`).innerHTML=condHTML;
+            document.getElementById(`${prefix}_live_conditions`).innerHTML = condHTML;
             
-            let pts=window.calculatePoints(d.fishData,d.method,d.weightUnit);
-            document.getElementById(`${prefix}_total_points`).textContent=pts;
-            const isW=d.method==='weight';
-            const statGrid=document.getElementById(`${prefix}_stat_grid`);
-            if(statGrid){document.getElementById(`${prefix}_total_fish`).textContent=d.fishData.length;document.getElementById(`${prefix}_species_count`).textContent=new Set(d.fishData.map(f=>f.species)).size;document.getElementById(`${prefix}_stat_label`).textContent=isW?'Total Weight':'Total Length';document.getElementById(`${prefix}_total_stat`).textContent=isW?pts:d.fishData.reduce((s,f)=>s+parseFloat(f.length||0),0).toFixed(1)+'cm';}
-            const actualVenue=d.venue||d.coastalTown||'Unnamed Venue';
-            const xcData=window.calculateXC(actualVenue,d.fishData.length,d.fishData,d.windInfo,d.waveInfo,d.swellInfo);
-            window.renderXCShield(xcData,d.fishData.length,`${prefix}_xc_shield`);
-            const chartCont=document.getElementById(`${prefix}_tide_chart_container`);
-            if(d.hwTime&&d.lwTime){chartCont.style.display='block';setTimeout(()=>{try{window.drawTideGraph(`${prefix}_tide_canvas`,d.hwTime,d.lwTime,d.fishData,d.sessionStart);}catch(e){}},200);}else{chartCont.style.display='none';}
-            const insights=window.getInsights(d.fishData,d.method,d.hwTime,d.lwTime);
-            document.getElementById(`${prefix}_peak_feed`).textContent=insights.peak;document.getElementById(`${prefix}_pace`).textContent=insights.pace;document.getElementById(`${prefix}_best_tide`).textContent=insights.bestTide;document.getElementById(`${prefix}_insights_card`).style.display=d.fishData.length>0?'block':'none';window.renderVisualAnalytics(insights,d.method,`${prefix}_visual_analytics`);
-            const area=document.getElementById(`${prefix}_breakdown`);
-            area.innerHTML='';
-            if(d.method==='species_hunt'){
-                area.innerHTML=generateSpeciesHuntHTML(d.fishData,d.hwTime,d.lwTime);
-            }else{
-                let eTable='<table class="table-custom"><tbody>';
-                d.fishData.forEach((f,idx)=>{const val=d.method==='weight'?f.display:`${f.length}cm`;const ph=f.photo?`<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">`:'';const tideTag=window.getTideState(f.time,d.hwTime,d.lwTime);const tideHTML=tideTag?`<span class="text-primary small fw-bold ms-1">(${tideTag})</span>`:'';const timeBadge=f.time?`<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>`:'';eTable+=`<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div></div><div class="d-flex align-items-center">${ph}</div></div></td></tr>`;});
-                eTable+='</tbody></table>';area.innerHTML=eTable;
+            let pts = window.calculatePoints(d.fishData, d.method, d.weightUnit);
+            document.getElementById(`${prefix}_total_points`).textContent = pts;
+            
+            const isW = d.method === 'weight';
+            const statGrid = document.getElementById(`${prefix}_stat_grid`);
+            if(statGrid) {
+                document.getElementById(`${prefix}_total_fish`).textContent = d.fishData.length;
+                document.getElementById(`${prefix}_species_count`).textContent = new Set(d.fishData.map(f => f.species)).size;
+                document.getElementById(`${prefix}_stat_label`).textContent = isW ? 'Total Weight' : 'Total Length';
+                document.getElementById(`${prefix}_total_stat`).textContent = isW ? pts : d.fishData.reduce((s,f) => s + parseFloat(f.length||0), 0).toFixed(1) + 'cm';
+            }
+            
+            const actualVenue = d.venue || d.coastalTown || 'Unnamed Venue';
+            const xcData = window.calculateXC(actualVenue, d.fishData.length, d.fishData, d.windInfo, d.waveInfo, d.swellInfo);
+            window.renderXCShield(xcData, d.fishData.length, `${prefix}_xc_shield`);
+            
+            const chartCont = document.getElementById(`${prefix}_tide_chart_container`);
+            if(d.hwTime && d.lwTime) {
+                chartCont.style.display = 'block';
+                setTimeout(() => { try { window.drawTideGraph(`${prefix}_tide_canvas`, d.hwTime, d.lwTime, d.fishData, d.sessionStart); } catch(e) {} }, 200);
+            } else {
+                chartCont.style.display = 'none';
+            }
+            
+            const insights = window.getInsights(d.fishData, d.method, d.hwTime, d.lwTime);
+            document.getElementById(`${prefix}_peak_feed`).textContent = insights.peak;
+            document.getElementById(`${prefix}_pace`).textContent = insights.pace;
+            document.getElementById(`${prefix}_best_tide`).textContent = insights.bestTide;
+            document.getElementById(`${prefix}_insights_card`).style.display = d.fishData.length > 0 ? 'block' : 'none';
+            
+            window.renderVisualAnalytics(insights, d.method, `${prefix}_visual_analytics`);
+            
+            const area = document.getElementById(`${prefix}_breakdown`);
+            area.innerHTML = '';
+            if(d.method === 'species_hunt') {
+                area.innerHTML = generateSpeciesHuntHTML(d.fishData, d.hwTime, d.lwTime);
+            } else {
+                let eTable = '<table class="table-custom"><tbody>';
+                d.fishData.forEach((f, idx) => {
+                    const val = d.method === 'weight' ? f.display : `${f.length}cm`;
+                    const ph = f.photo ? `<img src="${f.photo}" class="fish-thumb ms-3" onclick="window.viewImg('${f.photo}', false)">` : '';
+                    const tideTag = window.getTideState(f.time, d.hwTime, d.lwTime);
+                    const tideHTML = tideTag ? `<span class="text-primary small fw-bold ms-1">(${tideTag})</span>` : '';
+                    const timeBadge = f.time ? `<span class="text-muted ms-2 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i>${f.time} ${tideHTML}</span>` : '';
+                    eTable += `<tr><td><div class="d-flex align-items-center justify-content-between"><div><div class="fw-bold text-main fs-6 mb-1">${f.species} <div class="mt-1">${timeBadge}</div></div><div class="text-primary fw-bold fs-6">${val}</div></div><div class="d-flex align-items-center">${ph}</div></div></td></tr>`;
+                });
+                eTable += '</tbody></table>';
+                area.innerHTML = eTable;
             }
         };
         
-        // --- LITE HISTORY VIEWER ---
         window.openLiteHistory = function() {
             const list = document.getElementById('liteHistoryList');
             list.innerHTML = '';
@@ -900,64 +1013,699 @@
             PageManager.show('liteHistoryPage');
         };
 
-        window.populateSpeciesDropdown=function(){let spCounts={};const keys=Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));keys.forEach(k=>{try{const d=JSON.parse(StorageHelper.get(k));if(d.fishData)d.fishData.forEach(f=>spCounts[f.species]=(spCounts[f.species]||0)+1);}catch(e){}});const topSpecies=Object.entries(spCounts).sort((a,b)=>b[1]-a[1]).slice(0,5).map(e=>e[0]);const e=document.getElementById('speciesInput');e.innerHTML='<option value="" selected disabled>Select Fish...</option><option value="Other">Other (Manual Entry)</option>';if(topSpecies.length>0){const freqGrp=document.createElement('optgroup');freqGrp.label='⭐ Frequent Catches';topSpecies.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;freqGrp.appendChild(o);});e.appendChild(freqGrp);}speciesList.forEach(g=>{const grp=document.createElement('optgroup');grp.label=g.category;g.items.sort().forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;grp.appendChild(o);});e.appendChild(grp);});};
-        window.handleSpeciesSelect=function(){window.toggleCustomSpeciesInput();const sel=document.getElementById("speciesInput");if(sel.value&&sel.value!=="Other"&&(currentScoringMethod==='measure_points'||currentScoringMethod==='length_only')){setTimeout(()=>{const lenIn=document.getElementById("fishLengthInput");if(lenIn)lenIn.focus();},100);}};
-        window.toggleCustomSpeciesInput=function(){const sel=document.getElementById("speciesInput");document.getElementById("customSpeciesInput").style.display=sel.value==="Other"?"block":"none";};
-        window.populateVenueDropdown=function(){let savedMap=StorageHelper.get('venueTideMap');if(!savedMap){venueTideMap=defaultVenues;StorageHelper.save('venueTideMap',JSON.stringify(venueTideMap));}else{venueTideMap=JSON.parse(savedMap);let merged=false;for(let v in defaultVenues){if(!venueTideMap.hasOwnProperty(v)){venueTideMap[v]=defaultVenues[v];merged=true;}}if(merged)StorageHelper.save('venueTideMap',JSON.stringify(venueTideMap));}const sel=document.getElementById('venueSelect');sel.innerHTML='<option value="" disabled selected>Tap to select venue...</option><option value="__NEW__" class="fw-bold text-success">➕ Add New Venue...</option>';const venues=Object.keys(venueTideMap).sort();const optGrp=document.createElement('optgroup');optGrp.label='Saved Venues';venues.forEach(v=>{const opt=document.createElement('option');opt.value=v;opt.textContent=v;optGrp.appendChild(opt);});sel.appendChild(optGrp);document.getElementById('venueSelectContainer').style.display='block';document.getElementById('venueInputContainer').style.display='none';};
-        window.handleVenueDropdown=function(){const val=document.getElementById('venueSelect').value;if(val==='__NEW__'){document.getElementById('venueSelectContainer').style.display='none';document.getElementById('venueInputContainer').style.display='flex';document.getElementById('venueInputText').value='';document.getElementById('venueInputText').focus();coastalTown='';}else{document.getElementById('venueInputContainer').style.display='none';coastalTown=venueTideMap[val]||'';}window.saveActiveSession();};
-        window.cancelNewVenue=function(){document.getElementById('venueSelectContainer').style.display='block';document.getElementById('venueInputContainer').style.display='none';document.getElementById('venueInputText').value='';document.getElementById('venueSelect').selectedIndex=0;coastalTown='';window.saveActiveSession();};
-        window.fetchEnvironmentData=async function(){const btn=document.getElementById('btnFetchEnv');const isNewVenue=document.getElementById('venueSelect').value==='__NEW__';const venueName=isNewVenue?document.getElementById('venueInputText').value.trim():document.getElementById('venueSelect').value;if(!venueName)return window.showAppToast("Select or type a venue first.",true);if(!navigator.onLine)return window.showAppToast("No Internet connection.",true);if(!sessionStartTimeStr)sessionStartTimeStr=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false});const originalText=btn.innerHTML;btn.innerHTML='<i class="bi bi-hourglass-split icon-spin me-2"></i> Fetching...';btn.disabled=true;if(isNewVenue){if(!navigator.geolocation){window.showAppToast("GPS not supported.",true);btn.innerHTML=originalText;btn.disabled=false;return;}navigator.geolocation.getCurrentPosition(async(pos)=>{const userLat=pos.coords.latitude;const userLon=pos.coords.longitude;let closestStation=null;let minDistance=Infinity;const dist=(lat1,lon1,lat2,lon2)=>{const R=6371;const dLat=(lat2-lat1)*Math.PI/180;const dLon=(lon2-lon1)*Math.PI/180;const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));};tideStations.forEach(region=>{region.stations.forEach(station=>{const d=dist(userLat,userLon,station.lat,station.lon);if(d<minDistance){minDistance=d;closestStation=station;}});});if(closestStation){coastalTown=closestStation.name;venueTideMap[venueName]=coastalTown;StorageHelper.save('venueTideMap',JSON.stringify(venueTideMap));window.showAppToast(`📍 GPS linked ${venueName} to ${coastalTown}.`);await window.performWeatherAPI(closestStation.lat,closestStation.lon,coastalTown,btn,originalText);window.populateVenueDropdown();document.getElementById('venueSelect').value=venueName;window.saveActiveSession();}else{window.showAppToast("No nearby tide station found.",true);btn.innerHTML=originalText;btn.disabled=false;}},(err)=>{window.showAppToast("GPS failed.",true);btn.innerHTML=originalText;btn.disabled=false;},{timeout:10000});}else{const linkedTown=venueTideMap[venueName];if(!linkedTown){window.showAppToast("Tide station missing.",true);btn.innerHTML=originalText;btn.disabled=false;return;}let sLat,sLon;tideStations.forEach(r=>r.stations.forEach(s=>{if(s.name===linkedTown){sLat=s.lat;sLon=s.lon;}}));if(sLat&&sLon){coastalTown=linkedTown;await window.performWeatherAPI(sLat,sLon,coastalTown,btn,originalText);window.saveActiveSession();}else{window.showAppToast("Tide mapping error.",true);btn.innerHTML=originalText;btn.disabled=false;}}};
-        window.performWeatherAPI=async function(lat,lon,stationName,btn,originalText){try{let finalHW="";let finalLW="";const offshoreRes=await fetch(`https://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${lat},${lon}`);const offshoreData=await offshoreRes.json();if(offshoreData&&!offshoreData.error){const currentHour=new Date().getHours();const currentData=offshoreData.forecast.forecastday[0].hour[currentHour];document.getElementById('weatherInput').value=`${currentData.condition.text}, ${currentData.temp_c}°C`;document.getElementById('windInput').value=`${currentData.wind_dir} ${currentData.wind_mph}mph`;let waveH=currentData.sig_ht_mt;let swellH=currentData.swell_ht_mt;if(waveH!==undefined&&waveH!==null){document.getElementById('waveInput').value=`${waveH}m`;}else{document.getElementById('waveInput').value=`--`;}if(swellH!==undefined&&swellH!==null){document.getElementById('swellInput').value=`${swellH}m`;}else{document.getElementById('swellInput').value=`--`;}if(offshoreData.forecast.forecastday[0].astro){sunriseTimeStr=offshoreData.forecast.forecastday[0].astro.sunrise;sunsetTimeStr=offshoreData.forecast.forecastday[0].astro.sunset;}}const portRes=await fetch(`https://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(stationName)}&tides=yes`);const portData=await portRes.json();let foundTides=false;if(portData&&!portData.error&&portData.forecast&&portData.forecast.forecastday[0].day.tides&&portData.forecast.forecastday[0].day.tides[0].tide){let tides=portData.forecast.forecastday[0].day.tides[0].tide;let hw=tides.find(t=>t.tide_type==="HIGH");let lw=tides.find(t=>t.tide_type==="LOW");if(hw){foundTides=true;finalHW=hw.tide_time.split(' ')[1];}if(lw){foundTides=true;finalLW=lw.tide_time.split(' ')[1];}}hwTime=finalHW;lwTime=finalLW;if(foundTides){window.showAppToast("Live Weather & Tides Fetched!");}else{window.showAppToast("Weather fetched, no Tides.",true);}btn.innerHTML='<i class="bi bi-check-circle-fill me-2"></i> Success';setTimeout(()=>{btn.innerHTML=originalText;btn.disabled=false;},2000);}catch(err){window.showAppToast("API Connection Error.",true);btn.innerHTML=originalText;btn.disabled=false;}};
-        window.saveEndNotes=function(){const notes=document.getElementById('sessionNotesInput').value;try{let savedSession=JSON.parse(StorageHelper.get(currentSavedKey));if(savedSession){savedSession.notes=notes;StorageHelper.save(currentSavedKey,JSON.stringify(savedSession));window.showAppToast("Note Saved!");}}catch(err){window.showAppToast("Could not save note.",true);}};
-        window.toMins=function(t){if(!t||typeof t!=='string')return 0;const parts=t.split(':');if(parts.length!==2)return 0;return parseInt(parts[0],10)*60+parseInt(parts[1],10);};
-        window.parseAstroTime=function(timeStr){if(!timeStr)return 0;try{let [time,modifier]=timeStr.split(' ');let [hrs,mins]=time.split(':');hrs=parseInt(hrs);mins=parseInt(mins);if(hrs===12)hrs=0;if(modifier==='PM')hrs+=12;return(hrs*60)+mins;}catch(e){return 0;}};
-        window.getSolarPhase=function(startStr,endStr,srStr,ssStr){if(!startStr||!endStr||!srStr||!ssStr)return"";let startM=window.toMins(startStr);let endM=window.toMins(endStr);if(endM<startM)endM+=1440;let srM=window.parseAstroTime(srStr);let ssM=window.parseAstroTime(ssStr);if(srM===0||ssM===0)return"";let isNightStart=(startM<srM||startM>ssM);let isNightEnd=(endM<srM||endM>ssM)||((endM>1440)&&((endM-1440)<srM));if(!isNightStart&&!isNightEnd)return"☀️ Day Session";if(isNightStart&&isNightEnd)return"🌙 Night Session";if(!isNightStart&&isNightEnd)return"🌇 Day into Night";if(isNightStart&&!isNightEnd)return"🌅 Night into Day";return"";};
-        window.getTideState=function(catchTime,hwTimeStr,lwTimeStr){if(!catchTime||(!hwTimeStr&&!lwTimeStr))return"";const cM=window.toMins(catchTime);let events=[];if(hwTimeStr){let hm=window.toMins(hwTimeStr);events.push({type:'HW',m:hm});events.push({type:'HW',m:hm-745});events.push({type:'HW',m:hm+745});}if(lwTimeStr){let lm=window.toMins(lwTimeStr);events.push({type:'LW',m:lm});events.push({type:'LW',m:lm-745});events.push({type:'LW',m:lm+745});}if(events.length===0)return"";let closest=events.reduce((prev,curr)=>Math.abs(curr.m-cM)<Math.abs(prev.m-cM)?curr:prev);let diff=cM-closest.m;let absDiff=Math.abs(diff);if(absDiff<=15)return closest.type==='HW'?"High Water":"Low Water";let hrs=Math.floor(absDiff/60);let mins=absDiff%60;let timeStr=hrs>0?`${hrs}h ${mins}m`:`${mins}m`;if(closest.type==='HW'){return diff<0?`${timeStr} before HW`:`${timeStr} into Ebb`;}else{return diff<0?`${timeStr} before LW`:`${timeStr} into Flood`;}};
-        window.getInsights=function(fishArray,method,hwStr,lwStr){if(!fishArray||fishArray.length===0)return{peak:"--",pace:"--",bestTide:"--",speciesBar:[]};let tideCounts={};let spCounts={};fishArray.forEach((f,i)=>{spCounts[f.species]=(spCounts[f.species]||0)+1;let tTag=window.getTideState(f.time,hwStr,lwStr);if(tTag)tideCounts[tTag]=(tideCounts[tTag]||0)+1;});let bestTide="--";let maxTide=0;for(let t in tideCounts){if(tideCounts[t]>maxTide){maxTide=tideCounts[t];bestTide=t;}}let times=fishArray.map(f=>window.toMins(f.time)).filter(m=>m>0).sort((a,b)=>a-b);let pace="--";let peak="--";if(times.length>1){let duration=times[times.length-1]-times[0];if(duration<0)duration+=1440;if(duration>0){let rate=Math.round(duration/(times.length-1));pace=`1 every ${rate}m`;}else{pace="Multiple fish, same min";}let maxFishInWindow=0;let bestStart=0;let bestEnd=0;for(let i=0;i<times.length;i++){let startT=times[i];let endT=startT+60;let count=times.filter(t=>t>=startT&&t<=endT).length;if(count>maxFishInWindow&&count>1){maxFishInWindow=count;bestStart=startT;bestEnd=endT;}}if(maxFishInWindow>1){let pad=n=>n.toString().padStart(2,'0');let sH=Math.floor(bestStart/60)%24;let sM=bestStart%60;let eH=Math.floor(bestEnd/60)%24;let eM=bestEnd%60;peak=`${pad(sH)}:${pad(sM)} - ${pad(eH)}:${pad(eM)} (${maxFishInWindow})`;}}else if(times.length===1){pace="1 fish total";peak="N/A";}let totalFish=fishArray.length;let speciesBar=[];let colors=['#069494','#08baba','#334155','#64748b','#cbd5e1','#0f172a'];let cIdx=0;for(let s in spCounts){let pct=(spCounts[s]/totalFish)*100;speciesBar.push({name:s,pct:pct,color:colors[cIdx%colors.length],count:spCounts[s]});cIdx++;}speciesBar.sort((a,b)=>b.count-a.count);return{peak,pace,bestTide,speciesBar};};
-        window.calculatePoints=function(data,method,unit=selectedWeightUnit){if(method==='weight'){const totalRaw=data.reduce((sum,f)=>sum+(parseFloat(f.raw)||0),0);if(unit==='metric')return totalRaw.toFixed(3)+' kg';return Math.floor(totalRaw/16)+'lb '+(totalRaw%16).toFixed(0)+'oz';}if(method==='species_hunt'){const counts={};let pts=0;data.forEach(f=>{counts[f.species]=(counts[f.species]||0)+1;const n=counts[f.species];pts+=(n===1?30:n===2?30:n===3?40:1);});return pts;}const lenSum=data.reduce((s,f)=>s+(parseFloat(f.length)||0),0);return method==='length_only'?Math.round(lenSum):Math.round(lenSum+(data.length*10));};
-        window.calculateXC=function(currentVenue,currentCatchCount,currentFishData,windStr,waveStr,swellStr){let pastSessions=[];let allKeys=Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));allKeys.forEach(k=>{let d=JSON.parse(StorageHelper.get(k));if((d.venue===currentVenue||d.coastalTown===currentVenue)&&d.venue!==''){pastSessions.push(d);}});let xC=3.0;if(pastSessions.length>=3){let totalFishHistory=0;pastSessions.forEach(s=>totalFishHistory+=(s.fishData?s.fishData.length:0));xC=totalFishHistory/pastSessions.length;}if(xC<1)xC=1.0;let wind=parseInt(windStr)||0;let swell=parseFloat(swellStr)||0;let wave=parseFloat(waveStr)||0;let maxSea=Math.max(swell,wave);let coeff=1.0;if(wind>15&&maxSea>1.5)coeff=1.25;else if(wind>=10||maxSea>=1.0)coeff=1.10;else if(wind<5&&maxSea<0.5)coeff=0.95;let bonus=0.0;if(currentFishData&&currentFishData.length>0&&currentScoringMethod!=='species_hunt'&&currentScoringMethod!=='weight'){let maxToday=0;let topSpecies="";currentFishData.forEach(f=>{let l=parseFloat(f.length);if(l>maxToday){maxToday=l;topSpecies=f.species;}});if(maxToday>30){let maxHistory=0;pastSessions.forEach(s=>{if(s.fishData){s.fishData.forEach(f=>{if(f.species===topSpecies){let l=parseFloat(f.length);if(l>maxHistory)maxHistory=l;}});}});if(maxHistory===0||maxToday>=(maxHistory*0.90)){bonus=1.0;}}}let baseScore=6.0;if(currentCatchCount>0){let ratio=currentCatchCount/xC;baseScore=6.0+((ratio-1)*2.0);}else{baseScore=3.0;}let finalScore=(baseScore*coeff)+bonus;if(currentCatchCount===0&&coeff>1.1)finalScore=Math.max(finalScore,4.5);else if(currentCatchCount===0)finalScore=Math.max(finalScore,3.5);finalScore=Math.min(Math.max(finalScore,3.5),10.0);let text="";if(currentCatchCount>=(xC*1.5)&&coeff>1.1){text=`An outstanding yield relative to the conditions. You capitalized on difficult weather to secure a catch rate well above your ${xC.toFixed(1)} historical venue average.`;}else if(currentCatchCount<(xC*0.5)&&coeff>1.1){text=`A demanding shift with minimal returns. Fish activity was low, but pushing through heavy weather mitigates the overall performance drop.`;}else if(bonus>0&&currentCatchCount>=(xC*0.8)){text=`Volume was solid against your ${xC.toFixed(1)} expected catch. However, securing a specimen-class catch makes this a highly successful, high-quality session.`;}else if(currentCatchCount>xC&&coeff<1.0){text=`Optimal conditions utilized efficiently. A high-volume session that successfully pushed past your venue baseline without the hindrance of heavy weather.`;}else if(currentCatchCount<xC&&coeff<1.0){text=`A quiet session on the beach. Conditions were optimal, but fish activity failed to align with your venue average today.`;}else{text=`A steady, on-par performance. Volume matched your historical baseline of ${xC.toFixed(1)} for this venue, executing a solid tactical shift.`;}return{score:finalScore.toFixed(1),xC:xC.toFixed(1),text:text};};
-        window.renderVisualAnalytics=function(insights,method,containerId){const container=document.getElementById(containerId);if(!insights||insights.speciesBar.length===0){container.innerHTML='';return;}let html='';let barHtml='';let legendHtml='';insights.speciesBar.forEach(sb=>{barHtml+=`<div style="width: ${sb.pct}%; background-color: ${sb.color}; height: 100%;"></div>`;legendHtml+=`<div class="d-flex align-items-center me-3 mb-1"><span style="width:10px; height:10px; border-radius:50%; background-color:${sb.color}; margin-right:5px;"></span><span class="small fw-bold text-muted">${sb.name} (${sb.count})</span></div>`;});html+=`<div class="inner-card mb-3 text-start"><h6 class="fw-bold text-primary mb-2">Catch Distribution</h6><div class="d-flex rounded-pill overflow-hidden mb-2 shadow-sm" style="height: 14px;">${barHtml}</div><div class="d-flex flex-wrap">${legendHtml}</div></div>`;container.innerHTML=html;};
-        window.renderXCShield=function(xcData,actualCount,containerId){const container=document.getElementById(containerId);if(!xcData){container.style.display='none';return;}container.innerHTML=`<div class="xc-subtitle"><i class="bi bi-shield-check me-1"></i> Performance Index</div><div class="xc-score">${xcData.score} <span class="xc-max">/ 10</span></div><div class="xc-stats-row"><div class="xc-stat"><span class="xc-stat-val">${actualCount}</span><span class="xc-stat-lbl">Actual</span></div><div class="xc-stat"><span class="xc-stat-val">${xcData.xC}</span><span class="xc-stat-lbl">Expected</span></div></div><div class="xc-story">${xcData.text}</div>`;container.style.display='block';};
-        window.drawTideGraph=function(canvasId,hwStr,lwStr,fishArray,startStr){try{const canvas=document.getElementById(canvasId);if(!canvas||!hwStr||!lwStr)return;const ctx=canvas.getContext('2d');const scale=3;const logicalW=340;const logicalH=140;canvas.width=logicalW*scale;canvas.height=logicalH*scale;canvas.style.width="100%";canvas.style.height="auto";ctx.scale(scale,scale);const w=logicalW;const h=logicalH;ctx.fillStyle='#ffffff';ctx.fillRect(0,0,w,h);const textColor='#334155';const waveColor='#069494';const gridColor='rgba(0,0,0,0.05)';let hwM=window.toMins(hwStr);let lwM=window.toMins(lwStr);if(hwM===0&&lwM===0)return;let anchorM=startStr?window.toMins(startStr):Math.min(hwM,lwM);let baseMin=anchorM-60;let baseMax=anchorM+480;let allTimes=[baseMin,baseMax];if(fishArray&&fishArray.length>0){fishArray.forEach(f=>{if(f.time)allTimes.push(window.toMins(f.time));});}if(canvasId==='liveTideCanvas'){allTimes.push(window.toMins(new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false})));}let minT=Math.min(...allTimes);let maxT=Math.max(...allTimes);let range=maxT-minT;if(range<=0)range=1;const graphBottom=h-30;const graphTop=20;const amp=(graphBottom-graphTop)/2;const midY=graphTop+amp;ctx.beginPath();ctx.strokeStyle=gridColor;ctx.lineWidth=2;ctx.moveTo(0,graphBottom);ctx.lineTo(w,graphBottom);ctx.stroke();let startHour=Math.ceil(minT/60)*60;for(let t=startHour;t<=maxT;t+=60){let x=((t-minT)/range)*w;ctx.beginPath();ctx.strokeStyle=gridColor;ctx.lineWidth=1;ctx.moveTo(x,graphBottom);ctx.lineTo(x,graphBottom+5);ctx.stroke();ctx.fillStyle=textColor;ctx.font="600 9px 'Outfit', sans-serif";ctx.textAlign="center";let hrLabel=Math.floor(t/60)%24;if(hrLabel<0)hrLabel+=24;ctx.fillText(hrLabel.toString().padStart(2,'0')+":00",x,graphBottom+16);}const formatTime=mins=>{let hrs=Math.floor(mins/60)%24;if(hrs<0)hrs+=24;let m=(Math.abs(mins)%60).toString().padStart(2,'0');return`${hrs.toString().padStart(2,'0')}:${m}`;};let rawPeriod=Math.abs(lwM-hwM)*2;if(rawPeriod===0)rawPeriod=1;let period=(rawPeriod<360||rawPeriod>900)?745:rawPeriod;ctx.beginPath();ctx.strokeStyle=waveColor;ctx.lineWidth=3;for(let x=0;x<=w;x++){let t=minT+(x/w)*range;let phase=((t-hwM)/period)*Math.PI*2;let y=midY-Math.cos(phase)*(amp-10);if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();const drawAxisMarker=(timeM,label,isTide=false)=>{if(timeM<minT||timeM>maxT)return;let x=((timeM-minT)/range)*w;ctx.beginPath();ctx.strokeStyle=isTide?waveColor:'rgba(239, 68, 68, 0.4)';ctx.setLineDash(isTide?[4,4]:[2,2]);ctx.lineWidth=1;ctx.moveTo(x,graphTop);ctx.lineTo(x,graphBottom);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=isTide?waveColor:textColor;ctx.font=isTide?"800 11px 'Outfit', sans-serif":"600 10px 'Outfit', sans-serif";ctx.textAlign="center";ctx.fillText(label,x,graphBottom+27);};drawAxisMarker(hwM,`HW`,true);drawAxisMarker(lwM,`LW`,true);if(fishArray&&fishArray.length>0){let clusters=[];const sortedFish=[...fishArray].sort((a,b)=>window.toMins(a.time)-window.toMins(b.time));sortedFish.forEach(f=>{let fm=window.toMins(f.time);if(fm>=minT&&fm<=maxT){let added=false;for(let c of clusters){if(Math.abs(c.timeM-fm)<=25){c.count+=1;c.timeM=((c.timeM*(c.count-1))+fm)/c.count;if(!c.speciesList.includes(f.species))c.speciesList.push(f.species);added=true;break;}}if(!added)clusters.push({timeM:fm,count:1,labelTime:f.time,speciesList:[f.species],yOffset:0});}});clusters.forEach((c,idx)=>{c.yOffset=(idx%2===0)?0:12;});clusters.forEach(c=>{let x=((c.timeM-minT)/range)*w;let phase=((c.timeM-hwM)/period)*Math.PI*2;let y=midY-Math.cos(phase)*(amp-10);let r=5+((c.count-1)*3.5);ctx.beginPath();ctx.strokeStyle='rgba(239, 68, 68, 0.4)';ctx.setLineDash([2,4]);ctx.lineWidth=1;ctx.moveTo(x,y+r);ctx.lineTo(x,graphBottom);ctx.stroke();ctx.setLineDash([]);let distToHW=Math.abs(x-(((hwM-minT)/range)*w));let distToLW=Math.abs(x-(((lwM-minT)/range)*w));if(distToHW>15&&distToLW>15){ctx.fillStyle='#ef4444';ctx.font="700 10px 'Outfit', sans-serif";ctx.textAlign="center";ctx.fillText(formatTime(c.timeM),x,graphBottom-4);}let spText=c.speciesList.join(', ');if(spText.length>12){if(c.count===1){spText=spText.substring(0,10)+'..';}else{spText=`${c.count} Catch`;}}ctx.fillStyle='#ef4444';ctx.font="800 8px 'Outfit', sans-serif";ctx.textAlign="center";ctx.fillText(spText,x,y-r-6-c.yOffset);ctx.beginPath();ctx.fillStyle='#ef4444';ctx.arc(x,y,r,0,2*Math.PI);ctx.fill();ctx.strokeStyle='#ffffff';ctx.lineWidth=1.5;ctx.stroke();if(c.count>1){ctx.fillStyle='#ffffff';ctx.font="800 11px 'Outfit', sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(c.count,x,y+0.5);ctx.textBaseline="alphabetic";}});}}catch(e){}};
-        window.viewImg=function(s,isChart=false){document.getElementById('nativeFullImage').src=s;document.getElementById('nativeImageViewer').style.display='block';let vp=document.getElementById('appViewport');if(vp)vp.setAttribute('content','width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');if(isChart){let viewer=document.getElementById('nativeImageViewer');try{if(viewer.requestFullscreen){viewer.requestFullscreen().then(()=>{try{screen.orientation.lock('landscape').catch(()=>{});}catch(e){}}).catch(()=>{});}else if(viewer.webkitRequestFullscreen){viewer.webkitRequestFullscreen();}}catch(e){}}};
-        window.closeImgView=function(){document.getElementById('nativeImageViewer').style.display='none';document.getElementById('nativeFullImage').src='';let vp=document.getElementById('appViewport');if(vp)vp.setAttribute('content','width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');try{if(document.exitFullscreen)document.exitFullscreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();try{screen.orientation.unlock();}catch(e){}}catch(e){}};
-        window.forceAppUpdate=function(){const icon=document.getElementById('refreshIcon');const btn=document.getElementById('btnRefreshApp');if(icon)icon.classList.add('icon-spin');if(btn)btn.innerHTML='<i class="bi bi-arrow-clockwise icon-spin me-1"></i> Updating...';if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(registrations){for(let registration of registrations){registration.update();}});}sessionStorage.setItem('showUpdateToast','true');setTimeout(()=>{window.location.reload();},1200);};
-        window.exportToCSV=function(){let csvContent="Date,Venue,Coastal_Town,Angler,Weather,Wind,Waves,Swell,HW,LW,Species,Measurement,Time,TideState,Notes\n";const keys=Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_'));if(keys.length===0)return alert("No history to export.");keys.forEach(k=>{const d=JSON.parse(StorageHelper.get(k));const dateStr=d.date;const venue=`"${(d.venue||'').replace(/"/g,'""')}"`;const town=`"${(d.coastalTown||'').replace(/"/g,'""')}"`;const angler=`"${(d.angler||'').replace(/"/g,'""')}"`;const weath=`"${(d.weatherInfo||'').replace(/"/g,'""')}"`;const wind=`"${(d.windInfo||'').replace(/"/g,'""')}"`;const wave=`"${(d.waveInfo||'').replace(/"/g,'""')}"`;const swell=`"${(d.swellInfo||'').replace(/"/g,'""')}"`;const hw=d.hwTime||'';const lw=d.lwTime||'';const notes=`"${(d.notes||'').replace(/"/g,'""').replace(/\n/g,' ')}"`;if(d.fishData&&d.fishData.length>0){d.fishData.forEach(f=>{const species=`"${f.species}"`;let meas="";if(d.method==='weight')meas=`"${f.display}"`;else if(d.method==='species_hunt')meas=`"N/A"`;else meas=`"${f.length}cm"`;const time=`"${f.time||''}"`;const tState=`"${window.getTideState(f.time,hw,lw)}"`;csvContent+=`${dateStr},${venue},${town},${angler},${weath},${wind},${wave},${swell},${hw},${lw},${species},${meas},${time},${tState},${notes}\n`;});}else{csvContent+=`${dateStr},${venue},${town},${angler},${weath},${wind},${wave},${swell},${hw},${lw},Blank,N/A,,,${notes}\n`;}});const blob=new Blob([csvContent],{type:'text/csv;charset=utf-8;'});const link=document.createElement("a");const url=URL.createObjectURL(blob);link.setAttribute("href",url);link.setAttribute("download","SeaDiary_Export.csv");link.style.visibility='hidden';document.body.appendChild(link);link.click();document.body.removeChild(link);};
-        
-        window.resetAppToHome=function(){
-            if(liveMatchListener){liveMatchListener();liveMatchListener=null;} 
-            if(matchDocListener){matchDocListener();matchDocListener=null;}
-            if(matchTimerInterval){clearInterval(matchTimerInterval); matchTimerInterval=null;}
-            liveMatchPin=null; 
-            document.getElementById('btnToggleScores').style.display='none';
-            document.getElementById('matchTimerBanner').style.display='none';
+        window.populateSpeciesDropdown = function() {
+            let spCounts = {};
+            const keys = Object.keys(StorageHelper.getAll()).filter(k => k.startsWith('scorecard_'));
+            keys.forEach(k => {
+                try {
+                    const d = JSON.parse(StorageHelper.get(k));
+                    if(d.fishData) d.fishData.forEach(f => spCounts[f.species] = (spCounts[f.species] || 0) + 1);
+                } catch(e) {}
+            });
+            const topSpecies = Object.entries(spCounts).sort((a,b) => b[1] - a[1]).slice(0,5).map(e => e[0]);
+            const e = document.getElementById('speciesInput');
+            e.innerHTML = '<option value="" selected disabled>Select Fish...</option><option value="Other">Other (Manual Entry)</option>';
+            if(topSpecies.length > 0) {
+                const freqGrp = document.createElement('optgroup');
+                freqGrp.label = '⭐ Frequent Catches';
+                topSpecies.forEach(s => {
+                    const o = document.createElement('option');
+                    o.value = s; o.textContent = s; freqGrp.appendChild(o);
+                });
+                e.appendChild(freqGrp);
+            }
+            speciesList.forEach(g => {
+                const grp = document.createElement('optgroup');
+                grp.label = g.category;
+                g.items.sort().forEach(s => {
+                    const o = document.createElement('option');
+                    o.value = s; o.textContent = s; grp.appendChild(o);
+                });
+                e.appendChild(grp);
+            });
+        };
+
+        window.handleSpeciesSelect = function() {
+            window.toggleCustomSpeciesInput();
+            const sel = document.getElementById("speciesInput");
+            if(sel.value && sel.value !== "Other" && (currentScoringMethod === 'measure_points' || currentScoringMethod === 'length_only')){
+                setTimeout(() => {
+                    const lenIn = document.getElementById("fishLengthInput");
+                    if(lenIn) lenIn.focus();
+                }, 100);
+            }
+        };
+
+        window.toggleCustomSpeciesInput = function() {
+            const sel = document.getElementById("speciesInput");
+            document.getElementById("customSpeciesInput").style.display = sel.value === "Other" ? "block" : "none";
+        };
+
+        window.populateVenueDropdown = function() {
+            let savedMap = StorageHelper.get('venueTideMap');
+            if(!savedMap){
+                venueTideMap = defaultVenues;
+                StorageHelper.save('venueTideMap', JSON.stringify(venueTideMap));
+            } else {
+                venueTideMap = JSON.parse(savedMap);
+                let merged = false;
+                for(let v in defaultVenues){
+                    if(!venueTideMap.hasOwnProperty(v)){
+                        venueTideMap[v] = defaultVenues[v];
+                        merged = true;
+                    }
+                }
+                if(merged) StorageHelper.save('venueTideMap', JSON.stringify(venueTideMap));
+            }
+            const sel = document.getElementById('venueSelect');
+            sel.innerHTML = '<option value="" disabled selected>Tap to select venue...</option><option value="__NEW__" class="fw-bold text-success">➕ Add New Venue...</option>';
+            const venues = Object.keys(venueTideMap).sort();
+            const optGrp = document.createElement('optgroup');
+            optGrp.label = 'Saved Venues';
+            venues.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v; opt.textContent = v; optGrp.appendChild(opt);
+            });
+            sel.appendChild(optGrp);
+            document.getElementById('venueSelectContainer').style.display = 'block';
+            document.getElementById('venueInputContainer').style.display = 'none';
+        };
+
+        window.handleVenueDropdown = function() {
+            const val = document.getElementById('venueSelect').value;
+            if(val === '__NEW__'){
+                document.getElementById('venueSelectContainer').style.display = 'none';
+                document.getElementById('venueInputContainer').style.display = 'flex';
+                document.getElementById('venueInputText').value = '';
+                document.getElementById('venueInputText').focus();
+                coastalTown = '';
+            } else {
+                document.getElementById('venueInputContainer').style.display = 'none';
+                coastalTown = venueTideMap[val] || '';
+            }
+            window.saveActiveSession();
+        };
+
+        window.cancelNewVenue = function() {
+            document.getElementById('venueSelectContainer').style.display = 'block';
+            document.getElementById('venueInputContainer').style.display = 'none';
+            document.getElementById('venueInputText').value = '';
+            document.getElementById('venueSelect').selectedIndex = 0;
+            coastalTown = '';
+            window.saveActiveSession();
+        };
+
+        window.fetchEnvironmentData = async function() {
+            const btn = document.getElementById('btnFetchEnv');
+            const isNewVenue = document.getElementById('venueSelect').value === '__NEW__';
+            const venueName = isNewVenue ? document.getElementById('venueInputText').value.trim() : document.getElementById('venueSelect').value;
+            
+            if(!venueName) return window.showAppToast("Select or type a venue first.", true);
+            if(!navigator.onLine) return window.showAppToast("No Internet connection.", true);
+            if(!sessionStartTimeStr) sessionStartTimeStr = new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', hour12:false});
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin me-2"></i> Fetching...';
+            btn.disabled = true;
+            
+            if(isNewVenue) {
+                if(!navigator.geolocation) {
+                    window.showAppToast("GPS not supported.", true);
+                    btn.innerHTML = originalText; btn.disabled = false; return;
+                }
+                navigator.geolocation.getCurrentPosition(async (pos) => {
+                    const userLat = pos.coords.latitude; const userLon = pos.coords.longitude;
+                    let closestStation = null; let minDistance = Infinity;
+                    const dist = (lat1, lon1, lat2, lon2) => {
+                        const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180;
+                        const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+                        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                    };
+                    tideStations.forEach(region => {
+                        region.stations.forEach(station => {
+                            const d = dist(userLat, userLon, station.lat, station.lon);
+                            if(d < minDistance){ minDistance = d; closestStation = station; }
+                        });
+                    });
+                    if(closestStation){
+                        coastalTown = closestStation.name;
+                        venueTideMap[venueName] = coastalTown;
+                        StorageHelper.save('venueTideMap', JSON.stringify(venueTideMap));
+                        window.showAppToast(`📍 GPS linked ${venueName} to ${coastalTown}.`);
+                        await window.performWeatherAPI(closestStation.lat, closestStation.lon, coastalTown, btn, originalText);
+                        window.populateVenueDropdown();
+                        document.getElementById('venueSelect').value = venueName;
+                        window.saveActiveSession();
+                    } else {
+                        window.showAppToast("No nearby tide station found.", true);
+                        btn.innerHTML = originalText; btn.disabled = false;
+                    }
+                }, (err) => {
+                    window.showAppToast("GPS failed.", true);
+                    btn.innerHTML = originalText; btn.disabled = false;
+                }, {timeout: 10000});
+            } else {
+                const linkedTown = venueTideMap[venueName];
+                if(!linkedTown) {
+                    window.showAppToast("Tide station missing.", true);
+                    btn.innerHTML = originalText; btn.disabled = false; return;
+                }
+                let sLat, sLon;
+                tideStations.forEach(r => r.stations.forEach(s => {
+                    if(s.name === linkedTown) { sLat = s.lat; sLon = s.lon; }
+                }));
+                if(sLat && sLon) {
+                    coastalTown = linkedTown;
+                    await window.performWeatherAPI(sLat, sLon, coastalTown, btn, originalText);
+                    window.saveActiveSession();
+                } else {
+                    window.showAppToast("Tide mapping error.", true);
+                    btn.innerHTML = originalText; btn.disabled = false;
+                }
+            }
+        };
+
+        window.performWeatherAPI = async function(lat, lon, stationName, btn, originalText) {
+            try {
+                let finalHW = ""; let finalLW = "";
+                const offshoreRes = await fetch(`https://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${lat},${lon}`);
+                const offshoreData = await offshoreRes.json();
+                if(offshoreData && !offshoreData.error) {
+                    const currentHour = new Date().getHours();
+                    const currentData = offshoreData.forecast.forecastday[0].hour[currentHour];
+                    document.getElementById('weatherInput').value = `${currentData.condition.text}, ${currentData.temp_c}°C`;
+                    document.getElementById('windInput').value = `${currentData.wind_dir} ${currentData.wind_mph}mph`;
+                    let waveH = currentData.sig_ht_mt; let swellH = currentData.swell_ht_mt;
+                    document.getElementById('waveInput').value = (waveH !== undefined && waveH !== null) ? `${waveH}m` : `--`;
+                    document.getElementById('swellInput').value = (swellH !== undefined && swellH !== null) ? `${swellH}m` : `--`;
+                    if(offshoreData.forecast.forecastday[0].astro) {
+                        sunriseTimeStr = offshoreData.forecast.forecastday[0].astro.sunrise;
+                        sunsetTimeStr = offshoreData.forecast.forecastday[0].astro.sunset;
+                    }
+                }
+                const portRes = await fetch(`https://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(stationName)}&tides=yes`);
+                const portData = await portRes.json();
+                let foundTides = false;
+                if(portData && !portData.error && portData.forecast && portData.forecast.forecastday[0].day.tides && portData.forecast.forecastday[0].day.tides[0].tide) {
+                    let tides = portData.forecast.forecastday[0].day.tides[0].tide;
+                    let hw = tides.find(t => t.tide_type === "HIGH");
+                    let lw = tides.find(t => t.tide_type === "LOW");
+                    if(hw) { foundTides = true; finalHW = hw.tide_time.split(' ')[1]; }
+                    if(lw) { foundTides = true; finalLW = lw.tide_time.split(' ')[1]; }
+                }
+                hwTime = finalHW; lwTime = finalLW;
+                if(foundTides) { window.showAppToast("Live Weather & Tides Fetched!"); } 
+                else { window.showAppToast("Weather fetched, no Tides.", true); }
+                btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Success';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+            } catch(err) {
+                window.showAppToast("API Connection Error.", true);
+                btn.innerHTML = originalText; btn.disabled = false;
+            }
+        };
+
+        window.saveEndNotes = function() {
+            const notes = document.getElementById('sessionNotesInput').value;
+            try {
+                let savedSession = JSON.parse(StorageHelper.get(currentSavedKey));
+                if(savedSession) {
+                    savedSession.notes = notes;
+                    StorageHelper.save(currentSavedKey, JSON.stringify(savedSession));
+                    window.showAppToast("Note Saved!");
+                }
+            } catch(err) { window.showAppToast("Could not save note.", true); }
+        };
+
+        window.toMins = function(t) {
+            if(!t || typeof t !== 'string') return 0;
+            const parts = t.split(':');
+            if(parts.length !== 2) return 0;
+            return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+        };
+
+        window.parseAstroTime = function(timeStr) {
+            if(!timeStr) return 0;
+            try {
+                let [time, modifier] = timeStr.split(' ');
+                let [hrs, mins] = time.split(':');
+                hrs = parseInt(hrs); mins = parseInt(mins);
+                if(hrs === 12) hrs = 0;
+                if(modifier === 'PM') hrs += 12;
+                return (hrs * 60) + mins;
+            } catch(e) { return 0; }
+        };
+
+        window.getSolarPhase = function(startStr, endStr, srStr, ssStr) {
+            if(!startStr || !endStr || !srStr || !ssStr) return "";
+            let startM = window.toMins(startStr);
+            let endM = window.toMins(endStr);
+            if(endM < startM) endM += 1440;
+            let srM = window.parseAstroTime(srStr);
+            let ssM = window.parseAstroTime(ssStr);
+            if(srM === 0 || ssM === 0) return "";
+            let isNightStart = (startM < srM || startM > ssM);
+            let isNightEnd = (endM < srM || endM > ssM) || ((endM > 1440) && ((endM - 1440) < srM));
+            if(!isNightStart && !isNightEnd) return "☀️ Day Session";
+            if(isNightStart && isNightEnd) return "🌙 Night Session";
+            if(!isNightStart && isNightEnd) return "🌇 Day into Night";
+            if(isNightStart && !isNightEnd) return "🌅 Night into Day";
+            return "";
+        };
+
+        window.getTideState = function(catchTime, hwTimeStr, lwTimeStr) {
+            if(!catchTime || (!hwTimeStr && !lwTimeStr)) return "";
+            const cM = window.toMins(catchTime);
+            let events = [];
+            if(hwTimeStr) {
+                let hm = window.toMins(hwTimeStr);
+                events.push({type: 'HW', m: hm}, {type: 'HW', m: hm - 745}, {type: 'HW', m: hm + 745});
+            }
+            if(lwTimeStr) {
+                let lm = window.toMins(lwTimeStr);
+                events.push({type: 'LW', m: lm}, {type: 'LW', m: lm - 745}, {type: 'LW', m: lm + 745});
+            }
+            if(events.length === 0) return "";
+            let closest = events.reduce((prev, curr) => Math.abs(curr.m - cM) < Math.abs(prev.m - cM) ? curr : prev);
+            let diff = cM - closest.m;
+            let absDiff = Math.abs(diff);
+            if(absDiff <= 15) return closest.type === 'HW' ? "High Water" : "Low Water";
+            let hrs = Math.floor(absDiff / 60);
+            let mins = absDiff % 60;
+            let timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
+            if(closest.type === 'HW') {
+                return diff < 0 ? `${timeStr} before HW` : `${timeStr} into Ebb`;
+            } else {
+                return diff < 0 ? `${timeStr} before LW` : `${timeStr} into Flood`;
+            }
+        };
+
+        window.getInsights = function(fishArray, method, hwStr, lwStr) {
+            if(!fishArray || fishArray.length === 0) return {peak: "--", pace: "--", bestTide: "--", speciesBar: []};
+            let tideCounts = {}; let spCounts = {};
+            fishArray.forEach((f, i) => {
+                spCounts[f.species] = (spCounts[f.species] || 0) + 1;
+                let tTag = window.getTideState(f.time, hwStr, lwStr);
+                if(tTag) tideCounts[tTag] = (tideCounts[tTag] || 0) + 1;
+            });
+            let bestTide = "--"; let maxTide = 0;
+            for(let t in tideCounts) {
+                if(tideCounts[t] > maxTide) { maxTide = tideCounts[t]; bestTide = t; }
+            }
+            let times = fishArray.map(f => window.toMins(f.time)).filter(m => m > 0).sort((a,b) => a - b);
+            let pace = "--"; let peak = "--";
+            if(times.length > 1) {
+                let duration = times[times.length - 1] - times[0];
+                if(duration < 0) duration += 1440;
+                if(duration > 0) {
+                    let rate = Math.round(duration / (times.length - 1));
+                    pace = `1 every ${rate}m`;
+                } else {
+                    pace = "Multiple fish, same min";
+                }
+                let maxFishInWindow = 0; let bestStart = 0; let bestEnd = 0;
+                for(let i = 0; i < times.length; i++) {
+                    let startT = times[i]; let endT = startT + 60;
+                    let count = times.filter(t => t >= startT && t <= endT).length;
+                    if(count > maxFishInWindow && count > 1) { maxFishInWindow = count; bestStart = startT; bestEnd = endT; }
+                }
+                if(maxFishInWindow > 1) {
+                    let pad = n => n.toString().padStart(2, '0');
+                    let sH = Math.floor(bestStart / 60) % 24; let sM = bestStart % 60;
+                    let eH = Math.floor(bestEnd / 60) % 24; let eM = bestEnd % 60;
+                    peak = `${pad(sH)}:${pad(sM)} - ${pad(eH)}:${pad(eM)} (${maxFishInWindow})`;
+                }
+            } else if (times.length === 1) {
+                pace = "1 fish total"; peak = "N/A";
+            }
+            let totalFish = fishArray.length; let speciesBar = []; let colors = ['#069494', '#08baba', '#334155', '#64748b', '#cbd5e1', '#0f172a'];
+            let cIdx = 0;
+            for(let s in spCounts) {
+                let pct = (spCounts[s] / totalFish) * 100;
+                speciesBar.push({name: s, pct: pct, color: colors[cIdx % colors.length], count: spCounts[s]});
+                cIdx++;
+            }
+            speciesBar.sort((a,b) => b.count - a.count);
+            return {peak, pace, bestTide, speciesBar};
+        };
+
+        window.calculatePoints = function(data, method, unit = selectedWeightUnit) {
+            if(method === 'weight') {
+                const totalRaw = data.reduce((sum, f) => sum + (parseFloat(f.raw) || 0), 0);
+                if(unit === 'metric') return totalRaw.toFixed(3) + ' kg';
+                return Math.floor(totalRaw / 16) + 'lb ' + (totalRaw % 16).toFixed(0) + 'oz';
+            }
+            if(method === 'species_hunt') {
+                const counts = {}; let pts = 0;
+                data.forEach(f => {
+                    counts[f.species] = (counts[f.species] || 0) + 1;
+                    const n = counts[f.species];
+                    pts += (n === 1 ? 30 : n === 2 ? 30 : n === 3 ? 40 : 1);
+                });
+                return pts;
+            }
+            const lenSum = data.reduce((s, f) => s + (parseFloat(f.length) || 0), 0);
+            return method === 'length_only' ? Math.round(lenSum) : Math.round(lenSum + (data.length * 10));
+        };
+
+        window.calculateXC = function(currentVenue, currentCatchCount, currentFishData, windStr, waveStr, swellStr) {
+            let pastSessions = [];
+            let allKeys = Object.keys(StorageHelper.getAll()).filter(k => k.startsWith('scorecard_'));
+            allKeys.forEach(k => {
+                let d = JSON.parse(StorageHelper.get(k));
+                if((d.venue === currentVenue || d.coastalTown === currentVenue) && d.venue !== '') { pastSessions.push(d); }
+            });
+            let xC = 3.0;
+            if(pastSessions.length >= 3) {
+                let totalFishHistory = 0;
+                pastSessions.forEach(s => totalFishHistory += (s.fishData ? s.fishData.length : 0));
+                xC = totalFishHistory / pastSessions.length;
+            }
+            if(xC < 1) xC = 1.0;
+            let wind = parseInt(windStr) || 0; let swell = parseFloat(swellStr) || 0; let wave = parseFloat(waveStr) || 0;
+            let maxSea = Math.max(swell, wave); let coeff = 1.0;
+            if(wind > 15 && maxSea > 1.5) coeff = 1.25;
+            else if(wind >= 10 || maxSea >= 1.0) coeff = 1.10;
+            else if(wind < 5 && maxSea < 0.5) coeff = 0.95;
+            let bonus = 0.0;
+            if(currentFishData && currentFishData.length > 0 && currentScoringMethod !== 'species_hunt' && currentScoringMethod !== 'weight') {
+                let maxToday = 0; let topSpecies = "";
+                currentFishData.forEach(f => {
+                    let l = parseFloat(f.length);
+                    if(l > maxToday) { maxToday = l; topSpecies = f.species; }
+                });
+                if(maxToday > 30) {
+                    let maxHistory = 0;
+                    pastSessions.forEach(s => {
+                        if(s.fishData) {
+                            s.fishData.forEach(f => {
+                                if(f.species === topSpecies) {
+                                    let l = parseFloat(f.length);
+                                    if(l > maxHistory) maxHistory = l;
+                                }
+                            });
+                        }
+                    });
+                    if(maxHistory === 0 || maxToday >= (maxHistory * 0.90)) { bonus = 1.0; }
+                }
+            }
+            let baseScore = 6.0;
+            if(currentCatchCount > 0) {
+                let ratio = currentCatchCount / xC;
+                baseScore = 6.0 + ((ratio - 1) * 2.0);
+            } else { baseScore = 3.0; }
+            let finalScore = (baseScore * coeff) + bonus;
+            if(currentCatchCount === 0 && coeff > 1.1) finalScore = Math.max(finalScore, 4.5);
+            else if(currentCatchCount === 0) finalScore = Math.max(finalScore, 3.5);
+            finalScore = Math.min(Math.max(finalScore, 3.5), 10.0);
+            let text = "";
+            if(currentCatchCount >= (xC * 1.5) && coeff > 1.1) { text = `An outstanding yield relative to the conditions. You capitalized on difficult weather to secure a catch rate well above your ${xC.toFixed(1)} historical venue average.`; }
+            else if(currentCatchCount < (xC * 0.5) && coeff > 1.1) { text = `A demanding shift with minimal returns. Fish activity was low, but pushing through heavy weather mitigates the overall performance drop.`; }
+            else if(bonus > 0 && currentCatchCount >= (xC * 0.8)) { text = `Volume was solid against your ${xC.toFixed(1)} expected catch. However, securing a specimen-class catch makes this a highly successful, high-quality session.`; }
+            else if(currentCatchCount > xC && coeff < 1.0) { text = `Optimal conditions utilized efficiently. A high-volume session that successfully pushed past your venue baseline without the hindrance of heavy weather.`; }
+            else if(currentCatchCount < xC && coeff < 1.0) { text = `A quiet session on the beach. Conditions were optimal, but fish activity failed to align with your venue average today.`; }
+            else { text = `A steady, on-par performance. Volume matched your historical baseline of ${xC.toFixed(1)} for this venue, executing a solid tactical shift.`; }
+            return {score: finalScore.toFixed(1), xC: xC.toFixed(1), text: text};
+        };
+
+        window.renderVisualAnalytics = function(insights, method, containerId) {
+            const container = document.getElementById(containerId);
+            if(!insights || insights.speciesBar.length === 0) { container.innerHTML = ''; return; }
+            let html = ''; let barHtml = ''; let legendHtml = '';
+            insights.speciesBar.forEach(sb => {
+                barHtml += `<div style="width: ${sb.pct}%; background-color: ${sb.color}; height: 100%;"></div>`;
+                legendHtml += `<div class="d-flex align-items-center me-3 mb-1"><span style="width:10px; height:10px; border-radius:50%; background-color:${sb.color}; margin-right:5px;"></span><span class="small fw-bold text-muted">${sb.name} (${sb.count})</span></div>`;
+            });
+            html += `<div class="inner-card mb-3 text-start"><h6 class="fw-bold text-primary mb-2">Catch Distribution</h6><div class="d-flex rounded-pill overflow-hidden mb-2 shadow-sm" style="height: 14px;">${barHtml}</div><div class="d-flex flex-wrap">${legendHtml}</div></div>`;
+            container.innerHTML = html;
+        };
+
+        window.renderXCShield = function(xcData, actualCount, containerId) {
+            const container = document.getElementById(containerId);
+            if(!xcData) { container.style.display = 'none'; return; }
+            container.innerHTML = `<div class="xc-subtitle"><i class="bi bi-shield-check me-1"></i> Performance Index</div><div class="xc-score">${xcData.score} <span class="xc-max">/ 10</span></div><div class="xc-stats-row"><div class="xc-stat"><span class="xc-stat-val">${actualCount}</span><span class="xc-stat-lbl">Actual</span></div><div class="xc-stat"><span class="xc-stat-val">${xcData.xC}</span><span class="xc-stat-lbl">Expected</span></div></div><div class="xc-story">${xcData.text}</div>`;
+            container.style.display = 'block';
+        };
+
+        window.drawTideGraph = function(canvasId, hwStr, lwStr, fishArray, startStr) {
+            try {
+                const canvas = document.getElementById(canvasId);
+                if(!canvas || !hwStr || !lwStr) return;
+                const ctx = canvas.getContext('2d');
+                const scale = 3; const logicalW = 340; const logicalH = 140;
+                canvas.width = logicalW * scale; canvas.height = logicalH * scale;
+                canvas.style.width = "100%"; canvas.style.height = "auto";
+                ctx.scale(scale, scale);
+                const w = logicalW; const h = logicalH;
+                ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+                const textColor = '#334155'; const waveColor = '#069494'; const gridColor = 'rgba(0,0,0,0.05)';
+                let hwM = window.toMins(hwStr); let lwM = window.toMins(lwStr);
+                if(hwM === 0 && lwM === 0) return;
+                let anchorM = startStr ? window.toMins(startStr) : Math.min(hwM, lwM);
+                let baseMin = anchorM - 60; let baseMax = anchorM + 480;
+                let allTimes = [baseMin, baseMax];
+                if(fishArray && fishArray.length > 0) { fishArray.forEach(f => { if(f.time) allTimes.push(window.toMins(f.time)); }); }
+                if(canvasId === 'liveTideCanvas') { allTimes.push(window.toMins(new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', hour12:false}))); }
+                let minT = Math.min(...allTimes); let maxT = Math.max(...allTimes);
+                let range = maxT - minT; if(range <= 0) range = 1;
+                const graphBottom = h - 30; const graphTop = 20; const amp = (graphBottom - graphTop) / 2; const midY = graphTop + amp;
+                ctx.beginPath(); ctx.strokeStyle = gridColor; ctx.lineWidth = 2; ctx.moveTo(0, graphBottom); ctx.lineTo(w, graphBottom); ctx.stroke();
+                let startHour = Math.ceil(minT / 60) * 60;
+                for(let t = startHour; t <= maxT; t += 60) {
+                    let x = ((t - minT) / range) * w;
+                    ctx.beginPath(); ctx.strokeStyle = gridColor; ctx.lineWidth = 1; ctx.moveTo(x, graphBottom); ctx.lineTo(x, graphBottom + 5); ctx.stroke();
+                    ctx.fillStyle = textColor; ctx.font = "600 9px 'Outfit', sans-serif"; ctx.textAlign = "center";
+                    let hrLabel = Math.floor(t / 60) % 24; if(hrLabel < 0) hrLabel += 24;
+                    ctx.fillText(hrLabel.toString().padStart(2, '0') + ":00", x, graphBottom + 16);
+                }
+                const formatTime = mins => {
+                    let hrs = Math.floor(mins / 60) % 24; if(hrs < 0) hrs += 24;
+                    let m = (Math.abs(mins) % 60).toString().padStart(2, '0');
+                    return `${hrs.toString().padStart(2, '0')}:${m}`;
+                };
+                let rawPeriod = Math.abs(lwM - hwM) * 2; if(rawPeriod === 0) rawPeriod = 1;
+                let period = (rawPeriod < 360 || rawPeriod > 900) ? 745 : rawPeriod;
+                ctx.beginPath(); ctx.strokeStyle = waveColor; ctx.lineWidth = 3;
+                for(let x = 0; x <= w; x++) {
+                    let t = minT + (x / w) * range;
+                    let phase = ((t - hwM) / period) * Math.PI * 2;
+                    let y = midY - Math.cos(phase) * (amp - 10);
+                    if(x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                const drawAxisMarker = (timeM, label, isTide = false) => {
+                    if(timeM < minT || timeM > maxT) return;
+                    let x = ((timeM - minT) / range) * w;
+                    ctx.beginPath(); ctx.strokeStyle = isTide ? waveColor : 'rgba(239, 68, 68, 0.4)'; ctx.setLineDash(isTide ? [4, 4] : [2, 2]); ctx.lineWidth = 1;
+                    ctx.moveTo(x, graphTop); ctx.lineTo(x, graphBottom); ctx.stroke(); ctx.setLineDash([]);
+                    ctx.fillStyle = isTide ? waveColor : textColor; ctx.font = isTide ? "800 11px 'Outfit', sans-serif" : "600 10px 'Outfit', sans-serif"; ctx.textAlign = "center";
+                    ctx.fillText(label, x, graphBottom + 27);
+                };
+                drawAxisMarker(hwM, `HW`, true); drawAxisMarker(lwM, `LW`, true);
+                if(fishArray && fishArray.length > 0) {
+                    let clusters = [];
+                    const sortedFish = [...fishArray].sort((a,b) => window.toMins(a.time) - window.toMins(b.time));
+                    sortedFish.forEach(f => {
+                        let fm = window.toMins(f.time);
+                        if(fm >= minT && fm <= maxT) {
+                            let added = false;
+                            for(let c of clusters) {
+                                if(Math.abs(c.timeM - fm) <= 25) {
+                                    c.count += 1; c.timeM = ((c.timeM * (c.count - 1)) + fm) / c.count;
+                                    if(!c.speciesList.includes(f.species)) c.speciesList.push(f.species);
+                                    added = true; break;
+                                }
+                            }
+                            if(!added) clusters.push({timeM: fm, count: 1, labelTime: f.time, speciesList: [f.species], yOffset: 0});
+                        }
+                    });
+                    clusters.forEach((c, idx) => { c.yOffset = (idx % 2 === 0) ? 0 : 12; });
+                    clusters.forEach(c => {
+                        let x = ((c.timeM - minT) / range) * w;
+                        let phase = ((c.timeM - hwM) / period) * Math.PI * 2;
+                        let y = midY - Math.cos(phase) * (amp - 10);
+                        let r = 5 + ((c.count - 1) * 3.5);
+                        ctx.beginPath(); ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)'; ctx.setLineDash([2, 4]); ctx.lineWidth = 1;
+                        ctx.moveTo(x, y + r); ctx.lineTo(x, graphBottom); ctx.stroke(); ctx.setLineDash([]);
+                        let distToHW = Math.abs(x - (((hwM - minT) / range) * w));
+                        let distToLW = Math.abs(x - (((lwM - minT) / range) * w));
+                        if(distToHW > 15 && distToLW > 15) {
+                            ctx.fillStyle = '#ef4444'; ctx.font = "700 10px 'Outfit', sans-serif"; ctx.textAlign = "center";
+                            ctx.fillText(formatTime(c.timeM), x, graphBottom - 4);
+                        }
+                        let spText = c.speciesList.join(', ');
+                        if(spText.length > 12) {
+                            if(c.count === 1) { spText = spText.substring(0, 10) + '..'; } else { spText = `${c.count} Catch`; }
+                        }
+                        ctx.fillStyle = '#ef4444'; ctx.font = "800 8px 'Outfit', sans-serif"; ctx.textAlign = "center";
+                        ctx.fillText(spText, x, y - r - 6 - c.yOffset);
+                        ctx.beginPath(); ctx.fillStyle = '#ef4444'; ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.fill();
+                        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+                        if(c.count > 1) {
+                            ctx.fillStyle = '#ffffff'; ctx.font = "800 11px 'Outfit', sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+                            ctx.fillText(c.count, x, y + 0.5); ctx.textBaseline = "alphabetic";
+                        }
+                    });
+                }
+            } catch(e) {}
+        };
+
+        window.viewImg = function(s, isChart = false) {
+            document.getElementById('nativeFullImage').src = s;
+            document.getElementById('nativeImageViewer').style.display = 'block';
+            let vp = document.getElementById('appViewport');
+            if(vp) vp.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+            if(isChart) {
+                let viewer = document.getElementById('nativeImageViewer');
+                try {
+                    if(viewer.requestFullscreen) {
+                        viewer.requestFullscreen().then(() => {
+                            try { screen.orientation.lock('landscape').catch(() => {}); } catch(e) {}
+                        }).catch(() => {});
+                    } else if(viewer.webkitRequestFullscreen) {
+                        viewer.webkitRequestFullscreen();
+                    }
+                } catch(e) {}
+            }
+        };
+
+        window.closeImgView = function() {
+            document.getElementById('nativeImageViewer').style.display = 'none';
+            document.getElementById('nativeFullImage').src = '';
+            let vp = document.getElementById('appViewport');
+            if(vp) vp.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+            try {
+                if(document.exitFullscreen) document.exitFullscreen();
+                else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+                try { screen.orientation.unlock(); } catch(e) {}
+            } catch(e) {}
+        };
+
+        window.forceAppUpdate = function() {
+            const icon = document.getElementById('refreshIcon');
+            const btn = document.getElementById('btnRefreshApp');
+            if(icon) icon.classList.add('icon-spin');
+            if(btn) btn.innerHTML = '<i class="bi bi-arrow-clockwise icon-spin me-1"></i> Updating...';
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) { registration.update(); }
+                });
+            }
+            sessionStorage.setItem('showUpdateToast', 'true');
+            setTimeout(() => { window.location.reload(true); }, 1200);
+        };
+
+        window.exportToCSV = function() {
+            let csvContent = "Date,Venue,Coastal_Town,Angler,Weather,Wind,Waves,Swell,HW,LW,Species,Measurement,Time,TideState,Notes\n";
+            const keys = Object.keys(StorageHelper.getAll()).filter(k => k.startsWith('scorecard_'));
+            if(keys.length === 0) return alert("No history to export.");
+            keys.forEach(k => {
+                const d = JSON.parse(StorageHelper.get(k));
+                const dateStr = d.date;
+                const venue = `"${(d.venue||'').replace(/"/g, '""')}"`;
+                const town = `"${(d.coastalTown||'').replace(/"/g, '""')}"`;
+                const angler = `"${(d.angler||'').replace(/"/g, '""')}"`;
+                const weath = `"${(d.weatherInfo||'').replace(/"/g, '""')}"`;
+                const wind = `"${(d.windInfo||'').replace(/"/g, '""')}"`;
+                const wave = `"${(d.waveInfo||'').replace(/"/g, '""')}"`;
+                const swell = `"${(d.swellInfo||'').replace(/"/g, '""')}"`;
+                const hw = d.hwTime || ''; const lw = d.lwTime || '';
+                const notes = `"${(d.notes||'').replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+                if(d.fishData && d.fishData.length > 0) {
+                    d.fishData.forEach(f => {
+                        const species = `"${f.species}"`;
+                        let meas = "";
+                        if(d.method === 'weight') meas = `"${f.display}"`;
+                        else if(d.method === 'species_hunt') meas = `"N/A"`;
+                        else meas = `"${f.length}cm"`;
+                        const time = `"${f.time||''}"`;
+                        const tState = `"${window.getTideState(f.time, hw, lw)}"`;
+                        csvContent += `${dateStr},${venue},${town},${angler},${weath},${wind},${wave},${swell},${hw},${lw},${species},${meas},${time},${tState},${notes}\n`;
+                    });
+                } else {
+                    csvContent += `${dateStr},${venue},${town},${angler},${weath},${wind},${wave},${swell},${hw},${lw},Blank,N/A,,,${notes}\n`;
+                }
+            });
+            const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "SeaDiary_Export.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        window.resetAppToHome = function() {
+            if(liveMatchListener) { liveMatchListener(); liveMatchListener = null; } 
+            if(matchDocListener) { matchDocListener(); matchDocListener = null; }
+            if(matchTimerInterval) { clearInterval(matchTimerInterval); matchTimerInterval = null; }
+            liveMatchPin = null; 
+            document.getElementById('btnToggleScores').style.display = 'none';
+            document.getElementById('matchTimerBanner').style.display = 'none';
             window.toggleDrawer(false);
             
-            fishData=[];currentScoringMethod='length_only';currentVenue='';coastalTown='';currentSavedKey='';weatherInfo='';windInfo='';swellInfo='';waveInfo='';hwTime='';lwTime='';sessionStartTimeStr='';sessionEndTimeStr='';sunriseTimeStr='';sunsetTimeStr='';editingOriginalFish=null;isLiteMode=false;globalEndTime=null;globalGraceTime=null;document.getElementById('venueSelectContainer').style.display='block';document.getElementById('venueInputContainer').style.display='none';document.getElementById('venueSelect').selectedIndex=0;document.getElementById('venueInputText').value='';let lastFormat=StorageHelper.get('lastScoringMethod')||'length_only';document.getElementById('scoringMethod').value=lastFormat;document.getElementById('sessionNotesInput').value='';document.getElementById('weatherInput').value='';document.getElementById('windInput').value='';document.getElementById('swellInput').value='';document.getElementById('waveInput').value='';if(document.getElementById('fishLengthInput'))document.getElementById('fishLengthInput').value='';document.getElementById('speciesInput').selectedIndex=0;document.getElementById('customSpeciesInput').value='';document.getElementById('fishLog').innerHTML='';document.getElementById('liveScoreVal').textContent='0';document.getElementById('weightInfoDisplay').style.display='none';document.getElementById('speciesHuntInfo').style.display='none';document.getElementById('liveTideChartContainer').style.display='none';window.toggleCustomSpeciesInput();const cols=['pickerCol1','pickerCol2'];cols.forEach(c=>{const el=document.getElementById(c);if(el){el.scrollTop=0;window.updatePickerDisplay(c);}});PageManager.show('splashScreen');StorageHelper.remove('active_session');
+            fishData = []; currentScoringMethod = 'length_only'; currentVenue = ''; coastalTown = ''; currentSavedKey = '';
+            weatherInfo = ''; windInfo = ''; swellInfo = ''; waveInfo = ''; hwTime = ''; lwTime = '';
+            sessionStartTimeStr = ''; sessionEndTimeStr = ''; sunriseTimeStr = ''; sunsetTimeStr = '';
+            editingOriginalFish = null; isLiteMode = false; globalEndTime = null; globalGraceTime = null;
+            
+            document.getElementById('venueSelectContainer').style.display = 'block';
+            document.getElementById('venueInputContainer').style.display = 'none';
+            document.getElementById('venueSelect').selectedIndex = 0;
+            document.getElementById('venueInputText').value = '';
+            
+            let lastFormat = StorageHelper.get('lastScoringMethod') || 'length_only';
+            document.getElementById('scoringMethod').value = lastFormat;
+            document.getElementById('sessionNotesInput').value = '';
+            document.getElementById('weatherInput').value = '';
+            document.getElementById('windInput').value = '';
+            document.getElementById('swellInput').value = '';
+            document.getElementById('waveInput').value = '';
+            
+            if(document.getElementById('fishLengthInput')) document.getElementById('fishLengthInput').value = '';
+            document.getElementById('speciesInput').selectedIndex = 0;
+            document.getElementById('customSpeciesInput').value = '';
+            document.getElementById('fishLog').innerHTML = '';
+            document.getElementById('liveScoreVal').textContent = '0';
+            document.getElementById('weightInfoDisplay').style.display = 'none';
+            document.getElementById('speciesHuntInfo').style.display = 'none';
+            document.getElementById('liveTideChartContainer').style.display = 'none';
+            window.toggleCustomSpeciesInput();
+            
+            const cols = ['pickerCol1', 'pickerCol2'];
+            cols.forEach(c => {
+                const el = document.getElementById(c);
+                if(el) { el.scrollTop = 0; window.updatePickerDisplay(c); }
+            });
+            
+            PageManager.show('splashScreen');
+            StorageHelper.remove('active_session');
         };
-        
-        // --- FIXED SAVE FUNCTION ---
-        window.saveActiveSession=function(){
-            try{
+
+        // --- FULLY UNMINIFIED SAVE FUNCTION ---
+        window.saveActiveSession = function() {
+            try {
                 if(document.getElementById('waitingRoomPage').style.display === 'block') return;
 
-                const p=document.getElementById('anglerFishingPage').style.display==='block'?'fishing':(document.getElementById('tallyVerificationPage').style.display==='block'?'tally':'setup');
-                const weatherI=document.getElementById('weatherInput')?document.getElementById('weatherInput').value:weatherInfo;
-                const windI=document.getElementById('windInput')?document.getElementById('windInput').value:windInfo;
-                const waveI=document.getElementById('waveInput')?document.getElementById('waveInput').value:waveInfo;
-                const swellI=document.getElementById('swellInput')?document.getElementById('swellInput').value:swellInfo;
-                let tempVenue='';
-                if(document.getElementById('venueSelect')){
-                    tempVenue=document.getElementById('venueSelect').value==='__NEW__'?document.getElementById('venueInputText').value:document.getElementById('venueSelect').value;
-                }else{
-                    tempVenue=currentVenue;
+                const p = document.getElementById('anglerFishingPage').style.display === 'block' ? 'fishing' : (document.getElementById('tallyVerificationPage').style.display === 'block' ? 'tally' : 'setup');
+                const weatherI = document.getElementById('weatherInput') ? document.getElementById('weatherInput').value : weatherInfo;
+                const windI = document.getElementById('windInput') ? document.getElementById('windInput').value : windInfo;
+                const waveI = document.getElementById('waveInput') ? document.getElementById('waveInput').value : waveInfo;
+                const swellI = document.getElementById('swellInput') ? document.getElementById('swellInput').value : swellInfo;
+                let tempVenue = '';
+                
+                if(document.getElementById('venueSelect')) {
+                    tempVenue = document.getElementById('venueSelect').value === '__NEW__' ? document.getElementById('venueInputText').value : document.getElementById('venueSelect').value;
+                } else {
+                    tempVenue = currentVenue;
                 }
                 
-                StorageHelper.save('active_session',JSON.stringify({
+                StorageHelper.save('active_session', JSON.stringify({
                     phase: p,
-                    angler: currentAngler||document.getElementById('anglerName').value,
+                    angler: currentAngler || document.getElementById('anglerName').value,
                     venue: tempVenue,
-                    coastalTown: coastalTown||'',
+                    coastalTown: coastalTown || '',
                     date: currentDate,
                     method: currentScoringMethod,
                     unit: selectedWeightUnit,
@@ -977,53 +1725,116 @@
                     globalEndTime: globalEndTime,
                     globalGraceTime: globalGraceTime
                 }));
-            }catch(e){console.error("Save Active Session Error:", e)}
+            } catch(e) { console.error("Save Active Session Error:", e) }
         };
-        
-        window.restoreActiveSession=function(){try{const s=JSON.parse(StorageHelper.get('active_session'));if(s&&(s.angler||s.fishData.length>0)){pendingRestoreData=s;document.getElementById('restoreAnglerName').textContent=s.angler||"Unnamed";bootstrap.Modal.getOrCreateInstance(document.getElementById('restoreSessionModal')).show();}}catch(e){}};
-        
-        window.confirmRestore=function(){
-            const s=JSON.parse(StorageHelper.get('active_session'));
-            fishData=s.fishData||[];currentAngler=s.angler;currentVenue=s.venue;coastalTown=s.coastalTown||'';
-            currentDate=s.date;currentScoringMethod=s.method;selectedWeightUnit=s.unit;weatherInfo=s.weatherInfo||'';
-            windInfo=s.windInfo||'';waveInfo=s.waveInfo||'';swellInfo=s.swellInfo||'';hwTime=s.hwTime||'';lwTime=s.lwTime||'';
-            sessionStartTimeStr=s.sessionStart||'';sessionEndTimeStr=s.sessionEnd||'';sunriseTimeStr=s.sunrise||'';sunsetTimeStr=s.sunset||'';
-            isLiteMode=s.isLiteMode||false;
-            globalEndTime=s.globalEndTime||null; globalGraceTime=s.globalGraceTime||null;
+
+        window.restoreActiveSession = function() {
+            try {
+                const s = JSON.parse(StorageHelper.get('active_session'));
+                if(s && (s.angler || s.fishData.length > 0)) {
+                    pendingRestoreData = s;
+                    document.getElementById('restoreAnglerName').textContent = s.angler || "Unnamed";
+                    bootstrap.Modal.getOrCreateInstance(document.getElementById('restoreSessionModal')).show();
+                }
+            } catch(e) {}
+        };
+
+        window.confirmRestore = function() {
+            const s = JSON.parse(StorageHelper.get('active_session'));
+            fishData = s.fishData || []; currentAngler = s.angler; currentVenue = s.venue; coastalTown = s.coastalTown || '';
+            currentDate = s.date; currentScoringMethod = s.method; selectedWeightUnit = s.unit; weatherInfo = s.weatherInfo || '';
+            windInfo = s.windInfo || ''; waveInfo = s.waveInfo || ''; swellInfo = s.swellInfo || ''; hwTime = s.hwTime || ''; lwTime = s.lwTime || '';
+            sessionStartTimeStr = s.sessionStart || ''; sessionEndTimeStr = s.sessionEnd || ''; sunriseTimeStr = s.sunrise || ''; sunsetTimeStr = s.sunset || '';
+            isLiteMode = s.isLiteMode || false;
+            globalEndTime = s.globalEndTime || null; globalGraceTime = s.globalGraceTime || null;
             
             if(s.liveMatchPin) {
                 liveMatchPin = s.liveMatchPin;
-                document.getElementById('drawerPinDisplay').textContent=liveMatchPin;
-                document.getElementById('btnToggleScores').style.display='inline-block';
+                document.getElementById('drawerPinDisplay').textContent = liveMatchPin;
+                document.getElementById('btnToggleScores').style.display = 'inline-block';
                 window.startFirebaseListeners(liveMatchPin);
                 window.syncLiveScore(); 
             }
 
-            document.getElementById('anglerName').value=s.angler;window.populateVenueDropdown();
-            const vSel=document.getElementById('venueSelect');const vText=document.getElementById('venueInputText');
-            let vFound=false;
-            for(let i=0;i<vSel.options.length;i++){if(vSel.options[i].value===currentVenue){vSel.selectedIndex=i;vFound=true;break;}}
-            if(!vFound&&currentVenue){document.getElementById('venueSelectContainer').style.display='none';document.getElementById('venueInputContainer').style.display='flex';vText.value=currentVenue;}
-            document.getElementById('scoringMethod').value=s.method;document.getElementById('weatherInput').value=weatherInfo;document.getElementById('windInput').value=windInfo;
-            if(document.getElementById('waveInput'))document.getElementById('waveInput').value=waveInfo;
-            if(document.getElementById('swellInput'))document.getElementById('swellInput').value=swellInfo;
+            document.getElementById('anglerName').value = s.angler; 
+            window.populateVenueDropdown();
+            
+            const vSel = document.getElementById('venueSelect'); 
+            const vText = document.getElementById('venueInputText');
+            let vFound = false;
+            
+            for(let i=0; i<vSel.options.length; i++) {
+                if(vSel.options[i].value === currentVenue) { vSel.selectedIndex = i; vFound = true; break; }
+            }
+            if(!vFound && currentVenue) {
+                document.getElementById('venueSelectContainer').style.display = 'none';
+                document.getElementById('venueInputContainer').style.display = 'flex';
+                vText.value = currentVenue;
+            }
+            
+            document.getElementById('scoringMethod').value = s.method;
+            document.getElementById('weatherInput').value = weatherInfo;
+            document.getElementById('windInput').value = windInfo;
+            if(document.getElementById('waveInput')) document.getElementById('waveInput').value = waveInfo;
+            if(document.getElementById('swellInput')) document.getElementById('swellInput').value = swellInfo;
+            
             window.populateSpeciesDropdown();
             
-            if(s.phase==='fishing'){
+            if(s.phase === 'fishing') {
                 window.setupFishingUI();
                 PageManager.show('anglerFishingPage');
                 window.updateFishLog();
                 if(globalEndTime) window.startMatchTimer();
             }
-            else if(s.phase==='tally'){window.endSession();}
-            else{PageManager.show('anglerRegistration');}
+            else if(s.phase === 'tally') { window.endSession(); }
+            else { PageManager.show('anglerRegistration'); }
         };
-        
-        window.startFishing=function(){currentAngler=currentAngler||"Christopher Francis McCreadie";document.getElementById("anglerName").value=currentAngler;let lastFormat=StorageHelper.get('lastScoringMethod')||'length_only';document.getElementById('scoringMethod').value=lastFormat;currentScoringMethod=lastFormat;window.handleMethodChange();window.populateVenueDropdown();PageManager.show('anglerRegistration');};
-        
-        window.shareAsImage=function(id){const el=document.getElementById(id==='live'?'tallyVerificationPage':'fullScorecardView');const btns=el.querySelectorAll('button');btns.forEach(b=>b.style.display='none');const notesInput=document.getElementById('sessionNotesInput');if(notesInput&&id==='live')notesInput.style.display='none';html2canvas(el,{backgroundColor:'#f3f6f8'}).then(canvas=>{btns.forEach(b=>b.style.display='inline-block');if(notesInput&&id==='live')notesInput.style.display='block';canvas.toBlob(function(blob){const file=new File([blob],"seadiary_card.png",{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:'Sea Diary Result',text:'Check out my catch record!'}).catch(console.error);}else{const link=document.createElement('a');link.download='seadiary_card.png';link.href=canvas.toDataURL();link.click();}});});};
-        
-        document.addEventListener('DOMContentLoaded',()=>{window.populateVenueDropdown();currentAngler="Christopher Francis McCreadie";document.getElementById("anglerName").value=currentAngler;window.restoreActiveSession();if(sessionStorage.getItem('showUpdateToast')==='true'){sessionStorage.removeItem('showUpdateToast');window.showAppToast("App Updated successfully!");}});
+
+        window.startFishing = function() {
+            currentAngler = currentAngler || "Christopher Francis McCreadie";
+            document.getElementById("anglerName").value = currentAngler;
+            let lastFormat = StorageHelper.get('lastScoringMethod') || 'length_only';
+            document.getElementById('scoringMethod').value = lastFormat;
+            currentScoringMethod = lastFormat;
+            window.handleMethodChange();
+            window.populateVenueDropdown();
+            PageManager.show('anglerRegistration');
+        };
+
+        window.shareAsImage = function(id) {
+            const el = document.getElementById(id === 'live' ? 'tallyVerificationPage' : 'fullScorecardView');
+            const btns = el.querySelectorAll('button');
+            btns.forEach(b => b.style.display = 'none');
+            const notesInput = document.getElementById('sessionNotesInput');
+            if(notesInput && id === 'live') notesInput.style.display = 'none';
+            
+            html2canvas(el, {backgroundColor: '#f3f6f8'}).then(canvas => {
+                btns.forEach(b => b.style.display = 'inline-block');
+                if(notesInput && id === 'live') notesInput.style.display = 'block';
+                canvas.toBlob(function(blob) {
+                    const file = new File([blob], "seadiary_card.png", {type: "image/png"});
+                    if(navigator.canShare && navigator.canShare({files: [file]})) {
+                        navigator.share({files: [file], title: 'Sea Diary Result', text: 'Check out my catch record!'}).catch(console.error);
+                    } else {
+                        const link = document.createElement('a');
+                        link.download = 'seadiary_card.png';
+                        link.href = canvas.toDataURL();
+                        link.click();
+                    }
+                });
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.populateVenueDropdown();
+            currentAngler = "Christopher Francis McCreadie";
+            document.getElementById("anglerName").value = currentAngler;
+            window.restoreActiveSession();
+            if(sessionStorage.getItem('showUpdateToast') === 'true') {
+                sessionStorage.removeItem('showUpdateToast');
+                window.showAppToast("App Updated successfully!");
+            }
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
