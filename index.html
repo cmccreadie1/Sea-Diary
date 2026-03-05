@@ -22,110 +22,102 @@
         h1, h2, h3, h4, h5, h6, .live-score-value, .picker-item, .btn, .xc-score { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
         .text-primary { color: var(--app-main) !important; } .bg-primary { background-color: var(--app-main) !important; }
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 700; border-radius: 12px;}
-        .btn-outline-primary { color: var(--app-main) !important; border-color: var(--app-main) !important; border-radius: 12px; font-weight: 700;}
+        .btn-outline-primary { color: var(--app-main) !important; border-color: var(--app-main) !important; border-radius: 12px; font-weight: 700; background: #fff;}
         .btn-danger, .btn-secondary, .btn-dark { border-radius: 12px; font-weight: 700; }
-        .form-control, .form-select { background-color: var(--input-bg); color: var(--text-main); border-radius: 12px; padding: 10px 14px; border: 1px solid var(--border-color); font-weight: 600; box-shadow: none; transition: all 0.2s ease; }
-        .modal-content { background-color: var(--modal-bg); border-color: var(--border-color); border-radius: 24px; box-shadow: var(--shadow-md); }
-        .weight-picker-container { display: flex; justify-content: center; align-items: center; background: var(--picker-bg); border-radius: 12px; height: 130px; position: relative; overflow: hidden; border: 1px solid var(--border-color); }
-        .picker-column { flex: 1; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; text-align: center; -ms-overflow-style: none; scrollbar-width: none; z-index: 2; overscroll-behavior-y: contain; user-select: none; touch-action: pan-y; }
-        .picker-column::-webkit-scrollbar { display: none; }
-        .picker-item { height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 600; color: #94a3b8; opacity: 0.5; scroll-snap-align: center; transition: all 0.2s; }
-        .picker-item.selected { color: var(--app-main); font-size: 2rem; font-weight: 800; opacity: 1; }
-        .picker-highlight { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 95%; height: 48px; background: rgba(6, 148, 148, 0.08); border-top: 2px solid var(--app-main); border-bottom: 2px solid var(--app-main); pointer-events: none; z-index: 1; border-radius: 10px; }
-        .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 12px 12px 20px 12px; animation: fadeIn 0.2s ease-out; }
+        .form-control, .form-select { background-color: var(--input-bg); color: var(--text-main); border-radius: 12px; padding: 12px; border: 1px solid var(--border-color); font-weight: 600; }
+        .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 12px; animation: fadeIn 0.2s ease-out; }
+        .inner-card { background: var(--card-bg); border-radius: 16px; padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 12px; border: 1px solid var(--border-color); }
         .splash-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-main); z-index: 1040; text-align: center; }
-        .logo-svg { width: 120px; height: 120px; margin-bottom: 15px; }
-        .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 16px; padding: 8px 12px; text-align: center; margin-bottom: 12px; }
-        .live-score-value { font-size: 2.5rem; font-weight: 800; color: var(--app-main); line-height: 1; }
-        .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1060; }
-        .drawer-overlay.show { display: block; }
-        .drawer { position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100vh; background-color: #0f172a; z-index: 1065; transition: right 0.3s ease; display: flex; flex-direction: column; color: white; }
+        .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 16px; padding: 12px; text-align: center; margin-bottom: 12px; }
+        .live-score-value { font-size: 3rem; font-weight: 800; color: var(--app-main); }
+        .drawer { position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100vh; background-color: #0f172a; z-index: 2000; transition: right 0.3s ease; display: flex; flex-direction: column; color: white; box-shadow: -10px 0 25px rgba(0,0,0,0.5); }
         .drawer.open { right: 0; }
-        .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background-color: #1e293b; border-bottom: 1px solid #334155; }
-        .door-card { width: 100%; border: none; border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.1s ease; position: relative; overflow: hidden; }
-        .match-timer-banner { background-color: #0f172a; color: white; text-align: center; padding: 8px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; border: 2px solid #334155;}
-        
-        /* FIX FOR DEAD BUTTONS: Disable the invisible shield */
+        .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1999; }
+        .drawer-overlay.show { display: block; }
+        .door-card { width: 100%; border: none; border-radius: 20px; padding: 24px; text-align: left; margin-bottom: 20px; box-shadow: var(--shadow-md); cursor: pointer; transition: transform 0.1s; }
+        .door-card:active { transform: scale(0.97); }
+        .match-timer-banner { background-color: #0f172a; color: white; text-align: center; padding: 10px; border-radius: 12px; font-weight: 800; margin-bottom: 15px; border: 2px solid #334155; font-size: 1.1rem; }
+        .match-timer-banner.grace { background-color: #ea580c; border-color: #ff9d00; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .toast-container { pointer-events: none; }
-        .toast { pointer-events: auto; }
     </style>
 </head>
 <body>
 
-    <div class="toast-container position-fixed top-0 end-0 p-3 mt-3" style="z-index: 20000;">
-        <div id="appToast" class="toast border-0 shadow-lg rounded-4" role="alert">
-            <div class="d-flex"><div class="toast-body fw-bold fs-6 text-dark" id="toastMsg"></div><button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button></div>
-        </div>
-    </div>
-
     <div id="splashScreen" class="splash-screen">
-        <h1 class="display-4 fw-bold mb-1" style="letter-spacing: -2px; color: #0f172a;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 247.0</p>
+        <h1 class="display-4 fw-bold mb-1" style="color: #0f172a;">Sea Diary</h1>
+        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 248.0</p>
         
-        <div class="d-flex flex-column w-100 px-3" style="max-width: 420px;">
+        <div class="d-flex flex-column w-100 px-3" style="max-width: 440px;">
             <div class="door-card" style="background: linear-gradient(135deg, #069494 0%, #0369a1 100%); color: white;" onclick="window.openProMenu()">
-                <div class="d-flex align-items-center mb-2"><i class="bi bi-journal-check fs-2 me-3"></i><h3 class="m-0 fw-bold">Sea Diary Pro</h3></div>
-                <p class="small m-0 fw-bold" style="opacity: 0.9;">Personal diary with weather, tides, and analytics. <br><b>* Includes Match Hosting/Joining.</b></p>
+                <div class="d-flex align-items-center mb-2"><i class="bi bi-journal-check fs-1 me-3"></i><h3 class="m-0 fw-bold">Sea Diary Pro</h3></div>
+                <p class="small m-0 fw-bold" style="opacity: 0.9;">Personal analytics, weather, and tides. Use this to Host or Join matches with full data features.</p>
             </div>
+            
             <div class="door-card" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); color: #0f172a;" onclick="window.openLiteMode()">
-                <div class="d-flex align-items-center mb-2"><i class="bi bi-trophy-fill fs-2 me-3"></i><h3 class="m-0 fw-bold">Match Mode Lite</h3></div>
-                <p class="small m-0 fw-bold" style="opacity: 0.9;">Fast live scoreboard for impromptu comps. No complex setup, just fishing.</p>
+                <div class="d-flex align-items-center mb-2"><i class="bi bi-trophy-fill fs-1 me-3"></i><h3 class="m-0 fw-bold">Match Mode Lite</h3></div>
+                <p class="small m-0 fw-bold" style="opacity: 0.9;">Fast scoreboard for mates. No complex setup—just enter the PIN and log fish.</p>
             </div>
         </div>
-        <button class="btn btn-link text-muted small fw-bold mt-3" onclick="window.forceAppUpdate()"><i class="bi bi-arrow-clockwise me-1"></i> Check for Updates</button>
+        
+        <button class="btn btn-link text-muted small fw-bold mt-4" onclick="window.forceAppUpdate()"><i class="bi bi-arrow-clockwise"></i> Check for Updates</button>
     </div>
 
     <div id="proMenuScreen" class="splash-screen" style="display: none;">
-        <h1 class="display-3 fw-bold mb-0" style="letter-spacing: -2px; color: #0f172a;">Pro Mode</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-5">Personal Analytics</p>
+        <h2 class="fw-bold mb-4">Pro Dashboard</h2>
         <div class="d-grid gap-3 col-11 mx-auto" style="max-width: 350px;">
-            <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session / Match</button>
-            <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">Pro History</button>
-            <button class="btn btn-link text-danger fw-bold mt-3" onclick="window.resetAppToHome()">Back to Start</button>
+            <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start New Session</button>
+            <button class="btn btn-outline-primary btn-lg py-3 shadow-sm" onclick="window.openHistory()">View My Diary</button>
+            <button class="btn btn-link text-danger fw-bold mt-4" onclick="window.resetAppToHome()">Back to Main Start</button>
         </div>
     </div>
 
     <div id="liteLobbyScreen" class="app-page">
-        <h3 class="fw-bold text-dark text-center mt-4">Match Mode Lite</h3>
-        <p class="text-muted text-center fw-bold small mb-4">No graphs. No weather. Just fishing.</p>
-        <div class="inner-card p-4 shadow-sm border-warning" style="border-width: 2px;">
-            <label class="form-label small fw-bold text-muted">1. Your Name</label>
+        <h3 class="fw-bold text-center mt-5">Match Mode Lite</h3>
+        <div class="inner-card p-4 mt-4 shadow-sm border-warning" style="border-width: 2px;">
+            <label class="form-label small fw-bold text-muted">Your Name</label>
             <input type="text" id="liteAnglerName" class="form-control mb-4 fw-bold fs-5 text-center" placeholder="e.g. Stevie">
+            
             <div class="d-grid gap-3">
-                <button class="btn btn-warning btn-lg fw-bold text-dark shadow-sm py-3" onclick="window.openHostModal('lite')">Host a New Match</button>
-                <button class="btn btn-outline-dark btn-lg fw-bold shadow-sm bg-white py-3" onclick="window.openJoinModal('lite')">Join Match PIN</button>
+                <button class="btn btn-warning btn-lg fw-bold py-3" onclick="window.openHostModal('lite')">Host New Match</button>
+                <button class="btn btn-outline-dark btn-lg fw-bold py-3 bg-white" onclick="window.openJoinModal('lite')">Join Match PIN</button>
             </div>
         </div>
-        <button class="btn btn-outline-primary w-100 mt-3 fw-bold shadow-sm bg-white py-3" onclick="window.openHistory()">View Match History</button>
-        <button class="btn btn-link text-muted w-100 mt-3 fw-bold" onclick="window.resetAppToHome()">Back to Start</button>
+        <button class="btn btn-outline-primary w-100 mt-3 py-3 fw-bold bg-white" onclick="window.openHistory()">View My Match History</button>
+        <button class="btn btn-link text-muted w-100 mt-4 fw-bold" onclick="window.resetAppToHome()">Back</button>
     </div>
 
     <div id="anglerRegistration" class="app-page">
-        <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="fw-bold m-0 text-primary">Session Setup</h4>
-            <button class="btn btn-sm btn-outline-secondary px-3 py-1 rounded-pill fw-bold bg-white" onclick="PageManager.show('proMenuScreen')">Back</button>
+            <button class="btn btn-sm btn-outline-secondary px-3 bg-white fw-bold" onclick="PageManager.show('proMenuScreen')">Back</button>
         </div>
-        <div class="inner-card mb-3">
+        
+        <div class="inner-card">
             <label class="form-label small fw-bold text-muted">Angler Name</label>
-            <input type="text" id="anglerName" class="form-control fw-bold" oninput="window.saveActiveSession()">
-        </div>
-        <div class="inner-card mb-3">
-            <h6 class="fw-bold text-primary mb-2">Location & Live Data</h6>
-            <div id="venueSelectContainer" class="mb-2">
+            <input type="text" id="anglerName" class="form-control fw-bold mb-3">
+            
+            <label class="form-label small fw-bold text-muted">Select Venue</label>
+            <div id="venueSelectContainer" class="mb-3">
                 <select id="venueSelect" class="form-select fw-bold text-primary" onchange="window.handleVenueDropdown()"></select>
             </div>
-            <div id="venueInputContainer" style="display:none;" class="input-group mb-2">
-                <input type="text" id="venueInputText" class="form-control fw-bold text-primary" placeholder="Type venue...">
-                <button class="btn btn-outline-danger" onclick="window.cancelNewVenue()">X</button>
+            
+            <div id="venueInputContainer" style="display:none;" class="input-group mb-3">
+                <input type="text" id="venueInputText" class="form-control fw-bold" placeholder="Venue name...">
+                <button class="btn btn-danger" onclick="window.cancelNewVenue()">X</button>
             </div>
-            <button class="btn btn-primary w-100 fw-bold py-2 mb-3" onclick="window.fetchEnvironmentData()" id="btnFetchEnv">Fetch Live Data</button>
-            <div class="row g-2 text-center">
-                <div class="col-6"><label class="small fw-bold text-muted d-block">Weather</label><input type="text" id="weatherInput" class="form-control text-center small fw-bold" readonly></div>
-                <div class="col-6"><label class="small fw-bold text-muted d-block">Wind</label><input type="text" id="windInput" class="form-control text-center small fw-bold" readonly></div>
+            
+            <button class="btn btn-primary w-100 fw-bold py-2 mb-3" onclick="window.fetchEnvironmentData()" id="btnFetchEnv">Fetch Live Weather/Tides</button>
+            
+            <div class="row g-2">
+                <div class="col-6"><input type="text" id="weatherInput" class="form-control text-center small fw-bold" placeholder="Weather" readonly></div>
+                <div class="col-6"><input type="text" id="windInput" class="form-control text-center small fw-bold" placeholder="Wind" readonly></div>
             </div>
         </div>
+
         <div class="d-grid gap-2">
-            <button class="btn btn-dark btn-lg fw-bold" onclick="window.registerAngler(false)">Offline Mode (Personal)</button>
+            <button class="btn btn-dark btn-lg fw-bold" onclick="window.registerAngler(false)">Offline Personal Diary</button>
             <div class="row g-2">
                 <div class="col-6"><button class="btn btn-warning w-100 fw-bold text-dark" onclick="window.openHostModal('pro')">Host Match</button></div>
                 <div class="col-6"><button class="btn btn-outline-dark w-100 fw-bold bg-white" onclick="window.openJoinModal('pro')">Join Match</button></div>
@@ -135,22 +127,22 @@
 
     <div class="modal fade" id="unifiedHostModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg">
+            <div class="modal-content border-0">
                 <div class="modal-body p-4 text-center">
-                    <h4 class="fw-bold text-primary mb-3">Match Settings</h4>
-                    <label class="form-label small fw-bold text-muted">Scoring Method</label>
+                    <h4 class="text-primary fw-bold mb-4">Match Rules</h4>
+                    <label class="small fw-bold text-muted">Scoring</label>
                     <select id="unifiedScoringMethod" class="form-select fw-bold mb-3">
                         <option value="length_only">Total Length Only</option>
                         <option value="measure_points">Length + 10 Pts</option>
                         <option value="species_hunt">Species Hunt</option>
                         <option value="weight">Total Weight</option>
                     </select>
-                    <label class="form-label small fw-bold text-muted">Duration</label>
+                    <label class="small fw-bold text-muted">Match Length</label>
                     <select id="unifiedDuration" class="form-select fw-bold mb-4">
                         <option value="2">2 Hours</option><option value="3">3 Hours</option>
-                        <option value="4" selected>4 Hours</option><option value="5">5 Hours</option>
+                        <option value="4" selected>4 Hours</option><option value="6">6 Hours</option>
                     </select>
-                    <button class="btn btn-warning btn-lg w-100 fw-bold text-dark" onclick="window.executeHost()">Generate Room PIN</button>
+                    <button class="btn btn-warning btn-lg w-100 fw-bold text-dark" onclick="window.executeHost()">Create Match Room</button>
                 </div>
             </div>
         </div>
@@ -158,11 +150,11 @@
 
     <div class="modal fade" id="unifiedJoinModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg">
+            <div class="modal-content border-0">
                 <div class="modal-body p-4 text-center">
-                    <h4 class="fw-bold text-primary mb-3">Join Match</h4>
-                    <input type="text" id="unifiedPinInput" class="form-control mb-4 fw-bold text-center text-primary" placeholder="Enter 4-Digit PIN" maxlength="4" style="font-size: 2.5rem; letter-spacing: 8px;">
-                    <button class="btn btn-dark btn-lg w-100 fw-bold" onclick="window.executeJoin()">Connect to Room</button>
+                    <h4 class="text-primary fw-bold mb-4">Join Match</h4>
+                    <input type="text" id="unifiedPinInput" class="form-control mb-4 fw-bold text-center text-primary" placeholder="PIN" maxlength="4" style="font-size: 3rem; letter-spacing: 8px;">
+                    <button class="btn btn-dark btn-lg w-100 fw-bold" onclick="window.executeJoin()">Connect</button>
                 </div>
             </div>
         </div>
@@ -170,219 +162,283 @@
 
     <div id="waitingRoomPage" class="app-page text-center">
         <h2 class="fw-bold text-primary mt-4">Match Lobby</h2>
-        <div class="display-1 fw-bold text-dark mb-2" style="letter-spacing: 8px;" id="waitingRoomPin">----</div>
+        <div class="display-1 fw-bold text-dark mb-2" id="waitingRoomPin" style="letter-spacing: 5px;">----</div>
         <div class="badge bg-dark mb-4 px-3 py-2 fw-bold" id="waitingRoomRules"></div>
+        
         <div class="inner-card shadow-sm mb-4 text-start">
-            <h6 class="fw-bold text-primary mb-2 border-bottom pb-2">Anglers Connected</h6>
-            <div id="lobbyAnglersList" class="fw-bold text-dark d-flex flex-column gap-2"></div>
+            <h6 class="fw-bold text-primary mb-2 border-bottom pb-2">Connected Anglers</h6>
+            <div id="lobbyAnglersList" class="fw-bold d-flex flex-column gap-2"></div>
         </div>
+
         <div id="hostControls" style="display:none;">
             <button class="btn btn-danger btn-lg w-100 fw-bold py-3 shadow" onclick="window.startMatchForEveryone()">START MATCH NOW</button>
         </div>
         <div id="participantControls" style="display:none;">
             <div class="spinner-border text-warning mb-3"></div>
-            <h5 class="fw-bold">Waiting for Host...</h5>
+            <h5 class="fw-bold">Waiting for Whistle...</h5>
         </div>
-        <button class="btn btn-link text-muted w-100 mt-4 fw-bold" onclick="window.resetAppToHome()">Leave Room</button>
+        <button class="btn btn-link text-muted w-100 mt-4 fw-bold" onclick="window.resetAppToHome()">Quit Lobby</button>
     </div>
 
     <div id="anglerFishingPage" class="app-page">
-        <div id="matchTimerBanner" class="match-timer-banner" style="display:none;"><span id="matchTimerText">⏱️ Loading Timer...</span></div>
+        <div id="matchTimerBanner" class="match-timer-banner" style="display:none;">
+            <span id="matchTimerText">⏱️ Timer Loading...</span>
+        </div>
+        
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h4 class="m-0 fw-bold text-primary">Live Log</h4>
-            <div class="d-flex align-items-center gap-2">
-                <button id="btnToggleScores" class="btn btn-warning fw-bold text-dark px-3 py-1 rounded-pill shadow-sm" style="display:none;" onclick="window.toggleDrawer(true)">View Scores</button>
-                <button class="btn btn-outline-danger px-3 py-1 rounded-pill fw-bold bg-white" onclick="window.confirmQuit()">Quit</button>
+            <div class="d-flex gap-2">
+                <button id="btnToggleScores" class="btn btn-warning fw-bold text-dark px-3 rounded-pill shadow-sm" style="display:none; font-size: 0.8rem;" onclick="window.toggleDrawer(true)">Scoreboard</button>
+                <button class="btn btn-outline-danger px-3 py-1 rounded-pill fw-bold bg-white" style="font-size: 0.8rem;" onclick="window.confirmQuit()">Quit</button>
             </div>
         </div>
-        <div class="inner-card mb-2 p-3 bg-white">
-            <label class="form-label small fw-bold text-primary mb-1">Species</label>
+
+        <div class="inner-card mb-2 p-3">
+            <label class="small fw-bold text-primary mb-1">Fish Species</label>
             <select id="speciesInput" class="form-select fw-bold bg-light mb-2 shadow-sm" onchange="window.handleSpeciesSelect()"></select>
-            <input type="text" id="customSpeciesInput" class="form-control fw-bold bg-light mb-2 shadow-sm" placeholder="Type Species" style="display:none;">
+            <input type="text" id="customSpeciesInput" class="form-control fw-bold bg-light mb-2" placeholder="Manual Entry..." style="display:none;">
+            
             <div id="lengthInputContainer" class="mb-2">
-                <label class="form-label small fw-bold text-primary mb-1">Length (cm)</label>
-                <input type="number" id="fishLengthInput" class="form-control text-center fw-bold text-primary" style="font-size: 1.6rem;" placeholder="0">
+                <label class="small fw-bold text-primary mb-1">Length (C)</label>
+                <input type="number" id="fishLengthInput" class="form-control text-center fw-bold text-primary fs-3" placeholder="0">
             </div>
-            <div id="weightPickerContainer" class="mb-2" style="display:none;">
-                <div class="weight-picker-container"><div class="picker-highlight"></div><div id="pickerCol1" class="picker-column" onscroll="window.updatePickerDisplay('pickerCol1')"></div><div id="pickerCol2" class="picker-column" onscroll="window.updatePickerDisplay('pickerCol2')"></div></div>
-            </div>
-            <div class="row g-2 mt-1" id="recordButtonsDiv">
-                <div class="col-8"><button class="btn btn-primary btn-record-action w-100 shadow-sm" onclick="window.addFishTextOnly()">Record Catch</button></div>
-                <div class="col-4"><button class="btn btn-dark btn-record-action w-100 shadow-sm" onclick="window.triggerCamera()"><i class="bi bi-camera-fill"></i></button></div>
+
+            <div class="row g-2 mt-2" id="recordButtonsDiv">
+                <div class="col-8"><button class="btn btn-primary w-100 py-3 fw-bold" onclick="window.addFishTextOnly()">Record Catch</button></div>
+                <div class="col-4"><button class="btn btn-dark w-100 py-3 fw-bold" onclick="window.triggerCamera()"><i class="bi bi-camera-fill"></i></button></div>
             </div>
         </div>
-        <div class="live-score-box mb-2"><div class="live-score-value" id="liveScoreVal">0</div></div>
+
+        <div class="live-score-box mb-2"><div class="live-score-value" id="liveScoreVal">0</div><small class="fw-bold text-muted">Total Points (G)</small></div>
         <div id="fishLog" class="d-flex flex-column gap-2 mb-3"></div>
-        <button class="btn btn-danger btn-lg w-100 py-2 fw-bold shadow" onclick="window.endSession()">Finish Session</button>
+        <button class="btn btn-danger btn-lg w-100 py-2 fw-bold" onclick="window.endSession()">Finish & Save</button>
     </div>
 
     <div id="drawerOverlay" class="drawer-overlay" onclick="window.toggleDrawer(false)"></div>
     <div id="leaderboardDrawer" class="drawer">
         <div class="drawer-header">
-            <h4 class="m-0 fw-bold text-warning">LIVE MATCH</h4>
-            <button class="btn btn-sm btn-outline-light rounded-pill" onclick="window.toggleDrawer(false)">Back</button>
+            <h4 class="m-0 fw-bold text-warning">SCOREBOARD</h4>
+            <button class="btn btn-sm btn-outline-light rounded-pill" onclick="window.toggleDrawer(false)">Close</button>
         </div>
-        <div class="bounty-banner"><div id="bountyDetails" class="fs-6 fw-bold">Awaiting first catch...</div></div>
-        <div class="leaderboard-list" id="drawerLeaderboardList"></div>
+        <div class="bounty-banner py-2"><div id="bountyDetails" class="small fw-bold text-center">Biggest Fish: --</div></div>
+        <div class="leaderboard-list p-3" id="drawerLeaderboardList"></div>
     </div>
 
     <div id="tallyVerificationPage" class="app-page">
         <div id="session_scorecard_container">
-            <div class="inner-card p-3 mb-2 shadow-sm">
-                <h4 class="text-primary fw-bold m-0" id="session_angler"></h4>
-                <div class="fw-bold text-main fs-5 mb-2" id="session_venue"></div>
-                <div id="session_live_conditions" class="d-flex flex-wrap gap-1"></div>
+            <div class="inner-card p-3 shadow-sm border-0">
+                <h4 class="text-primary fw-bold" id="session_angler"></h4>
+                <div class="fw-bold fs-5" id="session_venue"></div>
+                <div id="session_live_conditions" class="mt-2"></div>
             </div>
-            <div class="live-score-box mb-2"><div id="session_total_points" class="live-score-value">0</div></div>
+            <div class="live-score-box"><div id="session_total_points" class="live-score-value">0</div></div>
             <div id="session_breakdown"></div>
         </div>
-        <button class="btn btn-dark w-100 py-3 mt-3 fw-bold rounded-4 shadow" onclick="window.resetAppToHome()">Home</button>
+        <button class="btn btn-dark w-100 py-3 mt-4 fw-bold" onclick="window.resetAppToHome()">Back to Start</button>
     </div>
 
-    <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header border-0 pb-0 pt-4 px-4"><h4 class="modal-title fw-bold text-primary">History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light px-4 pb-4 pt-3">
-        <div id="savedScorecardsList"><div id="recentList"></div></div>
-        <div id="fullScorecardView" style="display:none;">
-            <div id="saved_view_details"></div>
-            <div class="row g-2 mt-4"><div class="col-6"><button class="btn btn-outline-danger w-100 py-2 fw-bold rounded-4 bg-white" onclick="window.deleteCurrentSaved()">Delete</button></div><div class="col-6"><button class="btn btn-dark w-100 py-2 fw-bold shadow-sm rounded-4" onclick="window.backToScorecardList()">Back</button></div></div>
+    <div class="modal fade" id="restoreSessionModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-4">
+                    <h4 class="fw-bold mb-3">Session Found</h4>
+                    <p class="text-muted fw-bold">Resume session for <strong id="restoreAnglerName"></strong>?</p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary py-2 fw-bold" data-bs-dismiss="modal" onclick="window.confirmRestore()">Resume Fishing</button>
+                        <button class="btn btn-outline-secondary py-2" data-bs-dismiss="modal" onclick="window.discardRestore()">Discard</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div></div></div></div>
-
-    <div class="modal fade" id="restoreSessionModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body text-center p-4"><h4 class="text-primary fw-bold mb-2">Session Found</h4><p class="text-muted fw-bold mb-3">Resume session for <strong id="restoreAnglerName"></strong>?</p><div class="d-grid gap-2"><button class="btn btn-primary py-2 fw-bold rounded-4" data-bs-dismiss="modal" onclick="window.confirmRestore()">Resume Fishing</button><button class="btn btn-outline-secondary py-2 fw-bold rounded-4" data-bs-dismiss="modal" onclick="window.discardRestore()">Start New</button></div></div></div></div></div>
+    </div>
 
     <script>
-        // 1. ENGINE INITIALIZATION
+        // 1. CORE BRAIN (BUTTON LOGIC FIRST)
         window.openProMenu = function() { isLiteMode = false; PageManager.show('proMenuScreen'); };
         window.openLiteMode = function() { isLiteMode = true; PageManager.show('liteLobbyScreen'); };
-        window.discardRestore = function() { window.resetAppToHome(); };
-        window.confirmQuit = function() { if(confirm("Discard active session?")) { window.resetAppToHome(); } };
-        window.backToScorecardList = function() { document.getElementById('fullScorecardView').style.display = 'none'; document.getElementById('savedScorecardsList').style.display = 'block'; };
+        window.resetAppToHome = function() {
+            if(liveMatchListener) liveMatchListener(); if(matchTimerInterval) clearInterval(matchTimerInterval);
+            liveMatchPin = null; PageManager.show('splashScreen'); fishData = []; window.saveActiveSession();
+            location.reload(); // Hard reset for clean slate
+        };
 
-        // 2. DATA ARRAYS (Isolated at bottom for safety)
-        const speciesList = [{"category":"Common","items":["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},{"category":"Round Fish","items":["Bass","Bream (Black)","Bream (Gilthead)","Bream (Red)","Garfish","Gurnard (Grey)","Gurnard (Red)","Gurnard (Tub)","Mackerel","Mullet (Golden)","Mullet (Grey/Thick)","Mullet (Red)","Scad","Weever (Lesser)"]},{"category":"Flatfish","items":["Brill","Megrim","Sole (Dover)","Sole (Lemon)","Topknot"]},{"category":"Sharks & Rays","items":["Dogfish (Blackmouth)","Smoothhound (Common)","Smoothhound (Starry)","Spurdog","Tope","Ray (Thornback)","Ray (Spotted)","Ray (Blonde)","Ray (Small-eyed)","Ray (Stingray)"]},{"category":"Wrasse & Mini","items":["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}];
-        const tideStations = [{"region":"Scotland - East","stations":[{"name":"Aberdeen","lat":57.1437,"lon":-2.0776},{"name":"Arbroath","lat":56.5503,"lon":-2.5802},{"name":"Buckie","lat":57.6766,"lon":-2.9649},{"name":"Burntisland","lat":56.05,"lon":-3.2333},{"name":"Dunbar","lat":56.0029,"lon":-2.5135},{"name":"Dundee","lat":56.462,"lon":-2.9707},{"name":"Eyemouth","lat":55.8711,"lon":-2.0867},{"name":"Fraserburgh","lat":57.6953,"lon":-2.0041},{"name":"Granton","lat":55.9833,"lon":-3.2333},{"name":"Leith (Edinburgh)","lat":55.9855,"lon":-3.1764},{"name":"Lossiemouth","lat":57.7202,"lon":-3.2842},{"name":"Macduff","lat":57.67,"lon":-2.4939},{"name":"Methil","lat":56.1833,"lon":-3},{"name":"Montrose","lat":56.705,"lon":-2.4566},{"name":"Peterhead","lat":57.5058,"lon":-1.7765},{"name":"Rosyth","lat":55.9833,"lon":-3.4167},{"name":"St Andrews","lat":56.34,"lon":-2.79},{"name":"Stonehaven","lat":56.9667,"lon":-2.2}]}];
+        const PageManager = {
+            show: function(id) {
+                document.querySelectorAll('.app-page, .splash-screen').forEach(p => p.style.display = 'none');
+                const target = document.getElementById(id);
+                if(target) { target.style.display = (id.includes('splash') || id.includes('Menu')) ? 'flex' : 'block'; }
+            }
+        };
 
-        // 3. CORE LOGIC
+        const StorageHelper = {
+            save: (k,v) => { try { localStorage.setItem(k,v); } catch(e){} },
+            get: (k) => localStorage.getItem(k),
+            remove: (k) => localStorage.removeItem(k)
+        };
+
+        // 2. DATA (Tides, Species)
+        const speciesList = [{"category":"Common","items":["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},{"category":"Round Fish","items":["Bass","Bass","Mackerel","Garfish"]}];
+        const tideStations = [{"region":"UK","stations":[{"name":"Aberdeen","lat":57.1,"lon":-2.0},{"name":"Leith","lat":55.9,"lon":-3.1}]}];
+
+        // 3. MATCH SYSTEM
+        window.openHostModal = function(ctx) {
+            matchContext = ctx;
+            let n = ctx==='lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
+            if(!n) return window.showAppToast("Enter Name first.", true);
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('unifiedHostModal')).show();
+        };
+
+        window.openJoinModal = function(ctx) {
+            matchContext = ctx;
+            let n = ctx==='lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
+            if(!n) return window.showAppToast("Enter Name first.", true);
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('unifiedJoinModal')).show();
+        };
+
         window.executeHost = async function() {
-            let name = matchContext === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
-            currentAngler = name;
-            let duration = parseInt(document.getElementById('unifiedDuration').value);
-            currentScoringMethod = document.getElementById('unifiedScoringMethod').value;
+            currentAngler = matchContext==='lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
             let pin = Math.floor(1000 + Math.random() * 9000).toString();
             liveMatchPin = pin; isHost = true;
+            currentScoringMethod = document.getElementById('unifiedScoringMethod').value;
             try {
-                await db.collection("matches").doc(pin).set({ format: currentScoringMethod, durationHours: duration, status: 'waiting', host: currentAngler, createdAt: firebase.firestore.FieldValue.serverTimestamp(), biggestFish: {name: 'None', length: 0, species: ''} });
-                await db.collection("matches").doc(pin).collection("anglers").doc(currentAngler).set({ score: 0, display: "0", catches: 0, lastUpdate: firebase.firestore.FieldValue.serverTimestamp() });
+                await db.collection("matches").doc(pin).set({
+                    format: currentScoringMethod, status: 'waiting', durationHours: parseInt(document.getElementById('unifiedDuration').value),
+                    host: currentAngler, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
                 bootstrap.Modal.getInstance(document.getElementById('unifiedHostModal')).hide();
                 window.enterWaitingRoom(pin);
-            } catch(e) { window.showAppToast("Network Error.", true); }
+            } catch(e) { window.showAppToast("Cloud Error", true); }
         };
 
         window.executeJoin = async function() {
-            let name = matchContext === 'lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
-            currentAngler = name;
+            currentAngler = matchContext==='lite' ? document.getElementById('liteAnglerName').value.trim() : document.getElementById('anglerName').value.trim();
             let pin = document.getElementById('unifiedPinInput').value.trim();
-            if(pin.length < 3) return window.showAppToast("PIN required.", true);
-            isHost = false;
             try {
                 const doc = await db.collection("matches").doc(pin).get();
-                if(!doc.exists) return window.showAppToast("Room not found.", true);
-                currentScoringMethod = doc.data().format; liveMatchPin = pin;
-                await db.collection("matches").doc(pin).collection("anglers").doc(currentAngler).set({ score: 0, display: "0", catches: 0, lastUpdate: firebase.firestore.FieldValue.serverTimestamp() }, {merge: true});
+                if(!doc.exists) return window.showAppToast("PIN Not Found", true);
+                liveMatchPin = pin; isHost = false; currentScoringMethod = doc.data().format;
+                await db.collection("matches").doc(pin).collection("anglers").doc(currentAngler).set({score:0, display:"0"}, {merge:true});
                 bootstrap.Modal.getInstance(document.getElementById('unifiedJoinModal')).hide();
                 window.enterWaitingRoom(pin);
-            } catch(e) { window.showAppToast("Network Error.", true); }
+            } catch(e) { window.showAppToast("Cloud Error", true); }
         };
 
-        window.startMatchForEveryone = function() {
-            db.collection("matches").doc(liveMatchPin).get().then(doc => {
-                if(doc.exists){
-                    let hrs = doc.data().durationHours || 4;
-                    let endTime = Date.now() + (hrs * 3600000);
-                    db.collection("matches").doc(liveMatchPin).update({ status: 'active', endTime: endTime });
-                }
+        window.enterWaitingRoom = function(pin) {
+            document.getElementById('waitingRoomPin').innerText = pin;
+            document.getElementById('hostControls').style.display = isHost ? 'block' : 'none';
+            document.getElementById('participantControls').style.display = isHost ? 'none' : 'block';
+            PageManager.show('waitingRoomPage');
+            
+            // Listen for match start
+            liveMatchListener = db.collection("matches").doc(pin).onSnapshot(doc => {
+                if(doc.exists && doc.data().status === 'active') window.launchLiveFishing(doc.data());
+            });
+            // Listen for anglers
+            db.collection("matches").doc(pin).collection("anglers").onSnapshot(snap => {
+                let html = ""; snap.forEach(d => html += `<div class="p-2 border rounded mb-1 bg-white">👤 ${d.id}</div>`);
+                document.getElementById('lobbyAnglersList').innerHTML = html;
             });
         };
 
+        window.startMatchForEveryone = function() {
+            const matchRef = db.collection("matches").doc(liveMatchPin);
+            matchRef.get().then(doc => {
+                let endTime = Date.now() + (doc.data().durationHours * 3600000);
+                matchRef.update({ status: 'active', endTime: endTime });
+            });
+        };
+
+        window.launchLiveFishing = function(matchData) {
+            globalEndTime = matchData.endTime;
+            globalGraceTime = matchData.endTime + 600000; // 10 min grace
+            if(liveMatchListener) liveMatchListener();
+            document.getElementById('btnToggleScores').style.display = 'inline-block';
+            document.getElementById('drawerPinDisplay').innerText = liveMatchPin;
+            window.setupFishingUI(); window.populateSpeciesDropdown();
+            PageManager.show('anglerFishingPage');
+            window.startMatchTimer();
+            window.startFirebaseListeners(liveMatchPin);
+        };
+
         window.startMatchTimer = function() {
-            const banner = document.getElementById('matchTimerBanner');
-            const txt = document.getElementById('matchTimerText');
-            banner.style.display = 'block';
             if(matchTimerInterval) clearInterval(matchTimerInterval);
             matchTimerInterval = setInterval(() => {
                 let now = Date.now();
-                if(!globalEndTime) return;
-                let graceTime = globalEndTime + (10 * 60 * 1000);
+                let txt = document.getElementById('matchTimerText');
+                let banner = document.getElementById('matchTimerBanner');
+                banner.style.display = 'block';
                 if(now < globalEndTime) {
                     let diff = globalEndTime - now;
-                    let h = Math.floor(diff / 3600000).toString().padStart(2, '0');
-                    let m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
-                    let s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
-                    txt.innerHTML = `⏱️ Time Left: ${h}:${m}:${s}`;
-                } else if (now < graceTime) {
-                    let diff = graceTime - now;
-                    let m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
-                    let s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
-                    banner.className = 'match-timer-banner grace';
-                    txt.innerHTML = `⚠️ GRACE PERIOD: ${m}:${s}`;
+                    let m = Math.floor(diff/60000); let s = Math.floor((diff%60000)/1000);
+                    txt.innerText = `⏱️ Match Time: ${m}m ${s}s`;
+                } else if (now < globalGraceTime) {
+                    let diff = globalGraceTime - now;
+                    let m = Math.floor(diff/60000); let s = Math.floor((diff%60000)/1000);
+                    banner.className = "match-timer-banner grace";
+                    txt.innerText = `⚠️ REEL IN! GRACE: ${m}m ${s}s`;
                 } else {
-                    banner.className = 'match-timer-banner ended';
-                    txt.innerHTML = `🛑 MATCH ENDED`;
+                    banner.className = "match-timer-banner ended";
+                    txt.innerText = "🛑 MATCH ENDED";
                     document.getElementById('recordButtonsDiv').style.display = 'none';
                     clearInterval(matchTimerInterval);
                 }
             }, 1000);
         };
 
-        // 4. REST OF BOILERPLATE LOGIC
-        window.toMins = function(t) { if(!t || typeof t !== 'string') return 0; const parts = t.split(':'); if(parts.length !== 2) return 0; return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10); };
-        window.toggleDrawer = function(o) { document.getElementById('drawerOverlay').classList.toggle('show', o); document.getElementById('leaderboardDrawer').classList.toggle('open', o); };
-        window.populateVenueDropdown = function() { const sel = document.getElementById('venueSelect'); sel.innerHTML = '<option value="" disabled selected>Select Venue...</option><option value="__NEW__">Add New...</option>'; defaultVenues && Object.keys(defaultVenues).sort().forEach(v => { let o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o); }); };
-        window.handleVenueDropdown = function() { let v = document.getElementById('venueSelect').value; if(v === '__NEW__') { document.getElementById('venueSelectContainer').style.display = 'none'; document.getElementById('venueInputContainer').style.display = 'flex'; } };
-        window.cancelNewVenue = function() { document.getElementById('venueSelectContainer').style.display = 'block'; document.getElementById('venueInputContainer').style.display = 'none'; document.getElementById('venueSelect').selectedIndex = 0; };
-        
-        window.registerAngler = function(isLive = false) {
-            currentAngler = document.getElementById('anglerName').value.trim();
-            if(!currentAngler) { window.showAppToast("Name required.", true); return false; }
-            PageManager.show('anglerFishingPage');
-            window.populateSpeciesDropdown();
-            return true;
-        };
-
-        window.populateSpeciesDropdown = function() {
-            let e = document.getElementById('speciesInput');
-            e.innerHTML = '<option value="" selected disabled>Pick Fish...</option>';
-            speciesList.forEach(g => { g.items.sort().forEach(s => { let o = document.createElement('option'); o.value = s; o.textContent = s; e.appendChild(o); }); });
-        };
-
+        // 4. CATCH LOGGING
         window.addFishTextOnly = function() {
             let s = document.getElementById('speciesInput').value;
             let l = parseFloat(document.getElementById('fishLengthInput').value) || 0;
-            if(!s || l <= 0) return window.showAppToast("Enter species/length.", true);
-            fishData.push({species: s, length: l, time: new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', hour12:false})});
+            if(!s || l <= 0) return window.showAppToast("Check Species/Length", true);
+            fishData.push({species:s, length:l, time: new Date().toLocaleTimeString()});
             window.updateFishLog();
+            document.getElementById('fishLengthInput').value = "";
         };
 
         window.updateFishLog = function() {
-            const log = document.getElementById('fishLog');
-            log.innerHTML = '';
+            const log = document.getElementById('fishLog'); log.innerHTML = '';
             fishData.forEach((f, i) => {
-                log.innerHTML += `<div class="inner-card d-flex justify-content-between"><div><b>${f.species}</b><br><small class="text-primary">${f.length}cm</small></div><button class="btn btn-sm btn-outline-danger" onclick="window.delFish(${i})">X</button></div>`;
+                log.innerHTML += `<div class="inner-card d-flex justify-content-between"><div><b>${f.species}</b><br><small>${f.length}cm</small></div><button class="btn btn-sm btn-danger" onclick="window.delFish(${i})">X</button></div>`;
             });
-            document.getElementById('liveScoreVal').textContent = fishData.reduce((sum, f) => sum + f.length, 0);
-            if(liveMatchPin) window.syncLiveScore();
+            let total = fishData.reduce((sum, f) => sum + f.length, 0);
+            document.getElementById('liveScoreVal').innerText = total;
+            if(liveMatchPin) window.syncLiveScore(total);
         };
 
-        window.delFish = function(i) { fishData.splice(i, 1); window.updateFishLog(); };
-        
-        window.syncLiveScore = function() {
-            let score = fishData.reduce((sum, f) => sum + f.length, 0);
-            db.collection("matches").doc(liveMatchPin).collection("anglers").doc(currentAngler).set({ score: score, display: score.toString(), catches: fishData.length, lastUpdate: firebase.firestore.FieldValue.serverTimestamp() }, {merge: true});
+        window.delFish = (i) => { fishData.splice(i,1); window.updateFishLog(); };
+
+        window.syncLiveScore = function(score) {
+            db.collection("matches").doc(liveMatchPin).collection("anglers").doc(currentAngler).set({
+                score: score, display: score.toString(), catches: fishData.length, lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+            }, {merge:true});
         };
 
-        // 5. BOOT
+        window.startFirebaseListeners = (pin) => {
+            db.collection("matches").doc(pin).collection("anglers").onSnapshot(snap => {
+                let list = []; snap.forEach(d => list.push({name: d.id, ...d.data()}));
+                list.sort((a,b) => b.score - a.score);
+                let html = ""; list.forEach((p, idx) => html += `<div class="angler-row p-2 border-bottom"><div><b>#${idx+1} ${p.name}</b></div><div class="fw-bold text-warning">${p.display}</div></div>`);
+                document.getElementById('drawerLeaderboardList').innerHTML = html;
+            });
+        };
+
+        window.toggleDrawer = (o) => {
+            document.getElementById('leaderboardDrawer').classList.toggle('open', o);
+            document.getElementById('drawerOverlay').classList.toggle('show', o);
+        };
+
+        window.populateSpeciesDropdown = () => {
+            let e = document.getElementById('speciesInput');
+            e.innerHTML = '<option value="" disabled selected>Select Fish...</option>';
+            speciesList[0].items.forEach(s => e.innerHTML += `<option value="${s}">${s}</option>`);
+        };
+
+        // 5. INIT
         document.addEventListener('DOMContentLoaded', () => {
-            window.populateVenueDropdown();
+            currentAngler = "Christopher Francis McCreadie";
+            document.getElementById('anglerName').value = currentAngler;
             PageManager.show('splashScreen');
+            window.restoreActiveSession();
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
