@@ -1,44 +1,23 @@
-const CACHE_NAME = 'sea-diary-cache-v248';
+const CACHE_NAME = 'sea-diary-cache-v251';
 const urlsToCache = [
   '/',
-  '/index.html?v=248',
+  '/index.html?v=251',
   '/manifest.json'
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-        return cache.addAll(urlsToCache);
-    })
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => { return cache.addAll(urlsToCache); }));
   self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
+  event.waitUntil(caches.keys().then(keys => {
+    return Promise.all(keys.map(key => { if (key !== CACHE_NAME) return caches.delete(key); }));
+  }));
   self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.url.includes('firestore') || 
-      event.request.url.includes('firebaseio.com') ||
-      event.request.url.includes('weatherapi.com')) {
-      return; 
-  }
-  event.respondWith(
-    fetch(event.request).catch(() => {
-        return caches.match(event.request);
-    })
-  );
+  if (event.request.url.includes('firestore') || event.request.url.includes('firebaseio.com')) return;
+  event.respondWith(fetch(event.request).catch(() => { return caches.match(event.request); }));
 });
