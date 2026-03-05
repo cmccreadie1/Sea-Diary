@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sea-diary-cache-v240';
+const CACHE_NAME = 'sea-diary-cache-v241';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -9,7 +9,7 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache v240');
+        console.log('Opened cache v241');
         return cache.addAll(urlsToCache);
       })
   );
