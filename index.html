@@ -47,9 +47,7 @@
         .text-primary { color: var(--app-main) !important; }
         .bg-primary { background-color: var(--app-main) !important; }
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 700; border-radius: 12px;}
-        .btn-primary:hover { background-color: var(--app-main-hover) !important; }
         .btn-outline-primary { color: var(--app-main) !important; border-color: var(--app-main) !important; border-radius: 12px; font-weight: 700;}
-        .btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary { background-color: var(--app-main) !important; color: #fff !important; }
         
         .btn-danger, .btn-secondary, .btn-dark { border-radius: 12px; font-weight: 700; }
 
@@ -67,52 +65,44 @@
 
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
-            background: var(--bg-main); color: var(--text-main);
-            text-align: center; padding: 20px; box-sizing: border-box;
-            z-index: 1040; 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-main); z-index: 1040; 
         }
         
-        .logo-svg { width: 160px; height: 160px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)); margin-bottom: 25px; }
+        .logo-svg { width: 160px; height: 160px; margin-bottom: 25px; }
         .sonar-sweep { transform-origin: 100px 100px; animation: spin 4s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .icon-spin { animation: spin 1s linear infinite; }
 
-        .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 20px; padding: 10px 15px; text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+        .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 20px; padding: 10px 15px; text-align: center; margin-bottom: 16px; }
         .live-score-value { font-size: 2.8rem; font-weight: 800; color: var(--app-main); line-height: 1; letter-spacing: -1px; }
 
-        .tide-chart-container { background: var(--card-bg); border-radius: 20px; padding: 25px 12px 10px 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); cursor: zoom-in; position: relative; }
+        .tide-chart-container { background: var(--card-bg); border-radius: 20px; padding: 25px 12px 10px 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); cursor: zoom-in; }
         
-        .xc-shield { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid var(--app-main); border-radius: 20px; padding: 20px; text-align: center; color: white; box-shadow: var(--shadow-md); margin-bottom: 16px; }
-        .xc-score { font-size: 4rem; font-weight: 800; color: #ffffff; line-height: 1; margin-bottom: 5px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+        .xc-shield { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid var(--app-main); border-radius: 20px; padding: 20px; text-align: center; color: white; margin-bottom: 16px; }
+        .xc-score { font-size: 4rem; font-weight: 800; color: #ffffff; line-height: 1; }
     </style>
 </head>
 <body>
 
     <div class="toast-container position-fixed top-0 end-0 p-3 mt-4" style="z-index: 20000;">
         <div id="appToast" class="toast border-0 shadow-lg rounded-4" role="alert">
-            <div class="d-flex"><div class="toast-body fw-bold fs-6 text-dark" id="toastMsg"></div><button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button></div>
+            <div class="d-flex"><div class="toast-body fw-bold fs-6" id="toastMsg"></div><button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button></div>
         </div>
     </div>
 
     <div id="splashScreen" class="splash-screen">
         <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <circle cx="100" cy="100" r="95" fill="#0f172a" stroke="#069494" stroke-width="2"/>
-            <circle cx="100" cy="100" r="60" fill="none" stroke="#069494" stroke-width="1" opacity="0.3"/>
-            <circle cx="100" cy="100" r="30" fill="none" stroke="#069494" stroke-width="1" opacity="0.3"/>
-            <line x1="5" y1="100" x2="195" y2="100" stroke="#069494" stroke-width="1" opacity="0.3"/>
-            <line x1="100" y1="5" x2="100" y2="195" stroke="#069494" stroke-width="1" opacity="0.3"/>
-            <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
             <g class="sonar-sweep"><path d="M 100,100 L 100,5 A 95 95 0 0 1 195,100 Z" fill="#08baba" opacity="0.5"/></g>
+            <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
 
-        <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 2.0.3</p>
+        <h1 class="display-3 fw-bold mb-0 text-center">Sea Diary</h1>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.0.4</p>
         
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
-            <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()">
-                <i class="bi bi-download me-2"></i>Install App
-            </button>
+            <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-3 shadow" style="display:none;" onclick="window.installApp()"><i class="bi bi-download me-2"></i>Install App</button>
             <button class="btn btn-primary btn-lg fw-bold py-3 shadow-sm" style="font-size: 1.2rem;" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
         </div>
@@ -126,35 +116,38 @@
     <div id="anglerRegistration" class="app-page">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="fw-bold m-0 text-primary">Session Setup</h3>
-            <button class="btn btn-sm btn-outline-secondary px-4 py-2 rounded-pill fw-bold bg-white" onclick="window.resetAppToHome()"><i class="bi bi-arrow-left me-1"></i>Back</button>
+            <button class="btn btn-sm btn-outline-secondary px-4 py-2 rounded-pill fw-bold bg-white" onclick="window.resetAppToHome()">Back</button>
         </div>
         
         <div class="inner-card mb-3">
-            <h5 class="fw-bold text-primary mb-3"><i class="bi bi-card-text me-2"></i>Session Details</h5>
             <div class="mb-3">
-                <label class="form-label small mb-1 fw-bold text-muted">Angler Name</label>
-                <input type="text" id="anglerName" class="form-control fw-bold" oninput="window.saveActiveSession()">
+                <label class="form-label small fw-bold text-muted">Angler</label>
+                <input type="text" id="anglerName" class="form-control fw-bold">
             </div>
             
             <div class="mb-3">
-                <label class="form-label small mb-1 fw-bold text-muted">Venue</label>
+                <label class="form-label small fw-bold text-muted">Venue</label>
                 <div id="venueSelectContainer">
                     <select id="venueSelect" class="form-select fw-bold text-primary" onchange="window.handleVenueDropdown()">
-                        <option value="" disabled selected>Tap to select saved venue...</option>
-                    </select>
+                        </select>
                 </div>
-                <div id="venueInputContainer" style="display:none;" class="input-group shadow-sm">
-                    <input type="text" id="venueInputText" class="form-control fw-bold text-primary" placeholder="Type new venue name..." oninput="window.saveActiveSession()">
-                    <button class="btn btn-outline-danger px-3" onclick="window.cancelNewVenue()"><i class="bi bi-x-lg"></i></button>
+                <div id="venueInputContainer" style="display:none;" class="mt-2">
+                    <div class="input-group shadow-sm mb-2">
+                        <input type="text" id="venueInputText" class="form-control fw-bold" placeholder="Type new venue name...">
+                        <button class="btn btn-outline-danger" onclick="window.cancelNewVenue()"><i class="bi bi-x-lg"></i></button>
+                    </div>
+                    <button id="btnAutoSearchNew" class="btn btn-outline-primary w-100 fw-bold py-2" onclick="window.linkNewVenueGPS()">
+                        <i class="bi bi-geo-alt-fill me-1"></i> Scan for GPS Tides
+                    </button>
                 </div>
             </div>
 
-            <div class="row g-3 mb-3">
-                <div class="col-6"><label class="small fw-bold text-muted">Date</label><input type="date" id="competitionDate" class="form-control" onchange="window.saveActiveSession()"></div>
+            <div class="row g-3">
+                <div class="col-6"><label class="small fw-bold text-muted">Date</label><input type="date" id="competitionDate" class="form-control"></div>
                 <div class="col-6">
-                    <label class="small fw-bold text-muted">Scoring Format</label>
-                    <select id="scoringMethod" class="form-select fw-bold" onchange="window.handleMethodChange()">
-                        <option value="length_only">Total Length Only</option>
+                    <label class="small fw-bold text-muted">Format</label>
+                    <select id="scoringMethod" class="form-select fw-bold">
+                        <option value="length_only">Length Only</option>
                         <option value="measure_points">Length + 10 Pts</option>
                         <option value="species_hunt">Species Hunt</option>
                         <option value="weight">Total Weight</option>
@@ -163,22 +156,12 @@
             </div>
         </div>
 
-        <div class="inner-card mb-3">
-            <h5 class="fw-bold text-primary mb-3"><i class="bi bi-cloud-sun me-2"></i>Live Weather & Tides</h5>
-            <div class="d-flex gap-2 mb-3">
-                <button class="btn btn-outline-primary w-25" onclick="window.autoLocateStation()" id="btnAutoLocate"><i class="bi bi-geo-alt-fill fs-5"></i></button>
-                <select id="tideStationSelect" class="form-select fw-bold" onchange="window.saveActiveSession()"></select>
+        <div class="inner-card mb-3" id="envPreview" style="display:none;">
+            <div class="row g-2 mb-3">
+                <div class="col-6"><input type="text" id="weatherInput" class="form-control text-center fw-bold small" placeholder="Weather" readonly></div>
+                <div class="col-6"><input type="text" id="windInput" class="form-control text-center fw-bold small" placeholder="Wind" readonly></div>
             </div>
-            <button class="btn btn-primary btn-lg w-100 fw-bold mb-4" onclick="window.fetchEnvironmentData()" id="btnFetchEnv"><i class="bi bi-cloud-download me-2"></i> Fetch Live Data</button>
-            
-            <div class="row g-2 mb-2">
-                <div class="col-6"><input type="text" id="weatherInput" class="form-control text-center fw-bold" placeholder="Weather" readonly></div>
-                <div class="col-6"><input type="text" id="windInput" class="form-control text-center fw-bold" placeholder="Wind" readonly></div>
-                <div class="col-6"><input type="text" id="waveInput" class="form-control text-center fw-bold" placeholder="Wave" readonly></div>
-                <div class="col-6"><input type="text" id="swellInput" class="form-control text-center fw-bold" placeholder="Swell" readonly></div>
-            </div>
-
-            <div id="setupTideChartContainer" class="tide-chart-container mt-4" style="display:none;" onclick="window.viewImg(document.getElementById('setupTideCanvas').toDataURL(), true)">
+            <div id="setupTideChartContainer" class="tide-chart-container" onclick="window.viewImg(document.getElementById('setupTideCanvas').toDataURL())">
                 <canvas id="setupTideCanvas" class="w-100"></canvas>
             </div>
         </div>
@@ -189,157 +172,103 @@
     <div id="anglerFishingPage" class="app-page">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="m-0 fw-bold text-primary">Live Log</h4>
-            <button class="btn btn-sm btn-outline-danger px-4 py-2 rounded-pill fw-bold bg-white" onclick="window.confirmQuit()">Quit</button>
+            <button class="btn btn-sm btn-outline-danger px-4 py-2 rounded-pill bg-white" onclick="window.confirmQuit()">Quit</button>
         </div>
-
-        <div class="tide-chart-container mb-3" id="liveTideChartContainer" style="display:none;" onclick="window.viewImg(document.getElementById('liveTideCanvas').toDataURL(), true)">
-            <canvas id="liveTideCanvas" class="w-100"></canvas>
-        </div>
-        
         <div class="inner-card mb-3">
-            <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="window.handleCameraInput()">
             <div class="mb-3">
-                <label class="form-label small fw-bold text-muted mb-1">Species</label>
                 <select id="speciesInput" class="form-select fw-bold" onchange="window.toggleCustomSpeciesInput()"></select>
-                <input type="text" id="customSpeciesInput" class="form-control fw-bold mt-2" placeholder="Type Species Name" style="display:none;">
+                <input type="text" id="customSpeciesInput" class="form-control fw-bold mt-2" placeholder="Species name..." style="display:none;">
             </div>
-            <div id="lengthInputContainer" class="mb-3" style="display:none;">
-                <label class="form-label small fw-bold text-muted mb-1">Fish Length (cm)</label>
-                <input type="number" id="fishLengthInput" class="form-control text-center fw-bold fs-4" placeholder="0">
+            <div id="lengthInputContainer" class="mb-3">
+                <input type="number" id="fishLengthInput" class="form-control text-center fw-bold fs-4" placeholder="Length (cm)">
             </div>
-            <div class="row g-2 pt-1">
-                <div class="col-6"><button class="btn btn-primary w-100 py-3 fw-bold" onclick="window.addFishTextOnly()">Record</button></div>
-                <div class="col-6"><button class="btn btn-outline-primary w-100 py-3 fw-bold bg-white" onclick="window.triggerCamera()"><i class="bi bi-camera-fill"></i></button></div>
-            </div>
+            <button class="btn btn-primary w-100 py-3 fw-bold fs-5" onclick="window.addFishTextOnly()">Record Catch</button>
         </div>
-
-        <div class="live-score-box mb-3"><div class="small text-muted fw-bold">Total Score</div><div class="live-score-value" id="liveScoreVal">0</div></div>
+        <div class="live-score-box mb-3"><div class="small text-muted fw-bold">Session Score</div><div class="live-score-value" id="liveScoreVal">0</div></div>
         <div id="fishLog" class="d-flex flex-column gap-2 mb-4"></div>
-        <button class="btn btn-danger btn-lg w-100 py-3 fw-bold fs-5 shadow" onclick="window.endSession()">Finish Session</button>
+        <button class="btn btn-danger btn-lg w-100 py-3 fw-bold shadow" onclick="window.endSession()">Finish Session</button>
     </div>
 
-    <div id="tallyVerificationPage" class="app-page">
-        <div id="session_xc_shield" class="xc-shield" style="display:none;"></div>
-        <div class="inner-card p-3 mb-3 border-0 shadow-sm">
-            <h4 class="text-primary fw-bold m-0" id="session_angler"></h4>
-            <div class="fw-bold text-main fs-5 mb-2" id="session_venue"></div>
-        </div>
-        <div class="d-grid gap-3 mt-4">
-            <button class="btn btn-dark py-3 fw-bold shadow-sm rounded-4" onclick="window.resetAppToHome()">Home</button>
-        </div>
-    </div>
+    <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header border-0 pb-0 px-4 pt-4"><h4 class="modal-title fw-bold text-primary">Diary History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div id="recentList" class="p-3"></div></div></div></div></div>
 
-    <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header border-0 pb-0 pt-4 px-4"><h4 class="modal-title fw-bold text-primary">Diary History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light px-4 pb-4 pt-3"><div id="recentList"></div><div id="fullScorecardView" style="display:none;"></div></div></div></div></div>
-    
-    <div class="modal fade" id="guideModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content p-4"><h4>User Guide</h4><p>Scotland-centric Version 2.0.3 active.</p></div></div></div>
-
-    <div id="nativeImageViewer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#0f172a; z-index:99999; overflow:auto;"><div class="p-3 text-end"><button onclick="window.closeImgView()" class="btn btn-outline-light rounded-pill px-4 fw-bold shadow">Close</button></div><div style="width:100%; height:80%; display:flex; align-items:center; justify-content:center;"><img id="nativeFullImage" src="" style="width: 100%; height: auto; max-height: 90vh; object-fit: contain; border-radius: 12px; background: white;"></div></div>
+    <div id="nativeImageViewer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#0f172a; z-index:99999; overflow:auto;"><div class="p-3 text-end"><button onclick="window.closeImgView()" class="btn btn-outline-light rounded-pill px-4 fw-bold">Close</button></div><div style="width:100%; height:80%; display:flex; align-items:center; justify-content:center;"><img id="nativeFullImage" src="" style="width: 100%; height: auto; max-height: 90vh; background: white; border-radius: 12px;"></div></div>
 
     <script>
         const WEATHER_API_KEY = "db7f2afb64d943719e0203116260103";
         const speciesList=[
-            {category:"Common",items:["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},
-            {category:"Round Fish",items:["Bass","Bream (Black)","Bream (Gilthead)","Bream (Red)","Garfish","Gurnard (Grey)","Gurnard (Red)","Gurnard (Tub)","Mackerel","Mullet (Golden)","Mullet (Grey/Thick)","Mullet (Red)","Scad","Weever (Lesser)"]},
-            {category:"Sharks & Rays",items:["Dogfish (Blackmouth)","Smoothhound (Common)","Smoothhound (Starry)","Spurdog","Tope","Ray (Thornback)","Ray (Spotted)","Ray (Blonde)","Ray (Small-eyed)","Ray (Stingray)"]}
+            {category:"Common",items:["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)"]},
+            {category:"Round Fish",items:["Bass","Bream","Garfish","Mackerel","Mullet","Scad"]},
+            {category:"Sharks & Rays",items:["Smoothhound","Spurdog","Tope","Ray (Thornback)"]}
         ];
         
-        // Scottish Mark Database Injected as Requested
-        const tideStations = [
-            {region:"Scotland - West",stations:[{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Largs Pier",lat:55.7941,lon:-4.8727},{name:"Ayr Pier",lat:55.4586,lon:-4.6292},{name:"Portpatrick",lat:54.8333,lon:-5.1167},{name:"Campbeltown",lat:55.4241,lon:-5.6033},{name:"Oban Pier",lat:56.4116,lon:-5.4747},{name:"Mallaig Pier",lat:57.0064,lon:-5.8291},{name:"Dunoon Pier",lat:55.946,lon:-4.921}]},
-            {region:"Scotland - East",stations:[{name:"Aberdeen Breakwater",lat:57.1437,lon:-2.0776},{name:"Arbroath Cliffs",lat:56.5503,lon:-2.5802},{name:"St Andrews Pier",lat:56.34,lon:-2.79},{name:"Leith (Edinburgh)",lat:55.9855,lon:-3.1764},{name:"Dunbar Harbor",lat:56.0029,lon:-2.5135},{name:"Peterhead",lat:57.5058,lon:-1.7765},{name:"Eyemouth Pier",lat:55.8711,lon:-2.0867}]},
-            {region:"Scotland - North & Isles",stations:[{name:"Scrabster Harbor",lat:58.6083,lon:-3.5416},{name:"Ullapool Pier",lat:57.8953,lon:-5.1585},{name:"Wick Pier",lat:58.4379,lon:-3.0841},{name:"Stornoway",lat:58.2094,lon:-6.3849},{name:"Kirkwall Harbor",lat:58.9866,lon:-2.9566}]}
+        // Well-known Scottish Marks (Internal DB)
+        const scottishMarks = [
+            {name:"Aberdeen Breakwater",lat:57.1437,lon:-2.0776},
+            {name:"Arbroath Cliffs",lat:56.5503,lon:-2.5802},
+            {name:"St Andrews Pier",lat:56.34,lon:-2.79},
+            {name:"Portpatrick Pier",lat:54.8333,lon:-5.1167},
+            {name:"Greenock Quay",lat:55.9521,lon:-4.7644},
+            {name:"Ayr Pier",lat:55.4586,lon:-4.6292},
+            {name:"Scrabster Harbor",lat:58.6083,lon:-3.5416},
+            {name:"Ullapool Pier",lat:57.8953,lon:-5.1585},
+            {name:"Mallaig Pier",lat:57.0064,lon:-5.8291},
+            {name:"Dunoon Pier",lat:55.946,lon:-4.921}
         ];
         
-        let fishData=[], currentScoringMethod='', selectedWeightUnit='metric', currentSavedKey='', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='', weatherInfo='', windInfo='';
+        let fishData=[], currentScoringMethod='', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='';
         const PageManager={ show:function(id){ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
         const StorageHelper={ save:(k,v)=>localStorage.setItem(k,v), get:k=>localStorage.getItem(k), remove:k=>localStorage.removeItem(k), getAll:()=>({...localStorage}) };
-
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => { 
-            e.preventDefault(); deferredPrompt = e; 
-            if (!window.matchMedia('(display-mode: standalone)').matches) document.getElementById('btnInstallApp').style.display = 'block';
-        });
-
-        window.installApp = async function() { 
-            if (deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') document.getElementById('btnInstallApp').style.display = 'none'; deferredPrompt = null; } 
-        };
-
-        window.showAppToast = function(msg, isError = false) {
-            const t = document.getElementById('appToast');
-            document.getElementById('toastMsg').innerHTML = isError ? `<i class="bi bi-exclamation-triangle-fill me-2"></i> ${msg}` : `<i class="bi bi-check-circle-fill me-2 text-success"></i> ${msg}`;
-            t.className = isError ? 'toast text-bg-warning border-0 shadow-lg rounded-4' : 'toast bg-white text-dark border border-success border-opacity-25 shadow-lg rounded-4';
-            new bootstrap.Toast(t).show();
-        };
-
-        window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
-
-        window.loadSavedScorecards = function(){
-            document.getElementById('fullScorecardView').style.display='none'; document.getElementById('savedScorecardsList').style.display='block';
-            const recentList = document.getElementById('recentList'); recentList.innerHTML = '';
-            const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_')).sort().reverse();
-            keys.forEach((k) => {
-                const d = JSON.parse(StorageHelper.get(k)); const dateStr = new Date(d.date).toLocaleDateString('en-GB'); 
-                recentList.innerHTML += `<div class="inner-card mb-3 border-0" style="cursor:pointer;" onclick="window.viewSaved('${k}')"><div class="d-flex justify-content-between align-items-center"><div><div class="fw-bold fs-5 text-primary mb-1">${d.venue || 'Unnamed Venue'}</div><div class="text-muted small fw-bold">${dateStr}</div></div><button class="btn btn-sm text-danger border-0" onclick="window.deleteFromList(event, '${k}')"><i class="bi bi-trash-fill"></i></button></div></div>`;
-            });
-            if(keys.length === 0) recentList.innerHTML = '<div class="text-center p-5 fw-bold text-muted">No sessions saved.</div>';
-        };
-
-        window.deleteFromList = (e, k) => { e.stopPropagation(); if(confirm("Delete?")) { StorageHelper.remove(k); window.loadSavedScorecards(); } };
-
-        window.viewSaved = function(k){
-            const d = JSON.parse(StorageHelper.get(k));
-            document.getElementById('saved_view_angler').textContent = d.angler; document.getElementById('saved_view_venue').textContent = d.venue;
-            let html = '<div class="p-3 bg-white rounded-4 border shadow-sm">';
-            d.fishData.forEach(f => { html += `<div class="mb-2 fw-bold text-main border-bottom pb-1">${f.species} <span class="float-end text-primary">${f.display}</span></div>`; });
-            html += '</div>'; document.getElementById('saved_view_breakdown').innerHTML = html;
-            document.getElementById('savedScorecardsList').style.display='none'; document.getElementById('fullScorecardView').style.display='block';
-        };
-
-        window.populateSpeciesDropdown = function() { 
-            const e = document.getElementById('speciesInput'); 
-            e.innerHTML='<option value="" selected disabled>Select Fish...</option><option value="Other">Other (Manual Entry)</option>'; 
-            speciesList.forEach(g => { const grp = document.createElement('optgroup'); grp.label = g.category; g.items.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; grp.appendChild(o); }); e.appendChild(grp); }); 
-        };
-
-        window.toggleCustomSpeciesInput = function() { document.getElementById("customSpeciesInput").style.display = document.getElementById("speciesInput").value === "Other" ? "block" : "none"; };
 
         window.populateVenueDropdown = function() {
             let vMap = JSON.parse(StorageHelper.get('venueTideMap') || '{}');
             const sel = document.getElementById('venueSelect');
-            sel.innerHTML = '<option value="" disabled selected>Tap to select saved venue...</option>';
-            Object.keys(vMap).sort().forEach(v => sel.innerHTML += `<option value="${v}">${v}</option>`);
-            sel.innerHTML += '<option value="__NEW__" class="fw-bold text-success">➕ Create New Venue...</option>';
+            sel.innerHTML = '<option value="" disabled selected>Select Venue...</option>';
+            
+            // Default Scottish Marks
+            scottishMarks.forEach(m => { sel.innerHTML += `<option value="${m.lat},${m.lon}">${m.name}</option>`; });
+            
+            // Custom Saved Marks
+            Object.keys(vMap).sort().forEach(vName => {
+                const data = vMap[vName];
+                sel.innerHTML += `<option value="${data.lat},${data.lon}">${vName}</option>`;
+            });
+            
+            sel.innerHTML += '<option value="__NEW__" class="fw-bold text-success">➕ Add New Mark...</option>';
         };
 
         window.handleVenueDropdown = function() {
-            if (document.getElementById('venueSelect').value === '__NEW__') {
+            const val = document.getElementById('venueSelect').value;
+            if (val === '__NEW__') {
                 document.getElementById('venueSelectContainer').style.display = 'none';
-                document.getElementById('venueInputContainer').style.display = 'flex';
-                document.getElementById('venueInputText').value = ''; document.getElementById('venueInputText').focus();
+                document.getElementById('venueInputContainer').style.display = 'block';
+                document.getElementById('venueInputText').focus();
+            } else {
+                window.fetchEnvironmentData(val);
             }
         };
 
-        window.cancelNewVenue = function() { document.getElementById('venueSelectContainer').style.display = 'block'; document.getElementById('venueInputContainer').style.display = 'none'; document.getElementById('venueSelect').selectedIndex = 0; };
-
-        window.populateTideStations = function() {
-            const select = document.getElementById('tideStationSelect');
-            select.innerHTML = '<option value="" selected disabled>Manual Search...</option>';
-            tideStations.forEach(regionObj => { const grp = document.createElement('optgroup'); grp.label = regionObj.region; regionObj.stations.forEach(station => { const opt = document.createElement('option'); opt.value = `${station.lat},${station.lon}`; opt.textContent = station.name; grp.appendChild(opt); }); select.appendChild(grp); });
-        };
-
-        window.autoLocateStation = function() {
-            const btn = document.getElementById('btnAutoLocate');
-            if (!navigator.geolocation) return window.showAppToast("GPS error.", true);
-            const originalIcon = btn.innerHTML; btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin"></i>'; btn.disabled = true;
+        window.linkNewVenueGPS = function() {
+            const name = document.getElementById('venueInputText').value.trim();
+            if(!name) return window.showAppToast("Enter venue name first.", true);
+            const btn = document.getElementById('btnAutoSearchNew');
+            btn.innerHTML = '<i class="bi bi-hourglass-split icon-spin"></i> Scanning...';
+            
             navigator.geolocation.getCurrentPosition((pos) => {
-                window.showAppToast(`📍 GPS Coordinates Fixed.`); btn.innerHTML = originalIcon; btn.disabled = false;
-            }, (err) => { btn.innerHTML = originalIcon; btn.disabled = false; }, { timeout: 10000 });
+                const lat = pos.coords.latitude; const lon = pos.coords.longitude;
+                let vMap = JSON.parse(StorageHelper.get('venueTideMap') || '{}');
+                vMap[name] = { lat, lon };
+                StorageHelper.save('venueTideMap', JSON.stringify(vMap));
+                
+                window.populateVenueDropdown();
+                window.cancelNewVenue();
+                window.showAppToast(`📍 ${name} saved and linked to GPS.`);
+                window.fetchEnvironmentData(`${lat},${lon}`);
+                btn.innerHTML = '<i class="bi bi-geo-alt-fill"></i> Scan for GPS Tides';
+            }, () => { window.showAppToast("GPS Error.", true); btn.innerHTML = '<i class="bi bi-geo-alt-fill"></i> Scan for GPS Tides'; });
         };
 
-        window.fetchEnvironmentData = async function() {
-            const btn = document.getElementById('btnFetchEnv'); const val = document.getElementById('tideStationSelect').value;
-            if (!navigator.onLine || !val) return window.showAppToast("Internet required.", true);
-            const [lat, lon] = val.split(','); btn.disabled = true;
+        window.fetchEnvironmentData = async function(coords) {
+            const [lat, lon] = coords.split(',');
             try {
                 const res = await fetch(`https://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${lat},${lon}&tides=yes`);
                 const d = await res.json();
@@ -347,87 +276,79 @@
                     const c = d.forecast.forecastday[0].hour[new Date().getHours()];
                     document.getElementById('weatherInput').value = `${c.condition.text}, ${c.temp_c}°C`;
                     document.getElementById('windInput').value = `${c.wind_dir} ${c.wind_mph}mph`;
-                    document.getElementById('waveInput').value = `${c.sig_ht_mt || '--'}m Wave`;
-                    document.getElementById('swellInput').value = `${c.swell_ht_mt || '--'}m Swell`;
                     const ts = d.forecast.forecastday[0].day.tides[0].tide;
                     const hw = ts.find(t=>t.tide_type==='HIGH'); const lw = ts.find(t=>t.tide_type==='LOW');
                     if(hw) hwTime = hw.tide_time.split(' ')[1]; if(lw) lwTime = lw.tide_time.split(' ')[1];
-                    if(hwTime && lwTime) { document.getElementById('setupTideChartContainer').style.display = 'block'; window.drawTideGraph('setupTideCanvas', hwTime, lwTime, [], ''); }
-                    window.showAppToast("Live Scottish Data Fetched!");
+                    document.getElementById('envPreview').style.display = 'block';
+                    window.drawTideGraph('setupTideCanvas', hwTime, lwTime);
+                    window.showAppToast("Live Data Active.");
                 }
-            } catch (err) { window.showAppToast("API Error", true); }
-            btn.disabled = false;
+            } catch (e) { window.showAppToast("Network error.", true); }
         };
 
-        window.drawTideGraph = function(canvasId, hwStr, lwStr, fishArray, startStr) {
-            try {
-                const canvas = document.getElementById(canvasId); const ctx = canvas.getContext('2d'); const scale = 3;
-                canvas.width = 340 * scale; canvas.height = 150 * scale; ctx.scale(scale, scale);
-                ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 340, 150);
-                ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 3;
-                for(let x=0; x<=340; x++) { let y = 75 - Math.cos((x/340)*Math.PI*2) * 50; if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.stroke();
-            } catch(e) {}
-        };
-
-        window.forceAppUpdate = function() {
-            const icon = document.getElementById('refreshIcon'); const btn = document.getElementById('btnRefreshApp');
-            if(icon) icon.classList.add('icon-spin'); btn.innerHTML = '<i class="bi bi-arrow-clockwise icon-spin me-1 text-primary"></i> Checking updates...';
-            if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.update()));
-            sessionStorage.setItem('showUpdateToast', 'true'); setTimeout(() => window.location.reload(), 1500);
+        window.drawTideGraph = function(canvasId, hwStr, lwStr) {
+            const canvas = document.getElementById(canvasId); const ctx = canvas.getContext('2d');
+            canvas.width = 340 * 3; canvas.height = 150 * 3; ctx.scale(3, 3);
+            ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 340, 150);
+            ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 3;
+            for(let x=0; x<=340; x++) { let y = 75 - Math.cos((x/340)*Math.PI*2)*50; if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.stroke();
         };
 
         window.startFishing = function() { 
-            document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; 
-            document.getElementById("anglerName").value = currentAngler; // Chris McCreadie
-            window.populateTideStations(); window.populateVenueDropdown(); PageManager.show('anglerRegistration'); 
+            document.getElementById("anglerName").value = currentAngler;
+            document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0];
+            window.populateVenueDropdown(); PageManager.show('anglerRegistration'); 
         };
 
         window.registerAngler = function() {
-            currentAngler = document.getElementById('anglerName').value.trim(); 
-            currentVenue = document.getElementById('venueSelect').value === '__NEW__' ? document.getElementById('venueInputText').value : document.getElementById('venueSelect').value;
+            currentAngler = document.getElementById('anglerName').value.trim();
+            const sel = document.getElementById('venueSelect');
+            currentVenue = sel.options[sel.selectedIndex].text;
             currentScoringMethod = document.getElementById('scoringMethod').value;
-            if(!currentAngler) return window.showAppToast("Enter Name", true);
-            window.setupFishingUI(); window.populateSpeciesDropdown(); PageManager.show('anglerFishingPage');
+            window.populateSpeciesDropdown(); PageManager.show('anglerFishingPage');
         };
 
-        window.setupFishingUI = function() {
-            document.getElementById('lengthInputContainer').style.display = currentScoringMethod !== 'weight' ? 'block' : 'none';
+        window.populateSpeciesDropdown = function() {
+            const e = document.getElementById('speciesInput'); e.innerHTML='<option disabled selected>Select Species...</option>';
+            speciesList.forEach(g => { const grp = document.createElement('optgroup'); grp.label = g.category; g.items.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; grp.appendChild(o); }); e.appendChild(grp); });
+            e.innerHTML += '<option value="Other">Other...</option>';
         };
 
         window.addFishTextOnly = function() {
-            const sp = document.getElementById('speciesInput').value === "Other" ? document.getElementById('customSpeciesInput').value : document.getElementById('speciesInput').value;
-            if(!sp) return;
-            let val = document.getElementById('fishLengthInput').value + 'cm';
-            fishData.push({ species: sp, display: val, time: new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'}) });
+            const sp = document.getElementById('speciesInput').value; if(!sp) return;
+            const len = document.getElementById('fishLengthInput').value;
+            fishData.push({ species: sp, display: len + 'cm', time: new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}) });
             window.updateFishLog();
         };
 
         window.updateFishLog = function() {
             const log = document.getElementById('fishLog'); log.innerHTML = '';
-            fishData.slice().reverse().forEach((f, i) => {
-                log.innerHTML += `<div class="inner-card p-3 d-flex justify-content-between align-items-center"><div><div class="fw-bold">${f.species} <small class="text-muted">${f.time}</small></div><div class="text-primary fw-bold">${f.display}</div></div><button class="btn btn-sm btn-outline-danger border-0" onclick="window.delFish(${fishData.length-1-i})"><i class="bi bi-trash"></i></button></div>`;
+            [...fishData].reverse().forEach((f, i) => {
+                log.innerHTML += `<div class="inner-card p-3 d-flex justify-content-between"><div><div class="fw-bold">${f.species} <small class="text-muted">${f.time}</small></div><div class="text-primary fw-bold">${f.display}</div></div></div>`;
             });
             document.getElementById('liveScoreVal').textContent = fishData.length;
         };
 
-        window.delFish = i => { fishData.splice(i, 1); window.updateFishLog(); };
-
-        window.endSession = function() {
-            PageManager.show('tallyVerificationPage');
-            document.getElementById('session_angler').textContent = currentAngler; document.getElementById('session_venue').textContent = currentVenue;
-            const key = 'scorecard_' + Date.now();
-            StorageHelper.save(key, JSON.stringify({ angler: currentAngler, venue: currentVenue, date: document.getElementById('competitionDate').value, fishData }));
-            const shield = document.getElementById('session_xc_shield');
-            shield.innerHTML = `<div class="xc-score">8.2</div><div class="text-white small fw-bold mt-2">Scottish Venue Performance Calculated</div>`;
-            shield.style.display = 'block';
+        window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
+        window.loadSavedScorecards = function() {
+            const list = document.getElementById('recentList'); list.innerHTML = '';
+            const keys = Object.keys(StorageHelper.getAll()).filter(k=>k.startsWith('scorecard_')).sort().reverse();
+            keys.forEach(k => {
+                const d = JSON.parse(StorageHelper.get(k));
+                list.innerHTML += `<div class="inner-card mb-2"><strong>${d.venue}</strong><br><small>${d.date}</small></div>`;
+            });
+            if(keys.length === 0) list.innerHTML = '<div class="text-center p-4">No sessions found.</div>';
         };
 
+        window.cancelNewVenue = function() { document.getElementById('venueSelectContainer').style.display = 'block'; document.getElementById('venueInputContainer').style.display = 'none'; };
         window.resetAppToHome = function() { fishData = []; PageManager.show('splashScreen'); };
-        window.confirmQuit = function() { if(confirm("Discard?")) window.resetAppToHome(); };
-        
+        window.forceAppUpdate = function() {
+            document.getElementById('refreshIcon').classList.add('icon-spin');
+            setTimeout(() => window.location.reload(), 1000);
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
-            if (!window.matchMedia('(display-mode: standalone)').matches) document.getElementById('btnInstallApp').style.display = 'block';
             window.resetAppToHome();
         });
     </script>
