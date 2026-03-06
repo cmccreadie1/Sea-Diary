@@ -1,54 +1,70 @@
-// VERSION 223 - RAPID ENTRY CARD & BUG FIXES
-const CACHE_NAME = 'sea-score-v223';
-
-const FILES_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icon.png',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
-  'https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+const CACHE_NAME = 'sea-diary-cache-v232';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json'
 ];
 
-self.addEventListener('install', (e) => {
+// Install Event: Caches vital files
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Opened cache v232');
+        return cache.addAll(urlsToCache);
+      })
+  );
   self.skipWaiting();
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
-  );
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(keyList.map((key) => {
-        if (key !== CACHE_NAME) {
-          return caches.delete(key);
-        }
-      }));
-    })
-  );
-  e.waitUntil(clients.claim());
-});
-
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((response) => {
-      if (response) return response;
-      return fetch(e.request).then((fetchResponse) => {
-        return caches.open(CACHE_NAME).then((cache) => {
-          if (e.request.url.startsWith('http') && e.request.method === 'GET') {
-            cache.put(e.request, fetchResponse.clone());
+// Activate Event: Cleans up old caches from previous versions
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
           }
-          return fetchResponse;
-        });
-      });
-    }).catch(() => {
-      console.log('Offline and resource not found in cache:', e.request.url);
+        })
+      );
     })
+  );
+  self.clients.claim();
+});
+
+// Fetch Event: Network-First Strategy with Firebase/Weather Bypass
+self.addEventListener('fetch', event => {
+  // CRITICAL: Do not cache Firebase database calls or Weather API calls
+  if (event.request.url.includes('firestore') || 
+      event.request.url.includes('firebaseio.com') ||
+      event.request.url.includes('weatherapi.com')) {
+      return; 
+  }
+
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        // Check if we received a valid response
+        if(!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+        
+        // Clone the response so we can save a copy to the offline cache
+        let responseToCache = response.clone();
+
+        caches.open(CACHE_NAME)
+          .then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+
+        return response;
+      })
+      .catch(() => {
+        // If network fails (you are entirely offline), serve the app from cache
+        return caches.match(event.request);
+      })
   );
 });
