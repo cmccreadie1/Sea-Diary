@@ -86,7 +86,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.1.9</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.0</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -178,7 +178,7 @@
         const scottishMarks = [{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Oban Pier",lat:56.4116,lon:-5.4747}];
         const portMasterList = [{name:"Grangemouth",lat:56.02,lon:-3.70},{name:"Greenock",lat:55.95,lon:-4.76},{name:"Bowling",lat:55.93,lon:-4.50},{name:"Ayr",lat:55.46,lon:-4.64},{name:"Rosyth",lat:56.02,lon:-3.43},{name:"Leith",lat:55.99,lon:-3.17},{name:"Largs",lat:55.79,lon:-4.87},{name:"Troon",lat:55.54,lon:-4.68}];
 
-        let fishData=[], currentScoringMethod='length_only', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='', displayPortName='', pendingPhoto='';
+        let fishData=[], currentScoringMethod='length_only', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='', displayPortName='', pendingPhoto='', sessionStartTimeM=0;
         const PageManager={ show:id=>{ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
         const Storage={ save:(k,v)=>localStorage.setItem(k,v), get:k=>localStorage.getItem(k), remove:k=>localStorage.removeItem(k), getAll:()=>({...localStorage}) };
 
@@ -240,44 +240,54 @@
             ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 340, 180);
             
             const hwM = parseInt(hwStr.split(':')[0])*60 + parseInt(hwStr.split(':')[1]);
-            const startNow = new Date();
-            const startM = startNow.getHours()*60 + startNow.getMinutes();
+            
+            // LOGIC: Center the Match Window
+            // Graph starts 60 mins BEFORE session start
+            const graphStartM = sessionStartTimeM - 60; 
 
             if(showHeader) {
                 ctx.fillStyle = "#069494"; ctx.font = "900 13px Outfit"; ctx.textAlign = "center";
                 ctx.fillText(`Live Tides: ${displayPortName}`, 170, 25);
             }
 
-            // Draw Hourly Grid
+            // Draw Hourly Grid (8 hour graph)
             for(let i=0; i<=8; i++) {
-                let x = (i/8)*340; let t = new Date(startNow.getTime() + i*3600000);
+                let x = (i/8)*340; 
+                let labelM = graphStartM + (i * 60);
+                let hour = Math.floor((labelM % 1440) / 60);
                 ctx.strokeStyle = "rgba(0,0,0,0.1)"; ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 150); ctx.stroke();
                 ctx.fillStyle = "#1e293b"; ctx.font = "bold 9px Inter"; ctx.textAlign = "center";
-                ctx.fillText(t.getHours().toString().padStart(2,'0')+":00", x, 165);
+                ctx.fillText(hour.toString().padStart(2,'0')+":00", x, 165);
             }
 
             // Draw Tide Curve
             ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 5;
             for(let x=0; x<=340; x++) {
-                let currentPointM = startM + (x/340)*480; // 480 mins = 8 hours
+                let currentPointM = graphStartM + (x/340)*480; 
                 let phase = ((currentPointM - hwM) / 745) * Math.PI * 2;
                 let y = 95 - Math.cos(phase) * 45;
                 if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
 
-                // DRAW CATCH DOTS (FIXED SYNC LOGIC)
+                // RED DOT CATCH LOGIC WITH LABELS
                 fishData.forEach(f => {
-                    // Check if fish catch time (f.tM) falls into this X pixel's time range
                     if(Math.abs(f.tM - currentPointM) < 1.5) {
-                        ctx.fillStyle = "red"; 
-                        ctx.beginPath(); 
-                        ctx.arc(x, y, 5 + (f.sizeBonus || 0), 0, Math.PI*2); 
-                        ctx.fill();
+                        ctx.fillStyle = "#ef4444"; 
+                        ctx.strokeStyle = "#ffffff";
+                        ctx.lineWidth = 2;
+                        ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                        
+                        // Fish Name/Length Label
+                        ctx.fillStyle = "#0f172a"; ctx.font = "900 8px Outfit"; ctx.textAlign = "left";
+                        ctx.fillText(`${f.val}cm ${f.species}`, x + 8, y + 3);
                     }
                 });
             } ctx.stroke();
 
-            // "LIVE" Beacon
-            ctx.beginPath(); ctx.strokeStyle = "#ef4444"; ctx.setLineDash([3, 2]); ctx.moveTo(0, 40); ctx.lineTo(0, 150); ctx.stroke();
+            // Match Bounds (Dashed lines showing start/end)
+            ctx.setLineDash([4, 4]); ctx.strokeStyle = "rgba(0,0,0,0.2)";
+            let startX = (60/480)*340; let endX = (420/480)*340; // 6 hours + 1 hour offset
+            ctx.beginPath(); ctx.moveTo(startX, 40); ctx.lineTo(startX, 150); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(endX, 40); ctx.lineTo(endX, 150); ctx.stroke();
             ctx.setLineDash([]);
         };
 
@@ -292,6 +302,11 @@
             const sel = document.getElementById('venueSelect');
             currentVenue = sel.options[sel.selectedIndex]?.text || "Unknown Mark";
             currentScoringMethod = document.getElementById('scoringMethod').value;
+            
+            // Set session start time for graph alignment
+            const now = new Date();
+            sessionStartTimeM = now.getHours()*60 + now.getMinutes();
+
             document.getElementById('liveVenueLabel').textContent = currentVenue;
             document.getElementById('scoreLabel').textContent = currentScoringMethod === 'weight' ? 'Total (kg)' : 'Total (cm)';
             window.populateSpeciesDropdown(); 
@@ -312,9 +327,6 @@
             const catchTime = new Date();
             const catchM = catchTime.getHours()*60 + catchTime.getMinutes();
 
-            // Logic for bigger dots if multiple fish caught close together
-            let existingCount = fishData.filter(f => Math.abs(f.tM - catchM) < 5).length;
-
             fishData.push({ 
                 id: Date.now(), 
                 species: sp, 
@@ -322,8 +334,7 @@
                 display: len + (currentScoringMethod === 'weight' ? 'kg' : 'cm'), 
                 time: catchTime.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}), 
                 tM: catchM, 
-                photo: pendingPhoto,
-                sizeBonus: existingCount * 2
+                photo: pendingPhoto
             });
             
             pendingPhoto = null; document.getElementById('fishLengthInput').value = '';
@@ -386,8 +397,7 @@
         };
 
         window.resetAppToHome = function() { 
-            fishData = []; 
-            document.getElementById('venueSelect').value = ""; 
+            fishData = []; document.getElementById('venueSelect').value = ""; 
             document.getElementById('envPreview').style.display = 'none';
             document.getElementById('liveScoreVal').textContent = "0"; 
             document.getElementById('fishLog').innerHTML = "";
