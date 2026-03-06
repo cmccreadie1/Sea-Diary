@@ -1,9 +1,9 @@
-const CACHE_NAME = 'sea-diary-pro-v2.0.9';
+const CACHE_NAME = 'sea-diary-pro-v2.1.0';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './manifest.json',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap',
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap',
     'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
     'https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css',
     'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
