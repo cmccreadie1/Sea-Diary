@@ -18,20 +18,15 @@
         h1, h2, h3, h4, h5, h6, .live-score-value, .picker-item, .btn, .xc-score { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
         .text-primary { color: var(--app-main) !important; } .bg-primary { background-color: var(--app-main) !important; }
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 700; border-radius: 12px;}
-        .btn-primary:hover, .btn-primary:active { background-color: var(--app-main-hover) !important; border-color: var(--app-main-hover) !important; }
-        .btn-outline-primary { color: var(--app-main) !important; border-color: var(--app-main) !important; border-radius: 12px; font-weight: 700;}
-        .btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary { background-color: var(--app-main) !important; color: #fff !important; border-color: var(--app-main) !important; }
+        .btn-outline-primary { color: var(--app-main) !important; border-color: var(--app-main) !important; border-radius: 12px; font-weight: 700; background: #fff;}
         .btn-danger, .btn-secondary, .btn-dark { border-radius: 12px; font-weight: 700; }
         .text-muted { color: var(--text-muted) !important; }
         .form-control, .form-select { background-color: var(--input-bg); color: var(--text-main); border-radius: 12px; padding: 10px 14px; border: 1px solid var(--border-color); font-weight: 600; box-shadow: none; transition: all 0.2s ease; }
-        .form-control:focus, .form-select:focus { background-color: var(--card-bg); box-shadow: 0 0 0 3px rgba(6, 148, 148, 0.2); border-color: var(--app-main); color: var(--text-main); }
-        .form-control:disabled, .form-select:disabled { background-color: var(--bg-main); color: var(--text-muted); opacity: 0.7; }
-        ::placeholder { color: #64748b !important; opacity: 0.7; font-weight: 500; }
         .modal-content { background-color: var(--modal-bg); border-color: var(--border-color); border-radius: 24px; box-shadow: var(--shadow-md); }
         .picker-outer-wrapper { background: var(--card-bg); padding: 12px; border-radius: 20px; border: 2px solid var(--app-main); margin-bottom: 10px; box-shadow: var(--shadow-sm); }
         .picker-instruction { text-align: center; font-size: 0.75rem; font-weight: 800; color: var(--app-main); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
         .weight-picker-container { display: flex; justify-content: center; align-items: center; background: var(--picker-bg); border-radius: 12px; height: 130px; position: relative; overflow: hidden; border: 1px solid var(--border-color); }
-        .picker-column { flex: 1; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; text-align: center; -ms-overflow-style: none; scrollbar-width: none; z-index: 2; overscroll-behavior-y: contain; user-select: none; touch-action: pan-y; }
+        .picker-column { flex: 1; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; text-align: center; -ms-overflow-style: none; scrollbar-width: none; z-index: 2; overscroll-behavior-y: contain; touch-action: pan-y; }
         .picker-column::-webkit-scrollbar { display: none; }
         .picker-item { height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 600; color: #94a3b8; opacity: 0.5; scroll-snap-align: center; transition: all 0.2s; }
         .picker-item.selected { color: var(--app-main); font-size: 2rem; font-weight: 800; opacity: 1; }
@@ -40,29 +35,21 @@
         .btn-record-action { white-space: normal !important; line-height: 1.2 !important; font-size: 0.95rem !important; font-weight: 700; min-height: 55px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px !important; border-radius: 16px; transition: transform 0.1s ease; }
         .btn-record-action:active { transform: scale(0.96); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes subtleSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .icon-spin { animation: subtleSpin 1s linear infinite; display: inline-block; }
         .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 12px 12px 20px 12px; animation: fadeIn 0.2s ease-out; }
         .inner-card { background: var(--card-bg); border-radius: 16px; padding: 14px; box-shadow: var(--shadow-sm); margin-bottom: 12px; border: 1px solid var(--border-color); }
-        .splash-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: var(--bg-main); color: var(--text-main); text-align: center; padding: 20px; box-sizing: border-box; z-index: 1040; overflow: hidden; touch-action: none; overscroll-behavior: none; }
-        .logo-svg { width: 150px; height: 150px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)); margin-bottom: 20px; }
-        .sonar-sweep { transform-origin: 100px 100px; animation: spin 4s linear infinite; }
-        .blinker { animation: blink 1s step-end infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes subtleSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .icon-spin { animation: subtleSpin 1s linear infinite; }
+        .splash-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-main); color: var(--text-main); text-align: center; padding: 20px; z-index: 1040; overflow: hidden; }
         .live-score-box { border: 3px solid var(--app-main); background-color: var(--card-bg); border-radius: 16px; padding: 8px 12px; text-align: center; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
         .live-score-value { font-size: 2.5rem; font-weight: 800; color: var(--app-main); line-height: 1; letter-spacing: -1px; }
-        .fish-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 12px; flex-shrink: 0; cursor: pointer; border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .fish-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 12px; flex-shrink: 0; border: 2px solid var(--border-color); }
         .table-custom { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
         .table-custom td { background: var(--card-bg); padding: 12px 14px; border-radius: 14px; vertical-align: middle; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
         .stat-card { background: var(--card-bg); padding: 12px 4px; border-radius: 14px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .stat-card small { display: block; color: var(--text-muted); font-size: 0.6rem; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; letter-spacing: 0.5px; }
         .stat-card strong { font-size: 1.4rem; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
-        @keyframes slideFlash { 0% { background-color: rgba(6, 148, 148, 0.15); transform: translateY(-10px); } 100% { background-color: #ffffff; } }
-        .new-catch-anim { animation: slideFlash 1.5s ease-out; }
         .tide-chart-container { background: var(--card-bg); border-radius: 16px; padding: 20px 10px 8px 10px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); cursor: zoom-in; position: relative; }
-        .input-group-text-clean { background: transparent; border-color: var(--border-color); font-weight: 800; color: var(--text-muted); }
         .xc-shield { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid var(--app-main); border-radius: 16px; padding: 16px; text-align: center; color: white; box-shadow: var(--shadow-md); margin-bottom: 12px; position: relative; overflow: hidden; }
         .xc-subtitle { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: #08baba; font-weight: 800; margin-bottom: 4px;}
         .xc-score { font-size: 3.5rem; font-weight: 800; color: #ffffff; line-height: 1; margin-bottom: 4px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);}
@@ -72,40 +59,31 @@
         .xc-stat-val { font-size: 1.3rem; font-weight: 800; color: var(--app-main); }
         .xc-stat-lbl { font-size: 0.6rem; text-transform: uppercase; font-weight: 700; color: #cbd5e1; }
         .xc-story { font-size: 0.9rem; color: #f8fafc; font-weight: 500; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; text-align: left;}
-        .letter-spacing-1 { letter-spacing: 1px; }
+        /* Moved toast container away from buttons to prevent blocking */
         .toast-container { pointer-events: none; }
         .toast { pointer-events: auto; }
     </style>
 </head>
 <body>
 
-    <div class="toast-container position-fixed top-0 end-0 p-3 mt-3" style="z-index: 20000;">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3 mb-5" style="z-index: 20000;">
         <div id="appToast" class="toast border-0 shadow-lg rounded-4" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex"><div class="toast-body fw-bold fs-6 text-dark" id="toastMsg"></div><button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button></div>
         </div>
     </div>
 
     <div id="splashScreen" class="splash-screen">
-        <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="95" fill="#0f172a" stroke="#069494" stroke-width="2"/>
-            <circle cx="100" cy="100" r="60" fill="none" stroke="#069494" stroke-width="1" opacity="0.3"/>
-            <circle cx="100" cy="100" r="30" fill="none" stroke="#069494" stroke-width="1" opacity="0.3"/>
-            <path d="M 30,135 L 30,150 L 170,150 L 170,135" fill="none" stroke="#08baba" stroke-width="3" opacity="0.9"/>
-            <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
-            <g class="sonar-sweep"><path d="M 100,100 L 100,5 A 95 95 0 0 1 195,100 Z" fill="url(#radarGradient)" opacity="0.5"/><line x1="100" y1="100" x2="100" y2="5" stroke="#08baba" stroke-width="2"/></g>
-            <circle cx="100" cy="100" r="4" fill="#ef4444" class="blinker"/>
-            <defs><linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#08baba" stop-opacity="1"/><stop offset="100%" stop-color="#069494" stop-opacity="0"/></linearGradient></defs>
-        </svg>
-        <h1 class="display-3 fw-bold mb-0 text-center" style="letter-spacing: -2px;">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4" style="letter-spacing: 3px;">Version 233.0</p>
-        <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
-            <button id="btnInstallApp" class="btn btn-warning btn-lg fw-bold py-2 shadow" style="display:none; color: #0f172a;" onclick="window.installApp()"><i class="bi bi-download me-2"></i>Install App</button>
-            <button class="btn btn-primary btn-lg fw-bold py-3 shadow-sm" style="font-size: 1.2rem;" onclick="window.startFishing()">Start Session</button>
-            <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">View Diary History</button>
+        <h1 class="display-3 fw-bold mb-1" style="color: #0f172a; letter-spacing: -2px;">Sea Diary</h1>
+        <p class="text-uppercase text-muted fw-bold small mb-5" style="letter-spacing: 3px;">Version 234.0</p>
+        
+        <div class="d-grid gap-3 col-10 mx-auto" style="max-width: 350px;">
+            <button class="btn btn-primary btn-lg py-3 shadow-sm" style="font-size: 1.2rem;" onclick="window.startFishing()">Start Session</button>
+            <button class="btn btn-outline-primary btn-lg py-3 shadow-sm bg-white" onclick="window.openHistory()">View Diary History</button>
         </div>
-        <div class="mt-4 d-flex flex-column align-items-center gap-3">
-            <button class="btn btn-link text-muted text-decoration-none small fw-bold p-0" onclick="window.forceAppUpdate()"><i class="bi bi-arrow-clockwise me-1 text-primary"></i> Check for Updates</button>
-        </div>
+        
+        <button class="btn btn-link text-muted small fw-bold mt-5 text-decoration-none" onclick="window.forceAppUpdate()">
+            <i id="refreshIcon" class="bi bi-arrow-clockwise me-1"></i> <span id="btnRefreshText">Check for Updates</span>
+        </button>
     </div>
 
     <div id="anglerRegistration" class="app-page">
@@ -137,7 +115,7 @@
             <div class="mb-2">
                 <label class="form-label small mb-1 fw-bold text-muted">Select Venue</label>
                 <div id="venueSelectContainer">
-                    <select id="venueSelect" class="form-select fw-bold text-primary" onchange="window.handleVenueDropdown()"><option value="" disabled selected>Tap to select...</option></select>
+                    <select id="venueSelect" class="form-select fw-bold text-primary" onchange="window.handleVenueDropdown()"></select>
                 </div>
                 <div id="venueInputContainer" style="display:none;" class="input-group shadow-sm mt-1">
                     <input type="text" id="venueInputText" class="form-control fw-bold text-primary" placeholder="Type venue..." oninput="window.saveActiveSession()">
@@ -146,14 +124,14 @@
             </div>
             <button class="btn btn-primary w-100 fw-bold shadow-sm mb-3 py-2" onclick="window.fetchEnvironmentData()" id="btnFetchEnv"><i class="bi bi-cloud-download me-2"></i> Fetch Live Data</button>
             <div class="row g-2">
-                <div class="col-6"><label class="form-label text-muted mb-0" style="font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing: 0.5px;">Weather</label><input type="text" id="weatherInput" class="form-control text-center fw-bold text-main" placeholder="--" readonly style="border-radius: 10px; background: transparent; padding: 6px;"></div>
-                <div class="col-6"><label class="form-label text-muted mb-0" style="font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing: 0.5px;">Wind</label><input type="text" id="windInput" class="form-control text-center fw-bold text-main" placeholder="--" readonly style="border-radius: 10px; background: transparent; padding: 6px;"></div>
-                <div class="col-6"><label class="form-label text-muted mb-0" style="font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing: 0.5px;">Wave</label><input type="text" id="waveInput" class="form-control text-center fw-bold text-primary" placeholder="--" readonly style="border-radius: 10px; background: transparent; padding: 6px;"></div>
-                <div class="col-6"><label class="form-label text-muted mb-0" style="font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing: 0.5px;">Swell</label><input type="text" id="swellInput" class="form-control text-center fw-bold text-primary" placeholder="--" readonly style="border-radius: 10px; background: transparent; padding: 6px;"></div>
+                <div class="col-6"><label class="form-label text-muted mb-0" style="font-size:0.6rem; font-weight:800; text-transform:uppercase;">Weather</label><input type="text" id="weatherInput" class="form-control text-center fw-bold text-main" placeholder="--" readonly style="border-radius: 10px; background: transparent; padding: 6px;"></div>
+                <div class="col-6"><label class="form-label text-muted mb-0" style="font-size:0.6rem; font-weight:800; text-transform:uppercase;">Wind</label><input type="text" id="windInput" class="form-control text-center fw-bold text-main" placeholder="--" readonly style="border-radius: 10px; background: transparent; padding: 6px;"></div>
+                <div class="col-6"><label class="form-label text-muted mb-0" style="font-size:0.6rem; font-weight:800; text-transform:uppercase;">Wave</label><input type="text" id="waveInput" class="form-control text-center fw-bold text-primary" placeholder="--" readonly style="border-radius: 10px; background: transparent; padding: 6px;"></div>
+                <div class="col-6"><label class="form-label text-muted mb-0" style="font-size:0.6rem; font-weight:800; text-transform:uppercase;">Swell</label><input type="text" id="swellInput" class="form-control text-center fw-bold text-primary" placeholder="--" readonly style="border-radius: 10px; background: transparent; padding: 6px;"></div>
             </div>
         </div>
         
-        <button class="btn btn-dark btn-lg w-100 py-3 shadow-sm fw-bold" onclick="window.registerAngler()"><i class="bi bi-play-circle-fill me-2"></i>Start Session</button>
+        <button class="btn btn-dark btn-lg w-100 py-3 shadow-sm fw-bold" onclick="window.registerAngler()"><i class="bi bi-play-circle-fill me-2"></i>Go Fishing</button>
     </div>
 
     <div id="anglerFishingPage" class="app-page">
@@ -223,8 +201,8 @@
 
             <div class="inner-card p-2 mb-2 border-0 shadow-sm" id="session_insights_card" style="display:none;">
                 <div class="row g-1 text-center">
-                    <div class="col-4 border-end pb-1"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.6rem;">Peak</small><strong id="session_peak_feed" class="text-main fs-6">--</strong></div>
-                    <div class="col-4 border-end pb-1"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.6rem;">Pace</small><strong id="session_pace" class="text-main fs-6">--</strong></div>
+                    <div class="col-4 border-end pb-1"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.6rem;">Peak Feed</small><strong id="session_peak_feed" class="text-main fs-6">--</strong></div>
+                    <div class="col-4 border-end pb-1"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.6rem;">Action Rate</small><strong id="session_pace" class="text-main fs-6">--</strong></div>
                     <div class="col-4 pb-1"><small class="text-muted text-uppercase fw-bold d-block" style="font-size:0.6rem;">Best Tide</small><strong id="session_best_tide" class="text-primary fs-6">--</strong></div>
                 </div>
             </div>
@@ -298,23 +276,13 @@
             <div class="d-grid gap-2 mt-4">
                 <button class="btn btn-whatsapp py-2 shadow text-white fw-bold rounded-4" style="background:#25D366; border: none;" onclick="window.shareAsImage('saved')"><i class="bi bi-whatsapp me-2"></i>Share</button>
                 <div class="row g-2">
-                    <div class="col-6">
-                        <button class="btn btn-outline-danger w-100 py-3 fw-bold rounded-4 bg-white" onclick="window.deleteCurrentSaved()"><i class="bi bi-trash-fill me-1"></i>Delete</button>
-                    </div>
-                    <div class="col-6">
-                        <button class="btn btn-dark w-100 py-3 fw-bold shadow-sm rounded-4" onclick="window.backToScorecardList()"><i class="bi bi-arrow-left me-1"></i>Back</button>
-                    </div>
+                    <div class="col-6"><button class="btn btn-outline-danger w-100 py-3 fw-bold rounded-4 bg-white" onclick="window.deleteCurrentSaved()"><i class="bi bi-trash-fill me-1"></i>Delete</button></div>
+                    <div class="col-6"><button class="btn btn-dark w-100 py-3 fw-bold shadow-sm rounded-4" onclick="window.backToScorecardList()"><i class="bi bi-arrow-left me-1"></i>Back</button></div>
                 </div>
             </div>
         </div>
     </div></div></div></div>
 
-    <div class="modal fade" id="guideModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header border-0 pb-0 pt-4 px-4"><h4 class="modal-title fw-bold text-primary"><i class="bi bi-book-fill me-2"></i>User Guide</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body px-4 pb-4 pt-3 text-main">
-        <h6 class="fw-bold text-primary mb-2">1. Setup & Smart Memory</h6><p class="small text-muted mb-4 fw-bold">The app automatically pre-fills your name. Tap the venue box to pick from previously saved marks, instantly linking the correct tide station. To log a brand new mark, select "+ Add New Venue", type it in, and hit Fetch Data. The app will automatically GPS locate the nearest tide station and remember it forever.</p>
-        <h6 class="fw-bold text-primary mb-2">2. Live Logging & Gestures</h6><p class="small text-muted mb-4 fw-bold">The Species list automatically pins your Top 5 frequent catches. The "Rapid Entry Card" automatically jumps to your numeric keypad to save screen taps. Made a mistake? Just swipe the row to the left to delete it.</p>
-        <h6 class="fw-bold text-primary mb-2">3. Analytics Dashboard</h6><p class="small text-muted mb-0 fw-bold">At the end of your session, the insight engine crunches the data to reveal your Peak Feeding window, your overall action pace, and the exact stage of the tide that produced the most bites.</p>
-    </div></div></div></div>
-    
     <div class="modal fade" id="weightUnitModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-4 text-center"><h4 class="text-primary fw-bold mb-2">Scoring Unit</h4><p class="text-muted fw-bold mb-3">Choose format for this session</p><div class="d-grid gap-2"><button type="button" class="btn btn-primary py-2 fw-bold shadow-sm rounded-4" data-bs-dismiss="modal" onclick="window.handleUnitChoice('metric')">Kilograms (KG)</button><button type="button" class="btn btn-outline-primary py-2 fw-bold shadow-sm rounded-4 bg-white" data-bs-dismiss="modal" onclick="window.handleUnitChoice('imperial')">Pounds & Ounces</button></div></div></div></div></div>
     
     <div class="modal fade" id="restoreSessionModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body text-center p-4"><h4 class="text-primary fw-bold mb-2">Session Found</h4><p class="text-muted fw-bold mb-3">Restore unfinished session for <strong id="restoreAnglerName" class="text-main"></strong>?</p><div class="d-grid gap-2 mt-2">
@@ -333,8 +301,7 @@
     </div>
 
     <script>
-        // 1. CORE NAVIGATION & UI STATE
-        window.openProMenu = function() { PageManager.show('proMenuScreen'); };
+        window.openProMenu = function() { PageManager.show('splashScreen'); };
         window.discardRestore = function() { window.resetAppToHome(); };
         window.confirmQuit = function() { if(confirm("Discard active session?")) { window.resetAppToHome(); } };
         window.backToScorecardList = function() { document.getElementById('fullScorecardView').style.display = 'none'; document.getElementById('savedScorecardsList').style.display = 'block'; };
@@ -347,62 +314,36 @@
             }
         };
 
-        const StorageHelper = {
-            save: function(k, v) { try { localStorage.setItem(k, v); } catch(e) { console.error("Storage full"); } },
-            get: (k) => localStorage.getItem(k),
-            remove: (k) => localStorage.removeItem(k),
-            getAll: () => ({...localStorage})
-        };
+        const StorageHelper = { save: function(k, v) { try { localStorage.setItem(k, v); } catch(e) { console.error("Storage full"); } }, get: (k) => localStorage.getItem(k), remove: (k) => localStorage.removeItem(k), getAll: () => ({...localStorage}) };
 
-        // 2. DATA ARRAYS (Condensed vertical space, 100% complete content)
         const WEATHER_API_KEY = "db7f2afb64d943719e0203116260103";
-        const speciesList = [
-            {"category":"Common","items":["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},
-            {"category":"Round Fish","items":["Bass","Bream (Black)","Bream (Gilthead)","Bream (Red)","Garfish","Gurnard (Grey)","Gurnard (Red)","Gurnard (Tub)","Mackerel","Mullet (Golden)","Mullet (Grey/Thick)","Mullet (Red)","Scad","Weever (Lesser)"]},
-            {"category":"Flatfish","items":["Brill","Megrim","Sole (Dover)","Sole (Lemon)","Topknot"]},
-            {"category":"Sharks & Rays","items":["Dogfish (Blackmouth)","Smoothhound (Common)","Smoothhound (Starry)","Spurdog","Tope","Ray (Thornback)","Ray (Spotted)","Ray (Blonde)","Ray (Small-eyed)","Ray (Stingray)"]},
-            {"category":"Wrasse & Mini","items":["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}
-        ];
-        const tideStations = [
-            {"region":"Scotland - East","stations":[{"name":"Aberdeen","lat":57.1437,"lon":-2.0776},{"name":"Arbroath","lat":56.5503,"lon":-2.5802},{"name":"Buckie","lat":57.6766,"lon":-2.9649},{"name":"Burntisland","lat":56.05,"lon":-3.2333},{"name":"Dunbar","lat":56.0029,"lon":-2.5135},{"name":"Dundee","lat":56.462,"lon":-2.9707},{"name":"Eyemouth","lat":55.8711,"lon":-2.0867},{"name":"Fraserburgh","lat":57.6953,"lon":-2.0041},{"name":"Granton","lat":55.9833,"lon":-3.2333},{"name":"Leith (Edinburgh)","lat":55.9855,"lon":-3.1764},{"name":"Lossiemouth","lat":57.7202,"lon":-3.2842},{"name":"Macduff","lat":57.67,"lon":-2.4939},{"name":"Methil","lat":56.1833,"lon":-3},{"name":"Montrose","lat":56.705,"lon":-2.4566},{"name":"Peterhead","lat":57.5058,"lon":-1.7765},{"name":"Rosyth","lat":55.9833,"lon":-3.4167},{"name":"St Andrews","lat":56.34,"lon":-2.79},{"name":"Stonehaven","lat":56.9667,"lon":-2.2}]},
-            {"region":"Scotland - North & Isles","stations":[{"name":"Cromarty","lat":57.6833,"lon":-4.0333},{"name":"Inverness","lat":57.4957,"lon":-4.2405},{"name":"Kirkwall","lat":58.9866,"lon":-2.9566},{"name":"Lerwick","lat":60.155,"lon":-1.1444},{"name":"Lochinver","lat":58.15,"lon":-5.25},{"name":"Scrabster","lat":58.6083,"lon":-3.5416},{"name":"Stornoway","lat":58.2094,"lon":-6.3849},{"name":"Thurso","lat":58.6,"lon":-3.5167},{"name":"Ullapool","lat":57.8953,"lon":-5.1585},{"name":"Wick","lat":58.4379,"lon":-3.0841}]},
-            {"region":"Scotland - West","stations":[{"name":"Ayr","lat":55.4586,"lon":-4.6292},{"name":"Campbeltown","lat":55.4241,"lon":-5.6033},{"name":"Dunoon","lat":55.95,"lon":-4.9167},{"name":"Fort William","lat":56.8198,"lon":-5.1052},{"name":"Girvan","lat":55.2443,"lon":-4.8582},{"name":"Gourock","lat":55.9667,"lon":-4.8167},{"name":"Greenock","lat":55.9521,"lon":-4.7644},{"name":"Helensburgh","lat":56.0022,"lon":-4.7355},{"name":"Kyle of Lochalsh","lat":57.2833,"lon":-5.7167},{"name":"Largs","lat":55.7941,"lon":-4.8727},{"name":"Mallaig","lat":57.0064,"lon":-5.8291},{"name":"Oban","lat":56.4116,"lon":-5.4747},{"name":"Portpatrick","lat":54.8333,"lon":-5.1167},{"name":"Rothesay","lat":55.8333,"lon":-5.05},{"name":"Stranraer","lat":54.9042,"lon":-5.0253},{"name":"Tarbert","lat":55.8667,"lon":-5.4167},{"name":"Tobermory","lat:56.6225,"lon":-6.0645},{"name":"Troon","lat:55.55,"lon":-4.6667}]},
-            {"region":"England - North East","stations":[{"name":"Amble","lat":55.334,"lon":-1.5772},{"name":"Berwick-upon-Tweed","lat":55.7663,"lon":-1.9961},{"name":"Blyth","lat":55.1275,"lon":-1.4984},{"name":"Bridlington","lat":54.0805,"lon":-0.1906},{"name":"Filey","lat":54.2167,"lon":-0.2833},{"name":"Hartlepool","lat":54.6946,"lon":-1.1895},{"name":"Redcar","lat":54.6167,"lon":-1.0667},{"name":"Scarborough","lat":54.2831,"lon":-0.3957},{"name":"Seaham","lat":54.8333,"lon":-1.3333},{"name":"Seahouses","lat":55.5806,"lon":-1.6517},{"name":"South Shields","lat:55,"lon":-1.4333},{"name":"Sunderland","lat:54.9142,"lon":-1.3735},{"name":"Tynemouth","lat":55.0167,"lon":-1.4167},{"name":"Whitby","lat:54.4912,"lon":-0.612}]},
-            {"region":"England - East","stations":[{"name":"Aldeburgh","lat":52.1523,"lon":1.6033},{"name":"Boston","lat":52.9833,"lon":-0.0167},{"name":"Burnham-on-Crouch","lat":51.6288,"lon":0.8143},{"name":"Clacton-on-Sea","lat:51.7851,"lon":1.1565},{"name":"Cleethorpes","lat:53.55,"lon":-0.0333},{"name":"Cromer","lat":52.9333,"lon":1.3},{"name":"Felixstowe","lat:51.9547,"lon":1.3485},{"name":"Great Yarmouth","lat:52.6033,"lon":1.7335},{"name":"Grimsby","lat:53.5701,"lon":-0.0637},{"name":"Harwich","lat:51.9421,"lon":1.2863},{"name":"Hull","lat:54.1205,"lon":-0.3341},{"name":"Hunstanton","lat:52.9333,"lon":0.4833},{"name":"King's Lynn","lat:52.75,"lon":0.4},{"name":"Lowestoft","lat:52.4746,"lon":1.7546},{"name":"Skegness","lat:53.1333,"lon":0.3333},{"name":"Southend-on-Sea","lat:51.5284,"lon":0.7161},{"name":"Southwold","lat:52.3276,"lon":1.6815},{"name":"Walton-on-the-Naze","lat:51.85,"lon":1.2667}]},
-            {"region":"England - South & South East","stations":[{"name":"Bognor Regis","lat":50.7833,"lon":-0.6667},{"name":"Bournemouth","lat:50.7151,"lon":-1.8754},{"name":"Brighton","lat:50.8166,"lon":-0.1374},{"name":"Deal","lat:51.2227,"lon":1.4024},{"name":"Dover","lat:51.116,"lon":1.319},{"name":"Eastbourne","lat:50.7675,"lon":0.2845},{"name":"Folkestone","lat:51.0792,"lon":1.1794},{"name":"Hastings","lat:50.8522,"lon":0.5732},{"name":"Herne Bay","lat:51.3667,"lon":1.1167},{"name":"Isle of Wight (Cowes)","lat:50.7634,"lon":-1.2977},{"name":"Littlehampton","lat:50.8,"lon":-0.5333},{"name":"Lymington","lat:50.75,"lon":-1.5333},{"name":"Margate","lat:51.3897,"lon":1.3831},{"name":"Newhaven","lat:50.7833,"lon":0.05},{"name":"Poole","lat:50.7118,"lon":-1.9863},{"name":"Portsmouth","lat:50.7937,"lon":-1.107},{"name":"Ramsgate","lat:51.3323,"lon":1.4215},{"name":"Rye","lat:50.95,"lon":0.7333},{"name":"Sheerness","lat:51.4333,"lon":0.75},{"name":"Shoreham-by-Sea","lat:50.829,"lon":-0.2709},{"name":"Southampton","lat:50.892,"lon":-1.3965},{"name":"Swanage","lat:50.6,"lon":-1.95},{"name":"Weymouth","lat:50.6083,"lon":-2.4542},{"name":"Whitstable","lat:51.35,"lon":1.0167},{"name":"Worthing","lat:50.8105,"lon":-0.3752}]},
-            {"region":"England - South West","stations":[{"name":"Appledore","lat":51.05,"lon":-4.2},{"name":"Brixham","lat:50.3957,"lon":-3.5132},{"name":"Bude","lat:50.8294,"lon":-4.5492},{"name":"Burnham-on-Sea","lat:51.2381,"lon":-3.0003},{"name":"Dartmouth","lat:50.3508,"lon":-3.5786},{"name":"Exmouth","lat:50.6186,"lon":-3.415},{"name":"Falmouth","lat:50.1472,"lon":-5.0601},{"name":"Fowey","lat:50.3333,"lon":-4.6333},{"name":"Ilfracombe","lat:51.2081,"lon":-4.1165},{"name":"Looe","lat:50.3524,"lon":-4.4539},{"name":"Lyme Regis","lat:50.7244,"lon":-2.9366},{"name":"Minehead","lat:51.2066,"lon":-3.4735},{"name":"Newlyn","lat:50.1039,"lon":-5.5469},{"name":"Newquay","lat:50.4137,"lon":-5.0768},{"name":"Padstow","lat:50.5401,"lon":-4.9388},{"name":"Penzance","lat:50.1186,"lon":-5.5371},{"name":"Plymouth","lat:50.3664,"lon":-4.146},{"name":"Port Isaac","lat:50.5931,"lon":-4.8315},{"name":"Salcombe","lat:50.2333,"lon":-3.7667},{"name":"St Ives","lat:50.2132,"lon":-5.4795},{"name":"Teignmouth","lat:50.55,"lon":-3.5},{"name":"Torquay","lat:50.4578,"lon":-3.5222}]},
-            {"region":"England - North West","stations":[{"name":"Barrow-in-Furness","lat":54.1105,"lon":-3.2263},{"name":"Birkenhead","lat:53.3833,"lon":-3.0167},{"name":"Blackpool","lat:53.8142,"lon":-3.0558},{"name":"Clevedon","lat:51.4414,"lon":-2.858},{"name":"Fleetwood","lat:53.9248,"lon":-3.0135},{"name":"Heysham","lat:54.0333,"lon":-2.9},{"name":"Liverpool","lat:53.4084,"lon":-2.9916},{"name":"Maryport","lat:54.7142,"lon":-3.4984},{"name":"Morecambe","lat:54.0735,"lon":-2.8687},{"name":"Silloth","lat:54.8667,"lon":-3.3833},{"name":"Southport","lat:53.6333,"lon":-3},{"name":"Weston-super-Mare","lat:51.3458,"lon":-2.9774},{"name":"Whitehaven","lat:54.5489,"lon":-3.5851},{"name":"Workington","lat:54.6409,"lon":-3.5516}]},
-            {"region":"Wales","stations":[{"name":"Aberaeron","lat":52.2415,"lon":-4.2589},{"name":"Aberdovey","lat:52.5448,"lon":-4.045},{"name":"Aberystwyth","lat:52.4153,"lon":-4.0829},{"name":"Bangor","lat:53.2274,"lon":-4.1293},{"name":"Barmouth","lat:52.7175,"lon":-4.0531},{"name":"Barry","lat:51.3934,"lon":-3.2683},{"name":"Caernarfon","lat:53.1333,"lon":-4.2667},{"name":"Cardiff","lat:51.4552,"lon":-3.1601},{"name":"Cardigan","lat:52.0833,"lon":-4.6625},{"name":"Chepstow","lat:51.6429,"lon":-2.6738},{"name":"Conwy","lat:53.2831,"lon":-3.83},{"name":"Fishguard","lat:51.9939,"lon":-4.976},{"name":"Holyhead","lat:53.3134,"lon":-4.63},{"name":"Llandudno","lat:53.3278,"lon":-3.8249},{"name":"Llanelli","lat:51.6833,"lon":-4.15},{"name":"Milford Haven","lat:51.7135,"lon":-5.0345},{"name":"New Quay","lat:52.2132,"lon":-4.3592},{"name":"Newport","lat:51.5877,"lon":-2.9984},{"name":"Pembroke","lat:51.6833,"lon":-4.9167},{"name":"Porthcawl","lat:51.4795,"lon":-3.7027},{"name":"Porthmadog","lat:52.9275,"lon":-4.1309},{"name":"Pwllheli","lat:52.8887,"lon":-4.4172},{"name":"Rhyl","lat:53.3211,"lon":-3.48},{"name":"St Davids","lat:51.8813,"lon":-5.2657},{"name":"Swansea","lat:51.6152,"lon":-3.9351},{"name":"Tenby","lat:51.6738,"lon":-4.6976},{"name":"The Mumbles","lat:51.567,"lon":-3.9935}]},
-            {"region":"Northern Ireland","stations":[{"name":"Ballycastle","lat":55.2037,"lon":-6.2514},{"name":"Bangor","lat:54.6616,"lon":-5.6667},{"name":"Belfast","lat:54.6139,"lon":-5.9103},{"name":"Coleraine","lat:55.1322,"lon":-6.6668},{"name":"Derry / Londonderry","lat:55.0068,"lon":-7.3183},{"name":"Donaghadee","lat:54.6406,"lon":-5.5398},{"name":"Larne","lat:54.8517,"lon":-5.8143},{"name":"Portrush","lat:55.2045,"lon":-6.6534},{"name":"Portstewart","lat:55.1812,"lon":-6.7118},{"name":"Warrenpoint","lat:54.1017,"lon":-6.2483}]}
-        ];
+        const speciesList = [{"category":"Common","items":["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)","Bull Huss"]},{"category":"Round Fish","items":["Bass","Bream (Black)","Bream (Gilthead)","Bream (Red)","Garfish","Gurnard (Grey)","Gurnard (Red)","Gurnard (Tub)","Mackerel","Mullet (Golden)","Mullet (Grey/Thick)","Mullet (Red)","Scad","Weever (Lesser)"]},{"category":"Flatfish","items":["Brill","Megrim","Sole (Dover)","Sole (Lemon)","Topknot"]},{"category":"Sharks & Rays","items":["Dogfish (Blackmouth)","Smoothhound (Common)","Smoothhound (Starry)","Spurdog","Tope","Ray (Thornback)","Ray (Spotted)","Ray (Blonde)","Ray (Small-eyed)","Ray (Stingray)"]},{"category":"Wrasse & Mini","items":["Wrasse (Ballan)","Wrasse (Corkwing)","Wrasse (Cuckoo)","Wrasse (Goldsinny)","Rockling (3-Bearded)","Rockling (Shore)","Blenny (Common)","Goby (Rock)","Poor Cod","Pouting (Bib)","Scorpion Fish","Squid"]}];
+        const tideStations = [{"region":"Scotland - East","stations":[{"name":"Aberdeen","lat":57.1437,"lon":-2.0776},{"name":"Arbroath","lat":56.5503,"lon":-2.5802},{"name":"Buckie","lat":57.6766,"lon":-2.9649},{"name":"Burntisland","lat":56.05,"lon":-3.2333},{"name":"Dunbar","lat":56.0029,"lon":-2.5135},{"name":"Dundee","lat":56.462,"lon":-2.9707},{"name":"Eyemouth","lat":55.8711,"lon":-2.0867},{"name":"Fraserburgh","lat":57.6953,"lon":-2.0041},{"name":"Granton","lat":55.9833,"lon":-3.2333},{"name":"Leith (Edinburgh)","lat":55.9855,"lon":-3.1764},{"name":"Lossiemouth","lat":57.7202,"lon":-3.2842},{"name":"Macduff","lat":57.67,"lon":-2.4939},{"name":"Methil","lat":56.1833,"lon":-3},{"name":"Montrose","lat":56.705,"lon":-2.4566},{"name":"Peterhead","lat":57.5058,"lon":-1.7765},{"name":"Rosyth","lat":55.9833,"lon":-3.4167},{"name":"St Andrews","lat":56.34,"lon":-2.79},{"name":"Stonehaven","lat":56.9667,"lon":-2.2}]},{"region":"Scotland - North & Isles","stations":[{"name":"Cromarty","lat":57.6833,"lon":-4.0333},{"name":"Inverness","lat":57.4957,"lon":-4.2405},{"name":"Kirkwall","lat":58.9866,"lon":-2.9566},{"name":"Lerwick","lat":60.155,"lon":-1.1444},{"name":"Lochinver","lat":58.15,"lon":-5.25},{"name":"Scrabster","lat":58.6083,"lon":-3.5416},{"name":"Stornoway","lat":58.2094,"lon":-6.3849},{"name":"Thurso","lat":58.6,"lon":-3.5167},{"name":"Ullapool","lat":57.8953,"lon":-5.1585},{"name":"Wick","lat":58.4379,"lon":-3.0841}]},{"region":"Scotland - West","stations":[{"name":"Ayr","lat":55.4586,"lon:-4.6292"},{"name":"Campbeltown","lat":55.4241,"lon":-5.6033},{"name":"Dunoon","lat":55.95,"lon":-4.9167},{"name":"Fort William","lat":56.8198,"lon":-5.1052},{"name":"Girvan","lat":55.2443,"lon":-4.8582},{"name":"Gourock","lat":55.9667,"lon":-4.8167},{"name":"Greenock","lat":55.9521,"lon":-4.7644},{"name":"Helensburgh","lat":56.0022,"lon":-4.7355},{"name":"Kyle of Lochalsh","lat":57.2833,"lon":-5.7167},{"name":"Largs","lat":55.7941,"lon":-4.8727},{"name":"Mallaig","lat":57.0064,"lon":-5.8291},{"name":"Oban","lat":56.4116,"lon":-5.4747},{"name":"Portpatrick","lat":54.8333,"lon":-5.1167},{"name":"Rothesay","lat":55.8333,"lon":-5.05},{"name":"Stranraer","lat":54.9042,"lon":-5.0253},{"name":"Tarbert","lat":55.8667,"lon":-5.4167},{"name":"Tobermory","lat:56.6225,"lon":-6.0645},{"name":"Troon","lat:55.55,"lon":-4.6667}]},{"region":"England - North East","stations":[{"name":"Amble","lat":55.334,"lon":-1.5772},{"name":"Berwick-upon-Tweed","lat":55.7663,"lon":-1.9961},{"name":"Blyth","lat":55.1275,"lon":-1.4984},{"name":"Bridlington","lat":54.0805,"lon":-0.1906},{"name":"Filey","lat":54.2167,"lon":-0.2833},{"name":"Hartlepool","lat":54.6946,"lon":-1.1895},{"name":"Redcar","lat":54.6167,"lon":-1.0667},{"name":"Scarborough","lat":54.2831,"lon":-0.3957},{"name":"Seaham","lat":54.8333,"lon":-1.3333},{"name":"Seahouses","lat":55.5806,"lon":-1.6517},{"name":"South Shields","lat:55,"lon":-1.4333},{"name":"Sunderland","lat:54.9142,"lon":-1.3735},{"name":"Tynemouth","lat":55.0167,"lon":-1.4167},{"name":"Whitby","lat:54.4912,"lon":-0.612}]},{"region":"England - East","stations":[{"name":"Aldeburgh","lat":52.1523,"lon":1.6033},{"name":"Boston","lat":52.9833,"lon":-0.0167},{"name":"Burnham-on-Crouch","lat":51.6288,"lon":0.8143},{"name":"Clacton-on-Sea","lat:51.7851,"lon":1.1565},{"name":"Cleethorpes","lat:53.55,"lon":-0.0333},{"name":"Cromer","lat":52.9333,"lon":1.3},{"name":"Felixstowe","lat:51.9547,"lon":1.3485},{"name":"Great Yarmouth","lat:52.6033,"lon":1.7335},{"name":"Grimsby","lat:53.5701,"lon":-0.0637},{"name":"Harwich","lat:51.9421,"lon":1.2863},{"name":"Hull","lat:54.1205,"lon":-0.3341},{"name":"Hunstanton","lat:52.9333,"lon":0.4833},{"name":"King's Lynn","lat:52.75,"lon":0.4},{"name":"Lowestoft","lat:52.4746,"lon":1.7546},{"name":"Skegness","lat:53.1333,"lon":0.3333},{"name":"Southend-on-Sea","lat:51.5284,"lon":0.7161},{"name":"Southwold","lat:52.3276,"lon":1.6815},{"name":"Walton-on-the-Naze","lat:51.85,"lon":1.2667}]},{"region":"England - South & South East","stations":[{"name":"Bognor Regis","lat":50.7833,"lon":-0.6667},{"name":"Bournemouth","lat:50.7151,"lon":-1.8754},{"name":"Brighton","lat:50.8166,"lon":-0.1374},{"name":"Deal","lat:51.2227,"lon":1.4024},{"name":"Dover","lat:51.116,"lon":1.319},{"name":"Eastbourne","lat:50.7675,"lon":0.2845},{"name":"Folkestone","lat:51.0792,"lon":1.1794},{"name":"Hastings","lat:50.8522,"lon":0.5732},{"name":"Herne Bay","lat:51.3667,"lon":1.1167},{"name":"Isle of Wight (Cowes)","lat:50.7634,"lon":-1.2977},{"name":"Littlehampton","lat:50.8,"lon":-0.5333},{"name":"Lymington","lat:50.75,"lon":-1.5333},{"name":"Margate","lat:51.3897,"lon":1.3831},{"name":"Newhaven","lat:50.7833,"lon":0.05},{"name":"Poole","lat:50.7118,"lon":-1.9863},{"name":"Portsmouth","lat:50.7937,"lon":-1.107},{"name":"Ramsgate","lat:51.3323,"lon":1.4215},{"name":"Rye","lat:50.95,"lon":0.7333},{"name":"Sheerness","lat:51.4333,"lon":0.75},{"name":"Shoreham-by-Sea","lat:50.829,"lon":-0.2709},{"name":"Southampton","lat:50.892,"lon":-1.3965},{"name":"Swanage","lat:50.6,"lon":-1.95},{"name":"Weymouth","lat:50.6083,"lon":-2.4542},{"name":"Whitstable","lat:51.35,"lon":1.0167},{"name":"Worthing","lat:50.8105,"lon":-0.3752}]},{"region":"England - South West","stations":[{"name":"Appledore","lat":51.05,"lon":-4.2},{"name":"Brixham","lat:50.3957,"lon":-3.5132},{"name":"Bude","lat:50.8294,"lon":-4.5492},{"name":"Burnham-on-Sea","lat:51.2381,"lon":-3.0003},{"name":"Dartmouth","lat:50.3508,"lon":-3.5786},{"name":"Exmouth","lat:50.6186,"lon":-3.415},{"name":"Falmouth","lat:50.1472,"lon":-5.0601},{"name":"Fowey","lat:50.3333,"lon":-4.6333},{"name":"Ilfracombe","lat:51.2081,"lon":-4.1165},{"name":"Looe","lat:50.3524,"lon":-4.4539},{"name":"Lyme Regis","lat:50.7244,"lon":-2.9366},{"name":"Minehead","lat:51.2066,"lon":-3.4735},{"name":"Newlyn","lat:50.1039,"lon":-5.5469},{"name":"Newquay","lat:50.4137,"lon":-5.0768},{"name":"Padstow","lat:50.5401,"lon":-4.9388},{"name":"Penzance","lat:50.1186,"lon":-5.5371},{"name":"Plymouth","lat:50.3664,"lon":-4.146},{"name":"Port Isaac","lat:50.5931,"lon":-4.8315},{"name":"Salcombe","lat:50.2333,"lon":-3.7667},{"name":"St Ives","lat:50.2132,"lon":-5.4795},{"name":"Teignmouth","lat:50.55,"lon":-3.5},{"name":"Torquay","lat:50.4578,"lon":-3.5222}]},{"region":"England - North West","stations":[{"name":"Barrow-in-Furness","lat":54.1105,"lon":-3.2263},{"name":"Birkenhead","lat:53.3833,"lon":-3.0167},{"name":"Blackpool","lat:53.8142,"lon":-3.0558},{"name":"Clevedon","lat:51.4414,"lon":-2.858},{"name":"Fleetwood","lat:53.9248,"lon":-3.0135},{"name":"Heysham","lat:54.0333,"lon":-2.9},{"name":"Liverpool","lat:53.4084,"lon":-2.9916},{"name":"Maryport","lat:54.7142,"lon":-3.4984},{"name":"Morecambe","lat:54.0735,"lon":-2.8687},{"name":"Silloth","lat:54.8667,"lon":-3.3833},{"name":"Southport","lat:53.6333,"lon":-3},{"name":"Weston-super-Mare","lat:51.3458,"lon":-2.9774},{"name":"Whitehaven","lat:54.5489,"lon":-3.5851},{"name":"Workington","lat:54.6409,"lon":-3.5516}]},{"region":"Wales","stations":[{"name":"Aberaeron","lat":52.2415,"lon":-4.2589},{"name":"Aberdovey","lat:52.5448,"lon":-4.045},{"name":"Aberystwyth","lat:52.4153,"lon":-4.0829},{"name":"Bangor","lat:53.2274,"lon":-4.1293},{"name":"Barmouth","lat:52.7175,"lon":-4.0531},{"name":"Barry","lat:51.3934,"lon":-3.2683},{"name":"Caernarfon","lat:53.1333,"lon":-4.2667},{"name":"Cardiff","lat:51.4552,"lon":-3.1601},{"name":"Cardigan","lat:52.0833,"lon":-4.6625},{"name":"Chepstow","lat:51.6429,"lon":-2.6738},{"name":"Conwy","lat:53.2831,"lon":-3.83},{"name":"Fishguard","lat:51.9939,"lon":-4.976},{"name":"Holyhead","lat:53.3134,"lon":-4.63},{"name":"Llandudno","lat:53.3278,"lon":-3.8249},{"name":"Llanelli","lat:51.6833,"lon":-4.15},{"name":"Milford Haven","lat:51.7135,"lon":-5.0345},{"name":"New Quay","lat:52.2132,"lon":-4.3592},{"name":"Newport","lat:51.5877,"lon":-2.9984},{"name":"Pembroke","lat:51.6833,"lon":-4.9167},{"name":"Porthcawl","lat:51.4795,"lon":-3.7027},{"name":"Porthmadog","lat:52.9275,"lon":-4.1309},{"name":"Pwllheli","lat:52.8887,"lon":-4.4172},{"name":"Rhyl","lat:53.3211,"lon":-3.48},{"name":"St Davids","lat:51.8813,"lon":-5.2657},{"name":"Swansea","lat:51.6152,"lon":-3.9351},{"name":"Tenby","lat:51.6738,"lon":-4.6976},{"name":"The Mumbles","lat:51.567,"lon":-3.9935}]},{"region":"Northern Ireland","stations":[{"name":"Ballycastle","lat":55.2037,"lon":-6.2514},{"name":"Bangor","lat:54.6616,"lon":-5.6667},{"name":"Belfast","lat:54.6139,"lon":-5.9103},{"name":"Coleraine","lat:55.1322,"lon":-6.6668},{"name":"Derry / Londonderry","lat:55.0068,"lon":-7.3183},{"name":"Donaghadee","lat:54.6406,"lon":-5.5398},{"name":"Larne","lat:54.8517,"lon":-5.8143},{"name":"Portrush","lat:55.2045,"lon":-6.6534},{"name":"Portstewart","lat:55.1812,"lon":-6.7118},{"name":"Warrenpoint","lat:54.1017,"lon":-6.2483}]}];
         const defaultVenues = {"Arbroath Breakwater":"Arbroath","Victoria Park (Arbroath)":"Arbroath","Usan":"Montrose","Bodden Point":"Montrose","Auchmithie":"Arbroath","Carnoustie Beach":"Arbroath","Riverside Drive (Dundee)":"Dundee","Tayport":"Dundee","Granton Breakwater":"Granton","Leith Docks":"Leith (Edinburgh)","Burntisland Pier":"Burntisland","Kirkcaldy Breakwater":"Methil","Torness Power Station":"Dunbar","Belhaven Beach":"Dunbar","Eyemouth Harbour":"Eyemouth","St Abbs Harbour":"Eyemouth","Peterhead South Breakwater":"Peterhead","Aberdeen South Pier":"Aberdeen","Stonehaven Harbour":"Stonehaven","Greenock Esplanade":"Greenock","Custom House Way (Greenock)":"Greenock","Largs Pencil":"Largs","Largs Marina":"Largs","Gourock Pier":"Gourock","Helensburgh Pier":"Helensburgh","Ayr South Pier":"Ayr","Troon Harbour":"Troon","Prestwick Boundary Wall":"Ayr","Girvan Breakwater":"Girvan","Loch Etive (Bonawe)":"Oban","Loch Etive (Priory)":"Oban","Loch Fyne (Furnace)":"Tarbert","Loch Fyne (Cairndow)":"Tarbert","Loch Long (Arrochar)":"Dunoon","Portpatrick Breakwater":"Portpatrick","Loch Ryan":"Stranraer","Ardwell Bay":"Portpatrick","Southerness":"Silloth","Scrabster Harbour":"Scrabster","Thurso Bay":"Thurso","Dunnet Bay":"Scrabster","Wick Harbour":"Wick","Ullapool Pier":"Ullapool"};
 
-        // 3. GLOBAL VARIABLES
         let fishData = []; let currentScoringMethod = 'length_only'; let selectedWeightUnit = 'metric'; let currentSavedKey = '';
         let currentAngler = ''; let currentVenue = ''; let currentDate = ''; let weatherInfo = ''; let windInfo = '';
         let swellInfo = ''; let waveInfo = ''; let hwTime = ''; let lwTime = ''; let coastalTown = '';
         let sessionStartTimeStr = ''; let sessionEndTimeStr = ''; let sunriseTimeStr = ''; let sunsetTimeStr = '';
         let pendingRestoreData = null; let deferredPrompt = null; let editingOriginalFish = null; let venueTideMap = {};
-        let swipeStartX = 0; let swipeCurrentX = 0; let isSwiping = false; const badgeStyle = "background:rgba(6,148,148,0.1);color:var(--app-main);border:1px solid rgba(6,148,148,0.3);padding:4px 10px;border-radius:8px;font-size:0.7rem;font-weight:800;margin:1px;display:inline-block;";
+        let swipeStartX = 0; let swipeCurrentX = 0; let isSwiping = false;
 
-        // 4. CORE APP LOGIC
-        if('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('service-worker.js'); }); }
         window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; const installBtn = document.getElementById('btnInstallApp'); if(installBtn) installBtn.style.display = 'block'; });
         window.installApp = async function() { if(deferredPrompt) { deferredPrompt.prompt(); const {outcome} = await deferredPrompt.userChoice; if(outcome === 'accepted') document.getElementById('btnInstallApp').style.display = 'none'; deferredPrompt = null; } };
+
+        window.forceAppUpdate = function() {
+            const icon = document.getElementById('refreshIcon'); const btnText = document.getElementById('btnRefreshText');
+            if(icon) icon.classList.add('icon-spin'); if(btnText) btnText.innerText = 'Updating...';
+            if('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function(registrations) { for(let registration of registrations) { registration.update(); } }); }
+            sessionStorage.setItem('showUpdateToast', 'true');
+            setTimeout(() => { window.location.reload(true); }, 1500);
+        };
 
         window.showAppToast = function(msg, isError = false) {
             const t = document.getElementById('appToast');
             document.getElementById('toastMsg').innerHTML = isError ? `<i class="bi bi-exclamation-triangle-fill me-2"></i> ${msg}` : `<i class="bi bi-check-circle-fill me-2 text-success"></i> ${msg}`;
             t.className = isError ? 'toast text-bg-warning border-0 shadow-lg rounded-4' : 'toast bg-white text-dark border border-success border-opacity-25 shadow-lg rounded-4';
             new bootstrap.Toast(t).show();
-        };
-
-        window.forceAppUpdate = function() {
-            const icon = document.getElementById('refreshIcon'); const btn = document.getElementById('btnRefreshApp');
-            if(icon) icon.classList.add('icon-spin'); if(btn) btn.innerHTML = '<i class="bi bi-arrow-clockwise icon-spin me-1"></i> Updating...';
-            if('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function(registrations) { for(let registration of registrations) { registration.update(); } }); }
-            sessionStorage.setItem('showUpdateToast', 'true');
-            setTimeout(() => { window.location.reload(true); }, 1200);
         };
 
         window.resetAppToHome = function() {
@@ -419,21 +360,14 @@
         window.saveActiveSession = function() {
             try {
                 const p = document.getElementById('anglerFishingPage').style.display === 'block' ? 'fishing' : (document.getElementById('tallyVerificationPage').style.display === 'block' ? 'tally' : 'setup');
-                const weatherI = document.getElementById('weatherInput') ? document.getElementById('weatherInput').value : weatherInfo;
-                const windI = document.getElementById('windInput') ? document.getElementById('windInput').value : windInfo;
-                const waveI = document.getElementById('waveInput') ? document.getElementById('waveInput').value : waveInfo;
-                const swellI = document.getElementById('swellInput') ? document.getElementById('swellInput').value : swellInfo;
-                let tempVenue = '';
-                if(document.getElementById('venueSelect')) { tempVenue = document.getElementById('venueSelect').value === '__NEW__' ? document.getElementById('venueInputText').value : document.getElementById('venueSelect').value; } else { tempVenue = currentVenue; }
+                const weatherI = document.getElementById('weatherInput') ? document.getElementById('weatherInput').value : weatherInfo; const windI = document.getElementById('windInput') ? document.getElementById('windInput').value : windInfo; const waveI = document.getElementById('waveInput') ? document.getElementById('waveInput').value : waveInfo; const swellI = document.getElementById('swellInput') ? document.getElementById('swellInput').value : swellInfo;
+                let tempVenue = ''; if(document.getElementById('venueSelect')) { tempVenue = document.getElementById('venueSelect').value === '__NEW__' ? document.getElementById('venueInputText').value : document.getElementById('venueSelect').value; } else { tempVenue = currentVenue; }
                 StorageHelper.save('active_session', JSON.stringify({ phase: p, angler: currentAngler || document.getElementById('anglerName').value, venue: tempVenue, coastalTown: coastalTown || '', date: currentDate, method: currentScoringMethod, unit: selectedWeightUnit, weatherInfo: weatherI, windInfo: windI, waveInfo: waveI, swellInfo: swellI, hwTime: hwTime, lwTime: lwTime, sessionStart: sessionStartTimeStr, sessionEnd: sessionEndTimeStr, sunrise: sunriseTimeStr, sunset: sunsetTimeStr, fishData: fishData }));
             } catch(e) { console.error("Save Error"); }
         };
 
         window.restoreActiveSession = function() {
-            try {
-                const s = JSON.parse(StorageHelper.get('active_session'));
-                if(s && (s.angler || s.fishData.length > 0)) { pendingRestoreData = s; document.getElementById('restoreAnglerName').textContent = s.angler || "Unnamed"; bootstrap.Modal.getOrCreateInstance(document.getElementById('restoreSessionModal')).show(); }
-            } catch(e) {}
+            try { const s = JSON.parse(StorageHelper.get('active_session')); if(s && (s.angler || s.fishData.length > 0)) { pendingRestoreData = s; document.getElementById('restoreAnglerName').textContent = s.angler || "Unnamed"; bootstrap.Modal.getOrCreateInstance(document.getElementById('restoreSessionModal')).show(); } } catch(e) {}
         };
 
         window.confirmRestore = function() {
