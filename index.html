@@ -23,10 +23,9 @@
             --card-bg: #ffffff;
             --text-main: #0f172a;      
             --text-muted: #475569;     
-            --border-color: rgba(0,0,0,0.08);
+            --border-color: rgba(0,0,0,0.12);
             --input-bg: #f8fafc;
             --shadow-sm: 0 4px 15px rgba(0,0,0,0.04);
-            --shadow-md: 0 10px 30px rgba(0,0,0,0.06);
         }
 
         html { overscroll-behavior: none; }
@@ -34,30 +33,27 @@
             font-family: 'Inter', sans-serif; 
             background: var(--bg-main); 
             color: var(--text-main); 
-            padding-bottom: 90px;
+            padding-bottom: 100px;
             min-height: 100vh;
-            overflow-x: hidden;
         }
         
         h1, h2, h3, h4, h5, h6, .live-score-value, .btn, .xc-score { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
 
-        .text-primary { color: var(--app-main) !important; }
-        .bg-primary { background-color: var(--app-main) !important; }
-        .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 800; border-radius: 14px;}
+        .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 800; border-radius: 16px; padding: 18px; font-size: 1.4rem; }
         
-        /* High-Visibility Inputs and Table */
+        /* ULTRA VISIBILITY FOR FORMS */
         .form-control, .form-select { 
             background-color: var(--input-bg);
             color: var(--text-main);
-            border-radius: 14px; 
-            padding: 16px 18px; 
-            border: 2px solid var(--border-color); 
-            font-weight: 700;
-            font-size: 1.15rem; /* Larger for cold hands */
+            border-radius: 16px; 
+            padding: 18px 20px; 
+            border: 3px solid var(--border-color); 
+            font-weight: 800;
+            font-size: 1.4rem; /* Massive for field use */
         }
 
         .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 15px; animation: fadeIn 0.3s ease-out; }
-        .inner-card { background: var(--card-bg); border-radius: 24px; padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 16px; border: 1px solid var(--border-color); }
+        .inner-card { background: var(--card-bg); border-radius: 28px; padding: 25px; box-shadow: var(--shadow-sm); margin-bottom: 20px; border: 1px solid var(--border-color); }
 
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -65,19 +61,18 @@
             background: var(--bg-main); z-index: 1040; 
         }
         
-        .logo-svg { width: 160px; height: 160px; margin-bottom: 25px; }
         .sonar-sweep { transform-origin: 100px 100px; animation: spin 4s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        .icon-spin { animation: spin 1s linear infinite; }
 
-        .live-score-value { font-size: 3.5rem; font-weight: 900; color: var(--app-main); line-height: 1; letter-spacing: -2px; }
+        .live-score-value { font-size: 4.5rem; font-weight: 900; color: var(--app-main); line-height: 1; letter-spacing: -3px; }
 
-        /* Catch Log Table - High Visibility */
-        .catch-row { background: var(--card-bg); padding: 18px; border-radius: 18px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; justify-content: space-between; align-items: center; }
-        .catch-species { font-size: 1.35rem; font-weight: 800; color: var(--text-main); }
-        .catch-detail { font-size: 1.15rem; font-weight: 700; color: var(--app-main); }
+        /* ULTRA VISIBILITY CATCH LOG */
+        .catch-row { background: var(--card-bg); padding: 22px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .catch-species { font-size: 1.6rem; font-weight: 900; color: var(--text-main); }
+        .catch-detail { font-size: 1.4rem; font-weight: 800; color: var(--app-main); }
+        .catch-time { font-size: 1rem; font-weight: 700; color: var(--text-muted); }
 
-        .tide-chart-container { background: var(--card-bg); border-radius: 24px; padding: 50px 12px 15px 12px; border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); position: relative; }
+        .tide-chart-container { background: var(--card-bg); border-radius: 28px; padding: 60px 15px 20px 15px; border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); position: relative; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -86,29 +81,27 @@
 
     <div id="appToast" class="toast-container position-fixed top-0 end-0 p-3 mt-4" style="z-index: 20000;">
         <div class="toast border-0 shadow-lg rounded-4" role="alert">
-            <div class="d-flex"><div class="toast-body fw-bold fs-5" id="toastMsg"></div><button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button></div>
+            <div class="d-flex"><div class="toast-body fw-bold fs-4" id="toastMsg"></div><button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button></div>
         </div>
     </div>
 
     <div id="splashScreen" class="splash-screen">
-        <svg class="logo-svg" viewBox="0 0 200 200">
+        <svg style="width: 160px; height: 160px; margin-bottom: 25px;" viewBox="0 0 200 200">
             <circle cx="100" cy="100" r="95" fill="#0f172a" stroke="#069494" stroke-width="2"/>
             <g class="sonar-sweep"><path d="M 100,100 L 100,5 A 95 95 0 0 1 195,100 Z" fill="#08baba" opacity="0.5"/></g>
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-3 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.0.7</p>
-        
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.0.8</p>
         <div class="d-grid gap-3 col-10 col-md-6 mx-auto w-100" style="max-width: 350px;">
-            <button class="btn btn-primary btn-lg fw-bold py-3 shadow-sm" style="font-size: 1.3rem;" onclick="window.startFishing()">Start Session</button>
+            <button class="btn btn-primary btn-lg fw-bold py-4 shadow-sm" style="font-size: 1.5rem;" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
         </div>
-        <div class="mt-5"><button id="btnRefreshApp" class="btn btn-link text-muted fw-bold p-0" onclick="window.forceAppUpdate()"><i id="refreshIcon" class="bi bi-arrow-clockwise me-1"></i> Check Updates</button></div>
     </div>
 
     <div id="anglerRegistration" class="app-page">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold m-0 text-primary">Session Setup</h2>
+            <h2 class="fw-bold m-0 text-primary">Setup</h2>
             <button class="btn btn-outline-secondary px-4 fw-bold bg-white" onclick="window.resetAppToHome()">Back</button>
         </div>
         
@@ -124,13 +117,11 @@
                     <select id="venueSelect" class="form-select text-primary" onchange="window.handleVenueDropdown()"></select>
                 </div>
                 <div id="venueInputContainer" style="display:none;" class="mt-3">
-                    <div class="input-group shadow-sm mb-3">
-                        <input type="text" id="venueInputText" class="form-control" placeholder="New Venue Name...">
-                        <button class="btn btn-outline-danger" onclick="window.cancelNewVenue()"><i class="bi bi-x-lg"></i></button>
-                    </div>
-                    <button id="btnFindTide" class="btn btn-primary w-100 py-3 fs-5" onclick="window.linkNewVenueGPS()">
+                    <input type="text" id="venueInputText" class="form-control mb-3" placeholder="Venue Name...">
+                    <button id="btnFindTide" class="btn btn-primary w-100 py-3 fs-4" onclick="window.linkNewVenueGPS()">
                         <i class="bi bi-geo-alt-fill me-2"></i> Find Tide Data (GPS)
                     </button>
+                    <button class="btn btn-link text-danger w-100 mt-2 fw-bold" onclick="window.cancelNewVenue()">Cancel</button>
                 </div>
             </div>
 
@@ -147,19 +138,19 @@
 
         <div class="inner-card" id="envPreview" style="display:none;">
             <div class="row g-2 mb-3 text-center">
-                <div class="col-6"><input type="text" id="weatherInput" class="form-control text-center fw-bold py-3 bg-light" readonly></div>
-                <div class="col-6"><input type="text" id="windInput" class="form-control text-center fw-bold py-3 bg-light" readonly></div>
+                <div class="col-6"><input type="text" id="weatherInput" class="form-control text-center fw-bold py-3 bg-light fs-5" readonly></div>
+                <div class="col-6"><input type="text" id="windInput" class="form-control text-center fw-bold py-3 bg-light fs-5" readonly></div>
             </div>
             <div class="row g-2 mb-4 text-center">
-                <div class="col-6"><input type="text" id="waveInput" class="form-control text-primary fw-bold py-3 bg-light" readonly></div>
-                <div class="col-6"><input type="text" id="swellInput" class="form-control text-primary fw-bold py-3 bg-light" readonly></div>
+                <div class="col-6"><input type="text" id="waveInput" class="form-control text-primary fw-bold py-3 bg-light fs-5" readonly></div>
+                <div class="col-6"><input type="text" id="swellInput" class="form-control text-primary fw-bold py-3 bg-light fs-5" readonly></div>
             </div>
             <div id="setupTideChartContainer" class="tide-chart-container">
                 <canvas id="setupTideCanvas" class="w-100"></canvas>
             </div>
         </div>
         
-        <button class="btn btn-primary btn-lg w-100 py-4 shadow-lg mt-3 fw-bold fs-3" onclick="window.registerAngler()">Start Fishing</button>
+        <button class="btn btn-primary btn-lg w-100 py-4 shadow-lg mt-3 fw-bold fs-2" onclick="window.registerAngler()">Start Fishing</button>
     </div>
 
     <div id="anglerFishingPage" class="app-page">
@@ -169,34 +160,22 @@
         </div>
         <div class="inner-card text-center">
             <select id="speciesInput" class="form-select fw-bold mb-3"></select>
-            <input type="number" id="fishLengthInput" class="form-control text-center fw-bold fs-3 mb-3" placeholder="Length (cm)">
-            <button class="btn btn-primary w-100 py-4 fw-bold fs-4" onclick="window.addFishTextOnly()">Record Catch</button>
+            <input type="number" id="fishLengthInput" class="form-control text-center fw-bold fs-2 mb-3" placeholder="Length (cm)">
+            <button class="btn btn-primary w-100 py-4 fw-bold fs-3" onclick="window.addFishTextOnly()">Record Catch</button>
         </div>
-        <div class="live-score-box mb-3"><div class="small text-muted fw-bold">Session Points</div><div class="live-score-value" id="liveScoreVal">0</div></div>
+        <div class="live-score-box mb-3"><div class="small text-muted fw-bold">Total Points</div><div class="live-score-value" id="liveScoreVal">0</div></div>
         <div id="fishLog" class="d-flex flex-column gap-3 mb-4"></div>
-        <button class="btn btn-danger btn-lg w-100 py-3 fw-bold shadow" onclick="window.endSession()">Finish Session</button>
+        <button class="btn btn-danger btn-lg w-100 py-4 fw-bold shadow fs-4" onclick="window.endSession()">Finish Session</button>
     </div>
 
-    <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h4>Diary History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div id="recentList" class="p-3"></div></div></div></div></div>
+    <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h4>History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div id="recentList" class="p-3"></div></div></div></div></div>
 
     <script>
         const WEATHER_API_KEY = "db7f2afb64d943719e0203116260103";
-        const speciesList=[
-            {category:"Common",items:["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)"]},
-            {category:"Round Fish",items:["Bass","Bream","Garfish","Mackerel","Mullet","Scad"]}
-        ];
+        const speciesList=[{category:"Common",items:["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)"]},{category:"Round Fish",items:["Bass","Bream","Garfish","Mackerel","Mullet"]}];
+        const scottishMarks = [{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Portpatrick",lat:54.8333,lon:-5.1167},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Oban",lat:56.4116,lon:-5.4747}];
         
-        const scottishMarks = [
-            {name:"Aberdeen Breakwater",lat:57.1437,lon:-2.0776},
-            {name:"Arbroath Cliffs",lat:56.5503,lon:-2.5802},
-            {name:"Portpatrick Pier",lat:54.8333,lon:-5.1167},
-            {name:"Greenock Quay",lat:55.9521,lon:-4.7644},
-            {name:"Scrabster Harbor",lat:58.6083,lon:-3.5416},
-            {name:"Ullapool Pier",lat:57.8953,lon:-5.1585},
-            {name:"Dunoon Pier",lat:55.946,lon:-4.921}
-        ];
-        
-        let fishData=[], currentScoringMethod='', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='', currentStationName='Coastal Port';
+        let fishData=[], currentScoringMethod='', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='', currentStationName='';
         const PageManager={ show:id=>{ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
         const Storage={ save:(k,v)=>localStorage.setItem(k,v), get:k=>localStorage.getItem(k), remove:k=>localStorage.removeItem(k), getAll:()=>({...localStorage}) };
 
@@ -204,18 +183,20 @@
             let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
             const sel = document.getElementById('venueSelect');
             sel.innerHTML = '<option value="" disabled selected>Select Venue...</option>';
-            scottishMarks.forEach(m => { sel.innerHTML += `<option value="${m.lat},${m.lon}">${m.name}</option>`; });
-            Object.keys(vMap).sort().forEach(vName => { const d = vMap[vName]; sel.innerHTML += `<option value="${d.lat},${d.lon}">${vName}</option>`; });
+            scottishMarks.forEach(m => { sel.innerHTML += `<option value="${m.lat},${m.lon}" data-station="${m.name}">${m.name}</option>`; });
+            Object.keys(vMap).sort().forEach(vName => { const d = vMap[vName]; sel.innerHTML += `<option value="${d.lat},${d.lon}" data-station="Nearest Coastal Port">${vName}</option>`; });
             sel.innerHTML += '<option value="__NEW__" class="fw-bold text-success">➕ Add New Mark...</option>';
         };
 
         window.handleVenueDropdown = function() {
-            const val = document.getElementById('venueSelect').value;
+            const sel = document.getElementById('venueSelect');
+            const val = sel.value;
             if (val === '__NEW__') {
                 document.getElementById('venueSelectContainer').style.display = 'none';
                 document.getElementById('venueInputContainer').style.display = 'block';
                 document.getElementById('venueInputText').focus();
             } else {
+                currentStationName = sel.options[sel.selectedIndex].getAttribute('data-station');
                 window.fetchEnvironmentData(val);
             }
         };
@@ -223,15 +204,14 @@
         window.linkNewVenueGPS = function() {
             const name = document.getElementById('venueInputText').value.trim();
             if(!name) return;
-            const btn = document.getElementById('btnFindTide'); btn.disabled = true;
             navigator.geolocation.getCurrentPosition((pos) => {
                 const lat = pos.coords.latitude; const lon = pos.coords.longitude;
                 let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
                 vMap[name] = { lat, lon }; Storage.save('venueTideMap', JSON.stringify(vMap));
+                currentStationName = "Nearest Coastal Station";
                 window.populateVenueDropdown(); window.cancelNewVenue();
                 window.fetchEnvironmentData(`${lat},${lon}`);
-                btn.disabled = false;
-            }, () => { btn.disabled = false; window.showAppToast("GPS Error", true); });
+            });
         };
 
         window.fetchEnvironmentData = async function(coords) {
@@ -242,20 +222,15 @@
                 if(d.forecast) {
                     const c = d.forecast.forecastday[0].hour[new Date().getHours()];
                     document.getElementById('weatherInput').value = `${c.condition.text}, ${c.temp_c}°C`;
-                    document.getElementById('windInput').value = `${c.wind_dir} ${c.wind_mph}mph`;
+                    document.getElementById('windInput').value = `${c.wind_mph}mph ${c.wind_dir}`;
                     document.getElementById('waveInput').value = `${c.sig_ht_mt || '--'}m Wave`;
                     document.getElementById('swellInput').value = `${c.swell_ht_mt || '--'}m Swell`;
-                    
                     const ts = d.forecast.forecastday[0].day.tides[0].tide;
                     const hw = ts.find(t=>t.tide_type==='HIGH'); const lw = ts.find(t=>t.tide_type==='LOW');
                     if(hw) hwTime = hw.tide_time.split(' ')[1]; if(lw) lwTime = lw.tide_time.split(' ')[1];
-                    
-                    // SMART PORT LOGIC: Always use the Port Name provided by API, not local town
-                    currentStationName = d.location.name || 'Coastal Port';
-                    
                     document.getElementById('envPreview').style.display = 'block';
                     window.drawTideGraph('setupTideCanvas', hwTime, lwTime);
-                    window.showAppToast(`📍 Syncing with Port of ${currentStationName}`);
+                    window.showAppToast(`📍 Synced to Coastal Data`);
                 }
             } catch (e) { window.showAppToast("API Error", true); }
         };
@@ -269,37 +244,32 @@
             const lwM = parseInt(lwStr.split(':')[0])*60 + parseInt(lwStr.split(':')[1]);
             const now = new Date(); const nowM = now.getHours()*60 + now.getMinutes();
 
-            // Heading - Large Visibility
-            ctx.fillStyle = "#069494"; ctx.font = "bold 13px Outfit"; ctx.textAlign = "center";
-            ctx.fillText(`Live Tides: Port of ${currentStationName}`, 170, 20);
+            // Heading - Large and Correct
+            ctx.fillStyle = "#069494"; ctx.font = "800 13px Outfit"; ctx.textAlign = "center";
+            ctx.fillText(`Live Tides: ${currentStationName}`, 170, 25);
 
-            // Grid Lines & Hourly graduations
-            ctx.setLineDash([]); ctx.lineWidth = 1; ctx.textAlign = "center";
+            // Grid Lines & Hourly Labels
             for(let i=0; i<=8; i++) {
                 let x = (i/8)*340; let t = new Date(now.getTime() + i*3600000);
                 let timeStr = t.getHours().toString().padStart(2,'0') + ":00";
-                ctx.strokeStyle = "rgba(0,0,0,0.06)";
-                ctx.beginPath(); ctx.moveTo(x, 35); ctx.lineTo(x, 155); ctx.stroke();
-                ctx.fillStyle = "#475569"; ctx.font = "bold 10px Inter";
-                ctx.fillText(timeStr, x, 170);
+                ctx.strokeStyle = "rgba(0,0,0,0.1)"; ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 155); ctx.stroke();
+                ctx.fillStyle = "#475569"; ctx.font = "bold 11px Inter"; ctx.fillText(timeStr, x, 172);
             }
 
             // Tide Curve
-            ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 5;
+            ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 6;
             for(let x=0; x<=340; x++) {
                 let tM = nowM + (x/340)*480; 
-                let phase = ((tM - hwM) / 745) * Math.PI * 2;
-                let y = 95 - Math.cos(phase) * 50;
+                let y = 95 - Math.cos(((tM - hwM) / 745) * Math.PI * 2) * 50;
                 if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-                if(Math.abs(tM-hwM) < 2) { ctx.fillStyle="#069494"; ctx.font="800 12px Outfit"; ctx.fillText("HIGH " + hwStr, x, y-18); }
-                if(Math.abs(tM-lwM) < 2) { ctx.fillStyle="#475569"; ctx.font="800 12px Outfit"; ctx.fillText("LOW " + lwStr, x, y+28); }
+                if(Math.abs(tM-hwM) < 2) { ctx.fillStyle="#069494"; ctx.font="900 13px Outfit"; ctx.fillText("HIGH " + hwStr, x, y-20); }
+                if(Math.abs(tM-lwM) < 2) { ctx.fillStyle="#475569"; ctx.font="900 13px Outfit"; ctx.fillText("LOW " + lwStr, x, y+30); }
             } ctx.stroke();
             
-            // "NOW" Live Marker
-            const timeNowText = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-            ctx.beginPath(); ctx.strokeStyle = "#ef4444"; ctx.setLineDash([4, 3]); ctx.moveTo(0, 35); ctx.lineTo(0, 155); ctx.stroke();
-            ctx.fillStyle="#ef4444"; ctx.font="800 11px Outfit"; ctx.textAlign = "left";
-            ctx.fillText("NOW " + timeNowText, 6, 42);
+            // "NOW" Marker
+            ctx.beginPath(); ctx.strokeStyle = "#ef4444"; ctx.setLineDash([4, 3]); ctx.moveTo(0, 40); ctx.lineTo(0, 155); ctx.stroke();
+            ctx.fillStyle="#ef4444"; ctx.font="900 12px Outfit"; ctx.textAlign = "left";
+            ctx.fillText("NOW " + now.getHours().toString().padStart(2,'0')+":"+now.getMinutes().toString().padStart(2,'0'), 8, 48);
         };
 
         window.startFishing = function() { 
@@ -317,7 +287,7 @@
         };
 
         window.populateSpeciesDropdown = function() {
-            const e = document.getElementById('speciesInput'); e.innerHTML='<option disabled selected>Pick Species...</option>';
+            const e = document.getElementById('speciesInput'); e.innerHTML='<option disabled selected>Pick Fish...</option>';
             speciesList.forEach(g => { const grp = document.createElement('optgroup'); grp.label = g.category; g.items.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; grp.appendChild(o); }); e.appendChild(grp); });
         };
 
@@ -331,7 +301,7 @@
         window.updateFishLog = function() {
             const log = document.getElementById('fishLog'); log.innerHTML = '';
             [...fishData].reverse().forEach((f) => {
-                log.innerHTML += `<div class="catch-row"><div><div class="catch-species">${f.species}</div><div class="catch-detail">${f.display}</div></div><div class="text-muted fw-bold">${f.time}</div></div>`;
+                log.innerHTML += `<div class="catch-row"><div><div class="catch-species">${f.species}</div><div class="catch-detail">${f.display}</div></div><div class="catch-time">${f.time}</div></div>`;
             });
             document.getElementById('liveScoreVal').textContent = fishData.length;
         };
@@ -342,7 +312,7 @@
             const keys = Object.keys(Storage.getAll()).filter(k=>k.startsWith('scorecard_')).sort().reverse();
             keys.forEach(k => {
                 const d = JSON.parse(Storage.get(k));
-                list.innerHTML += `<div class="inner-card mb-2 fw-bold">${d.venue} - ${d.date}</div>`;
+                list.innerHTML += `<div class="inner-card mb-2 fw-bold fs-4">${d.venue} - ${d.date}</div>`;
             });
         };
 
@@ -350,7 +320,8 @@
         window.resetAppToHome = function() { fishData = []; PageManager.show('splashScreen'); };
         window.forceAppUpdate = function() { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1000); };
         window.showAppToast = function(msg, isError = false) {
-            const t = document.getElementById('toastMsg'); t.textContent = msg;
+            const t = document.getElementById('appToast');
+            document.getElementById('toastMsg').textContent = msg;
             new bootstrap.Toast(document.getElementById('appToast')).show();
         };
 
