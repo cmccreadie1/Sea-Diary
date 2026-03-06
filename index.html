@@ -39,11 +39,9 @@
         
         h1, h2, h3, h4, h5, h6, .live-score-value, .btn, .xc-score { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
 
-        /* ULTRA HIGH VISIBILITY BUTTONS */
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 900; border-radius: 18px; padding: 20px; font-size: 1.5rem; text-transform: uppercase; }
         .btn-outline-primary { border: 3px solid var(--app-main) !important; color: var(--app-main) !important; font-weight: 900; border-radius: 18px; font-size: 1.2rem; }
         
-        /* ULTRA VISIBILITY FOR FORMS */
         .form-control, .form-select { 
             background-color: var(--input-bg);
             color: var(--text-main);
@@ -65,7 +63,6 @@
         
         .live-score-value { font-size: 5.5rem; font-weight: 900; color: var(--app-main); line-height: 1; letter-spacing: -4px; }
 
-        /* HIGH VIS CATCH LOG */
         .catch-row { background: var(--card-bg); padding: 25px; border-radius: 22px; border: 3px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .catch-species { font-size: 1.8rem; font-weight: 900; color: var(--text-main); line-height: 1.2; }
         .catch-detail { font-size: 1.6rem; font-weight: 800; color: var(--app-main); }
@@ -91,7 +88,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-3 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.0.9</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.1.0</p>
         <div class="d-grid gap-4 col-10 col-md-6 mx-auto w-100" style="max-width: 400px;">
             <button class="btn btn-primary btn-lg py-4 shadow-sm" style="font-size: 1.6rem;" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -174,7 +171,7 @@
         const speciesList=[{category:"Common",items:["Cod","Pollack","Coalfish","Whiting","Dab","Flounder","Plaice","Turbot","Dogfish (LSD)"]},{category:"Round Fish",items:["Bass","Bream","Garfish","Mackerel","Mullet"]}];
         const scottishMarks = [{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Portpatrick",lat:54.8333,lon:-5.1167},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Oban",lat:56.4116,lon:-5.4747}];
         
-        let fishData=[], currentScoringMethod='', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='', officialStationName='Searching Station...';
+        let fishData=[], currentScoringMethod='', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='', officialStationName='Searching...';
         const PageManager={ show:id=>{ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
         const Storage={ save:(k,v)=>localStorage.setItem(k,v), get:k=>localStorage.getItem(k), remove:k=>localStorage.removeItem(k), getAll:()=>({...localStorage}) };
 
@@ -222,13 +219,14 @@
                     document.getElementById('waveInput').value = `${c.sig_ht_mt || '--'}m Wave`;
                     document.getElementById('swellInput').value = `${c.swell_ht_mt || '--'}m Swell`;
                     
-                    const tsObj = d.forecast.forecastday[0].day.tides[0];
-                    const ts = tsObj.tide;
+                    // DEEP LOGIC OVERHAUL: Ignore d.location.name (Kilsyth)
+                    // Extract specifically from the Tide Station property
+                    const tideData = d.forecast.forecastday[0].day.tides[0];
+                    officialStationName = tideData.tide_station_name || "Coastline: " + lat.substring(0,5);
+                    
+                    const ts = tideData.tide;
                     const hw = ts.find(t=>t.tide_type==='HIGH'); const lw = ts.find(t=>t.tide_type==='LOW');
                     if(hw) hwTime = hw.tide_time.split(' ')[1]; if(lw) lwTime = lw.tide_time.split(' ')[1];
-                    
-                    // TRUE STATION FIX: Look specifically for the Tide Data Station Name
-                    officialStationName = tsObj.tide_station_name || d.location.name || 'Coastal Port';
                     
                     document.getElementById('envPreview').style.display = 'block';
                     window.drawTideGraph('setupTideCanvas', hwTime, lwTime);
@@ -246,11 +244,10 @@
             const lwM = parseInt(lwStr.split(':')[0])*60 + parseInt(lwStr.split(':')[1]);
             const now = new Date(); const nowM = now.getHours()*60 + now.getMinutes();
 
-            // Heading - GIANT and Authoritative
+            // Heading - GIANT and Verified Station Name
             ctx.fillStyle = "#069494"; ctx.font = "900 15px Outfit"; ctx.textAlign = "center";
             ctx.fillText(`Live Tides: ${officialStationName}`, 170, 30);
 
-            // Hourly Grid & Labels
             for(let i=0; i<=8; i++) {
                 let x = (i/8)*340; let t = new Date(now.getTime() + i*3600000);
                 let timeStr = t.getHours().toString().padStart(2,'0') + ":00";
@@ -258,7 +255,6 @@
                 ctx.fillStyle = "#1e293b"; ctx.font = "bold 12px Inter"; ctx.fillText(timeStr, x, 185);
             }
 
-            // Tide Curve
             ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 7;
             for(let x=0; x<=340; x++) {
                 let tM = nowM + (x/340)*480; 
@@ -268,7 +264,6 @@
                 if(Math.abs(tM-lwM) < 2) { ctx.fillStyle="#475569"; ctx.font="900 15px Outfit"; ctx.fillText("LOW " + lwStr, x, y+35); }
             } ctx.stroke();
             
-            // "NOW" Live Beacon
             const tNow = now.getHours().toString().padStart(2,'0')+":"+now.getMinutes().toString().padStart(2,'0');
             ctx.beginPath(); ctx.strokeStyle = "#ef4444"; ctx.setLineDash([4, 3]); ctx.moveTo(0, 50); ctx.lineTo(0, 165); ctx.stroke();
             ctx.fillStyle="#ef4444"; ctx.font="900 13px Outfit"; ctx.textAlign = "left";
