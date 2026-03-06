@@ -86,7 +86,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.1.8</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.1.9</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -175,7 +175,7 @@
     <script>
         const WEATHER_API_KEY = "db7f2afb64d943719e0203116260103";
         const speciesList=[{category:"Pinned",items:["Cod","Whiting","Dogfish (LSD)","Dab","Pollack","Bass"]},{category:"General",items:["Bream","Coalfish","Flounder","Garfish","Mackerel","Mullet","Plaice","Scad","Turbot"]}];
-        const scottishMarks = [{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Oban",lat:56.4116,lon:-5.4747}];
+        const scottishMarks = [{name:"Aberdeen",lat:57.1437,lon:-2.0776},{name:"Arbroath",lat:56.5503,lon:-2.5802},{name:"Greenock",lat:55.9521,lon:-4.7644},{name:"Scrabster",lat:58.6083,lon:-3.5416},{name:"Oban Pier",lat:56.4116,lon:-5.4747}];
         const portMasterList = [{name:"Grangemouth",lat:56.02,lon:-3.70},{name:"Greenock",lat:55.95,lon:-4.76},{name:"Bowling",lat:55.93,lon:-4.50},{name:"Ayr",lat:55.46,lon:-4.64},{name:"Rosyth",lat:56.02,lon:-3.43},{name:"Leith",lat:55.99,lon:-3.17},{name:"Largs",lat:55.79,lon:-4.87},{name:"Troon",lat:55.54,lon:-4.68}];
 
         let fishData=[], currentScoringMethod='length_only', currentAngler='Chris McCreadie', currentVenue='', hwTime='', lwTime='', displayPortName='', pendingPhoto='';
@@ -224,8 +224,8 @@
                     document.getElementById('windInput').value = `${c.wind_mph}mph ${c.wind_dir}`;
                     document.getElementById('waveInput').value = `${c.sig_ht_mt || '--'}m Wave`;
                     document.getElementById('swellInput').value = `${c.swell_ht_mt || '--'}m Swell`;
-                    const tideData = d.forecast.forecastday[0].day.tides[0].tide;
-                    const hw = tideData.find(t=>t.tide_type==='HIGH'); const lw = tideData.find(t=>t.tide_type==='LOW');
+                    const tideDataArr = d.forecast.forecastday[0].day.tides[0].tide;
+                    const hw = tideDataArr.find(t=>t.tide_type==='HIGH'); const lw = tideDataArr.find(t=>t.tide_type==='LOW');
                     if(hw) hwTime = hw.tide_time.split(' ')[1]; if(lw) lwTime = lw.tide_time.split(' ')[1];
                     document.getElementById('envPreview').style.display = 'block';
                     window.drawTideGraph('setupTideCanvas', hwTime, lwTime, true);
@@ -238,29 +238,47 @@
             const canvas = document.getElementById(canvasId); const ctx = canvas.getContext('2d');
             canvas.width = 340 * 3; canvas.height = 180 * 3; ctx.scale(3, 3);
             ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 340, 180);
+            
             const hwM = parseInt(hwStr.split(':')[0])*60 + parseInt(hwStr.split(':')[1]);
-            const now = new Date(); const nowM = now.getHours()*60 + now.getMinutes();
+            const startNow = new Date();
+            const startM = startNow.getHours()*60 + startNow.getMinutes();
+
             if(showHeader) {
                 ctx.fillStyle = "#069494"; ctx.font = "900 13px Outfit"; ctx.textAlign = "center";
                 ctx.fillText(`Live Tides: ${displayPortName}`, 170, 25);
             }
+
+            // Draw Hourly Grid
             for(let i=0; i<=8; i++) {
-                let x = (i/8)*340; let t = new Date(now.getTime() + i*3600000);
+                let x = (i/8)*340; let t = new Date(startNow.getTime() + i*3600000);
                 ctx.strokeStyle = "rgba(0,0,0,0.1)"; ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 150); ctx.stroke();
                 ctx.fillStyle = "#1e293b"; ctx.font = "bold 9px Inter"; ctx.textAlign = "center";
                 ctx.fillText(t.getHours().toString().padStart(2,'0')+":00", x, 165);
             }
+
+            // Draw Tide Curve
             ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 5;
             for(let x=0; x<=340; x++) {
-                let tM = nowM + (x/340)*480; 
-                let y = 95 - Math.cos(((tM - hwM) / 745) * Math.PI * 2) * 45;
+                let currentPointM = startM + (x/340)*480; // 480 mins = 8 hours
+                let phase = ((currentPointM - hwM) / 745) * Math.PI * 2;
+                let y = 95 - Math.cos(phase) * 45;
                 if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+
+                // DRAW CATCH DOTS (FIXED SYNC LOGIC)
                 fishData.forEach(f => {
-                    if(Math.abs(f.tM - tM) < 2) {
-                        ctx.fillStyle = "red"; ctx.beginPath(); ctx.arc(x, y, 4 + (f.count || 0), 0, Math.PI*2); ctx.fill();
+                    // Check if fish catch time (f.tM) falls into this X pixel's time range
+                    if(Math.abs(f.tM - currentPointM) < 1.5) {
+                        ctx.fillStyle = "red"; 
+                        ctx.beginPath(); 
+                        ctx.arc(x, y, 5 + (f.sizeBonus || 0), 0, Math.PI*2); 
+                        ctx.fill();
                     }
                 });
             } ctx.stroke();
+
+            // "LIVE" Beacon
+            ctx.beginPath(); ctx.strokeStyle = "#ef4444"; ctx.setLineDash([3, 2]); ctx.moveTo(0, 40); ctx.lineTo(0, 150); ctx.stroke();
+            ctx.setLineDash([]);
         };
 
         window.startFishing = function() { 
@@ -290,11 +308,27 @@
             const sp = document.getElementById('speciesInput').value; 
             const len = parseFloat(document.getElementById('fishLengthInput').value);
             if(!sp || isNaN(len)) return window.showAppToast("Select species and length", true);
-            const now = new Date(); const nowM = now.getHours()*60 + now.getMinutes();
-            let existing = fishData.find(f => Math.abs(f.tM - nowM) < 5);
-            fishData.push({ id: Date.now(), species: sp, val: len, display: len + (currentScoringMethod === 'weight' ? 'kg' : 'cm'), time: now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}), tM: nowM, photo: pendingPhoto, count: existing ? (existing.count + 2) : 0 });
+            
+            const catchTime = new Date();
+            const catchM = catchTime.getHours()*60 + catchTime.getMinutes();
+
+            // Logic for bigger dots if multiple fish caught close together
+            let existingCount = fishData.filter(f => Math.abs(f.tM - catchM) < 5).length;
+
+            fishData.push({ 
+                id: Date.now(), 
+                species: sp, 
+                val: len, 
+                display: len + (currentScoringMethod === 'weight' ? 'kg' : 'cm'), 
+                time: catchTime.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}), 
+                tM: catchM, 
+                photo: pendingPhoto,
+                sizeBonus: existingCount * 2
+            });
+            
             pendingPhoto = null; document.getElementById('fishLengthInput').value = '';
-            window.updateFishLog(); window.drawTideGraph('liveCatchCanvas', hwTime, lwTime, false);
+            window.updateFishLog(); 
+            window.drawTideGraph('liveCatchCanvas', hwTime, lwTime, false);
             window.showAppToast(`${sp} Recorded!`);
         };
 
@@ -334,25 +368,37 @@
         
         window.endSession = function() {
             if(!confirm("Finish and Save?")) return;
-            Storage.save('scorecard_' + Date.now(), JSON.stringify({ angler: currentAngler, venue: currentVenue, date: document.getElementById('competitionDate').value, fishData }));
-            window.resetAppToHome(); window.showAppToast("Saved!");
+            Storage.save('scorecard_' + Date.now(), JSON.stringify({ angler: currentAngler, venue: currentVenue, date: document.getElementById('competitionDate').value, totalScore: document.getElementById('liveScoreVal').textContent, fishData }));
+            window.resetAppToHome(); window.showAppToast("Session Archived!");
         };
 
         window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
         window.loadSavedScorecards = function() {
             const list = document.getElementById('recentList'); list.innerHTML = '';
             const keys = Object.keys(Storage.getAll()).filter(k=>k.startsWith('scorecard_')).sort().reverse();
-            keys.forEach(k => { const d = JSON.parse(Storage.get(k)); list.innerHTML += `<div class="inner-card mb-2 fw-bold fs-5">${d.venue} - ${d.date}</div>`; });
+            keys.forEach(k => { 
+                const d = JSON.parse(Storage.get(k)); 
+                list.innerHTML += `<div class="inner-card mb-2 fw-bold fs-5 d-flex justify-content-between">
+                    <span>${d.venue} - ${d.date}</span>
+                    <span class="text-primary">${d.totalScore || 0}</span>
+                </div>`; 
+            });
         };
 
         window.resetAppToHome = function() { 
-            fishData = []; document.getElementById('venueSelect').value = ""; 
+            fishData = []; 
+            document.getElementById('venueSelect').value = ""; 
             document.getElementById('envPreview').style.display = 'none';
-            document.getElementById('liveScoreVal').textContent = "0"; document.getElementById('fishLog').innerHTML = "";
+            document.getElementById('liveScoreVal').textContent = "0"; 
+            document.getElementById('fishLog').innerHTML = "";
             PageManager.show('splashScreen'); 
         };
         
-        window.forceAppUpdate = function() { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1500); };
+        window.forceAppUpdate = function() { 
+            document.getElementById('refreshIcon').classList.add('icon-spin'); 
+            if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.update()));
+            setTimeout(() => window.location.reload(), 1500); 
+        };
         window.showAppToast = (m, e) => { document.getElementById('toastMsg').textContent = m; new bootstrap.Toast(document.getElementById('appToast')).show(); };
         window.cancelNewVenue = function() { document.getElementById('venueSelectContainer').style.display='block'; document.getElementById('venueInputContainer').style.display='none'; };
 
