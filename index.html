@@ -60,7 +60,7 @@
         
         .live-score-value { font-size: 4rem; font-weight: 900; color: var(--app-main); line-height: 1; }
 
-        .catch-row { background: var(--card-bg); padding: 18px; border-radius: 18px; border: 2px solid var(--border-color); margin-bottom: 10px; }
+        .catch-row { background: var(--card-bg); padding: 18px; border-radius: 18px; border: 2px solid var(--border-color); margin-bottom: 10px; position: relative;}
         .catch-species { font-size: 1.3rem; font-weight: 800; color: var(--text-main); }
         .catch-detail { font-size: 1.2rem; font-weight: 700; color: var(--app-main); }
 
@@ -86,7 +86,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.1.7</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.1.8</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -240,32 +240,33 @@
             ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 340, 180);
             const hwM = parseInt(hwStr.split(':')[0])*60 + parseInt(hwStr.split(':')[1]);
             const now = new Date(); const nowM = now.getHours()*60 + now.getMinutes();
-
             if(showHeader) {
                 ctx.fillStyle = "#069494"; ctx.font = "900 13px Outfit"; ctx.textAlign = "center";
                 ctx.fillText(`Live Tides: ${displayPortName}`, 170, 25);
             }
-
             for(let i=0; i<=8; i++) {
                 let x = (i/8)*340; let t = new Date(now.getTime() + i*3600000);
                 ctx.strokeStyle = "rgba(0,0,0,0.1)"; ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 150); ctx.stroke();
                 ctx.fillStyle = "#1e293b"; ctx.font = "bold 9px Inter"; ctx.textAlign = "center";
                 ctx.fillText(t.getHours().toString().padStart(2,'0')+":00", x, 165);
             }
-
             ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 5;
             for(let x=0; x<=340; x++) {
                 let tM = nowM + (x/340)*480; 
                 let y = 95 - Math.cos(((tM - hwM) / 745) * Math.PI * 2) * 45;
                 if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-
-                // RED DOT CATCH LOGIC
                 fishData.forEach(f => {
                     if(Math.abs(f.tM - tM) < 2) {
                         ctx.fillStyle = "red"; ctx.beginPath(); ctx.arc(x, y, 4 + (f.count || 0), 0, Math.PI*2); ctx.fill();
                     }
                 });
             } ctx.stroke();
+        };
+
+        window.startFishing = function() { 
+            PageManager.show('anglerRegistration'); 
+            document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0];
+            window.populateVenueDropdown();
         };
 
         window.registerAngler = function() {
@@ -290,14 +291,18 @@
             const len = parseFloat(document.getElementById('fishLengthInput').value);
             if(!sp || isNaN(len)) return window.showAppToast("Select species and length", true);
             const now = new Date(); const nowM = now.getHours()*60 + now.getMinutes();
-
-            // Look for existing catch at same time to increase dot size
             let existing = fishData.find(f => Math.abs(f.tM - nowM) < 5);
-            fishData.push({ species: sp, val: len, display: len + (currentScoringMethod === 'weight' ? 'kg' : 'cm'), time: now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}), tM: nowM, photo: pendingPhoto, count: existing ? (existing.count + 2) : 0 });
-            
+            fishData.push({ id: Date.now(), species: sp, val: len, display: len + (currentScoringMethod === 'weight' ? 'kg' : 'cm'), time: now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}), tM: nowM, photo: pendingPhoto, count: existing ? (existing.count + 2) : 0 });
             pendingPhoto = null; document.getElementById('fishLengthInput').value = '';
             window.updateFishLog(); window.drawTideGraph('liveCatchCanvas', hwTime, lwTime, false);
             window.showAppToast(`${sp} Recorded!`);
+        };
+
+        window.deleteFish = function(id) {
+            if(!confirm("Remove this catch?")) return;
+            fishData = fishData.filter(f => f.id !== id);
+            window.updateFishLog(); window.drawTideGraph('liveCatchCanvas', hwTime, lwTime, false);
+            window.showAppToast("Catch Deleted");
         };
 
         window.updateFishLog = function() {
@@ -306,9 +311,12 @@
                 total += f.val;
                 log.innerHTML += `<div class="catch-row d-flex justify-content-between align-items-center">
                     <div><div class="catch-species">${f.species}</div><div class="catch-detail">${f.display}</div></div>
-                    <div class="text-end">
-                        ${f.photo ? `<button class="btn btn-sm btn-outline-primary mb-1" onclick="window.viewImg('${f.photo}')">View Photo</button><br>` : ''}
-                        <small class="text-muted fw-bold">${f.time}</small>
+                    <div class="text-end d-flex align-items-center gap-2">
+                        <div>
+                            ${f.photo ? `<button class="btn btn-sm btn-outline-primary mb-1" onclick="window.viewImg('${f.photo}')">Photo</button><br>` : ''}
+                            <small class="text-muted fw-bold">${f.time}</small>
+                        </div>
+                        <button class="btn btn-sm btn-link text-danger p-0 ms-2" onclick="window.deleteFish(${f.id})"><i class="bi bi-trash3-fill fs-4"></i></button>
                     </div>
                 </div>`;
             });
@@ -327,7 +335,7 @@
         window.endSession = function() {
             if(!confirm("Finish and Save?")) return;
             Storage.save('scorecard_' + Date.now(), JSON.stringify({ angler: currentAngler, venue: currentVenue, date: document.getElementById('competitionDate').value, fishData }));
-            window.resetAppToHome(); window.showAppToast("Saved to History!");
+            window.resetAppToHome(); window.showAppToast("Saved!");
         };
 
         window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
