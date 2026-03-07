@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.2.9</title>
+    <title>Sea Diary Pro - v2.3.0</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,7 +78,6 @@
 
         .app-logo-svg { display: block; margin: 0 auto 25px; }
         
-        /* Dropdown Green Option Styling (Supported in some mobile OS) */
         .opt-add-new { color: #059669 !important; font-weight: 800 !important; background-color: #f0fdf4 !important; }
     </style>
 </head>
@@ -107,7 +106,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.9</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.0</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -301,8 +300,8 @@
             sel.innerHTML = '<option value="" disabled selected>Pick Saved Venue...</option>';
             scottishMarks.forEach(m => { sel.innerHTML += `<option value="${m.lat},${m.lon}">${m.name}</option>`; });
             Object.keys(vMap).sort().forEach(vName => { const d = vMap[vName]; sel.innerHTML += `<option value="${d.lat},${d.lon}">${vName}</option>`; });
-            // THE INTERNAL GREEN OPTION
-            sel.innerHTML += '<option value="__ADD_NEW__" class="opt-add-new fw-bold">➕ Mark not listed? Add New Mark...</option>';
+            // SHORTENED OPTION TO FIT ON ONE LINE
+            sel.innerHTML += '<option value="__ADD_NEW__" class="opt-add-new fw-bold">➕ Add New Mark</option>';
         };
 
         window.handleVenueDropdown = function() {
