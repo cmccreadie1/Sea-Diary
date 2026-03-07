@@ -99,7 +99,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.2</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.3</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -187,7 +187,7 @@
         const scottishMarks = [{name:"Aberdeen",lat:57.14,lon:-2.07},{name:"Arbroath",lat:56.55,lon:-2.58},{name:"Greenock",lat:55.95,lon:-4.76},{name:"Scrabster",lat:58.61,lon:-3.54},{name:"Oban",lat:56.41,lon:-5.47}];
         const portMasterList = [{name:"Grangemouth",lat:56.02,lon:-3.70},{name:"Greenock",lat:55.95,lon:-4.76},{name:"Bowling",lat:55.93,lon:-4.50},{name:"Ayr",lat:55.46,lon:-4.64},{name:"Rosyth",lat:56.02,lon:-3.43},{name:"Leith",lat:55.99,lon:-3.17},{name:"Largs",lat:55.79,lon:-4.87},{name:"Troon",lat:55.54,lon:-4.68}];
 
-        let fishData=[], currentScoringMethod='length_only', currentAngler='Chris McCreadie', currentVenue='', hwTime='12:00', lwTime='06:00', displayPortName='', pendingPhoto='', sessionStartTimeM=0;
+        let fishData=[], currentScoringMethod='length_only', currentAngler='Chris McCreadie', currentVenue='', hwTime='12:00', lwTime='06:00', displayPortName='', pendingPhoto='', sessionStartTimeM=0, graphOriginM=0;
         const PageManager={ show:id=>{ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
         const Storage={ save:(k,v)=>localStorage.setItem(k,v), get:k=>localStorage.getItem(k), remove:k=>localStorage.removeItem(k), getAll:()=>({...localStorage}) };
 
@@ -237,12 +237,11 @@
                     if(hw) hwTime = hw.tide_time.split(' ')[1]; if(lw) lwTime = lw.tide_time.split(' ')[1];
                     document.getElementById('envPreview').style.display = 'block';
                     window.drawTideGraph('setupTideCanvas', hwTime, lwTime, true);
-                    window.showAppToast(`📍 Synced to ${displayPortName}`);
                 }
             } catch (e) { window.showAppToast("Offline", true); }
         };
 
-        // NEW MASTER GRAPH CALCULATION (Prevents Pacman and Lost Waves)
+        // PRECISION TIME MAPPING Logic
         window.getXYForTime = (timeM, startM, hwM) => {
             const x = ((timeM - startM) / 480) * 340;
             const phase = ((timeM - hwM) / 745) * Math.PI * 2;
@@ -256,48 +255,49 @@
             ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 340, 180);
             
             const hwM = parseInt(hwStr.split(':')[0])*60 + parseInt(hwStr.split(':')[1]);
-            const now = new Date();
-            const startM = sessionStartTimeM ? sessionStartTimeM - 60 : (now.getHours()*60 + now.getMinutes() - 60);
+            
+            // CLOCK SYNC: Snap the graph start to the nearest hour marker
+            if(!graphOriginM) {
+                const now = new Date();
+                graphOriginM = (now.getHours() - 1) * 60; // Start at the hour before current hour
+            }
 
             if(showHeader) {
                 ctx.fillStyle = "#069494"; ctx.font = "900 14px Outfit"; ctx.textAlign = "center";
                 ctx.fillText(`Live Tides: ${displayPortName}`, 170, 25);
             }
 
-            // 1. Draw Hourly Grid
+            // 1. Precise Hourly Grid
             ctx.setLineDash([]);
             for(let i=0; i<=8; i++) {
                 let x = (i/8)*340; 
-                let labelM = startM + (i * 60);
-                let hour = Math.floor((labelM % 1440) / 60);
+                let currentHourM = graphOriginM + (i * 60);
+                let hourLabel = Math.floor((currentHourM / 60) % 24);
                 ctx.strokeStyle = "rgba(0,0,0,0.1)"; ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 150); ctx.stroke();
-                ctx.fillStyle = "#1e293b"; ctx.font = "bold 11px Inter"; ctx.textAlign = "center";
-                ctx.fillText(hour.toString().padStart(2,'0')+":00", x, 168);
+                ctx.fillStyle = "#1e293b"; ctx.font = "bold 12px Inter"; ctx.textAlign = "center";
+                ctx.fillText(hourLabel.toString().padStart(2,'0')+":00", x, 168);
             }
 
-            // 2. Draw Tide Curve (CLEAN CONTINUOUS PATH)
+            // 2. Continuous Tide Curve
             ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 6;
             for(let x=0; x<=340; x++) {
-                let currentPointM = startM + (x/340)*480; 
-                let pos = window.getXYForTime(currentPointM, startM, hwM);
+                let pointM = graphOriginM + (x/340)*480; 
+                let pos = window.getXYForTime(pointM, graphOriginM, hwM);
                 if(x===0) ctx.moveTo(pos.x, pos.y); else ctx.lineTo(pos.x, pos.y);
             } ctx.stroke();
 
-            // 3. Draw Catch Dots (SEPARATE LOOP)
+            // 3. Stamped Catch Dots (SEPARATE LOOP)
             fishData.forEach(f => {
-                const pos = window.getXYForTime(f.tM, startM, hwM);
-                
-                // Grouping Logic: Count how many fish at this exact time
-                const sessionCount = fishData.filter(fd => Math.abs(fd.tM - f.tM) < 2).length;
-                const dotSize = 6 + (sessionCount * 1.5);
+                const pos = window.getXYForTime(f.tM, graphOriginM, hwM);
+                const countAtTime = fishData.filter(fd => Math.abs(fd.tM - f.tM) < 3).length;
+                const dotSize = 6 + (countAtTime * 1.5);
 
                 ctx.beginPath();
-                ctx.fillStyle = "#ef4444"; 
-                ctx.strokeStyle = "#ffffff";
-                ctx.lineWidth = 2.5;
+                ctx.shadowBlur = 4; ctx.shadowColor = "rgba(0,0,0,0.2)";
+                ctx.fillStyle = "#ef4444"; ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 2.5;
                 ctx.arc(pos.x, pos.y, dotSize, 0, Math.PI * 2); 
-                ctx.fill(); 
-                ctx.stroke();
+                ctx.fill(); ctx.stroke();
+                ctx.shadowBlur = 0; // Reset shadow
             });
         };
 
@@ -338,16 +338,16 @@
         window.addFish = function() {
             const sp = document.getElementById('speciesInput').value; 
             const len = parseFloat(document.getElementById('fishLengthInput').value);
-            if(!sp || isNaN(len)) return window.showAppToast("Select species and length", true);
+            if(!sp || isNaN(len)) return window.showAppToast("Enter details", true);
             const now = new Date();
             fishData.push({ id: Date.now(), species: sp, val: len, display: len + (currentScoringMethod === 'weight' ? 'kg' : 'cm'), time: now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}), tM: now.getHours()*60 + now.getMinutes(), photo: pendingPhoto });
             pendingPhoto = null; document.getElementById('fishLengthInput').value = '';
             window.updateFishLog(); window.drawTideGraph('liveCatchCanvas', hwTime, lwTime, false);
-            window.showAppToast(`${sp} Logged!`);
+            window.showAppToast(`Catch Recorded!`);
         };
 
         window.deleteFish = function(id) {
-            if(!confirm("Delete this fish?")) return;
+            if(!confirm("Delete fish?")) return;
             fishData = fishData.filter(f => f.id !== id);
             window.updateFishLog(); window.drawTideGraph('liveCatchCanvas', hwTime, lwTime, false);
         };
@@ -376,16 +376,16 @@
         window.viewImg = (src) => { if(!src) return; document.getElementById('nativeFullImage').src = src; document.getElementById('nativeImageViewer').style.display = 'block'; };
 
         window.endSession = function() {
-            if(!confirm("Save and Finish?")) return;
-            Storage.save('scorecard_' + Date.now(), JSON.stringify({ angler: currentAngler, venue: currentVenue, date: document.getElementById('competitionDate').value, totalScore: document.getElementById('liveScoreVal').textContent, fishData }));
-            window.resetAppToHome(); window.showAppToast("Diary Saved!");
+            if(!confirm("Save session?")) return;
+            Storage.save('scorecard_' + Date.now(), JSON.stringify({ venue: currentVenue, date: document.getElementById('competitionDate').value, totalScore: document.getElementById('liveScoreVal').textContent, fishData }));
+            window.resetAppToHome();
         };
 
         window.resetAppToHome = function() { 
             fishData = []; document.getElementById('venueSelect').value = ""; 
             document.getElementById('envPreview').style.display = 'none';
             document.getElementById('liveScoreVal').textContent = "0"; document.getElementById('fishLog').innerHTML = "";
-            sessionStartTimeM = 0; PageManager.show('splashScreen'); 
+            sessionStartTimeM = 0; graphOriginM = 0; PageManager.show('splashScreen'); 
         };
         
         window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
