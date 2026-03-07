@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.2.7</title>
+    <title>Sea Diary Pro - v2.2.8</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -104,7 +104,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.7</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.8</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -121,21 +121,33 @@
             <div class="mb-4"><label class="form-label fw-bold text-muted small uppercase">Angler</label><input type="text" id="anglerName" class="form-control" value="Chris McCreadie"></div>
             
             <div class="mb-3">
-                <label class="form-label fw-bold text-muted small uppercase mb-2">Venue Selection</label>
-                <div id="venueNav" class="row g-2 mb-3">
-                    <div class="col-6"><button class="btn btn-outline-primary w-100 py-3 fw-bold small" onclick="window.showVenueDropdownMode()">Saved Marks</button></div>
-                    <div class="col-6"><button class="btn btn-outline-success w-100 py-3 fw-bold small" onclick="window.showVenueInputMode()">New Mark</button></div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label fw-bold text-muted small uppercase m-0">Venue</label>
+                    <button class="btn btn-link btn-sm fw-bold p-0 text-decoration-none" id="btnResetVenue" style="display:none;" onclick="window.resetVenueFlow()">Reset Selection</button>
                 </div>
-
-                <div id="venueSelectContainer" style="display:none;">
-                    <select id="venueSelect" class="form-select text-primary" onchange="window.handleVenueDropdown()"></select>
+                
+                <div id="venueSelectContainer">
+                    <select id="venueSelect" class="form-select text-primary mb-2" onchange="window.handleVenueDropdown()"></select>
+                    <div class="text-center mt-2">
+                        <button class="btn btn-link btn-sm text-primary fw-bold text-decoration-none" onclick="window.showVenueInputMode()">
+                            Mark not listed? <span class="text-success text-decoration-underline">Add New Mark</span>
+                        </button>
+                    </div>
                 </div>
                 
                 <div id="venueInputContainer" style="display:none;">
-                    <input type="text" id="venueInputText" class="form-control mb-2" placeholder="Mark Name (e.g. My Secret Pier)">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-geo-fill text-success"></i></span>
+                        <input type="text" id="venueInputText" class="form-control border-start-0 ps-0" placeholder="New Mark Name...">
+                    </div>
                     <button class="btn btn-success w-100 py-3 fs-5" onclick="window.linkNewVenueGPS()">
                         <i class="bi bi-geo-alt-fill me-2"></i> Set Mark & Get Tides
                     </button>
+                    <div class="text-center mt-2">
+                        <button class="btn btn-link btn-sm text-muted fw-bold text-decoration-none" onclick="window.showVenueDropdownMode()">
+                            <i class="bi bi-arrow-left me-1"></i> Back to Saved List
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -268,7 +280,7 @@
             return "Cross";
         }
 
-        // NAVIGATION FLOW FIXES
+        // NO-DEAD-END NAVIGATION
         window.showVenueDropdownMode = () => {
             document.getElementById('venueSelectContainer').style.display='block';
             document.getElementById('venueInputContainer').style.display='none';
@@ -283,7 +295,7 @@
         window.populateVenueDropdown = function() {
             let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
             const sel = document.getElementById('venueSelect');
-            sel.innerHTML = '<option value="" disabled selected>Pick From List...</option>';
+            sel.innerHTML = '<option value="" disabled selected>Pick Saved Venue...</option>';
             scottishMarks.forEach(m => { sel.innerHTML += `<option value="${m.lat},${m.lon}">${m.name}</option>`; });
             Object.keys(vMap).sort().forEach(vName => { const d = vMap[vName]; sel.innerHTML += `<option value="${d.lat},${d.lon}">${vName}</option>`; });
         };
@@ -292,9 +304,16 @@
             const sel = document.getElementById('venueSelect');
             const val = sel.value;
             if(val) {
-                currentVenue = sel.options[sel.selectedIndex].text; // Persistence FIX
+                currentVenue = sel.options[sel.selectedIndex].text;
+                document.getElementById('btnResetVenue').style.display = 'block';
                 window.fetchEnvironmentData(val);
             }
+        };
+
+        window.resetVenueFlow = function() {
+            document.getElementById('btnResetVenue').style.display = 'none';
+            document.getElementById('envPreview').style.display = 'none';
+            window.showVenueDropdownMode(); // Returns to default list view
         };
 
         window.getNearestPort = function(lat, lon) {
@@ -307,15 +326,16 @@
         };
 
         window.linkNewVenueGPS = function() {
-            const name = document.getElementById('venueInputText').value.trim() || "New GPS Mark";
-            currentVenue = name; // PERSISTENCE FIX
+            const name = document.getElementById('venueInputText').value.trim() || "GPS Mark";
+            currentVenue = name;
             navigator.geolocation.getCurrentPosition((pos) => {
                 const lat = pos.coords.latitude; const lon = pos.coords.longitude;
                 displayPortName = window.getNearestPort(lat, lon);
                 let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
                 vMap[name] = { lat, lon }; Storage.save('venueTideMap', JSON.stringify(vMap));
+                window.populateVenueDropdown();
+                document.getElementById('btnResetVenue').style.display = 'block';
                 window.fetchEnvironmentData(`${lat},${lon}`);
-                window.showAppToast(`Locked to ${displayPortName}`);
             }, () => window.showAppToast("GPS Denied", true));
         };
 
@@ -342,7 +362,6 @@
             } catch (e) { window.showAppToast("Offline", true); }
         };
 
-        // REMAINDER OF BASELINE LOGIC (Untouched as per Rule 1)
         window.getXYForTime = (timeM, startM, hwM) => {
             const x = ((timeM - startM) / 480) * 340;
             const phase = ((timeM - hwM) / 745) * Math.PI * 2;
@@ -393,7 +412,7 @@
         window.startFishing = function() { 
             PageManager.show('anglerRegistration'); 
             document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0];
-            window.showVenueDropdownMode(); // Default to list view
+            window.showVenueDropdownMode(); 
         };
 
         window.registerAngler = function() {
@@ -440,7 +459,6 @@
             window.resetAppToHome();
         };
 
-        // GHOST DATA CLEARING FIX
         window.resetAppToHome = function() { 
             fishData = []; 
             document.getElementById('envPreview').style.display = 'none';
@@ -472,7 +490,6 @@
 
         window.forceAppUpdate = function() { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1500); };
         window.showAppToast = (m, e) => { document.getElementById('toastMsg').textContent = m; new bootstrap.Toast(document.getElementById('appToast')).show(); };
-        window.cancelNewVenue = function() { window.showVenueDropdownMode(); };
         window.triggerCamera = () => document.getElementById('cameraInput').click();
         window.handleCameraInput = () => { const f = document.getElementById('cameraInput').files[0]; const r = new FileReader(); r.onloadend = () => { pendingPhoto = r.result; window.showAppToast("Photo Attached!"); }; if(f) r.readAsDataURL(f); };
         window.viewImg = (src) => { if(!src) return; document.getElementById('nativeFullImage').src = src; document.getElementById('nativeImageViewer').style.display = 'block'; };
