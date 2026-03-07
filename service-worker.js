@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sea-diary-pro-v2.2.7-final';
+const CACHE_NAME = 'sea-diary-pro-v2.2.8';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
