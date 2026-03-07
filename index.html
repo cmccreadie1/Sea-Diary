@@ -55,7 +55,8 @@
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg-main); z-index: 1040; 
+            background: var(--bg-main); z-index: 1040;
+            text-align: center; /* FIX: Center text */
         }
         
         .live-score-value { font-size: 4rem; font-weight: 900; color: var(--app-main); line-height: 1; }
@@ -69,9 +70,12 @@
             background: white; z-index: 10000; flex-direction: column; padding: 20px;
         }
 
-        .icon-spin { animation: spin 1s linear infinite; }
+        .icon-spin { animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
+
+        /* Fix for logo centering */
+        .app-logo-svg { display: block; margin: 0 auto 25px; }
     </style>
 </head>
 <body>
@@ -93,13 +97,13 @@
     </div>
 
     <div id="splashScreen" class="splash-screen">
-        <svg style="width: 130px; height: 130px; margin-bottom: 25px;" viewBox="0 0 200 200">
+        <svg class="app-logo-svg" style="width: 130px; height: 130px;" viewBox="0 0 200 200">
             <circle cx="100" cy="100" r="95" fill="#0f172a" stroke="#069494" stroke-width="2"/>
             <path d="M 100,100 L 100,5 A 95 95 0 0 1 195,100 Z" fill="#08baba" opacity="0.4"/>
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.3</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.4</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -177,6 +181,26 @@
         <button class="btn btn-danger btn-lg w-100 py-4 fw-bold shadow fs-4" onclick="window.endSession()">Finish Session</button>
     </div>
 
+    <div class="modal fade" id="scorecardModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h4 id="scTitle" class="modal-title fw-bold">Session Review</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <div class="inner-card text-center mb-3">
+                        <h2 id="scVenueDisplay" class="fw-bold text-primary mb-1">Venue</h2>
+                        <p id="scDateDisplay" class="text-muted fw-bold small">Date</p>
+                        <div class="live-score-value" id="scTotalDisplay">0</div>
+                        <div class="text-muted small uppercase fw-bold" id="scUnitLabel">Total</div>
+                    </div>
+                    <div id="scFishList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="nativeImageViewer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:99999; overflow:auto;"><div class="p-3 text-end"><button onclick="document.getElementById('nativeImageViewer').style.display='none'" class="btn btn-light rounded-pill px-4 fw-bold">Close</button></div><div style="width:100%; height:80%; display:flex; align-items:center; justify-content:center;"><img id="nativeFullImage" src="" style="width: 90%; height: auto; max-height: 85vh; object-fit: contain; background: white;"></div></div>
 
     <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h4>History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div id="recentList" class="p-3"></div></div></div></div></div>
@@ -184,12 +208,12 @@
     <script>
         const WEATHER_API_KEY = "db7f2afb64d943719e0203116260103";
         const speciesList=[{category:"Pinned",items:["Cod","Whiting","Dogfish (LSD)","Dab","Pollack","Bass"]},{category:"General",items:["Bream","Coalfish","Flounder","Garfish","Mackerel","Mullet","Plaice","Scad","Turbot"]}];
-        const scottishMarks = [{name:"Aberdeen",lat:57.14,lon:-2.07},{name:"Arbroath",lat:56.55,lon:-2.58},{name:"Greenock",lat:55.95,lon:-4.76},{name:"Scrabster",lat:58.61,lon:-3.54},{name:"Oban",lat:56.41,lon:-5.47}];
+        const scottishMarks = [{name:"Aberdeen",lat:57.14,lon:-2.07},{name:"Arbroath",lat:56.55,lon:-2.58},{name:"Greenock",lat:55.95,lon:-4.76},{name:"Scrabster",lat:58.61,lon:-3.54},{name:"Oban Pier",lat:56.41,lon:-5.47}];
         const portMasterList = [{name:"Grangemouth",lat:56.02,lon:-3.70},{name:"Greenock",lat:55.95,lon:-4.76},{name:"Bowling",lat:55.93,lon:-4.50},{name:"Ayr",lat:55.46,lon:-4.64},{name:"Rosyth",lat:56.02,lon:-3.43},{name:"Leith",lat:55.99,lon:-3.17},{name:"Largs",lat:55.79,lon:-4.87},{name:"Troon",lat:55.54,lon:-4.68}];
 
         let fishData=[], currentScoringMethod='length_only', currentAngler='Chris McCreadie', currentVenue='', hwTime='12:00', lwTime='06:00', displayPortName='', pendingPhoto='', sessionStartTimeM=0, graphOriginM=0;
         const PageManager={ show:id=>{ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
-        const Storage={ save:(k,v)=>localStorage.setItem(k,v), get:k=>localStorage.getItem(k), remove:k=>localStorage.removeItem(k), getAll:()=>({...localStorage}) };
+        const Storage={ save:(k,v) => localStorage.setItem(k,v), get:k => localStorage.getItem(k), remove:k => localStorage.removeItem(k), getAll:() => ({...localStorage}) };
 
         window.populateVenueDropdown = function() {
             let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
@@ -241,7 +265,6 @@
             } catch (e) { window.showAppToast("Offline", true); }
         };
 
-        // PRECISION TIME MAPPING Logic
         window.getXYForTime = (timeM, startM, hwM) => {
             const x = ((timeM - startM) / 480) * 340;
             const phase = ((timeM - hwM) / 745) * Math.PI * 2;
@@ -253,21 +276,9 @@
             const canvas = document.getElementById(canvasId); const ctx = canvas.getContext('2d');
             canvas.width = 340 * 3; canvas.height = 180 * 3; ctx.scale(3, 3);
             ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 340, 180);
-            
             const hwM = parseInt(hwStr.split(':')[0])*60 + parseInt(hwStr.split(':')[1]);
-            
-            // CLOCK SYNC: Snap the graph start to the nearest hour marker
-            if(!graphOriginM) {
-                const now = new Date();
-                graphOriginM = (now.getHours() - 1) * 60; // Start at the hour before current hour
-            }
-
-            if(showHeader) {
-                ctx.fillStyle = "#069494"; ctx.font = "900 14px Outfit"; ctx.textAlign = "center";
-                ctx.fillText(`Live Tides: ${displayPortName}`, 170, 25);
-            }
-
-            // 1. Precise Hourly Grid
+            if(!graphOriginM) { const now = new Date(); graphOriginM = (now.getHours() - 1) * 60; }
+            if(showHeader) { ctx.fillStyle = "#069494"; ctx.font = "900 14px Outfit"; ctx.textAlign = "center"; ctx.fillText(`Live Tides: ${displayPortName}`, 170, 25); }
             ctx.setLineDash([]);
             for(let i=0; i<=8; i++) {
                 let x = (i/8)*340; 
@@ -277,27 +288,20 @@
                 ctx.fillStyle = "#1e293b"; ctx.font = "bold 12px Inter"; ctx.textAlign = "center";
                 ctx.fillText(hourLabel.toString().padStart(2,'0')+":00", x, 168);
             }
-
-            // 2. Continuous Tide Curve
             ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 6;
             for(let x=0; x<=340; x++) {
                 let pointM = graphOriginM + (x/340)*480; 
                 let pos = window.getXYForTime(pointM, graphOriginM, hwM);
                 if(x===0) ctx.moveTo(pos.x, pos.y); else ctx.lineTo(pos.x, pos.y);
             } ctx.stroke();
-
-            // 3. Stamped Catch Dots (SEPARATE LOOP)
             fishData.forEach(f => {
                 const pos = window.getXYForTime(f.tM, graphOriginM, hwM);
                 const countAtTime = fishData.filter(fd => Math.abs(fd.tM - f.tM) < 3).length;
                 const dotSize = 6 + (countAtTime * 1.5);
-
-                ctx.beginPath();
-                ctx.shadowBlur = 4; ctx.shadowColor = "rgba(0,0,0,0.2)";
+                ctx.beginPath(); ctx.shadowBlur = 4; ctx.shadowColor = "rgba(0,0,0,0.2)";
                 ctx.fillStyle = "#ef4444"; ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 2.5;
                 ctx.arc(pos.x, pos.y, dotSize, 0, Math.PI * 2); 
-                ctx.fill(); ctx.stroke();
-                ctx.shadowBlur = 0; // Reset shadow
+                ctx.fill(); ctx.stroke(); ctx.shadowBlur = 0;
             });
         };
 
@@ -377,7 +381,14 @@
 
         window.endSession = function() {
             if(!confirm("Save session?")) return;
-            Storage.save('scorecard_' + Date.now(), JSON.stringify({ venue: currentVenue, date: document.getElementById('competitionDate').value, totalScore: document.getElementById('liveScoreVal').textContent, fishData }));
+            const scoringMode = document.getElementById('scoringMethod').value;
+            Storage.save('scorecard_' + Date.now(), JSON.stringify({ 
+                venue: currentVenue, 
+                date: document.getElementById('competitionDate').value, 
+                totalScore: document.getElementById('liveScoreVal').textContent, 
+                fishData,
+                unit: scoringMode === 'weight' ? 'Total (kg)' : 'Total (cm)'
+            }));
             window.resetAppToHome();
         };
 
@@ -389,13 +400,49 @@
         };
         
         window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
+        
         window.loadSavedScorecards = function() {
             const list = document.getElementById('recentList'); list.innerHTML = '';
             const keys = Object.keys(Storage.getAll()).filter(k=>k.startsWith('scorecard_')).sort().reverse();
-            keys.forEach(k => { const d = JSON.parse(Storage.get(k)); list.innerHTML += `<div class="inner-card mb-2 fw-bold fs-5 d-flex justify-content-between"><span>${d.venue} - ${d.date}</span><span class="text-primary">${d.totalScore || 0}</span></div>`; });
+            keys.forEach(k => { 
+                const d = JSON.parse(Storage.get(k)); 
+                // Updated: Added onclick and cursor style to make history items clickable
+                list.innerHTML += `<div class="inner-card mb-2 d-flex justify-content-between align-items-center" style="cursor: pointer;" onclick="window.viewSavedCard('${k}')">
+                    <div><div class="fw-bold fs-5">${d.venue}</div><small class="text-muted fw-bold">${d.date}</small></div>
+                    <span class="text-primary fw-bold fs-4">${d.totalScore || 0}</span>
+                </div>`; 
+            });
         };
 
-        window.forceAppUpdate = function() { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1500); };
+        // NEW: Function to open the specific card details
+        window.viewSavedCard = function(key) {
+            const d = JSON.parse(Storage.get(key));
+            document.getElementById('scVenueDisplay').textContent = d.venue;
+            document.getElementById('scDateDisplay').textContent = d.date;
+            document.getElementById('scTotalDisplay').textContent = d.totalScore;
+            document.getElementById('scUnitLabel').textContent = d.unit || "Total (cm)";
+            
+            const fishList = document.getElementById('scFishList');
+            fishList.innerHTML = '';
+            d.fishData.forEach(f => {
+                fishList.innerHTML += `<div class="catch-row d-flex justify-content-between">
+                    <div><div class="fw-bold">${f.species}</div><div class="text-primary small">${f.display}</div></div>
+                    <div class="text-end">
+                        ${f.photo ? `<button class="btn btn-sm btn-outline-primary mb-1" onclick="window.viewImg('${f.photo}')">View Photo</button><br>` : ''}
+                        <small class="text-muted">${f.time}</small>
+                    </div>
+                </div>`;
+            });
+            
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('scorecardModal')).show();
+        };
+
+        window.forceAppUpdate = function() { 
+            const icon = document.getElementById('refreshIcon');
+            icon.classList.add('icon-spin'); 
+            setTimeout(() => window.location.reload(), 1500); 
+        };
+        
         window.showAppToast = (m, e) => { document.getElementById('toastMsg').textContent = m; new bootstrap.Toast(document.getElementById('appToast')).show(); };
         window.cancelNewVenue = function() { document.getElementById('venueSelectContainer').style.display='block'; document.getElementById('venueInputContainer').style.display='none'; };
 
