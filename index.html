@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.2.5</title>
+    <title>Sea Diary Pro - v2.2.6</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,6 +69,10 @@
             background: white; z-index: 10000; flex-direction: column; padding: 20px;
         }
 
+        /* Tiny label style for the 3 environment boxes */
+        .env-label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 2px; }
+        .env-val { font-size: 0.85rem !important; font-weight: 800 !important; height: auto !important; padding: 8px 4px !important; }
+
         .icon-spin { animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
@@ -101,7 +105,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.5</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.6</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -116,18 +120,25 @@
         </div>
         <div class="inner-card">
             <div class="mb-3"><label class="form-label fw-bold text-muted small uppercase">Angler</label><input type="text" id="anglerName" class="form-control" value="Chris McCreadie"></div>
+            
             <div class="mb-3">
-                <label class="form-label fw-bold text-muted small uppercase">Venue</label>
-                <div id="venueSelectContainer">
-                    <select id="venueSelect" class="form-select text-primary mb-2" onchange="window.handleVenueDropdown()"></select>
-                    <button class="btn btn-success w-100 py-3" onclick="window.showVenueInput()"><i class="bi bi-plus-circle-fill me-2"></i> Add Custom Mark</button>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label fw-bold text-muted small uppercase m-0">Venue</label>
+                    <button class="btn btn-link btn-sm fw-bold p-0 text-decoration-none" id="btnResetVenue" style="display:none;" onclick="window.resetVenueFlow()">Reset Selection</button>
                 </div>
+                
+                <div id="venueSelectContainer">
+                    <button class="btn btn-success w-100 py-3 mb-2" onclick="window.showVenueInput()"><i class="bi bi-plus-circle-fill me-2"></i> Add Custom Mark</button>
+                    <select id="venueSelect" class="form-select text-primary" onchange="window.handleVenueDropdown()"></select>
+                </div>
+                
                 <div id="venueInputContainer" style="display:none;" class="mt-2">
                     <input type="text" id="venueInputText" class="form-control mb-2" placeholder="Venue Name...">
                     <button class="btn btn-primary w-100 py-3 fs-4" onclick="window.linkNewVenueGPS()"><i class="bi bi-geo-alt-fill me-2"></i> Auto-Find Port (GPS)</button>
                     <button class="btn btn-link text-danger w-100 mt-1 fw-bold" onclick="window.cancelNewVenue()">Cancel</button>
                 </div>
             </div>
+
             <div class="row g-2">
                 <div class="col-6"><label class="fw-bold text-muted small">Date</label><input type="date" id="competitionDate" class="form-control"></div>
                 <div class="col-6"><label class="fw-bold text-muted small">Format</label>
@@ -141,9 +152,18 @@
 
         <div class="inner-card" id="envPreview" style="display:none;">
             <div class="row g-1 mb-2 text-center">
-                <div class="col-4"><label class="fw-bold text-muted x-small uppercase mb-1">Weather</label><input type="text" id="weatherInput" class="form-control text-center fw-bold py-2 bg-light small" readonly></div>
-                <div class="col-4"><label class="fw-bold text-muted x-small uppercase mb-1">Wind</label><input type="text" id="windInput" class="form-control text-center fw-bold py-2 bg-light small" readonly></div>
-                <div class="col-4"><label class="fw-bold text-muted x-small uppercase mb-1">Swell</label><input type="text" id="swellInput" class="form-control text-center fw-bold py-2 bg-light small text-primary" readonly></div>
+                <div class="col-4">
+                    <div class="env-label">Weather</div>
+                    <input type="text" id="weatherInput" class="form-control text-center fw-bold bg-light env-val" readonly>
+                </div>
+                <div class="col-4">
+                    <div class="env-label" id="windLabel">Wind</div>
+                    <input type="text" id="windInput" class="form-control text-center fw-bold bg-light env-val" readonly>
+                </div>
+                <div class="col-4">
+                    <div class="env-label">Swell</div>
+                    <input type="text" id="swellInput" class="form-control text-center fw-bold bg-light env-val text-primary" readonly>
+                </div>
             </div>
             <div id="setupTideChartContainer" class="tide-chart-container shadow-sm border mb-1" onclick="window.openGraphOverlay('setupTideCanvas')"><canvas id="setupTideCanvas" class="w-100"></canvas></div>
         </div>
@@ -209,7 +229,7 @@
 
     <script>
         const WEATHER_API_KEY = "db7f2afb64d943719e0203116260103";
-        const speciesList=[{category:"Pinned",items:["Cod","Whiting","Dogfish (LSD)","Dab","Pollack","Bass"]},{category:"General",items:["Bream","Coalfish","Flounder","Garfish","Mackerel","Mullet","Plaice","Scad","Turbot"]}];
+        const speciesList=[{category:"Pinned",items:["Cod","Whiting","Dogfish (LSD)","Dab","Pollack","Bass"]},{category:"General",items:["Bream","Coalfish","Flounder","Garfish","Mackerel","Mullet","Plaice","Turbot"]}];
         
         const scottishMarks = [
             {name:"Aberdeen",lat:57.14,lon:-2.07},{name:"Arbroath",lat:56.55,lon:-2.58},{name:"Greenock",lat:55.95,lon:-4.76},
@@ -228,24 +248,48 @@
         const PageManager={ show:id=>{ document.querySelectorAll('.app-page').forEach(p=>p.style.display='none'); document.getElementById('splashScreen').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); } };
         const Storage={ save:(k,v) => localStorage.setItem(k,v), get:k => localStorage.getItem(k), remove:k => localStorage.removeItem(k), getAll:() => ({...localStorage}) };
 
-        // Smart Scout: Haversine distance
         function getDistance(lat1, lon1, lat2, lon2) {
             const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180;
             const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
             return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         }
 
+        // Logic to determine if wind is hitting the shore or blowing away
+        function getShoreLogic(dir, lon) {
+            const isEast = lon > -3.5; // Rough divider for Scotland
+            const onshoreEast = ["E", "NE", "SE"];
+            const onshoreWest = ["W", "NW", "SW"];
+            if (isEast) {
+                if (onshoreEast.some(d => dir.includes(d))) return "Onshore";
+                if (dir.includes("W")) return "Offshore";
+            } else {
+                if (onshoreWest.some(d => dir.includes(d))) return "Onshore";
+                if (dir.includes("E")) return "Offshore";
+            }
+            return "Cross";
+        }
+
         window.populateVenueDropdown = function() {
             let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
             const sel = document.getElementById('venueSelect');
-            sel.innerHTML = '<option value="" disabled selected>Select Venue...</option>';
+            sel.innerHTML = '<option value="" disabled selected>Select Saved Venue...</option>';
             scottishMarks.forEach(m => { sel.innerHTML += `<option value="${m.lat},${m.lon}">${m.name}</option>`; });
             Object.keys(vMap).sort().forEach(vName => { const d = vMap[vName]; sel.innerHTML += `<option value="${d.lat},${d.lon}">${vName}</option>`; });
         };
 
         window.handleVenueDropdown = function() {
             const val = document.getElementById('venueSelect').value;
-            if(val) window.fetchEnvironmentData(val);
+            if(val) {
+                document.getElementById('btnResetVenue').style.display = 'block';
+                window.fetchEnvironmentData(val);
+            }
+        };
+
+        window.resetVenueFlow = function() {
+            document.getElementById('venueSelect').value = "";
+            document.getElementById('btnResetVenue').style.display = 'none';
+            document.getElementById('envPreview').style.display = 'none';
+            window.cancelNewVenue();
         };
 
         window.showVenueInput = () => {
@@ -269,8 +313,9 @@
                 displayPortName = window.getNearestPort(lat, lon);
                 let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
                 vMap[name] = { lat, lon }; Storage.save('venueTideMap', JSON.stringify(vMap));
-                window.populateVenueDropdown(); window.cancelNewVenue(); window.fetchEnvironmentData(`${lat},${lon}`);
-                window.showAppToast(`Nearest: ${displayPortName}`);
+                window.populateVenueDropdown(); window.cancelNewVenue(); 
+                document.getElementById('btnResetVenue').style.display = 'block';
+                window.fetchEnvironmentData(`${lat},${lon}`);
             }, () => window.showAppToast("GPS Denied", true));
         };
 
@@ -282,9 +327,14 @@
                 const d = await res.json();
                 if(d.forecast) {
                     const c = d.forecast.forecastday[0].hour[new Date().getHours()];
+                    const windDir = c.wind_dir;
+                    const shoreType = getShoreLogic(windDir, parseFloat(lon));
+                    
                     document.getElementById('weatherInput').value = `${c.temp_c}°C`;
-                    document.getElementById('windInput').value = `${c.wind_mph}mph ${c.wind_dir}`;
+                    document.getElementById('windInput').value = `${c.wind_mph}m ${windDir}`;
+                    document.getElementById('windLabel').innerHTML = `Wind <span class="text-primary">(${shoreType})</span>`;
                     document.getElementById('swellInput').value = `${c.swell_ht_mt || 0.1}m`;
+                    
                     const ts = d.forecast.forecastday[0].day.tides[0].tide;
                     const hw = ts.find(t => t.tide_type === 'HIGH');
                     if (hw) hwTime = hw.tide_time.split(' ')[1];
