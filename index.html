@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.2.8</title>
+    <title>Sea Diary Pro - v2.2.9</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,6 +77,9 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
 
         .app-logo-svg { display: block; margin: 0 auto 25px; }
+        
+        /* Dropdown Green Option Styling (Supported in some mobile OS) */
+        .opt-add-new { color: #059669 !important; font-weight: 800 !important; background-color: #f0fdf4 !important; }
     </style>
 </head>
 <body>
@@ -104,7 +107,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.8</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.2.9</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -123,24 +126,24 @@
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <label class="form-label fw-bold text-muted small uppercase m-0">Venue</label>
-                    <button class="btn btn-link btn-sm fw-bold p-0 text-decoration-none" id="btnResetVenue" style="display:none;" onclick="window.resetVenueFlow()">Reset Selection</button>
+                    <button class="btn btn-link btn-sm fw-bold p-0 text-decoration-none text-danger" id="btnResetVenue" style="display:none;" onclick="window.resetVenueFlow()"><i class="bi bi-x-circle me-1"></i> Reset Selection</button>
                 </div>
                 
                 <div id="venueSelectContainer">
                     <select id="venueSelect" class="form-select text-primary mb-2" onchange="window.handleVenueDropdown()"></select>
                     <div class="text-center mt-2">
-                        <button class="btn btn-link btn-sm text-primary fw-bold text-decoration-none" onclick="window.showVenueInputMode()">
-                            Mark not listed? <span class="text-success text-decoration-underline">Add New Mark</span>
+                        <button class="btn btn-link fw-bold text-decoration-none text-success fs-5" onclick="window.showVenueInputMode()">
+                            Mark not listed? Add New Mark
                         </button>
                     </div>
                 </div>
                 
                 <div id="venueInputContainer" style="display:none;">
-                    <div class="input-group mb-2">
-                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-geo-fill text-success"></i></span>
-                        <input type="text" id="venueInputText" class="form-control border-start-0 ps-0" placeholder="New Mark Name...">
+                    <div class="input-group mb-2 shadow-sm border rounded-4 overflow-hidden">
+                        <span class="input-group-text bg-white border-0"><i class="bi bi-geo-fill text-success"></i></span>
+                        <input type="text" id="venueInputText" class="form-control border-0 ps-0" placeholder="New Mark Name...">
                     </div>
-                    <button class="btn btn-success w-100 py-3 fs-5" onclick="window.linkNewVenueGPS()">
+                    <button class="btn btn-success w-100 py-3 fs-5 shadow-sm" onclick="window.linkNewVenueGPS()">
                         <i class="bi bi-geo-alt-fill me-2"></i> Set Mark & Get Tides
                     </button>
                     <div class="text-center mt-2">
@@ -280,7 +283,6 @@
             return "Cross";
         }
 
-        // NO-DEAD-END NAVIGATION
         window.showVenueDropdownMode = () => {
             document.getElementById('venueSelectContainer').style.display='block';
             document.getElementById('venueInputContainer').style.display='none';
@@ -290,6 +292,7 @@
         window.showVenueInputMode = () => {
             document.getElementById('venueSelectContainer').style.display='none';
             document.getElementById('venueInputContainer').style.display='block';
+            document.getElementById('venueInputText').focus();
         };
 
         window.populateVenueDropdown = function() {
@@ -298,12 +301,16 @@
             sel.innerHTML = '<option value="" disabled selected>Pick Saved Venue...</option>';
             scottishMarks.forEach(m => { sel.innerHTML += `<option value="${m.lat},${m.lon}">${m.name}</option>`; });
             Object.keys(vMap).sort().forEach(vName => { const d = vMap[vName]; sel.innerHTML += `<option value="${d.lat},${d.lon}">${vName}</option>`; });
+            // THE INTERNAL GREEN OPTION
+            sel.innerHTML += '<option value="__ADD_NEW__" class="opt-add-new fw-bold">➕ Mark not listed? Add New Mark...</option>';
         };
 
         window.handleVenueDropdown = function() {
             const sel = document.getElementById('venueSelect');
             const val = sel.value;
-            if(val) {
+            if(val === "__ADD_NEW__") {
+                window.showVenueInputMode();
+            } else if(val) {
                 currentVenue = sel.options[sel.selectedIndex].text;
                 document.getElementById('btnResetVenue').style.display = 'block';
                 window.fetchEnvironmentData(val);
@@ -313,7 +320,7 @@
         window.resetVenueFlow = function() {
             document.getElementById('btnResetVenue').style.display = 'none';
             document.getElementById('envPreview').style.display = 'none';
-            window.showVenueDropdownMode(); // Returns to default list view
+            window.showVenueDropdownMode();
         };
 
         window.getNearestPort = function(lat, lon) {
@@ -326,7 +333,7 @@
         };
 
         window.linkNewVenueGPS = function() {
-            const name = document.getElementById('venueInputText').value.trim() || "GPS Mark";
+            const name = document.getElementById('venueInputText').value.trim() || "New GPS Mark";
             currentVenue = name;
             navigator.geolocation.getCurrentPosition((pos) => {
                 const lat = pos.coords.latitude; const lon = pos.coords.longitude;
