@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.3.4</title>
+    <title>Sea Diary Pro - v2.3.2</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,6 @@
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 800; border-radius: 14px; padding: 15px; font-size: 1.25rem; }
         .btn-outline-primary { border: 2px solid var(--app-main) !important; color: var(--app-main) !important; font-weight: 800; border-radius: 14px; }
         .btn-success { background-color: #059669 !important; border-color: #059669 !important; font-weight: 800; border-radius: 14px; }
-        .btn-info { background-color: #0ea5e9 !important; border-color: #0ea5e9 !important; color: #fff !important; font-weight: 800; border-radius: 14px; }
         
         .form-control, .form-select { 
             background-color: var(--input-bg);
@@ -108,7 +107,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.4</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.2</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -167,7 +166,6 @@
         </div>
 
         <div class="inner-card" id="envPreview" style="display:none;">
-            <div id="loadingOverlay" style="display:none;" class="text-center py-2"><span class="spinner-border spinner-border-sm text-primary me-2"></span>Gathering Data...</div>
             <div class="row g-1 mb-2 text-center" id="envDataRow">
                 <div class="col-4"><div class="env-label">Weather</div><input type="text" id="weatherInput" class="form-control text-center fw-bold bg-light env-val" readonly></div>
                 <div class="col-4"><div class="env-label" id="windLabel">Wind</div><input type="text" id="windInput" class="form-control text-center fw-bold bg-light env-val" readonly></div>
@@ -192,12 +190,12 @@
             
             <div class="d-flex gap-2 mb-3">
                 <select id="speciesInput" class="form-select fw-bold flex-grow-1"></select>
-                <button class="btn btn-info px-3 fw-bold" onclick="window.toggleCustomSpeciesInput()">NEW FISH</button>
+                <button class="btn btn-outline-success px-3 fw-bold" onclick="window.toggleCustomSpeciesInput()"><i class="bi bi-plus-lg"></i></button>
             </div>
             
             <div id="customSpeciesUI" style="display:none;" class="mb-3 animate-fadeIn">
                 <div class="input-group">
-                    <input type="text" id="newSpeciesName" class="form-control" placeholder="Enter New Species Name...">
+                    <input type="text" id="newSpeciesName" class="form-control" placeholder="Type Weirder Fish Name...">
                     <button class="btn btn-success px-4" onclick="window.addNewCustomSpecies()">ADD</button>
                 </div>
             </div>
@@ -279,14 +277,10 @@
             sel.innerHTML += '<option value="__ADD_NEW__" class="opt-add-new fw-bold text-success">» ADD NEW MARK «</option>';
         };
 
-        window.handleVenueDropdown = async function() {
+        window.handleVenueDropdown = function() {
             const sel = document.getElementById('venueSelect'); const val = sel.value;
             if(val === "__ADD_NEW__") { window.showVenueInputMode(); } 
-            else if(val) { 
-                currentVenue = sel.options[sel.selectedIndex].text; 
-                document.getElementById('btnResetVenue').style.display = 'block'; 
-                await window.fetchEnvironmentData(val); 
-            }
+            else if(val) { currentVenue = sel.options[sel.selectedIndex].text; document.getElementById('btnResetVenue').style.display = 'block'; window.fetchEnvironmentData(val); }
         };
 
         window.resetVenueFlow = function() { document.getElementById('btnResetVenue').style.display = 'none'; document.getElementById('envPreview').style.display = 'none'; window.showVenueDropdownMode(); };
@@ -297,7 +291,6 @@
             return "Port of " + nearest.name;
         };
 
-        // GPS LOGIC FIX v2.3.4
         window.linkNewVenueGPS = function() {
             const name = document.getElementById('venueInputText').value.trim() || "New GPS Mark";
             const btn = document.getElementById('gpsAutoButton');
@@ -305,8 +298,7 @@
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Finding Nearest Port...';
             btn.disabled = true;
 
-            // GPS recalibration for v2.3.4
-            navigator.geolocation.getCurrentPosition(async (pos) => {
+            navigator.geolocation.getCurrentPosition((pos) => {
                 const lat = pos.coords.latitude; const lon = pos.coords.longitude;
                 displayPortName = window.getNearestPort(lat, lon);
                 let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
@@ -314,48 +306,32 @@
                 currentVenue = name;
                 window.populateVenueDropdown();
                 document.getElementById('btnResetVenue').style.display = 'block';
-                await window.fetchEnvironmentData(`${lat},${lon}`);
+                window.fetchEnvironmentData(`${lat},${lon}`);
                 btn.innerHTML = originalText; btn.disabled = false;
-            }, (err) => { 
-                window.showAppToast("GPS Timed Out - Try Again", true); 
-                btn.innerHTML = originalText; btn.disabled = false; 
-            }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
+            }, () => { window.showAppToast("GPS Lock Failed", true); btn.innerHTML = originalText; btn.disabled = false; }, 
+            { enableHighAccuracy: false, timeout: 3000 });
         };
 
         window.fetchEnvironmentData = async function(coords) {
             const [lat, lon] = coords.split(',');
             displayPortName = window.getNearestPort(parseFloat(lat), parseFloat(lon));
-            
-            document.getElementById('envPreview').style.display = 'block';
-            document.getElementById('loadingOverlay').style.display = 'block';
-            document.getElementById('envDataRow').style.opacity = '0.3';
-            
             try {
                 const res = await fetch(`https://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${lat},${lon}&tides=yes`);
                 const d = await res.json();
                 if(d.forecast) {
                     const c = d.forecast.forecastday[0].hour[new Date().getHours()];
                     const windDir = c.wind_dir; const shoreType = getShoreLogic(windDir, parseFloat(lon));
-                    
                     document.getElementById('weatherInput').value = `${c.temp_c}°C`;
                     document.getElementById('windInput').value = `${c.wind_mph}m ${windDir}`;
                     document.getElementById('windLabel').innerHTML = `Wind <span class="text-primary">(${shoreType})</span>`;
                     document.getElementById('swellInput').value = `${c.swell_ht_mt || 0.1}m`;
-                    
                     const ts = d.forecast.forecastday[0].day.tides[0].tide;
                     const hw = ts.find(t => t.tide_type === 'HIGH');
                     if (hw) hwTime = hw.tide_time.split(' ')[1];
-                    
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                    document.getElementById('envDataRow').style.opacity = '1';
-                    
+                    document.getElementById('envPreview').style.display = 'block';
                     window.drawTideGraph('setupTideCanvas', hwTime, lwTime, true);
                 }
-            } catch (e) { 
-                window.showAppToast("Weather Offline", true); 
-                document.getElementById('loadingOverlay').style.display = 'none';
-                document.getElementById('envDataRow').style.opacity = '1';
-            }
+            } catch (e) { window.showAppToast("Weather Offline", true); }
         };
 
         window.getXYForTime = (timeM, startM, hwM) => {
