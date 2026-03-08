@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.3.3</title>
+    <title>Sea Diary Pro - v2.3.4</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -108,7 +108,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.3</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.4</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -279,7 +279,6 @@
             sel.innerHTML += '<option value="__ADD_NEW__" class="opt-add-new fw-bold text-success">» ADD NEW MARK «</option>';
         };
 
-        // RELIABILITY FIX: Handle dropdown selection with async logic
         window.handleVenueDropdown = async function() {
             const sel = document.getElementById('venueSelect'); const val = sel.value;
             if(val === "__ADD_NEW__") { window.showVenueInputMode(); } 
@@ -298,13 +297,15 @@
             return "Port of " + nearest.name;
         };
 
-        window.linkNewVenueGPS = async function() {
+        // GPS LOGIC FIX v2.3.4
+        window.linkNewVenueGPS = function() {
             const name = document.getElementById('venueInputText').value.trim() || "New GPS Mark";
             const btn = document.getElementById('gpsAutoButton');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Finding Nearest Port...';
             btn.disabled = true;
 
+            // GPS recalibration for v2.3.4
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude; const lon = pos.coords.longitude;
                 displayPortName = window.getNearestPort(lat, lon);
@@ -315,11 +316,12 @@
                 document.getElementById('btnResetVenue').style.display = 'block';
                 await window.fetchEnvironmentData(`${lat},${lon}`);
                 btn.innerHTML = originalText; btn.disabled = false;
-            }, () => { window.showAppToast("GPS Lock Failed", true); btn.innerHTML = originalText; btn.disabled = false; }, 
-            { enableHighAccuracy: false, timeout: 3000 });
+            }, (err) => { 
+                window.showAppToast("GPS Timed Out - Try Again", true); 
+                btn.innerHTML = originalText; btn.disabled = false; 
+            }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
         };
 
-        // RELIABILITY FIX: Strict Order Fetching
         window.fetchEnvironmentData = async function(coords) {
             const [lat, lon] = coords.split(',');
             displayPortName = window.getNearestPort(parseFloat(lat), parseFloat(lon));
@@ -347,7 +349,6 @@
                     document.getElementById('loadingOverlay').style.display = 'none';
                     document.getElementById('envDataRow').style.opacity = '1';
                     
-                    // Always draw graph AFTER data arrives
                     window.drawTideGraph('setupTideCanvas', hwTime, lwTime, true);
                 }
             } catch (e) { 
