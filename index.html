@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.3.2</title>
+    <title>Sea Diary Pro - v2.3.5</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,11 +34,12 @@
             min-height: 100vh;
         }
         
-        h1, h2, h3, h4, h5, h6, .live-score-value, .btn { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
+        h1, h2, h3, h4, h5, h6, .live-score-badge, .btn { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
 
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 800; border-radius: 14px; padding: 15px; font-size: 1.25rem; }
         .btn-outline-primary { border: 2px solid var(--app-main) !important; color: var(--app-main) !important; font-weight: 800; border-radius: 14px; }
         .btn-success { background-color: #059669 !important; border-color: #059669 !important; font-weight: 800; border-radius: 14px; }
+        .btn-info { background-color: #0ea5e9 !important; border-color: #0ea5e9 !important; color: #fff !important; font-weight: 800; border-radius: 14px; }
         
         .form-control, .form-select { 
             background-color: var(--input-bg);
@@ -60,8 +61,30 @@
             text-align: center;
         }
         
-        .live-score-value { font-size: 4rem; font-weight: 900; color: var(--app-main); line-height: 1; }
-        .catch-row { background: var(--card-bg); padding: 18px; border-radius: 18px; border: 2px solid var(--border-color); margin-bottom: 10px; position: relative;}
+        /* Ribbon Style List */
+        .catch-ribbon { 
+            background: var(--card-bg); 
+            padding: 12px 16px; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .catch-ribbon:last-child { border-bottom: none; border-radius: 0 0 18px 18px; }
+        .catch-ribbon:first-child { border-radius: 18px 18px 0 0; }
+
+        .live-score-badge {
+            background: #0f172a;
+            color: var(--app-main);
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            min-width: 60px;
+            text-align: center;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
         .tide-chart-container { background: var(--card-bg); border-radius: 24px; padding: 45px 12px 15px 12px; border: 2px solid var(--border-color); position: relative; cursor: pointer; }
         
         #graphOverlay {
@@ -77,7 +100,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
 
         .app-logo-svg { display: block; margin: 0 auto 25px; }
-        .opt-add-new { color: #059669 !important; font-weight: 900 !important; letter-spacing: 1px; }
+        .opt-add-new { color: #059669 !important; font-weight: 900 !important; }
 
         @media (max-width: 600px) { #venueSelect { max-height: 300px; } }
     </style>
@@ -107,7 +130,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.2</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.5</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -122,49 +145,33 @@
         </div>
         <div class="inner-card">
             <div class="mb-4"><label class="form-label fw-bold text-muted small uppercase">Angler</label><input type="text" id="anglerName" class="form-control" value="Chris McCreadie"></div>
-            
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <label class="form-label fw-bold text-muted small uppercase m-0">Venue</label>
                     <button class="btn btn-link btn-sm fw-bold p-0 text-decoration-none text-danger" id="btnResetVenue" style="display:none;" onclick="window.resetVenueFlow()"><i class="bi bi-x-circle me-1"></i> Reset Selection</button>
                 </div>
-                
                 <div id="venueSelectContainer">
                     <select id="venueSelect" class="form-select text-primary mb-2" onchange="window.handleVenueDropdown()"></select>
                     <div class="text-center mt-2">
-                        <button class="btn btn-link fw-bold text-decoration-none text-success fs-5" onclick="window.showVenueInputMode()">
-                            Mark not listed? Add New Mark
-                        </button>
+                        <button class="btn btn-link fw-bold text-decoration-none text-success fs-5" onclick="window.showVenueInputMode()">Mark not listed? Add New Mark</button>
                     </div>
                 </div>
-                
                 <div id="venueInputContainer" style="display:none;">
                     <div class="input-group mb-2 shadow-sm border rounded-4 overflow-hidden">
                         <span class="input-group-text bg-white border-0"><i class="bi bi-geo-fill text-success"></i></span>
                         <input type="text" id="venueInputText" class="form-control border-0 ps-0" placeholder="New Mark Name...">
                     </div>
-                    <button id="gpsAutoButton" class="btn btn-success w-100 py-3 fs-5 shadow-sm" onclick="window.linkNewVenueGPS()">
-                        <i class="bi bi-geo-alt-fill me-2"></i> Set Mark & Get Tides
-                    </button>
+                    <button id="gpsAutoButton" class="btn btn-success w-100 py-3 fs-5 shadow-sm" onclick="window.linkNewVenueGPS()"><i class="bi bi-geo-alt-fill me-2"></i> Set Mark & Get Tides</button>
                     <div class="text-center mt-2">
-                        <button class="btn btn-link btn-sm text-muted fw-bold text-decoration-none" onclick="window.showVenueDropdownMode()">
-                            <i class="bi bi-arrow-left me-1"></i> Back to Saved List
-                        </button>
+                        <button class="btn btn-link btn-sm text-muted fw-bold text-decoration-none" onclick="window.showVenueDropdownMode()"><i class="bi bi-arrow-left me-1"></i> Back to Saved List</button>
                     </div>
                 </div>
             </div>
-
             <div class="row g-2">
                 <div class="col-6"><label class="fw-bold text-muted small">Date</label><input type="date" id="competitionDate" class="form-control"></div>
-                <div class="col-6"><label class="fw-bold text-muted small">Format</label>
-                    <select id="scoringMethod" class="form-select">
-                        <option value="length_only">Total Length</option>
-                        <option value="weight">Total Weight</option>
-                    </select>
-                </div>
+                <div class="col-6"><label class="fw-bold text-muted small">Format</label><select id="scoringMethod" class="form-select"><option value="length_only">Total Length</option><option value="weight">Total Weight</option></select></div>
             </div>
         </div>
-
         <div class="inner-card" id="envPreview" style="display:none;">
             <div class="row g-1 mb-2 text-center" id="envDataRow">
                 <div class="col-4"><div class="env-label">Weather</div><input type="text" id="weatherInput" class="form-control text-center fw-bold bg-light env-val" readonly></div>
@@ -173,14 +180,14 @@
             </div>
             <div id="setupTideChartContainer" class="tide-chart-container shadow-sm border mb-1" onclick="window.openGraphOverlay('setupTideCanvas')"><canvas id="setupTideCanvas" class="w-100"></canvas></div>
         </div>
-
         <button class="btn btn-primary btn-lg w-100 py-3 shadow-lg mt-2 fw-bold fs-2" onclick="window.registerAngler()">Start Fishing</button>
     </div>
 
     <div id="anglerFishingPage" class="app-page">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="m-0 fw-bold text-primary">Live Log</h3>
-            <div class="text-muted fw-bold small" id="liveVenueLabel"></div>
+            <div class="live-score-badge mx-2" id="headerScoreVal">0</div>
+            <div class="text-muted fw-bold small text-end" style="max-width: 100px;" id="liveVenueLabel"></div>
         </div>
 
         <div class="tide-chart-container mb-3 shadow-sm border" onclick="window.openGraphOverlay('liveCatchCanvas')"><canvas id="liveCatchCanvas" class="w-100"></canvas></div>
@@ -190,12 +197,12 @@
             
             <div class="d-flex gap-2 mb-3">
                 <select id="speciesInput" class="form-select fw-bold flex-grow-1"></select>
-                <button class="btn btn-outline-success px-3 fw-bold" onclick="window.toggleCustomSpeciesInput()"><i class="bi bi-plus-lg"></i></button>
+                <button class="btn btn-info px-3 fw-bold text-nowrap" onclick="window.toggleCustomSpeciesInput()">NEW FISH</button>
             </div>
             
             <div id="customSpeciesUI" style="display:none;" class="mb-3 animate-fadeIn">
                 <div class="input-group">
-                    <input type="text" id="newSpeciesName" class="form-control" placeholder="Type Weirder Fish Name...">
+                    <input type="text" id="newSpeciesName" class="form-control" placeholder="Enter New Species Name...">
                     <button class="btn btn-success px-4" onclick="window.addNewCustomSpecies()">ADD</button>
                 </div>
             </div>
@@ -210,16 +217,12 @@
             </div>
         </div>
 
-        <div class="live-score-box mb-3 text-center p-3 bg-white rounded-4 border">
-            <div class="small text-muted fw-bold uppercase" id="scoreLabel">Session Total (cm)</div>
-            <div class="live-score-value" id="liveScoreVal">0</div>
-        </div>
-
-        <div id="fishLog" class="d-flex flex-column gap-2 mb-4"></div>
+        <div id="fishLog" class="d-flex flex-column mb-4 shadow-sm border rounded-4 overflow-hidden"></div>
+        
         <button class="btn btn-danger btn-lg w-100 py-4 fw-bold shadow fs-4" onclick="window.endSession()">Finish Session</button>
     </div>
 
-    <div class="modal fade" id="scorecardModal" tabindex="-1"><div class="modal-dialog modal-fullscreen"><div class="modal-content"><div class="modal-header bg-dark text-white"><h4 id="scTitle" class="modal-title fw-bold">Session Review</h4><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div class="inner-card text-center mb-3"><h2 id="scVenueDisplay" class="fw-bold text-primary mb-1">Venue</h2><p id="scDateDisplay" class="text-muted fw-bold small">Date</p><div class="live-score-value" id="scTotalDisplay">0</div><div class="text-muted small uppercase fw-bold" id="scUnitLabel">Total</div></div><div id="scFishList"></div></div></div></div></div>
+    <div class="modal fade" id="scorecardModal" tabindex="-1"><div class="modal-dialog modal-fullscreen"><div class="modal-content"><div class="modal-header bg-dark text-white"><h4 id="scTitle" class="modal-title fw-bold">Session Review</h4><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div class="inner-card text-center mb-3"><h2 id="scVenueDisplay" class="fw-bold text-primary mb-1">Venue</h2><p id="scDateDisplay" class="text-muted fw-bold small">Date</p><div class="live-score-badge mx-auto py-2 px-4 fs-1" style="width:fit-content" id="scTotalDisplay">0</div><div class="text-muted small uppercase fw-bold mt-2" id="scUnitLabel">Total</div></div><div id="scFishList"></div></div></div></div></div>
     <div id="nativeImageViewer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:99999; overflow:auto;"><div class="p-3 text-end"><button onclick="document.getElementById('nativeImageViewer').style.display='none'" class="btn btn-light rounded-pill px-4 fw-bold">Close</button></div><div style="width:100%; height:80%; display:flex; align-items:center; justify-content:center;"><img id="nativeFullImage" src="" style="width: 90%; height: auto; max-height: 85vh; object-fit: contain; background: white;"></div></div>
     <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h4>History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div id="recentList" class="p-3"></div></div></div></div></div>
 
@@ -295,7 +298,7 @@
             const name = document.getElementById('venueInputText').value.trim() || "New GPS Mark";
             const btn = document.getElementById('gpsAutoButton');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Finding Nearest Port...';
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Finding Port...';
             btn.disabled = true;
 
             navigator.geolocation.getCurrentPosition((pos) => {
@@ -308,7 +311,7 @@
                 document.getElementById('btnResetVenue').style.display = 'block';
                 window.fetchEnvironmentData(`${lat},${lon}`);
                 btn.innerHTML = originalText; btn.disabled = false;
-            }, () => { window.showAppToast("GPS Lock Failed", true); btn.innerHTML = originalText; btn.disabled = false; }, 
+            }, () => { window.showAppToast("GPS Failed", true); btn.innerHTML = originalText; btn.disabled = false; }, 
             { enableHighAccuracy: false, timeout: 3000 });
         };
 
@@ -331,7 +334,7 @@
                     document.getElementById('envPreview').style.display = 'block';
                     window.drawTideGraph('setupTideCanvas', hwTime, lwTime, true);
                 }
-            } catch (e) { window.showAppToast("Weather Offline", true); }
+            } catch (e) { window.showAppToast("Offline", true); }
         };
 
         window.getXYForTime = (timeM, startM, hwM) => {
@@ -384,7 +387,6 @@
             currentAngler = document.getElementById('anglerName').value;
             sessionStartTimeM = new Date().getHours()*60 + new Date().getMinutes();
             document.getElementById('liveVenueLabel').textContent = currentVenue;
-            document.getElementById('scoreLabel').textContent = currentScoringMethod === 'weight' ? 'Total (kg)' : 'Total (cm)';
             window.populateSpeciesDropdown();
             window.drawTideGraph('liveCatchCanvas', hwTime, lwTime, false);
             PageManager.show('anglerFishingPage');
@@ -427,25 +429,31 @@
             window.showAppToast(`Logged!`);
         };
 
+        // UPDATED RIBBON STYLE LOG
         window.updateFishLog = function() {
             const log = document.getElementById('fishLog'); log.innerHTML = ''; let total = 0;
             [...fishData].reverse().forEach((f) => {
                 total += f.val;
-                log.innerHTML += `<div class="catch-row d-flex justify-content-between align-items-center">
-                    <div><div class="fw-bold fs-5">${f.species}</div><div class="text-primary fw-bold">${f.display}</div></div>
-                    <div class="text-end d-flex align-items-center gap-2">
-                        <div>${f.photo ? `<button class="btn btn-sm btn-outline-primary mb-1" onclick="window.viewImg('${f.photo}')">Photo</button><br>` : ''}<small class="text-muted fw-bold">${f.time}</small></div>
-                        <button class="btn btn-sm btn-link text-danger p-0 ms-2" onclick="window.deleteFish(${f.id})"><i class="bi bi-trash3-fill fs-4"></i></button>
+                log.innerHTML += `<div class="catch-ribbon">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="fw-bold">${f.species}</div>
+                        <div class="text-primary fw-bold px-2 border-start border-end">${f.display}</div>
+                        <div class="text-muted small">${f.time}</div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        ${f.photo ? `<button class="btn btn-sm btn-outline-primary p-1 lh-1" onclick="window.viewImg('${f.photo}')"><i class="bi bi-image"></i></button>` : ''}
+                        <button class="btn btn-sm btn-link text-danger p-0 ms-1" onclick="window.deleteFish(${f.id})"><i class="bi bi-trash3-fill"></i></button>
                     </div>
                 </div>`;
             });
-            document.getElementById('liveScoreVal').textContent = currentScoringMethod === 'weight' ? total.toFixed(3) : total;
+            const scoreStr = currentScoringMethod === 'weight' ? total.toFixed(3) : total;
+            document.getElementById('headerScoreVal').textContent = scoreStr;
         };
 
         window.endSession = function() {
             if(!confirm("Save session?")) return;
             const scoringMode = document.getElementById('scoringMethod').value;
-            Storage.save('scorecard_' + Date.now(), JSON.stringify({ venue: currentVenue, date: document.getElementById('competitionDate').value, totalScore: document.getElementById('liveScoreVal').textContent, fishData, unit: scoringMode === 'weight' ? 'Total (kg)' : 'Total (cm)' }));
+            Storage.save('scorecard_' + Date.now(), JSON.stringify({ venue: currentVenue, date: document.getElementById('competitionDate').value, totalScore: document.getElementById('headerScoreVal').textContent, fishData, unit: scoringMode === 'weight' ? 'kg' : 'cm' }));
             window.resetAppToHome();
         };
 
@@ -453,7 +461,7 @@
             fishData = []; customSessionSpecies = [];
             document.getElementById('venueSelect').selectedIndex = 0; document.getElementById('envPreview').style.display = 'none';
             document.getElementById('weatherInput').value = ""; document.getElementById('windInput').value = ""; document.getElementById('swellInput').value = "";
-            document.getElementById('liveScoreVal').textContent = "0"; document.getElementById('fishLog').innerHTML = ""; 
+            document.getElementById('headerScoreVal').textContent = "0"; document.getElementById('fishLog').innerHTML = ""; 
             currentVenue = ""; displayPortName = ""; graphOriginM = 0; sessionStartTimeM = 0; 
             PageManager.show('splashScreen'); 
         };
@@ -468,9 +476,9 @@
         window.viewSavedCard = function(key) {
             const d = JSON.parse(Storage.get(key));
             document.getElementById('scVenueDisplay').textContent = d.venue; document.getElementById('scDateDisplay').textContent = d.date;
-            document.getElementById('scTotalDisplay').textContent = d.totalScore; document.getElementById('scUnitLabel').textContent = d.unit || "Total (cm)";
+            document.getElementById('scTotalDisplay').textContent = d.totalScore; document.getElementById('scUnitLabel').textContent = "Total (" + (d.unit || "cm") + ")";
             const fishList = document.getElementById('scFishList'); fishList.innerHTML = '';
-            d.fishData.forEach(f => { fishList.innerHTML += `<div class="catch-row d-flex justify-content-between"><div><div class="fw-bold">${f.species}</div><div class="text-primary small">${f.display}</div></div><div class="text-end">${f.photo ? `<button class="btn btn-sm btn-outline-primary mb-1" onclick="window.viewImg('${f.photo}')">Photo</button><br>` : ''}<small class="text-muted">${f.time}</small></div></div>`; });
+            d.fishData.forEach(f => { fishList.innerHTML += `<div class="catch-ribbon mx-2 border-start border-end"><div><span class="fw-bold">${f.species}</span> <span class="text-primary ms-2">${f.display}</span></div><div class="text-muted small">${f.time}</div></div>`; });
             bootstrap.Modal.getOrCreateInstance(document.getElementById('scorecardModal')).show();
         };
 
