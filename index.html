@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.3.6</title>
+    <title>Sea Diary Pro - v2.3.7</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,9 +39,8 @@
         .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 800; border-radius: 14px; padding: 15px; font-size: 1.25rem; }
         .btn-outline-primary { border: 2px solid var(--app-main) !important; color: var(--app-main) !important; font-weight: 800; border-radius: 14px; }
         .btn-success { background-color: #059669 !important; border-color: #059669 !important; font-weight: 800; border-radius: 14px; }
-        .btn-info-outline { border: 2px solid #0ea5e9 !important; color: #0ea5e9 !important; background: transparent !important; font-weight: 700; border-radius: 12px; font-size: 0.9rem; padding: 6px 12px; }
+        .btn-info-outline { border: 2px solid #0ea5e9 !important; color: #0ea5e9 !important; background: transparent !important; font-weight: 700; border-radius: 12px; font-size: 0.85rem; padding: 4px 10px; }
         
-        /* Setup Menu Tweaks */
         .setup-sm-text { font-size: 0.9rem !important; padding: 10px 12px !important; }
 
         .form-control, .form-select { 
@@ -55,7 +54,7 @@
         }
 
         .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 12px; animation: fadeIn 0.25s ease-out; }
-        .inner-card { background: var(--card-bg); border-radius: 24px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 16px; border: 1px solid var(--border-color); }
+        .inner-card { background: var(--card-bg); border-radius: 24px; padding: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid var(--border-color); }
 
         .splash-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -66,7 +65,7 @@
         
         .catch-ribbon { 
             background: var(--card-bg); 
-            padding: 12px 16px; 
+            padding: 10px 16px; 
             border-bottom: 1px solid var(--border-color); 
             display: flex; 
             justify-content: space-between; 
@@ -78,22 +77,22 @@
         .live-score-badge {
             background: #0f172a;
             color: var(--app-main);
-            padding: 2px 12px 6px 12px;
+            padding: 2px 10px 5px 10px;
             border-radius: 12px;
-            min-width: 70px;
+            min-width: 65px;
             text-align: center;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             line-height: 1;
         }
-        .badge-tiny-label { font-size: 0.55rem; color: #fff; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; }
-        .badge-number { font-size: 1.5rem; font-weight: 900; }
+        .badge-tiny-label { font-size: 0.5rem; color: #fff; font-weight: 800; text-transform: uppercase; margin-bottom: 1px; }
+        .badge-number { font-size: 1.35rem; font-weight: 900; }
 
-        .tide-chart-container { background: var(--card-bg); border-radius: 24px; padding: 45px 12px 15px 12px; border: 2px solid var(--border-color); position: relative; cursor: pointer; }
+        .tide-chart-container { background: var(--card-bg); border-radius: 24px; padding: 40px 12px 12px 12px; border: 2px solid var(--border-color); position: relative; cursor: pointer; }
         #graphOverlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: white; z-index: 10000; flex-direction: column; padding: 20px; }
-        .env-label { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 2px; }
-        .env-val { font-size: 0.85rem !important; font-weight: 800 !important; height: auto !important; padding: 8px 4px !important; }
+        .env-label { font-size: 0.6rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 2px; }
+        .env-val { font-size: 0.8rem !important; font-weight: 800 !important; height: auto !important; padding: 6px 4px !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
         .app-logo-svg { display: block; margin: 0 auto 25px; }
         .opt-add-new { color: #059669 !important; font-weight: 900 !important; }
@@ -123,7 +122,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.6</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.3.7</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -170,7 +169,7 @@
     </div>
 
     <div id="anglerFishingPage" class="app-page">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
             <h3 class="m-0 fw-bold text-primary">Live Log</h3>
             <div class="live-score-badge mx-2" id="headerScoreBox">
                 <span class="badge-tiny-label">Total</span>
@@ -197,20 +196,20 @@
             </div>
 
             <div class="input-group mb-3">
-                <input type="number" id="fishLengthInput" class="form-control text-center fw-bold fs-1" placeholder="Length (cm)" inputmode="decimal">
-                <button class="btn btn-outline-danger px-4" onclick="document.getElementById('fishLengthInput').value=''"><i class="bi bi-x-lg fs-4"></i></button>
+                <input type="number" id="fishLengthInput" class="form-control text-center fw-bold fs-3" placeholder="Length (cm)" inputmode="decimal">
+                <button class="btn btn-outline-danger px-4" onclick="document.getElementById('fishLengthInput').value=''"><i class="bi bi-x-lg fs-5"></i></button>
             </div>
             <div class="row g-2">
-                <div class="col-8"><button class="btn btn-primary w-100 py-4 fw-bold fs-3" onclick="window.addFish()">Record Catch</button></div>
-                <div class="col-4"><button class="btn btn-outline-primary w-100 py-4" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-2"></i></button></div>
+                <div class="col-8"><button class="btn btn-primary w-100 py-3 fw-bold fs-4" onclick="window.addFish()">Record Catch</button></div>
+                <div class="col-4"><button class="btn btn-outline-primary w-100 py-3" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-3"></i></button></div>
             </div>
         </div>
 
-        <div id="fishLog" class="d-flex flex-column mb-4 shadow-sm border rounded-4 overflow-hidden"></div>
-        <button class="btn btn-danger btn-lg w-100 py-4 fw-bold shadow fs-4" onclick="window.endSession()">Finish Session</button>
+        <div id="fishLog" class="d-flex flex-column mb-3 shadow-sm border rounded-4 overflow-hidden"></div>
+        <button class="btn btn-danger btn-lg w-100 py-2 fw-bold shadow fs-5" onclick="window.endSession()">Finish Session</button>
     </div>
 
-    <div class="modal fade" id="scorecardModal" tabindex="-1"><div class="modal-dialog modal-fullscreen"><div class="modal-content"><div class="modal-header bg-dark text-white"><h4 id="scTitle" class="modal-title fw-bold">Session Review</h4><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div class="inner-card text-center mb-3"><h2 id="scVenueDisplay" class="fw-bold text-primary mb-1">Venue</h2><p id="scDateDisplay" class="text-muted fw-bold small">Date</p><div class="live-score-badge mx-auto py-1 px-4 fs-1" style="width:fit-content" id="scTotalDisplayContainer"><span class="badge-tiny-label">Total</span><span class="badge-number" id="scTotalDisplay">0</span></div><div class="text-muted small uppercase fw-bold mt-2" id="scUnitLabel">cm</div></div><div id="scFishList"></div></div></div></div></div>
+    <div class="modal fade" id="scorecardModal" tabindex="-1"><div class="modal-dialog modal-fullscreen"><div class="modal-content"><div class="modal-header bg-dark text-white"><h4 id="scTitle" class="modal-title fw-bold">Session Review</h4><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div class="inner-card text-center mb-3"><h2 id="scVenueDisplay" class="fw-bold text-primary mb-1">Venue</h2><p id="scDateDisplay" class="text-muted fw-bold small">Date</p><div class="live-score-badge mx-auto py-1 px-4 fs-1" style="width:fit-content"><span class="badge-tiny-label">Total</span><span class="badge-number" id="scTotalDisplay">0</span></div><div class="text-muted small uppercase fw-bold mt-2" id="scUnitLabel">cm</div></div><div id="scFishList"></div></div></div></div></div>
     <div id="nativeImageViewer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:99999; overflow:auto;"><div class="p-3 text-end"><button onclick="document.getElementById('nativeImageViewer').style.display='none'" class="btn btn-light rounded-pill px-4 fw-bold">Close</button></div><div style="width:100%; height:80%; display:flex; align-items:center; justify-content:center;"><img id="nativeFullImage" src="" style="width: 90%; height: auto; max-height: 85vh; object-fit: contain; background: white;"></div></div>
     <div class="modal fade" id="savedModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h4>History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light"><div id="recentList" class="p-3"></div></div></div></div></div>
 
@@ -249,9 +248,7 @@
         };
 
         window.handleVenueDropdown = function() { const sel = document.getElementById('venueSelect'); const val = sel.value; if(val === "__ADD_NEW__") { window.showVenueInputMode(); } else if(val) { currentVenue = sel.options[sel.selectedIndex].text; document.getElementById('btnResetVenue').style.display = 'block'; window.fetchEnvironmentData(val); } };
-
         window.resetVenueFlow = function() { document.getElementById('btnResetVenue').style.display = 'none'; document.getElementById('envPreview').style.display = 'none'; window.showVenueDropdownMode(); };
-
         window.getNearestPort = function(lat, lon) { let nearest = portMasterList[0]; let minDist = 99999; portMasterList.forEach(p => { const d = getDistance(lat, lon, p.lat, p.lon); if (d < minDist) { minDist = d; nearest = p; } }); return "Port of " + nearest.name; };
 
         window.linkNewVenueGPS = function() {
@@ -298,13 +295,9 @@
 
         window.openGraphOverlay = function(sourceId) { const overlay = document.getElementById('graphOverlay'); const source = document.getElementById(sourceId); const target = document.getElementById('overlayCanvas'); target.width = source.width; target.height = source.height; target.getContext('2d').drawImage(source, 0, 0); overlay.style.display = 'flex'; };
         window.closeGraphOverlay = () => document.getElementById('graphOverlay').style.display='none';
-
         window.startFishing = function() { PageManager.show('anglerRegistration'); document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0]; window.showVenueDropdownMode(); };
-
         window.registerAngler = function() { currentAngler = document.getElementById('anglerName').value; sessionStartTimeM = new Date().getHours()*60 + new Date().getMinutes(); document.getElementById('liveVenueLabel').textContent = currentVenue; window.populateSpeciesDropdown(); window.drawTideGraph('liveCatchCanvas', hwTime, lwTime, false); PageManager.show('anglerFishingPage'); };
-
         window.toggleCustomSpeciesInput = () => { const ui = document.getElementById('customSpeciesUI'); ui.style.display = ui.style.display === 'none' ? 'block' : 'none'; if(ui.style.display === 'block') document.getElementById('newSpeciesName').focus(); };
-
         window.addNewCustomSpecies = () => { const name = document.getElementById('newSpeciesName').value.trim(); if(!name) return; customSessionSpecies.unshift(name); window.populateSpeciesDropdown(); document.getElementById('speciesInput').value = name; document.getElementById('newSpeciesName').value = ""; document.getElementById('customSpeciesUI').style.display = 'none'; window.showAppToast("Species Added!"); };
 
         window.populateSpeciesDropdown = function() {
@@ -322,17 +315,10 @@
         };
 
         window.endSession = function() { if(!confirm("Save session?")) return; const scoringMode = document.getElementById('scoringMethod').value; Storage.save('scorecard_' + Date.now(), JSON.stringify({ venue: currentVenue, date: document.getElementById('competitionDate').value, totalScore: document.getElementById('headerScoreVal').textContent, fishData, unit: scoringMode === 'weight' ? 'kg' : 'cm' })); window.resetAppToHome(); };
-
         window.resetAppToHome = function() { fishData = []; customSessionSpecies = []; document.getElementById('venueSelect').selectedIndex = 0; document.getElementById('envPreview').style.display = 'none'; document.getElementById('weatherInput').value = ""; document.getElementById('windInput').value = ""; document.getElementById('swellInput').value = ""; document.getElementById('headerScoreVal').textContent = "0"; document.getElementById('fishLog').innerHTML = ""; currentVenue = ""; displayPortName = ""; graphOriginM = 0; sessionStartTimeM = 0; PageManager.show('splashScreen'); };
-
         window.openHistory = function() { window.loadSavedScorecards(); bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show(); };
         window.loadSavedScorecards = function() { const list = document.getElementById('recentList'); list.innerHTML = ''; const keys = Object.keys(Storage.getAll()).filter(k=>k.startsWith('scorecard_')).sort().reverse(); keys.forEach(k => { const d = JSON.parse(Storage.get(k)); list.innerHTML += `<div class="inner-card mb-2 d-flex justify-content-between align-items-center" style="cursor: pointer;" onclick="window.viewSavedCard('${k}')"><div><div class="fw-bold fs-5">${d.venue}</div><small class="text-muted fw-bold">${d.date}</small></div><span class="text-primary fw-bold fs-4">${d.totalScore || 0}</span></div>`; }); };
-
-        window.viewSavedCard = function(key) {
-            const d = JSON.parse(Storage.get(key)); document.getElementById('scVenueDisplay').textContent = d.venue; document.getElementById('scDateDisplay').textContent = d.date; document.getElementById('scTotalDisplay').textContent = d.totalScore; document.getElementById('scUnitLabel').textContent = d.unit || "cm";
-            const fishList = document.getElementById('scFishList'); fishList.innerHTML = ''; d.fishData.forEach(f => { fishList.innerHTML += `<div class="catch-ribbon mx-2 border-start border-end"><div><span class="fw-bold">${f.species}</span> <span class="text-primary ms-2">${f.display}</span></div><div class="text-muted small">${f.time}</div></div>`; }); bootstrap.Modal.getOrCreateInstance(document.getElementById('scorecardModal')).show();
-        };
-
+        window.viewSavedCard = function(key) { const d = JSON.parse(Storage.get(key)); document.getElementById('scVenueDisplay').textContent = d.venue; document.getElementById('scDateDisplay').textContent = d.date; document.getElementById('scTotalDisplay').textContent = d.totalScore; document.getElementById('scUnitLabel').textContent = d.unit || "cm"; const fishList = document.getElementById('scFishList'); fishList.innerHTML = ''; d.fishData.forEach(f => { fishList.innerHTML += `<div class="catch-ribbon mx-2 border-start border-end"><div><span class="fw-bold">${f.species}</span> <span class="text-primary ms-2">${f.display}</span></div><div class="text-muted small">${f.time}</div></div>`; }); bootstrap.Modal.getOrCreateInstance(document.getElementById('scorecardModal')).show(); };
         window.forceAppUpdate = function() { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1500); };
         window.showAppToast = (m, e) => { document.getElementById('toastMsg').textContent = m; new bootstrap.Toast(document.getElementById('appToast')).show(); };
         window.triggerCamera = () => document.getElementById('cameraInput').click();
