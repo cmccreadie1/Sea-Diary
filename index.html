@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.5.1</title>
+    <title>Sea Diary Pro - v2.5.2</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,41 +26,140 @@
             --night-shade: rgba(15, 23, 42, 0.15);
         }
 
-        html, body { overscroll-behavior: none; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 90px; min-height: 100vh; }
-        h1, h2, h3, h4, h5, h6, .live-score-badge, .btn { font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; }
+        /* Standard Reset */
+        html, body { 
+            overscroll-behavior: none; 
+            min-height: 100vh;
+        }
 
-        .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 800; border-radius: 14px; padding: 15px; font-size: 1.25rem; }
-        .btn-outline-primary { border: 2px solid var(--app-main) !important; color: var(--app-main) !important; font-weight: 800; border-radius: 14px; }
-        .btn-success { background-color: #059669 !important; border-color: #059669 !important; font-weight: 800; border-radius: 14px; }
-        .btn-info-outline { border: 2px solid #0ea5e9 !important; color: #0ea5e9 !important; background: transparent !important; font-weight: 700; border-radius: 12px; font-size: 0.85rem; padding: 4px 10px; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-main); 
+            color: var(--text-main); 
+            padding-bottom: 90px;
+        }
         
-        .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 12px; animation: fadeIn 0.25s ease-out; }
-        .inner-card { background: var(--card-bg); border-radius: 24px; padding: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid var(--border-color); }
-        .form-control, .form-select { background-color: var(--input-bg); color: var(--text-main); border-radius: 14px; padding: 14px 18px; border: 3px solid var(--border-color); font-weight: 700; font-size: 1.2rem; }
-        .setup-sm-text { font-size: 0.9rem !important; padding: 10px 12px !important; }
+        /* Typography */
+        h1, h2, h3, h4, h5, h6, .live-score-badge, .btn { 
+            font-family: 'Outfit', sans-serif; 
+            letter-spacing: -0.5px; 
+        }
 
-        .catch-ribbon { background: var(--card-bg); padding: 10px 16px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        /* Buttons */
+        .btn-primary { 
+            background-color: var(--app-main) !important; 
+            border-color: var(--app-main) !important; 
+            color: #fff !important; 
+            font-weight: 800; 
+            border-radius: 14px; 
+            padding: 15px; 
+            font-size: 1.25rem; 
+        }
+
+        .btn-outline-primary { 
+            border: 2px solid var(--app-main) !important; 
+            color: var(--app-main) !important; 
+            font-weight: 800; 
+            border-radius: 14px; 
+        }
+
+        .btn-success { 
+            background-color: #059669 !important; 
+            border-color: #059669 !important; 
+            font-weight: 800; 
+            border-radius: 14px; 
+        }
+
+        .btn-info-outline { 
+            border: 2px solid #0ea5e9 !important; 
+            color: #0ea5e9 !important; 
+            background: transparent !important; 
+            font-weight: 700; 
+            border-radius: 12px; 
+            font-size: 0.85rem; 
+            padding: 4px 10px; 
+        }
+        
+        /* App Structure */
+        .app-page { 
+            display: none; 
+            width: 100%; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 12px; 
+            animation: fadeIn 0.25s ease-out; 
+        }
+
+        .inner-card { 
+            background: var(--card-bg); 
+            border-radius: 24px; 
+            padding: 18px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            margin-bottom: 12px; 
+            border: 1px solid var(--border-color); 
+        }
+
+        .form-control, .form-select { 
+            background-color: var(--input-bg); 
+            color: var(--text-main); 
+            border-radius: 14px; 
+            padding: 14px 18px; 
+            border: 3px solid var(--border-color); 
+            font-weight: 700; 
+            font-size: 1.2rem; 
+        }
+
+        .setup-sm-text { 
+            font-size: 0.9rem !important; 
+            padding: 10px 12px !important; 
+        }
+
+        /* Feed Ribbon */
+        .catch-ribbon { 
+            background: var(--card-bg); 
+            padding: 10px 16px; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
         .catch-ribbon:last-child { border-bottom: none; border-radius: 0 0 18px 18px; }
         .catch-ribbon:first-child { border-radius: 18px 18px 0 0; }
 
-        .live-score-badge { background: #0f172a; color: var(--app-main); padding: 2px 10px 5px 10px; border-radius: 12px; min-width: 80px; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); display: flex; flex-direction: column; line-height: 1; }
+        /* Tactical Header Badge */
+        .live-score-badge {
+            background: #0f172a;
+            color: var(--app-main);
+            padding: 2px 10px 5px 10px;
+            border-radius: 12px;
+            min-width: 80px;
+            text-align: center;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
         .badge-tiny-label { font-size: 0.45rem; color: #fff; font-weight: 800; text-transform: uppercase; margin-bottom: 1px; }
         .badge-number { font-size: 1.3rem; font-weight: 900; }
 
+        /* Splash and Animations */
         .splash-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-main); z-index: 1040; text-align: center; }
         .icon-spin { animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
 
+        /* Tide Chart Visuals */
         .tide-chart-container { background: var(--card-bg); border-radius: 24px; padding: 40px 12px 12px 12px; border: 2px solid var(--border-color); position: relative; cursor: pointer; }
         #graphOverlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: white; z-index: 10000; flex-direction: column; padding: 20px; }
         .env-label { font-size: 0.6rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 2px; }
         .env-val { font-size: 0.8rem !important; font-weight: 800 !important; height: auto !important; padding: 6px 4px !important; }
 
+        /* History Archive Stylings */
+        .archive-header { background: #e2e8f0; color: #475569; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; padding: 8px 12px; border-radius: 10px; margin: 15px 0 10px; letter-spacing: 1px; }
+
+        /* Analytics Bars */
         .dist-bar-container { background: #eee; height: 12px; border-radius: 6px; overflow: hidden; margin: 4px 0 12px; }
         .dist-bar { background: var(--app-main); height: 100%; transition: width 0.5s ease; }
-        .archive-header { background: #e2e8f0; color: #475569; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; padding: 8px 12px; border-radius: 10px; margin: 15px 0 10px; }
 
         @media (max-width: 600px) { #venueSelect { max-height: 300px; } }
     </style>
@@ -78,7 +177,9 @@
             <h4 class="fw-bold m-0 text-primary">Tactical Tide Analysis</h4>
             <button class="btn btn-dark rounded-pill px-4" onclick="window.closeGraphOverlay()">Close</button>
         </div>
-        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center;"><canvas id="overlayCanvas" style="width: 100%; height: auto;"></canvas></div>
+        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">
+            <canvas id="overlayCanvas" style="width: 100%; height: auto;"></canvas>
+        </div>
     </div>
 
     <div id="splashScreen" class="splash-screen">
@@ -88,7 +189,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.5.1</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.5.2</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -105,30 +206,43 @@
             <h2 class="fw-bold m-0 text-primary">Setup</h2>
             <button class="btn btn-sm btn-outline-secondary px-3 fw-bold bg-white" onclick="window.resetAppToHome()">Back</button>
         </div>
+        
         <div class="inner-card">
             <div class="mb-4">
                 <label class="form-label fw-bold text-muted small uppercase">Angler</label>
                 <input type="text" id="anglerName" class="form-control" value="Chris McCreadie">
             </div>
+            
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <label class="form-label fw-bold text-muted small uppercase m-0">Venue</label>
-                    <button class="btn btn-link btn-sm fw-bold p-0 text-decoration-none text-danger" id="btnResetVenue" style="display:none;" onclick="window.resetVenueFlow()"><i class="bi bi-x-circle me-1"></i> Reset Selection</button>
+                    <button class="btn btn-link btn-sm fw-bold p-0 text-decoration-none text-danger" id="btnResetVenue" style="display:none;" onclick="window.resetVenueFlow()"><i class="bi bi-x-circle me-1"></i> Reset</button>
                 </div>
                 <div id="venueSelectContainer">
                     <select id="venueSelect" class="form-select text-primary mb-2" onchange="window.handleVenueDropdown()"></select>
-                    <div class="text-center mt-2"><button class="btn btn-link fw-bold text-decoration-none text-success fs-5" onclick="window.showVenueInputMode()">Mark not listed? Add New Mark</button></div>
+                    <div class="text-center mt-2">
+                        <button class="btn btn-link fw-bold text-decoration-none text-success fs-5" onclick="window.showVenueInputMode()">Mark not listed? Add New Mark</button>
+                    </div>
                 </div>
                 <div id="venueInputContainer" style="display:none;">
-                    <div class="input-group mb-2 shadow-sm border rounded-4 overflow-hidden"><span class="input-group-text bg-white border-0"><i class="bi bi-geo-fill text-success"></i></span><input type="text" id="venueInputText" class="form-control border-0 ps-0" placeholder="New Mark Name..."></div>
+                    <div class="input-group mb-2 shadow-sm border rounded-4 overflow-hidden">
+                        <span class="input-group-text bg-white border-0"><i class="bi bi-geo-fill text-success"></i></span>
+                        <input type="text" id="venueInputText" class="form-control border-0 ps-0" placeholder="New Mark Name...">
+                    </div>
                     <button id="gpsAutoButton" class="btn btn-success w-100 py-3 fs-5 shadow-sm" onclick="window.linkNewVenueGPS()">Set Mark & Get Tides</button>
-                    <div class="text-center mt-2"><button class="btn btn-link btn-sm text-muted fw-bold text-decoration-none" onclick="window.showVenueDropdownMode()"><i class="bi bi-arrow-left me-1"></i> Back to Saved List</button></div>
+                    <div class="text-center mt-2">
+                        <button class="btn btn-link btn-sm text-muted fw-bold text-decoration-none" onclick="window.showVenueDropdownMode()"><i class="bi bi-arrow-left me-1"></i> Back to Saved List</button>
+                    </div>
                 </div>
             </div>
+
             <div class="row g-2">
-                <div class="col-6"><label class="fw-bold text-muted small">Date</label><input type="date" id="competitionDate" class="form-control setup-sm-text"></div>
                 <div class="col-6">
-                    <label class="fw-bold text-muted small">Competition Type</label>
+                    <label class="fw-bold text-muted small">Date</label>
+                    <input type="date" id="competitionDate" class="form-control setup-sm-text">
+                </div>
+                <div class="col-6">
+                    <label class="fw-bold text-muted small">Comp Type</label>
                     <select id="scoringMethod" class="form-select setup-sm-text">
                         <option value="length_only">Total Length (cm)</option>
                         <option value="weight_kg">Weight (kg)</option>
@@ -139,42 +253,89 @@
                 </div>
             </div>
         </div>
+
         <div class="inner-card" id="envPreview" style="display:none;">
             <div class="row g-1 mb-2 text-center" id="envDataRow">
                 <div class="col-4"><div class="env-label">Weather</div><input type="text" id="weatherInput" class="form-control text-center fw-bold bg-light env-val" readonly></div>
                 <div class="col-4"><div class="env-label">Wind</div><input type="text" id="windInput" class="form-control text-center fw-bold bg-light env-val" readonly></div>
                 <div class="col-4"><div class="env-label">Swell</div><input type="text" id="swellInput" class="form-control text-center fw-bold bg-light env-val text-primary" readonly></div>
             </div>
-            <div class="tide-chart-container p-0 border-0"><canvas id="setupTideCanvas" class="w-100"></canvas></div>
+            <div class="tide-chart-container p-0 border-0">
+                <canvas id="setupTideCanvas" class="w-100"></canvas>
+            </div>
         </div>
+
         <button class="btn btn-primary btn-lg w-100 py-3 shadow-lg mt-2 fw-bold fs-2" onclick="window.registerAngler()">Start Fishing</button>
     </div>
 
     <div id="anglerFishingPage" class="app-page">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h3 class="m-0 fw-bold text-primary">Live Log</h3>
-            <div class="live-score-badge mx-2"><span class="badge-tiny-label" id="headerModeLabel">Total</span><span class="badge-number" id="headerScoreVal">0</span></div>
+            <div class="live-score-badge mx-2" id="headerScoreBox">
+                <span class="badge-tiny-label" id="headerModeLabel">Total</span>
+                <span class="badge-number" id="headerScoreVal">0</span>
+            </div>
             <div class="text-muted fw-bold small text-end" id="liveVenueLabel"></div>
         </div>
-        <div class="tide-chart-container mb-3 shadow-sm border" onclick="window.openGraphOverlay('liveCatchCanvas')"><canvas id="liveCatchCanvas" class="w-100"></canvas></div>
+
+        <div class="tide-chart-container mb-3 shadow-sm border" onclick="window.openGraphOverlay('liveCatchCanvas')">
+            <canvas id="liveCatchCanvas" class="w-100"></canvas>
+        </div>
+
         <div class="inner-card">
             <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="window.handleCameraInput()">
+            
             <div class="mb-3">
                 <select id="speciesInput" class="form-select fw-bold w-100 mb-2"></select>
-                <div class="text-center"><button class="btn btn-info-outline px-4" onclick="window.toggleCustomSpeciesInput()">NEW FISH SPECIES</button></div>
+                <div class="text-center">
+                    <button class="btn btn-info-outline px-4" onclick="window.toggleCustomSpeciesInput()">NEW FISH SPECIES</button>
+                </div>
             </div>
-            <div id="customSpeciesUI" style="display:none;" class="mb-3 animate-fadeIn"><div class="input-group"><input type="text" id="newSpeciesName" class="form-control" placeholder="Enter New Species Name..."><button class="btn btn-success px-4 fw-bold" onclick="window.addNewCustomSpecies()">ADD</button></div></div>
+            
+            <div id="customSpeciesUI" style="display:none;" class="mb-3 animate-fadeIn">
+                <div class="input-group">
+                    <input type="text" id="newSpeciesName" class="form-control" placeholder="Enter New Species Name...">
+                    <button class="btn btn-success px-4 fw-bold" onclick="window.addNewCustomSpecies()">ADD</button>
+                </div>
+            </div>
+
             <div id="inputArea">
-                <div id="metricInputRow" class="input-group mb-3"><input type="number" id="fishLengthInput" class="form-control text-center fw-bold fs-3" placeholder="Size..." inputmode="decimal"><button class="btn btn-outline-danger px-4" onclick="document.getElementById('fishLengthInput').value=''"><i class="bi bi-x-lg fs-5"></i></button></div>
-                <div id="imperialWheelRow" class="row g-2 mb-3" style="display:none;"><div class="col-6"><label class="env-label d-block text-center">Pounds</label><select id="wheelLbs" class="form-select text-center fw-bold fs-3"></select></div><div class="col-6"><label class="env-label d-block text-center">Ounces</label><select id="wheelOzs" class="form-select text-center fw-bold fs-3"></select></div></div>
-                <div id="metricWeightRow" class="row g-2 mb-3" style="display:none;"><div class="col-6"><label class="env-label d-block text-center">Whole Kg</label><select id="wheelKgWhole" class="form-select text-center fw-bold fs-3"></select></div><div class="col-6"><label class="env-label d-block text-center">Grams</label><select id="wheelKgGrams" class="form-select text-center fw-bold fs-3"></select></div></div>
+                <div id="metricInputRow" class="input-group mb-3">
+                    <input type="number" id="fishLengthInput" class="form-control text-center fw-bold fs-3" placeholder="Size..." inputmode="decimal">
+                    <button class="btn btn-outline-danger px-4" onclick="document.getElementById('fishLengthInput').value=''"><i class="bi bi-x-lg fs-5"></i></button>
+                </div>
+
+                <div id="imperialWheelRow" class="row g-2 mb-3" style="display:none;">
+                    <div class="col-6">
+                        <label class="env-label d-block text-center">Pounds</label>
+                        <select id="wheelLbs" class="form-select text-center fw-bold fs-3"></select>
+                    </div>
+                    <div class="col-6">
+                        <label class="env-label d-block text-center">Ounces</label>
+                        <select id="wheelOzs" class="form-select text-center fw-bold fs-3"></select>
+                    </div>
+                </div>
+
+                <div id="metricWeightRow" class="row g-2 mb-3" style="display:none;">
+                    <div class="col-6">
+                        <label class="env-label d-block text-center">Kg</label>
+                        <select id="wheelKgWhole" class="form-select text-center fw-bold fs-3"></select>
+                    </div>
+                    <div class="col-6">
+                        <label class="env-label d-block text-center">Grams</label>
+                        <select id="wheelKgGrams" class="form-select text-center fw-bold fs-3"></select>
+                    </div>
+                </div>
             </div>
+            
             <div class="row g-2">
                 <div class="col-8"><button class="btn btn-primary w-100 py-3 fw-bold fs-4" onclick="window.addFish()">Record Catch</button></div>
                 <div class="col-4"><button class="btn btn-outline-primary w-100 py-3" onclick="window.triggerCamera()"><i class="bi bi-camera-fill fs-3"></i></button></div>
             </div>
         </div>
+
         <div id="fishLog" class="d-flex flex-column mb-3 shadow-sm border rounded-4 overflow-hidden"></div>
+        
         <button class="btn btn-danger btn-lg w-100 py-2 fw-bold shadow fs-5" onclick="window.finishToSummary()">Finish Session</button>
     </div>
 
@@ -192,37 +353,70 @@
             <div><small class="env-label">Weather</small><br><strong id="smWeather">-</strong></div>
             <div><small class="env-label">Wind</small><br><strong id="smWind">-</strong></div>
         </div>
+
         <div class="inner-card">
-            <div class="d-flex justify-content-between align-items-center mb-2"><h5 class="fw-bold m-0">Analysis</h5><button class="btn btn-sm btn-outline-primary" onclick="window.expandSummaryGraph()">Expand</button></div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="fw-bold m-0">Tide Analysis</h5>
+                <button class="btn btn-sm btn-outline-primary" onclick="window.expandSummaryGraph()">Expand</button>
+            </div>
             <canvas id="summaryTideCanvas" class="w-100"></canvas>
         </div>
+
         <div class="inner-card">
-            <h5 class="fw-bold mb-3 text-primary">Distribution</h5>
+            <h5 class="fw-bold mb-3 text-primary">Species Distribution</h5>
             <div id="speciesDistList"></div>
             <hr>
-            <div class="d-flex justify-content-between align-items-center"><h5 class="fw-bold m-0">Session Best</h5><span class="fs-4 fw-bold text-primary" id="smBestFish">-</span></div>
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold m-0">Session Best Fish</h5>
+                <span class="fs-4 fw-bold text-primary" id="smBestFish">-</span>
+            </div>
         </div>
+
         <div class="inner-card">
             <h5 class="fw-bold mb-3">Venue Comparison (Last 4)</h5>
-            <div class="table-responsive"><table class="table table-sm table-borderless m-0"><thead><tr class="env-label"><th>Date</th><th>Score</th><th>Best</th></tr></thead><tbody id="smComparisonBody"></tbody></table></div>
+            <div class="table-responsive">
+                <table class="table table-sm table-borderless m-0">
+                    <thead>
+                        <tr class="env-label">
+                            <th>Date</th>
+                            <th>Score</th>
+                            <th>Best</th>
+                        </tr>
+                    </thead>
+                    <tbody id="smComparisonBody"></tbody>
+                </table>
+            </div>
         </div>
+
         <div id="smFishLog" class="d-flex flex-column mb-4 shadow-sm border rounded-4 overflow-hidden"></div>
+        
         <div class="row g-2 mb-4">
-            <div class="col-6"><button class="btn btn-success w-100 py-3 fw-bold" onclick="window.shareSession()">Share</button></div>
+            <div class="col-6"><button class="btn btn-success w-100 py-3 fw-bold" onclick="window.shareSession()"><i class="bi bi-share-fill me-2"></i>Share</button></div>
             <div class="col-6"><button class="btn btn-dark w-100 py-3 fw-bold" onclick="window.resetAppToHome()">Home</button></div>
         </div>
     </div>
 
+    <div id="nativeImageViewer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:99999; overflow:auto;"><div class="p-3 text-end"><button onclick="document.getElementById('nativeImageViewer').style.display='none'" class="btn btn-light rounded-pill px-4 fw-bold">Close</button></div><div style="width:100%; height:80%; display:flex; align-items:center; justify-content:center;"><img id="nativeFullImage" src="" style="width: 90%; height: auto; max-height: 85vh; object-fit: contain; background: white;"></div></div>
+    
     <div class="modal fade" id="savedModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header"><h4>Fishing History</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body bg-light">
-                    <div class="archive-header">Recent</div>
+                    <div class="archive-header">Recent Trips (Last 6)</div>
                     <div id="recentHistoryList" class="p-1"></div>
-                    <div id="archiveToggleContainer" class="text-center mt-3" style="display:none;"><button class="btn btn-outline-secondary btn-sm fw-bold px-4 rounded-pill" onclick="window.toggleArchive()">View Archive</button></div>
-                    <div id="archiveHistoryList" class="p-1" style="display:none;"><div class="archive-header">Archive</div><div id="archiveContent"></div></div>
-                    <div class="mt-4 border-top pt-3 text-center"><button class="btn btn-sm btn-link text-muted fw-bold text-decoration-none" onclick="window.exportBackup()"><i class="bi bi-download me-2"></i>Export Backup File</button></div>
+                    
+                    <div id="archiveToggleContainer" class="text-center mt-3" style="display:none;">
+                        <button class="btn btn-outline-secondary btn-sm fw-bold px-4 rounded-pill" onclick="window.toggleArchive()">View Full Archive</button>
+                    </div>
+                    
+                    <div id="archiveHistoryList" class="p-1" style="display:none;">
+                        <div class="archive-header">Archive</div>
+                        <div id="archiveContent"></div>
+                    </div>
+                    <div class="mt-4 border-top pt-3 text-center">
+                        <button class="btn btn-sm btn-link text-muted fw-bold text-decoration-none" onclick="window.exportBackup()"><i class="bi bi-download me-2"></i>Backup Session Data</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -231,40 +425,190 @@
     <script>
         const WEATHER_API_KEY = "db7f2afb64d943719e0203116260103";
         
-        // UNZIPPED vertical data arrays
+        // --- FULL VERTICAL SPECIES LIST ---
         const speciesGroups = [
-            { category: "Common", items: ["Whiting", "Cod", "Lesser Spotted Dogfish", "Mackerel", "Bass", "Coalfish", "Pollack", "Flounder", "Dab", "Turbot"] },
-            { category: "Round Fish", items: ["Haddock", "Pouting", "Bib", "Poor Cod", "Red Gurnard", "Grey Gurnard", "Tub Gurnard", "Black Bream", "Gilthead Bream", "Golden Grey Mullet", "Thick Lipped Mullet", "Garfish", "Scad", "Horse Mackerel"] },
-            { category: "Flatfish", items: ["Flounder", "Dab", "Plaice", "Dover Sole", "Lemon Sole", "Turbot", "Brill", "Megrim", "Halibut"] },
-            { category: "Rays", items: ["Thornback Ray", "Spotted Ray", "Blonde Ray", "Small-eyed Ray", "Undulate Ray"] },
-            { category: "Sharks", items: ["Starry Smoothhound", "Common Smoothhound", "Bull Huss", "Greater Spotted Dogfish", "Tope", "Spurdog", "Blue Shark", "Blackmouth LSD"] },
-            { category: "Others", items: ["Conger Eel", "Silver Eel", "Ballan Wrasse", "Corkwing Wrasse", "Cuckoo Wrasse", "3-bearded Rockling", "5-bearded Rockling", "John Dory", "Lumpfish", "Weever Fish"] }
+            {
+                category: "Common",
+                items: [
+                    "Whiting",
+                    "Cod",
+                    "Lesser Spotted Dogfish",
+                    "Mackerel",
+                    "Bass",
+                    "Coalfish",
+                    "Pollack",
+                    "Flounder",
+                    "Dab",
+                    "Turbot"
+                ]
+            },
+            {
+                category: "Round Fish",
+                items: [
+                    "Haddock",
+                    "Pouting",
+                    "Bib",
+                    "Poor Cod",
+                    "Red Gurnard",
+                    "Grey Gurnard",
+                    "Tub Gurnard",
+                    "Black Bream",
+                    "Gilthead Bream",
+                    "Golden Grey Mullet",
+                    "Thick Lipped Mullet",
+                    "Garfish",
+                    "Scad",
+                    "Horse Mackerel"
+                ]
+            },
+            {
+                category: "Flatfish",
+                items: [
+                    "Flounder",
+                    "Dab",
+                    "Plaice",
+                    "Dover Sole",
+                    "Lemon Sole",
+                    "Turbot",
+                    "Brill",
+                    "Megrim",
+                    "Halibut"
+                ]
+            },
+            {
+                category: "Rays",
+                items: [
+                    "Thornback Ray",
+                    "Spotted Ray",
+                    "Blonde Ray",
+                    "Small-eyed Ray",
+                    "Undulate Ray"
+                ]
+            },
+            {
+                category: "Sharks",
+                items: [
+                    "Starry Smoothhound",
+                    "Common Smoothhound",
+                    "Bull Huss",
+                    "Greater Spotted Dogfish",
+                    "Tope",
+                    "Spurdog",
+                    "Blue Shark",
+                    "Blackmouth LSD"
+                ]
+            },
+            {
+                category: "Others",
+                items: [
+                    "Conger Eel",
+                    "Silver Eel",
+                    "Ballan Wrasse",
+                    "Corkwing Wrasse",
+                    "Cuckoo Wrasse",
+                    "3-bearded Rockling",
+                    "5-bearded Rockling",
+                    "John Dory",
+                    "Lumpfish",
+                    "Weever Fish"
+                ]
+            }
         ];
 
+        // --- FULL VERTICAL MARKS LIST ---
         const scottishMarks = [
-            { name: "Aberdeen", lat: 57.14, lon: -2.07 },
-            { name: "Arbroath", lat: 56.55, lon: -2.58 },
-            { name: "Greenock", lat: 55.95, lon: -4.76 },
-            { name: "Scrabster", lat: 58.61, lon: -3.54 },
-            { name: "Oban Pier", lat: 56.41, lon: -5.47 },
-            { name: "Elliot", lat: 56.54, lon: -2.60 },
-            { name: "Ethie Mains", lat: 56.60, lon: -2.50 },
-            { name: "Victoria Park", lat: 56.56, lon: -2.57 },
-            { name: "Usan", lat: 56.68, lon: -2.44 }
+            {
+                name: "Aberdeen",
+                lat: 57.14,
+                lon: -2.07
+            },
+            {
+                name: "Arbroath",
+                lat: 56.55,
+                lon: -2.58
+            },
+            {
+                name: "Greenock",
+                lat: 55.95,
+                lon: -4.76
+            },
+            {
+                name: "Scrabster",
+                lat: 58.61,
+                lon: -3.54
+            },
+            {
+                name: "Oban Pier",
+                lat: 56.41,
+                lon: -5.47
+            },
+            {
+                name: "Elliot",
+                lat: 56.54,
+                lon: -2.60
+            },
+            {
+                name: "Ethie Mains",
+                lat: 56.60,
+                lon: -2.50
+            },
+            {
+                name: "Victoria Park",
+                lat: 56.56,
+                lon: -2.57
+            },
+            {
+                name: "Usan",
+                lat: 56.68,
+                lon: -2.44
+            }
         ];
 
+        // --- FULL VERTICAL PORT LIST ---
         const portMasterList = [
-            { name: "Grangemouth", lat: 56.02, lon: -3.70 },
-            { name: "Greenock", lat: 55.95, lon: -4.76 },
-            { name: "Bowling", lat: 55.93, lon: -4.50 },
-            { name: "Ayr", lat: 55.46, lon: -4.64 },
-            { name: "Rosyth", lat: 56.02, lon: -3.43 },
-            { name: "Leith", lat: 55.99, lon: -3.17 },
-            { name: "Largs", lat: 55.79, lon: -4.87 },
-            { name: "Troon", lat: 55.54, lon: -4.68 }
+            {
+                name: "Grangemouth",
+                lat: 56.02,
+                lon: -3.70
+            },
+            {
+                name: "Greenock",
+                lat: 55.95,
+                lon: -4.76
+            },
+            {
+                name: "Bowling",
+                lat: 55.93,
+                lon: -4.50
+            },
+            {
+                name: "Ayr",
+                lat: 55.46,
+                lon: -4.64
+            },
+            {
+                name: "Rosyth",
+                lat: 56.02,
+                lon: -3.43
+            },
+            {
+                name: "Leith",
+                lat: 55.99,
+                lon: -3.17
+            },
+            {
+                name: "Largs",
+                lat: 55.79,
+                lon: -4.87
+            },
+            {
+                name: "Troon",
+                lat: 55.54,
+                lon: -4.68
+            }
         ];
 
-        // Global State
+        // Global Application State
         let fishData = [];
         let customSessionSpecies = [];
         let currentVenue = '';
@@ -273,6 +617,7 @@
         let hwTime = '12:00';
         let sunriseM = 360; 
         let sunsetM = 1080;
+        let currentAngler = 'Chris McCreadie';
         let currentScoringMethod = 'length_only';
         let pendingPhoto = '';
 
@@ -292,43 +637,91 @@
             }
         };
 
-        // Precision Initialization
-        window.initWheels = () => {
-            const lbSel = document.getElementById('wheelLbs'); const ozSel = document.getElementById('wheelOzs');
-            lbSel.innerHTML = ""; ozSel.innerHTML = "";
+        // Navigation Controllers
+        window.startFishing = () => {
+            PageManager.show('anglerRegistration');
+            document.getElementById("competitionDate").value = new Date().toISOString().split('T')[0];
+            window.populateVenueDropdown();
+        };
+
+        window.resetAppToHome = () => {
+            // Deep clean of all states
+            fishData = [];
+            customSessionSpecies = [];
+            currentVenue = "";
+            graphOriginM = 0;
+            pendingPhoto = '';
+            
+            // Clean DOM elements
+            document.getElementById('fishLengthInput').value = '';
+            document.getElementById('headerScoreVal').textContent = '0';
+            document.getElementById('fishLog').innerHTML = '';
+            document.getElementById('envPreview').style.display = 'none';
+            document.getElementById('wheelLbs').value = '0';
+            document.getElementById('wheelOzs').value = '0';
+            document.getElementById('wheelKgWhole').value = '0';
+            document.getElementById('wheelKgGrams').value = '0';
+            
+            PageManager.show('splashScreen');
+        };
+
+        // Wheel Initialization
+        window.initWheels = function() {
+            const lbSel = document.getElementById('wheelLbs');
+            const ozSel = document.getElementById('wheelOzs');
+            lbSel.innerHTML = ""; 
+            ozSel.innerHTML = "";
             for(let i=0; i<=60; i++) lbSel.innerHTML += `<option value="${i}">${i} lb</option>`;
             for(let i=0; i<=15; i++) ozSel.innerHTML += `<option value="${i}">${i} oz</option>`;
-            const kgSel = document.getElementById('wheelKgWhole'); const gSel = document.getElementById('wheelKgGrams');
-            kgSel.innerHTML = ""; gSel.innerHTML = "";
+
+            const kgSel = document.getElementById('wheelKgWhole');
+            const gSel = document.getElementById('wheelKgGrams');
+            kgSel.innerHTML = ""; 
+            gSel.innerHTML = "";
             for(let i=0; i<=50; i++) kgSel.innerHTML += `<option value="${i}">${i} kg</option>`;
             for(let i=0; i<=975; i+=25) gSel.innerHTML += `<option value="${i}">${i.toString().padStart(3,'0')}g</option>`;
         };
 
-        // RESTORED v2.3.2 GPS LOGIC
+        // Geolocation Utilities (v2.3.2 Speed Calibration)
+        function getDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
         window.linkNewVenueGPS = function() {
             const name = document.getElementById('venueInputText').value.trim() || "New GPS Mark";
             const btn = document.getElementById('gpsAutoButton');
-            btn.innerHTML = 'Finding Port...'; btn.disabled = true;
+            btn.innerHTML = 'Finding Port...'; 
+            btn.disabled = true;
 
             navigator.geolocation.getCurrentPosition((pos) => {
-                const lat = pos.coords.latitude; const lon = pos.coords.longitude;
-                let nearest = portMasterList[0]; let minD = 99999;
+                const lat = pos.coords.latitude; 
+                const lon = pos.coords.longitude;
+                let nearest = portMasterList[0]; 
+                let minD = 99999;
+                
                 portMasterList.forEach(p => { 
-                    const d = (lat1, lon1, lat2, lon2) => {
-                        const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180;
-                        const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
-                        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-                    };
-                    let dist = d(lat, lon, p.lat, p.lon);
-                    if (dist < minD) { minD = dist; nearest = p; } 
+                    let d = getDistance(lat, lon, p.lat, p.lon); 
+                    if (d < minD) { minD = d; nearest = p; } 
                 });
+                
                 displayPortName = "Port of " + nearest.name;
                 let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
-                vMap[name] = { lat, lon }; Storage.save('venueTideMap', JSON.stringify(vMap));
-                currentVenue = name; window.populateVenueDropdown(); window.fetchEnvironmentData(`${lat},${lon}`);
-                btn.innerHTML = "Success!"; btn.disabled = false;
+                vMap[name] = { lat, lon }; 
+                Storage.save('venueTideMap', JSON.stringify(vMap));
+                
+                currentVenue = name; 
+                window.populateVenueDropdown(); 
+                window.fetchEnvironmentData(`${lat},${lon}`);
+                
+                btn.innerHTML = "Success!"; 
+                btn.disabled = false;
             }, () => { 
-                window.showAppToast("GPS Timed Out", true); btn.disabled = false; 
+                window.showAppToast("GPS Timed Out", true); 
+                btn.disabled = false; 
             }, { enableHighAccuracy: false, timeout: 3000 });
         };
 
@@ -342,87 +735,113 @@
                     document.getElementById('weatherInput').value = `${c.temp_c}°C`;
                     document.getElementById('windInput').value = `${c.wind_mph}m ${c.wind_dir}`;
                     document.getElementById('swellInput').value = `${c.swell_ht_mt || 0.1}m`;
+                    
                     const hw = d.forecast.forecastday[0].day.tides[0].tide.find(t => t.tide_type === 'HIGH');
                     if (hw) hwTime = hw.tide_time.split(' ')[1];
+                    
                     const srParts = d.forecast.forecastday[0].astro.sunrise.split(':');
                     sunriseM = parseInt(srParts[0]) * 60 + parseInt(srParts[1]);
                     const ssParts = d.forecast.forecastday[0].astro.sunset.split(':');
                     sunsetM = (parseInt(ssParts[0]) + 12) * 60 + parseInt(ssParts[1]);
+
                     document.getElementById('envPreview').style.display = 'block';
                     window.drawTideGraph('setupTideCanvas', hwTime, false);
                 }
-            } catch (e) { window.showAppToast("Weather Offline"); }
+            } catch (e) { 
+                window.showAppToast("Weather Offline"); 
+            }
         };
 
-        // Graph Dot Scaling
+        // Graph Dot Scaling logic
         function getDotSize(targetTimeM) {
             const clusterCount = fishData.filter(f => Math.abs(f.tM - targetTimeM) <= 10).length;
             return 7 + (clusterCount * 1.8);
         }
 
+        // TACTICAL GRAPH ENGINE
         window.drawTideGraph = function(canvasId, hwStr, showLabels) {
-            const canvas = document.getElementById(canvasId); if (!canvas) return; const ctx = canvas.getContext('2d');
-            const w = 340, h = 180; canvas.width = w * 2; canvas.height = h * 2; ctx.scale(2, 2);
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = 340, h = 180;
+            canvas.width = w * 2; canvas.height = h * 2; ctx.scale(2, 2);
             ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+
             const hwM = parseInt(hwStr.split(':')[0]) * 60 + parseInt(hwStr.split(':')[1]);
             if (!graphOriginM) graphOriginM = (new Date().getHours() - 1) * 60;
+
+            // Darkness Shading
             ctx.fillStyle = 'rgba(15, 23, 42, 0.12)';
             for (let x = 0; x <= w; x++) {
                 let pointM = graphOriginM + (x / w) * 480;
                 if (pointM < sunriseM || pointM > sunsetM) ctx.fillRect(x, 0, 1, h);
             }
+
+            // Time Graduations
             ctx.setLineDash([2, 2]); ctx.strokeStyle = "rgba(0,0,0,0.15)"; ctx.font = "bold 9px Inter"; ctx.textAlign = "center"; ctx.fillStyle = "#64748b";
             for (let i = 0; i <= 8; i++) {
-                let x = (i / 8) * w; let lbl = Math.floor(((graphOriginM + (i * 60)) / 60) % 24);
+                let x = (i / 8) * w; 
+                let curM = graphOriginM + (i * 60);
+                let lbl = Math.floor((curM / 60) % 24);
                 ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 155); ctx.stroke();
                 ctx.fillText(lbl.toString().padStart(2, '0') + ":00", x, 170);
             }
-            ctx.setLineDash([]); ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 4;
+            ctx.setLineDash([]);
+
+            // Curve
+            ctx.beginPath(); ctx.strokeStyle = '#069494'; ctx.lineWidth = 4;
             for (let x = 0; x <= w; x++) {
-                let pointM = graphOriginM + (x / w) * 480; let y = 95 - Math.cos(((pointM - hwM) / 745) * Math.PI * 2) * 55;
+                let pointM = graphOriginM + (x / w) * 480; 
+                let phase = ((pointM - hwM) / 745) * Math.PI * 2;
+                let y = 95 - Math.cos(phase) * 55;
                 if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-            } ctx.stroke();
+            }
+            ctx.stroke();
+
+            // Dots
             fishData.forEach(f => {
-                let y = 95 - Math.cos(((f.tM - hwM) / 745) * Math.PI * 2) * 55; let x = ((f.tM - graphOriginM) / 480) * w;
+                let phase = ((f.tM - hwM) / 745) * Math.PI * 2;
+                let y = 95 - Math.cos(phase) * 55;
+                let x = ((f.tM - graphOriginM) / 480) * w;
                 let radius = getDotSize(f.tM);
-                ctx.beginPath(); ctx.fillStyle = "#ef4444"; ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-                if (showLabels) { ctx.fillStyle = "#0f172a"; ctx.font = "900 11px Outfit"; ctx.fillText(f.species, x + 10, y + 4); }
+                
+                ctx.beginPath(); ctx.fillStyle = "#ef4444"; ctx.strokeStyle = "#fff"; ctx.lineWidth = 2;
+                ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                if (showLabels) { 
+                    ctx.fillStyle = "#0f172a"; 
+                    ctx.font = "900 11px Outfit"; 
+                    ctx.fillText(f.species, x + 10, y + 4); 
+                }
             });
         };
 
-        // DEEP STERILIZATION RESET
-        window.resetAppToHome = () => {
-            fishData = []; customSessionSpecies = []; currentVenue = ""; graphOriginM = 0; pendingPhoto = '';
-            document.getElementById('fishLengthInput').value = '';
-            document.getElementById('anglerName').value = 'Chris McCreadie';
-            document.getElementById('venueSelect').selectedIndex = 0;
-            document.getElementById('headerScoreVal').textContent = '0';
-            document.getElementById('fishLog').innerHTML = '';
-            document.getElementById('envPreview').style.display = 'none';
-            document.getElementById('wheelLbs').value = '0';
-            document.getElementById('wheelOzs').value = '0';
-            document.getElementById('wheelKgWhole').value = '0';
-            document.getElementById('wheelKgGrams').value = '0';
-            PageManager.show('splashScreen');
-        };
-
+        // Catch Management
         window.addFish = function() {
             const sp = document.getElementById('speciesInput').value;
-            let size = 0, displayStr = ""; const mode = currentScoringMethod;
-            if (mode === 'species_hunt') { size = 0; displayStr = "Hunt"; }
-            else if (mode === 'weight_lb') {
+            let size = 0; 
+            let displayStr = ""; 
+            const mode = currentScoringMethod;
+
+            if (mode === 'species_hunt') { 
+                size = 0; 
+                displayStr = "Points Only"; 
+            } else if (mode === 'weight_lb') {
                 const lbs = parseInt(document.getElementById('wheelLbs').value);
                 const ozs = parseInt(document.getElementById('wheelOzs').value);
-                size = lbs + (ozs / 16); displayStr = `${lbs}lb ${ozs}oz`;
+                size = lbs + (ozs / 16); 
+                displayStr = `${lbs}lb ${ozs}oz`;
             } else if (mode === 'weight_kg') {
                 const kg = parseInt(document.getElementById('wheelKgWhole').value);
                 const g = parseInt(document.getElementById('wheelKgGrams').value);
-                size = kg + (g / 1000); displayStr = `${size.toFixed(3)}kg`;
+                size = kg + (g / 1000); 
+                displayStr = `${size.toFixed(3)}kg`;
             } else {
                 size = parseFloat(document.getElementById('fishLengthInput').value);
                 displayStr = `${size}cm`;
             }
+
             if (!sp || (mode !== 'species_hunt' && isNaN(size))) return;
+            
             let pts = size;
             if (mode === 'species_hunt') {
                 const prev = fishData.filter(f => f.species === sp).length;
@@ -430,9 +849,23 @@
             } else if (mode === 'length_bonus') {
                 pts = size + (!fishData.some(f => f.species === sp) ? 10 : 0);
             }
+
             const now = new Date();
-            fishData.push({ id: Date.now(), species: sp, val: size, points: pts, display: displayStr, time: now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }), tM: now.getHours() * 60 + now.getMinutes(), photo: pendingPhoto });
-            pendingPhoto = null; document.getElementById('fishLengthInput').value = ''; window.updateFishLog(); window.drawTideGraph('liveCatchCanvas', hwTime, false);
+            fishData.push({ 
+                id: Date.now(), 
+                species: sp, 
+                val: size, 
+                points: pts, 
+                display: displayStr, 
+                time: now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }), 
+                tM: now.getHours() * 60 + now.getMinutes(), 
+                photo: pendingPhoto 
+            });
+            
+            pendingPhoto = null; 
+            document.getElementById('fishLengthInput').value = ''; 
+            window.updateFishLog(); 
+            window.drawTideGraph('liveCatchCanvas', hwTime, false);
         };
 
         window.updateFishLog = function() {
@@ -440,10 +873,33 @@
             const mode = currentScoringMethod;
             [...fishData].reverse().forEach(f => {
                 total += f.points;
-                const unitLbl = (mode === 'species_hunt' || mode === 'length_bonus') ? 'pts' : '';
-                log.innerHTML += `<div class="catch-ribbon"><div><strong>${f.species}</strong><br><span class="text-primary fw-bold">${f.points.toFixed(2).replace(/\.00$/, '')} ${unitLbl}</span> <small class="text-muted">(${f.display})</small></div><div class="d-flex gap-2"><button class="btn btn-sm btn-link text-info p-0" onclick="window.editFish(${f.id})"><i class="bi bi-pencil-square fs-5"></i></button><button class="btn btn-sm btn-link text-danger p-0" onclick="window.deleteFish(${f.id})"><i class="bi bi-trash3-fill fs-5"></i></button></div></div>`;
+                // Correct Labels for Weight sessions
+                const labelText = (mode === 'species_hunt' || mode === 'length_bonus') ? 
+                    `${f.points} pts` : f.display;
+
+                log.innerHTML += `
+                    <div class="catch-ribbon">
+                        <div>
+                            <strong>${f.species}</strong><br>
+                            <span class="text-primary fw-bold">${labelText}</span> 
+                            <small class="text-muted">@ ${f.time}</small>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-link text-info p-0" onclick="window.editFish(${f.id})"><i class="bi bi-pencil-square fs-5"></i></button>
+                            <button class="btn btn-sm btn-link text-danger p-0" onclick="window.deleteFish(${f.id})"><i class="bi bi-trash3-fill fs-5"></i></button>
+                        </div>
+                    </div>`;
             });
             document.getElementById('headerScoreVal').textContent = total.toFixed(total % 1 === 0 ? 0 : 2);
+        };
+
+        window.editFish = (id) => {
+            const f = fishData.find(x => x.id === id);
+            if (f) {
+                document.getElementById('speciesInput').value = f.species;
+                fishData = fishData.filter(x => x.id !== id); 
+                window.updateFishLog();
+            }
         };
 
         window.finishToSummary = function() {
@@ -452,47 +908,80 @@
                 id: 'scorecard_' + Date.now(), venue: currentVenue, angler: document.getElementById('anglerName').value, date: document.getElementById('competitionDate').value,
                 score: document.getElementById('headerScoreVal').textContent, count: fishData.length, fish: [...fishData], weather: document.getElementById('weatherInput').value, wind: document.getElementById('windInput').value, hw: hwTime, mode: currentScoringMethod
             };
+            
+            // ARCHIVE CULL (Max 50)
             const keys = Object.keys(Storage.getAll()).filter(k => k.startsWith('scorecard_')).sort();
             if (keys.length >= 50) Storage.remove(keys[0]);
+
             Storage.save(sessionObj.id, JSON.stringify(sessionObj));
             window.loadSummary(sessionObj);
         };
 
         window.loadSummary = function(data) {
-            document.getElementById('smVenue').textContent = data.venue; document.getElementById('smDate').textContent = data.date;
-            document.getElementById('smTotal').textContent = data.score; document.getElementById('smCount').textContent = data.count;
-            document.getElementById('smAngler').textContent = data.angler; document.getElementById('smWeather').textContent = data.weather; document.getElementById('smWind').textContent = data.wind;
+            document.getElementById('smVenue').textContent = data.venue; 
+            document.getElementById('smDate').textContent = data.date;
+            document.getElementById('smTotal').textContent = data.score; 
+            document.getElementById('smCount').textContent = data.count;
+            document.getElementById('smAngler').textContent = data.angler; 
+            document.getElementById('smWeather').textContent = data.weather; 
+            document.getElementById('smWind').textContent = data.wind;
+            
             let best = 0; data.fish.forEach(f => { if (f.val > best) best = f.val; });
             document.getElementById('smBestFish').textContent = (best > 0) ? best.toFixed(2) : '-';
 
-            const dist = {}; data.fish.forEach(f => dist[f.species] = (dist[f.species] || 0) + 1);
-            const distList = document.getElementById('speciesDistList'); distList.innerHTML = '';
+            const dist = {}; 
+            data.fish.forEach(f => dist[f.species] = (dist[f.species] || 0) + 1);
+            const distList = document.getElementById('speciesDistList'); 
+            distList.innerHTML = '';
             Object.keys(dist).sort((a,b)=>dist[b]-dist[a]).forEach(s => {
                 distList.innerHTML += `<div class="d-flex justify-content-between small fw-bold"><span>${s}</span><span>${dist[s]}</span></div><div class="dist-bar-container"><div class="dist-bar" style="width:${(dist[s]/data.count)*100}%"></div></div>`;
             });
 
-            // FIXED History Filter
-            const history = Object.keys(Storage.getAll()).filter(k => k.startsWith('scorecard_')).map(k => JSON.parse(Storage.get(k))).filter(s => s.venue === data.venue).sort((a,b)=>b.id.localeCompare(a.id)).slice(0, 4);
-            const compBody = document.getElementById('smComparisonBody'); compBody.innerHTML = '';
+            // FIXED History Scanner (Deep Retrieval)
+            const history = Object.keys(Storage.getAll())
+                .filter(k => k.startsWith('scorecard_'))
+                .map(k => JSON.parse(Storage.get(k)))
+                .filter(s => s.venue === data.venue)
+                .sort((a,b) => b.id.localeCompare(a.id))
+                .slice(0, 4);
+                
+            const compBody = document.getElementById('smComparisonBody'); 
+            compBody.innerHTML = '';
             history.forEach(h => {
                 let sessionBest = h.fish.length > 0 ? Math.max(...h.fish.map(f=>f.val)) : 0;
                 compBody.innerHTML += `<tr><td>${h.date}</td><td class="fw-bold text-primary">${h.score}</td><td>${sessionBest.toFixed(1)}</td></tr>`;
             });
 
-            const smLog = document.getElementById('smFishLog'); smLog.innerHTML = '';
-            data.fish.forEach(f => { smLog.innerHTML += `<div class="catch-ribbon"><div><strong>${f.species}</strong> <span class="text-primary ms-2">${f.points.toFixed(2).replace(/\.00$/, '')}</span></div><small class="text-muted">${f.time}</small></div>`; });
-            window.drawTideGraph('summaryTideCanvas', data.hw, false); PageManager.show('sessionSummaryPage');
+            const smLog = document.getElementById('smFishLog'); 
+            smLog.innerHTML = '';
+            data.fish.forEach(f => { 
+                smLog.innerHTML += `<div class="catch-ribbon"><div><strong>${f.species}</strong> <span class="text-primary ms-2">${f.display}</span></div><small class="text-muted">${f.time}</small></div>`; 
+            });
+
+            window.drawTideGraph('summaryTideCanvas', data.hw, false);
+            PageManager.show('sessionSummaryPage');
         };
 
+        // History UI Controllers
         window.openHistory = () => {
-            const recent = document.getElementById('recentHistoryList'); const archive = document.getElementById('archiveContent');
-            recent.innerHTML = ''; archive.innerHTML = '';
-            const keys = Object.keys(Storage.getAll()).filter(k => k.startsWith('scorecard_')).sort().reverse();
+            const recent = document.getElementById('recentHistoryList'); 
+            const archive = document.getElementById('archiveContent');
+            recent.innerHTML = ''; 
+            archive.innerHTML = '';
+            
+            const keys = Object.keys(Storage.getAll())
+                .filter(k => k.startsWith('scorecard_'))
+                .sort()
+                .reverse();
+            
             keys.forEach((k, index) => {
-                const d = JSON.parse(Storage.get(k));
-                const html = `<div class="inner-card d-flex justify-content-between align-items-center mb-2 shadow-sm" onclick="window.viewSavedHistory('${k}')" style="cursor:pointer"><div><strong>${d.venue}</strong><br><small>${d.date}</small></div><span class="text-primary fw-bold fs-5">${d.score}</span></div>`;
-                if (index < 6) recent.innerHTML += html; else archive.innerHTML += html;
+                try {
+                    const d = JSON.parse(Storage.get(k));
+                    const html = `<div class="inner-card d-flex justify-content-between align-items-center mb-2 shadow-sm" onclick="window.viewSavedHistory('${k}')" style="cursor:pointer"><div><strong>${d.venue}</strong><br><small>${d.date}</small></div><span class="text-primary fw-bold fs-5">${d.score}</span></div>`;
+                    if (index < 6) recent.innerHTML += html; else archive.innerHTML += html;
+                } catch(e) { console.error("Bad Key:", k); }
             });
+
             document.getElementById('archiveToggleContainer').style.display = (keys.length > 6) ? 'block' : 'none';
             bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show();
         };
@@ -514,27 +1003,22 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url; a.download = `SeaDiary_Backup_${new Date().toISOString().split('T')[0]}.json`;
-            a.click(); window.showAppToast("Backup Generated");
+            a.click(); window.showAppToast("Backup Ready");
         };
 
-        window.registerAngler = () => {
-            currentScoringMethod = document.getElementById('scoringMethod').value;
-            document.getElementById('liveVenueLabel').textContent = currentVenue || "Unknown Mark";
-            document.getElementById('metricInputRow').style.display = (currentScoringMethod === 'length_only' || currentScoringMethod === 'length_bonus') ? 'flex' : 'none';
-            document.getElementById('imperialWheelRow').style.display = (currentScoringMethod === 'weight_lb') ? 'flex' : 'none';
-            document.getElementById('metricWeightRow').style.display = (currentScoringMethod === 'weight_kg') ? 'flex' : 'none';
-            if (currentScoringMethod === 'species_hunt') {
-                document.getElementById('metricInputRow').style.display = 'none';
-                document.getElementById('headerModeLabel').textContent = "Hunt";
-            } else {
-                const map = {'length_only':'Total','weight_kg':'Weight','weight_lb':'Weight','length_bonus':'Bonus'};
-                document.getElementById('headerModeLabel').textContent = map[currentScoringMethod];
+        // Venue UI Logic
+        window.handleVenueDropdown = function() {
+            const sel = document.getElementById('venueSelect'); 
+            const val = sel.value;
+            if (val === "__ADD_NEW__") { window.showVenueInputMode(); }
+            else if (val) { 
+                currentVenue = sel.options[sel.selectedIndex].text; 
+                document.getElementById('btnResetVenue').style.display = 'block'; 
+                window.fetchEnvironmentData(val); 
             }
-            window.initWheels(); window.populateSpeciesDropdown(); window.drawTideGraph('liveCatchCanvas', hwTime, false);
-            PageManager.show('anglerFishingPage');
         };
 
-        window.populateSpeciesDropdown = function() {
+        window.populateVenueDropdown = function() {
             let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
             const sel = document.getElementById('venueSelect');
             sel.innerHTML = '<option value="" disabled selected>Pick Saved Venue...</option>';
@@ -543,16 +1027,38 @@
             sel.innerHTML += '<option value="__ADD_NEW__" class="opt-add-new">» ADD NEW MARK «</option>';
         };
 
-        window.handleVenueDropdown = function() {
-            const sel = document.getElementById('venueSelect'); const val = sel.value;
-            if (val === "__ADD_NEW__") { window.showVenueInputMode(); }
-            else if (val) { currentVenue = sel.options[sel.selectedIndex].text; document.getElementById('btnResetVenue').style.display = 'block'; window.fetchEnvironmentData(val); }
-        };
-
         window.showVenueDropdownMode = () => { document.getElementById('venueSelectContainer').style.display='block'; document.getElementById('venueInputContainer').style.display='none'; window.populateVenueDropdown(); };
         window.showVenueInputMode = () => { document.getElementById('venueSelectContainer').style.display='none'; document.getElementById('venueInputContainer').style.display='block'; document.getElementById('venueInputText').focus(); };
         window.resetVenueFlow = () => { document.getElementById('btnResetVenue').style.display = 'none'; document.getElementById('envPreview').style.display = 'none'; window.showVenueDropdownMode(); };
-        window.forceAppUpdate = () => { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1500); };
+
+        window.registerAngler = () => {
+            currentScoringMethod = document.getElementById('scoringMethod').value;
+            document.getElementById('liveVenueLabel').textContent = currentVenue || "Unknown Mark";
+            
+            // Switch Inputs
+            document.getElementById('metricInputRow').style.display = (currentScoringMethod === 'length_only' || currentScoringMethod === 'length_bonus') ? 'flex' : 'none';
+            document.getElementById('imperialWheelRow').style.display = (currentScoringMethod === 'weight_lb') ? 'flex' : 'none';
+            document.getElementById('metricWeightRow').style.display = (currentScoringMethod === 'weight_kg') ? 'flex' : 'none';
+            
+            if (currentScoringMethod === 'species_hunt') {
+                document.getElementById('metricInputRow').style.display = 'none';
+                document.getElementById('headerModeLabel').textContent = "Hunt";
+            } else {
+                const map = {'length_only':'Total','weight_kg':'Kg','weight_lb':'Lb','length_bonus':'Bonus'};
+                document.getElementById('headerModeLabel').textContent = map[currentScoringMethod];
+            }
+            window.initWheels(); window.populateSpeciesDropdownLive(); window.drawTideGraph('liveCatchCanvas', hwTime, false);
+            PageManager.show('anglerFishingPage');
+        };
+
+        window.populateSpeciesDropdownLive = () => {
+            const e = document.getElementById('speciesInput'); e.innerHTML = '<option disabled selected>Pick Fish from list...</option>';
+            if(customSessionSpecies.length){ const g=document.createElement('optgroup'); g.label="Added Recently"; customSessionSpecies.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; g.appendChild(o); }); e.appendChild(g); }
+            speciesGroups.forEach(g => { const grp=document.createElement('optgroup'); grp.label=g.category; g.items.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; grp.appendChild(o); }); e.appendChild(grp); });
+        };
+
+        // Utility Helpers
+        window.forceAppUpdate = function() { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1500); };
         window.showAppToast = (m) => { document.getElementById('toastMsg').textContent = m; new bootstrap.Toast(document.getElementById('appToast')).show(); };
         window.deleteFish = (id) => { if (confirm("Delete?")) { fishData = fishData.filter(f => f.id !== id); window.updateFishLog(); window.drawTideGraph('liveCatchCanvas', hwTime, false); } };
         window.triggerCamera = () => document.getElementById('cameraInput').click();
@@ -560,12 +1066,7 @@
         window.closeGraphOverlay = () => document.getElementById('graphOverlay').style.display = 'none';
         window.expandSummaryGraph = () => { window.drawTideGraph('overlayCanvas', hwTime, true); document.getElementById('graphOverlay').style.display = 'flex'; };
         window.toggleCustomSpeciesInput = () => { const ui = document.getElementById('customSpeciesUI'); ui.style.display = ui.style.display==='none'?'block':'none'; };
-        window.addNewCustomSpecies = () => { const n = document.getElementById('newSpeciesName').value.trim(); if(n){ customSessionSpecies.unshift(n); window.populateSpeciesDropdown(); document.getElementById('speciesInput').value = n; document.getElementById('customSpeciesUI').style.display='none'; } };
-        window.populateSpeciesDropdown = () => {
-            const e = document.getElementById('speciesInput'); e.innerHTML = '<option disabled selected>Pick Fish from list...</option>';
-            if(customSessionSpecies.length){ const g=document.createElement('optgroup'); g.label="Added Recently"; customSessionSpecies.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; g.appendChild(o); }); e.appendChild(g); }
-            speciesGroups.forEach(g => { const grp=document.createElement('optgroup'); grp.label=g.category; g.items.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; grp.appendChild(o); }); e.appendChild(grp); });
-        };
+        window.addNewCustomSpecies = () => { const n = document.getElementById('newSpeciesName').value.trim(); if(n){ customSessionSpecies.unshift(n); window.populateSpeciesDropdownLive(); document.getElementById('speciesInput').value = n; document.getElementById('customSpeciesUI').style.display='none'; } };
 
         document.addEventListener('DOMContentLoaded', () => {
             if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
