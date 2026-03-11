@@ -3,7 +3,7 @@
 <head>
     <meta id="appViewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta charset="UTF-8">
-    <title>Sea Diary Pro - v2.5.5</title>
+    <title>Sea Diary Pro - v2.5.6</title>
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,85 +45,23 @@
             letter-spacing: -0.5px; 
         }
 
-        /* Buttons */
-        .btn-primary { 
-            background-color: var(--app-main) !important; 
-            border-color: var(--app-main) !important; 
-            color: #fff !important; 
-            font-weight: 800; 
-            border-radius: 14px; 
-            padding: 15px; 
-            font-size: 1.25rem; 
-        }
-
-        .btn-outline-primary { 
-            border: 2px solid var(--app-main) !important; 
-            color: var(--app-main) !important; 
-            font-weight: 800; 
-            border-radius: 14px; 
-        }
-
-        .btn-success { 
-            background-color: #059669 !important; 
-            border-color: #059669 !important; 
-            font-weight: 800; 
-            border-radius: 14px; 
-        }
+        .btn-primary { background-color: var(--app-main) !important; border-color: var(--app-main) !important; color: #fff !important; font-weight: 800; border-radius: 14px; padding: 15px; font-size: 1.25rem; }
+        .btn-outline-primary { border: 2px solid var(--app-main) !important; color: var(--app-main) !important; font-weight: 800; border-radius: 14px; }
+        .btn-success { background-color: #059669 !important; border-color: #059669 !important; font-weight: 800; border-radius: 14px; }
+        .btn-info-outline { border: 2px solid #0ea5e9 !important; color: #0ea5e9 !important; background: transparent !important; font-weight: 700; border-radius: 12px; font-size: 0.85rem; padding: 4px 10px; }
         
-        /* App Structure */
-        .app-page { 
-            display: none; 
-            width: 100%; 
-            max-width: 600px; 
-            margin: 0 auto; 
-            padding: 12px; 
-            animation: fadeIn 0.25s ease-out; 
-        }
+        /* Layout Elements */
+        .app-page { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 12px; animation: fadeIn 0.25s ease-out; }
+        .inner-card { background: var(--card-bg); border-radius: 24px; padding: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid var(--border-color); }
+        .form-control, .form-select { background-color: var(--input-bg); color: var(--text-main); border-radius: 14px; padding: 14px 18px; border: 3px solid var(--border-color); font-weight: 700; font-size: 1.2rem; }
+        .setup-sm-text { font-size: 0.9rem !important; padding: 10px 12px !important; }
 
-        .inner-card { 
-            background: var(--card-bg); 
-            border-radius: 24px; 
-            padding: 18px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-            margin-bottom: 12px; 
-            border: 1px solid var(--border-color); 
-        }
-
-        .form-control, .form-select { 
-            background-color: var(--input-bg); 
-            color: var(--text-main); 
-            border-radius: 14px; 
-            padding: 14px 18px; 
-            border: 3px solid var(--border-color); 
-            font-weight: 700; 
-            font-size: 1.2rem; 
-        }
-
-        /* Ribbon Design */
-        .catch-ribbon { 
-            background: var(--card-bg); 
-            padding: 10px 16px; 
-            border-bottom: 1px solid var(--border-color); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-        }
+        .catch-ribbon { background: var(--card-bg); padding: 10px 16px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .catch-ribbon:last-child { border-bottom: none; border-radius: 0 0 18px 18px; }
         .catch-ribbon:first-child { border-radius: 18px 18px 0 0; }
 
         /* Tactical Header Badge */
-        .live-score-badge {
-            background: #0f172a;
-            color: var(--app-main);
-            padding: 2px 10px 5px 10px;
-            border-radius: 12px;
-            min-width: 80px;
-            text-align: center;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            line-height: 1;
-        }
+        .live-score-badge { background: #0f172a; color: var(--app-main); padding: 2px 10px 5px 10px; border-radius: 12px; min-width: 80px; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); display: flex; flex-direction: column; line-height: 1; }
         .badge-tiny-label { font-size: 0.45rem; color: #fff; font-weight: 800; text-transform: uppercase; margin-bottom: 1px; }
         .badge-number { font-size: 1.3rem; font-weight: 900; }
 
@@ -145,7 +83,7 @@
         .legend-item { display: flex; align-items: center; font-size: 0.7rem; font-weight: 700; color: #64748b; }
         .legend-dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
 
-        /* Narrower History Cards */
+        /* History Modal Visuals */
         .history-card { margin: 0 15px 10px 15px !important; padding: 12px 18px !important; cursor: pointer; }
         .archive-header { background: #e2e8f0; color: #475569; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; padding: 8px 12px; border-radius: 10px; margin: 15px 20px 10px 20px; text-align: center; }
 
@@ -190,7 +128,7 @@
             <path d="M 160,95 L 120,80 L 60,95 L 40,80 L 40,110 L 60,95 L 120,110 Z" fill="#e2e8f0"/>
         </svg>
         <h1 class="display-4 fw-bold mb-0">Sea Diary</h1>
-        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.5.5</p>
+        <p class="text-uppercase text-muted fw-bold small mb-4">Version 2.5.6</p>
         <div class="d-grid gap-3 col-10 mx-auto w-100" style="max-width: 350px;">
             <button class="btn btn-primary btn-lg py-3 shadow-sm" onclick="window.startFishing()">Start Session</button>
             <button class="btn btn-outline-primary btn-lg py-3 fw-bold bg-white" onclick="window.openHistory()">History</button>
@@ -387,7 +325,7 @@
         </div>
         
         <div class="row g-2 mb-4">
-            <div class="col-6"><button class="btn btn-success w-100 py-3 fw-bold" onclick="window.shareSession()"><i class="bi bi-share-fill me-2"></i>Share</button></div>
+            <div class="col-6"><button class="btn btn-success w-100 py-3 fw-bold" onclick="window.shareSession()">Share</button></div>
             <div class="col-6"><button class="btn btn-dark w-100 py-3 fw-bold" onclick="window.resetAppToHome()">Home</button></div>
         </div>
     </div>
@@ -421,7 +359,7 @@
             { category: "Others", items: ["Conger Eel", "Silver Eel", "Ballan Wrasse", "Corkwing Wrasse", "Cuckoo Wrasse", "3-bearded Rockling", "5-bearded Rockling", "John Dory", "Lumpfish", "Weever Fish"] }
         ];
 
-        // --- FULL VERTICAL SCOTTISH MASTER MARKS (v2.5.5) ---
+        // --- FULL VERTICAL SCOTTISH MASTER MARKS ---
         const scottishMarks = [
             { name: "Carsethorn", lat: 54.91, lon: -3.58 },
             { name: "Terraly Bay", lat: 54.81, lon: -4.89 },
@@ -647,8 +585,10 @@
             document.getElementById('smAngler').textContent = data.angler; 
             document.getElementById('smWeather').textContent = data.weather; 
             document.getElementById('smWind').textContent = data.wind;
+            
             let bestFish = null; data.fish.forEach(f => { if (!bestFish || f.val > bestFish.val) bestFish = f; });
             document.getElementById('smBestFish').textContent = bestFish ? `${bestFish.species} (${window.formatValue(bestFish.val, data.mode)})` : '-';
+
             const dist = {}; data.fish.forEach(f => dist[f.species] = (dist[f.species] || 0) + 1);
             const bar = document.getElementById('smSpectrumBar'); bar.innerHTML = '';
             const legend = document.getElementById('smSpectrumLegend'); legend.innerHTML = '';
@@ -659,49 +599,50 @@
                 bar.innerHTML += `<div class="spectrum-segment" style="width:${pc}%; background:${color};">${pc > 15 ? s : ''}</div>`;
                 legend.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${color}"></div>${s} (${dist[s]})</div>`;
             });
+
             const smLog = document.getElementById('smFishLog'); smLog.innerHTML = '';
             data.fish.forEach(f => { 
                 const scoreLabel = (data.mode === 'species_hunt' || data.mode === 'length_bonus') ? `${f.points} pts` : f.display;
                 smLog.innerHTML += `<div class="catch-ribbon"><div><strong>${f.species}</strong> <span class="text-primary ms-2">${scoreLabel}</span></div><small class="text-muted">${f.time}</small></div>`; 
             });
+
             const history = Object.keys(Storage.getAll()).filter(k => k.startsWith('scorecard_')).map(k => JSON.parse(Storage.get(k))).filter(s => s.venue === data.venue).sort((a,b)=>b.id.localeCompare(a.id)).slice(0, 4);
             const compBody = document.getElementById('smComparisonBody'); compBody.innerHTML = '';
             history.forEach(h => {
                 let sessionBest = h.fish.length > 0 ? Math.max(...h.fish.map(f=>f.val)) : 0;
                 compBody.innerHTML += `<tr><td>${h.date}</td><td class="fw-bold text-primary">${window.formatValue(h.score, h.mode)}</td><td>${window.formatValue(sessionBest, h.mode)}</td></tr>`;
             });
+
             window.drawTideGraph('summaryTideCanvas', data.hw, false);
             PageManager.show('sessionSummaryPage');
         };
 
-        window.openHistory = () => {
-            const recent = document.getElementById('recentHistoryList'); const archive = document.getElementById('archiveContent');
-            recent.innerHTML = ''; archive.innerHTML = '';
-            const keys = Object.keys(Storage.getAll()).filter(k => k.startsWith('scorecard_')).sort().reverse();
-            keys.forEach((k, index) => {
-                try {
-                    const d = JSON.parse(Storage.get(k));
-                    const scoreDisplay = window.formatValue(d.score, d.mode);
-                    const html = `<div class="inner-card history-card d-flex justify-content-between align-items-center shadow-sm" onclick="window.viewSavedHistory('${k}')"><div><strong>${d.venue}</strong><br><small>${d.date}</small></div><span class="text-primary fw-bold fs-6">${scoreDisplay}</span></div>`;
-                    if (index < 6) recent.innerHTML += html; else archive.innerHTML += html;
-                } catch(e) {}
-            });
-            document.getElementById('archiveToggleContainer').style.display = (keys.length > 6) ? 'block' : 'none';
-            bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show();
+        window.handleVenueDropdown = function() {
+            const sel = document.getElementById('venueSelect');
+            const val = sel.value;
+            if (val === "__ADD_NEW__") {
+                window.showVenueInputMode();
+            } else if (val && val !== "") {
+                const [lat, lon] = val.split(',');
+                currentVenue = sel.options[sel.selectedIndex].text;
+                document.getElementById('btnResetVenue').style.display = 'block';
+                // FORCE API CALL (v2.5.6 Tidy)
+                window.fetchEnvironmentData(val);
+            }
         };
 
         window.populateVenueDropdown = function() {
-            let vMap = JSON.parse(Storage.get('venueTideMap') || '{}'); const sel = document.getElementById('venueSelect');
+            let vMap = JSON.parse(Storage.get('venueTideMap') || '{}');
+            const sel = document.getElementById('venueSelect');
             sel.innerHTML = '<option value="" disabled selected>Pick Saved Venue...</option>';
-            scottishMarks.forEach(m => { sel.innerHTML += `<option value="${m.lat},${m.lon}">${m.name}</option>`; });
-            Object.keys(vMap).sort().forEach(vName => { const d = vMap[vName]; sel.innerHTML += `<option value="${d.lat},${d.lon}">${vName}</option>`; });
+            scottishMarks.forEach(m => {
+                sel.innerHTML += `<option value="${m.lat},${m.lon}">${m.name}</option>`;
+            });
+            Object.keys(vMap).sort().forEach(vName => {
+                const d = vMap[vName];
+                sel.innerHTML += `<option value="${d.lat},${d.lon}">${vName}</option>`;
+            });
             sel.innerHTML += '<option value="__ADD_NEW__">» ADD NEW MARK «</option>';
-        };
-
-        window.handleVenueDropdown = function() {
-            const sel = document.getElementById('venueSelect'); const val = sel.value;
-            if (val === "__ADD_NEW__") { window.showVenueInputMode(); }
-            else if (val) { currentVenue = sel.options[sel.selectedIndex].text; document.getElementById('btnResetVenue').style.display = 'block'; window.fetchEnvironmentData(val); }
         };
 
         window.linkNewVenueGPS = function() {
@@ -711,12 +652,12 @@
                 const lat = pos.coords.latitude; const lon = pos.coords.longitude;
                 let nearest = portMasterList[0]; let minD = 99999;
                 portMasterList.forEach(p => { 
-                    const d = (l1, n1, l2, n2) => {
+                    const dist = (l1, n1, l2, n2) => {
                         const R = 6371; const dLat = (l2-l1)*Math.PI/180; const dLon = (n2-n1)*Math.PI/180;
                         const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(l1*Math.PI/180)*Math.cos(l2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
                         return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
                     };
-                    let dist = d(lat, lon, p.lat, p.lon); if (dist < minD) { minD = dist; nearest = p; }
+                    let d = dist(lat, lon, p.lat, p.lon); if (d < minD) { minD = d; nearest = p; }
                 });
                 let vMap = JSON.parse(Storage.get('venueTideMap') || '{}'); vMap[name] = { lat, lon }; Storage.save('venueTideMap', JSON.stringify(vMap));
                 currentVenue = name; window.populateVenueDropdown(); window.fetchEnvironmentData(`${lat},${lon}`);
@@ -741,7 +682,7 @@
         window.viewSavedHistory = (key) => { bootstrap.Modal.getInstance(document.getElementById('savedModal')).hide(); window.loadSummary(JSON.parse(Storage.get(key))); };
         window.toggleArchive = () => { const list = document.getElementById('archiveHistoryList'); list.style.display = (list.style.display === 'none') ? 'block' : 'none'; };
         window.exportBackup = () => { const data = JSON.stringify(Storage.getAll()); const blob = new Blob([data], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `SeaDiary_Backup.json`; a.click(); };
-        window.forceAppUpdate = function() { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1500); };
+        window.forceAppUpdate = () => { document.getElementById('refreshIcon').classList.add('icon-spin'); setTimeout(() => window.location.reload(), 1500); };
         window.showAppToast = (m) => { document.getElementById('toastMsg').textContent = m; new bootstrap.Toast(document.getElementById('appToast')).show(); };
         window.triggerCamera = () => document.getElementById('cameraInput').click();
         window.handleCameraInput = () => { const f = document.getElementById('cameraInput').files[0]; const r = new FileReader(); r.onloadend = () => { pendingPhoto = r.result; window.showAppToast("Photo OK"); }; if (f) r.readAsDataURL(f); };
@@ -768,6 +709,22 @@
         window.showVenueDropdownMode = () => { document.getElementById('venueSelectContainer').style.display='block'; document.getElementById('venueInputContainer').style.display='none'; window.populateVenueDropdown(); };
         window.showVenueInputMode = () => { document.getElementById('venueSelectContainer').style.display='none'; document.getElementById('venueInputContainer').style.display='block'; document.getElementById('venueInputText').focus(); };
         window.resetVenueFlow = () => { document.getElementById('btnResetVenue').style.display = 'none'; document.getElementById('envPreview').style.display = 'none'; window.showVenueDropdownMode(); };
+
+        window.openHistory = () => {
+            const recent = document.getElementById('recentHistoryList'); const archive = document.getElementById('archiveContent');
+            recent.innerHTML = ''; archive.innerHTML = '';
+            const keys = Object.keys(Storage.getAll()).filter(k => k.startsWith('scorecard_')).sort().reverse();
+            keys.forEach((k, index) => {
+                try {
+                    const d = JSON.parse(Storage.get(k));
+                    const scoreDisplay = window.formatValue(d.score, d.mode);
+                    const html = `<div class="inner-card history-card d-flex justify-content-between align-items-center shadow-sm" onclick="window.viewSavedHistory('${k}')"><div><strong>${d.venue}</strong><br><small>${d.date}</small></div><span class="text-primary fw-bold fs-6">${scoreDisplay}</span></div>`;
+                    if (index < 6) recent.innerHTML += html; else archive.innerHTML += html;
+                } catch(e) {}
+            });
+            document.getElementById('archiveToggleContainer').style.display = (keys.length > 6) ? 'block' : 'none';
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('savedModal')).show();
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
             if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
